@@ -4,37 +4,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEMILI FITNESS PRO 💪</title>
 <style>
-:root { --p:#ff4500; --s:#2ecc71; --bg:#121212; --card:#1e1e1e; }
-body { font-family:sans-serif; background:var(--bg); color:white; margin:0; padding:10px; }
-h2{text-align:center;color:var(--p);} 
-.card{background:var(--card);padding:15px;border-radius:15px;margin:10px 0;}
-button{padding:10px;border:none;border-radius:10px;margin-top:5px;font-weight:bold;}
-.add{background:var(--s);color:white;width:100%;}
-.flow{background:var(--p);color:white;width:100%;}
-.done{opacity:0.5;text-decoration:line-through;}
-.progress{height:10px;background:#333;border-radius:10px;overflow:hidden;margin-top:10px;}
-.progress-bar{height:100%;background:var(--s);width:0%;}
+:root{--p:#ff4500;--s:#2ecc71;--bg:#121212;--card:#1e1e1e;}
+body{font-family:sans-serif;background:var(--bg);color:white;margin:0;padding:12px}
+h2{text-align:center;color:var(--p)}
+.card{background:var(--card);padding:15px;border-radius:15px;margin:10px 0}
+button{padding:10px;border:none;border-radius:10px;margin-top:5px;font-weight:bold}
+.add{background:var(--s);color:white;width:100%}
+.flow{background:var(--p);color:white;width:100%}
+.done{opacity:.5;text-decoration:line-through}
+.progress{height:10px;background:#333;border-radius:10px;overflow:hidden;margin-top:10px}
+.progress-bar{height:100%;background:var(--s);width:0%}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.cat-btn{padding:12px;border-radius:12px;background:#2a2a2a;color:white;border:1px solid #333}
+.cat-active{border:2px solid var(--p)}
 </style>
 </head>
 <body><h2>MEMILI FITNESS PRO 🚀</h2><input type="date" id="date"><div class="card">
 <input type="time" id="time">
-<input type="text" id="text" placeholder="Ne yapıyoruz kankam?">
-<select id="cat">
-<option value="beslenme">🍳 Beslenme</option>
-<option value="antrenman">🏋️ Antrenman</option>
-<option value="supp">💊 Takviye</option>
-<option value="su">💧 Su</option>
-</select>
-<button class="add" onclick="addItem()">EKLE</button>
+<input type="text" id="text" placeholder="Ne yapıyoruz kankam?"><div class="grid" id="catGrid">
+<button class="cat-btn" data-cat="beslenme">🍳 Beslenme</button>
+<button class="cat-btn" data-cat="antrenman">🏋️ Antrenman</button>
+<button class="cat-btn" data-cat="supp">💊 Takviye</button>
+<button class="cat-btn" data-cat="su">💧 Su</button>
+</div><button class="add" onclick="addItem()">EKLE</button>
+
 </div><button class="flow" onclick="showFlow()">GÜNLÜK AKIŞ</button>
 
 <div class="card">
-<h3>GÜNLÜK İLERLEME</h3>
+<h3>İLERLEME</h3>
 <div class="progress"><div class="progress-bar" id="bar"></div></div>
 <span id="percent">0%</span>
+</div><div class="card">
+<h3>💧 Su Takibi</h3>
+<button onclick="addWater()">+1 Bardak</button>
+<span id="water">0</span> bardak
 </div><ul id="list"></ul><script>
 let d=document.getElementById('date');
 d.value=new Date().toISOString().split('T')[0];
+
+let selectedCat='beslenme';
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+ btn.onclick=()=>{
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('cat-active'));
+  btn.classList.add('cat-active');
+  selectedCat=btn.dataset.cat;
+ }
+});
 
 function getDB(){return JSON.parse(localStorage.getItem('mf_pro')||'{}');}
 function saveDB(db){localStorage.setItem('mf_pro',JSON.stringify(db));}
@@ -42,13 +57,94 @@ function saveDB(db){localStorage.setItem('mf_pro',JSON.stringify(db));}
 function addItem(){
 let db=getDB();
 let date=d.value;
-let t=time.value;
-let txt=text.value;
-let cat=document.getElementById('cat').value;
+let t=document.getElementById('time').value;
+let txt=document.getElementById('text').value;
 
 if(!t||!txt)return alert('Eksik var kankam');
 
 if(!db[date])db[date]=[];
+db[date].push({t,txt,cat:selectedCat,done:false});
+saveDB(db);
 
-db[date].push({t,txt,cat,done:false});
-saveDB(db
+document.getElementById('text').value='';
+document.getElementById('time').value='';
+render();
+}
+
+function toggle(i){
+let db=getDB();
+db[d.value][i].done=!db[d.value][i].done;
+saveDB(db);
+render();
+}
+
+function del(i){
+let db=getDB();
+db[d.value].splice(i,1);
+saveDB(db);
+render();
+}
+
+function render(){
+let db=getDB();
+let arr=db[d.value]||[];
+let ul=document.getElementById('list');
+ul.innerHTML='';
+
+arr.sort((a,b)=>a.t.localeCompare(b.t));
+
+arr.forEach((x,i)=>{
+ul.innerHTML+=`<li class="card ${x.done?'done':''}">
+<b>${x.t}</b> - ${x.txt} (${x.cat})<br>
+<button onclick="toggle(${i})">✔ Yapıldı</button>
+<button onclick="del(${i})">❌ Sil</button>
+</li>`;
+});
+
+updateProgress(arr);
+updateWater();
+}
+
+function updateProgress(arr){
+if(arr.length===0){document.getElementById('bar').style.width='0%';return}
+let done=arr.filter(x=>x.done).length;
+let p=Math.round((done/arr.length)*100);
+document.getElementById('bar').style.width=p+'%';
+document.getElementById('percent').innerText=p+'%';
+}
+
+function showFlow(){
+let db=getDB();
+let arr=db[d.value]||[];
+arr.sort((a,b)=>a.t.localeCompare(b.t));
+alert(arr.map(x=>x.t+' - '+x.txt).join('\n')||'Boş gün');
+}
+
+// 💧 SU
+function addWater(){
+let w=JSON.parse(localStorage.getItem('water')||'{}');
+w[d.value]=(w[d.value]||0)+1;
+localStorage.setItem('water',JSON.stringify(w));
+updateWater();
+}
+function updateWater(){
+let w=JSON.parse(localStorage.getItem('water')||'{}');
+document.getElementById('water').innerText=w[d.value]||0;
+}
+
+// 🔔 ALARM (daha stabil)
+setInterval(()=>{
+let now=new Date();
+let cur=now.toTimeString().slice(0,5);
+let db=getDB();
+let arr=db[d.value]||[];
+arr.forEach(x=>{
+ if(x.t===cur && !x.done){
+  alert('⏰ KANKAM ZAMAN GELDİ: '+x.txt);
+ }
+});
+},30000);
+
+render();
+</script></body>
+</html> 
