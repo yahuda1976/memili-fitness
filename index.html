@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS ULTRA</title>
+    <title>MEMILI FITNESS ULTRA PRO</title>
     <style>
         :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -13,13 +13,14 @@
         .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 100; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .back-btn { background: var(--p); color: white; border: none; padding: 10px; border-radius: 10px; }
-        .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
-        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
+        input { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
+        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         ul { list-style: none; padding: 0; }
-        li { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--p); }
+        li { background: #2a2a2a; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--p); }
         .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; }
-        .date-picker { border: 2px solid var(--p) !important; font-weight: bold; }
+        .summary-section { margin-top: 30px; border-top: 1px solid #444; padding-top: 20px; }
+        .date-title { color: var(--p); border-bottom: 1px solid var(--p); padding-bottom: 5px; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -35,7 +36,6 @@
     <div id="mutfak" class="sub-page"></div>
     <div id="egzersiz" class="sub-page"></div>
     <div id="supplement" class="sub-page"></div>
-    
     <div id="su" class="sub-page">
         <div class="header"><button class="back-btn" onclick="closePage('su')">Geri</button><h2>💧 SU ALARMLARI</h2></div>
         <div class="input-group">
@@ -48,68 +48,80 @@
     <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
 
     <script>
-        let currentDate = new Date().toISOString().split('T')[0];
+        let viewDate = new Date().toISOString().split('T')[0];
 
-        // SAYFA YÖNETİMİ
         function openPage(type) {
             const page = document.getElementById(type);
             if(type !== 'su') {
                 page.innerHTML = `
                     <div class="header"><button class="back-btn" onclick="closePage('${type}')">Geri</button><h2>${type.toUpperCase()}</h2></div>
                     <div class="input-group">
-                        <label>Planlanacak Tarih:</label>
-                        <input type="date" id="dateInput" class="date-picker" value="${currentDate}" onchange="updateViewDate('${type}', this.value)">
-                        <input type="text" id="itemInput" placeholder="Eklenecek öge ismi...">
-                        <button class="add-btn" onclick="saveItem('${type}')">MENÜYE EKLE</button>
+                        <label>Plan Tarihi Seç:</label>
+                        <input type="date" id="dateInput" value="${viewDate}" onchange="updateViewDate('${type}', this.value)">
+                        <input type="text" id="itemInput" placeholder="Yaz ve ekle...">
+                        <button class="add-btn" onclick="saveItem('${type}')">LİSTEYE EKLE</button>
                     </div>
-                    <h3>📅 ${currentDate} Listesi</h3>
-                    <ul id="${type}List"></ul>`;
+                    <h3 class="date-title">📅 ${viewDate} Planın</h3>
+                    <ul id="${type}List"></ul>
+                    <div class="summary-section">
+                        <h4>📋 Tüm Günlerin Özeti</h4>
+                        <div id="${type}Summary"></div>
+                    </div>`;
             }
             page.style.display = 'block';
             renderList(type);
         }
 
         function closePage(id) { document.getElementById(id).style.display = 'none'; }
-        function updateViewDate(type, val) { currentDate = val; openPage(type); }
+        function updateViewDate(type, val) { viewDate = val; renderList(type); }
 
-        // VERİ İŞLEMLERİ
         function saveItem(type) {
             const val = document.getElementById('itemInput').value;
             if(!val) return;
             let data = JSON.parse(localStorage.getItem(type) || '{}');
-            if(!data[currentDate]) data[currentDate] = [];
-            data[currentDate].push(val);
+            if(!data[viewDate]) data[viewDate] = [];
+            data[viewDate].push(val);
             localStorage.setItem(type, JSON.stringify(data));
             document.getElementById('itemInput').value = '';
             renderList(type);
         }
 
         function renderList(type) {
-            const ul = document.getElementById(type + 'List');
-            if(!ul) return;
-            ul.innerHTML = '';
+            const listContainer = document.getElementById(type + 'List');
+            const summaryContainer = document.getElementById(type + 'Summary');
+            if(!listContainer) return;
+
             let data = JSON.parse(localStorage.getItem(type) || (type === 'su' ? '[]' : '{}'));
-            
+            listContainer.innerHTML = '';
+
             if(type === 'su') {
                 data.forEach((t, i) => {
-                    ul.innerHTML += `<li><span>⏰ ${t}</span> <span class="del-btn" onclick="deleteAlarm(${i})">SİL</span></li>`;
+                    listContainer.innerHTML += `<li><span>⏰ ${t}</span> <span class="del-btn" onclick="deleteAlarm(${i})">SİL</span></li>`;
                 });
             } else {
-                let items = data[currentDate] || [];
+                // Seçili günün listesi
+                let items = data[viewDate] || [];
                 items.forEach((item, i) => {
-                    ul.innerHTML += `<li><span>✅ ${item}</span> <span class="del-btn" onclick="deleteItem('${type}', ${i})">SİL</span></li>`;
+                    listContainer.innerHTML += `<li><span>✅ ${item}</span> <span class="del-btn" onclick="deleteItem('${type}', '${viewDate}', ${i})">SİL</span></li>`;
+                });
+
+                // Tüm günlerin özeti
+                summaryContainer.innerHTML = '';
+                Object.keys(data).sort().reverse().forEach(date => {
+                    if(data[date].length > 0) {
+                        summaryContainer.innerHTML += `<div style="font-size:0.9rem; margin-top:10px; color:#888;"><strong>${date}:</strong> ${data[date].join(', ')}</div>`;
+                    }
                 });
             }
         }
 
-        function deleteItem(type, index) {
+        function deleteItem(type, date, index) {
             let data = JSON.parse(localStorage.getItem(type));
-            data[currentDate].splice(index, 1);
+            data[date].splice(index, 1);
             localStorage.setItem(type, JSON.stringify(data));
             renderList(type);
         }
 
-        // ALARM SİSTEMİ
         function addAlarm() {
             const t = document.getElementById('suTime').value;
             if(!t) return;
@@ -126,15 +138,12 @@
             renderList('su');
         }
 
-        // ARKA PLANDA ALARM KONTROLÜ (Her 30 saniyede bir bakar)
         setInterval(() => {
             const now = new Date();
             const currentTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
             let alarms = JSON.parse(localStorage.getItem('su') || '[]');
-            
             if(alarms.includes(currentTime)) {
-                const audio = document.getElementById('alarmSound');
-                audio.play();
+                document.getElementById('alarmSound').play();
                 alert("🔔 KANKAM SU ZAMANI! (" + currentTime + ")");
             }
         }, 30000);
