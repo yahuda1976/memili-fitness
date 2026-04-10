@@ -30,4 +30,20 @@ return ( <div className="p-4 space-y-4"> <div className="flex flex-wrap gap-2"> 
   <Card>
     <CardContent>
       <h3 className="font-bold">🍽️ Beslenme</h3>
-      {day.meals.map((m, 
+      {day.meals.map((m, i) => (
+        <p key={i}>{m}</p>
+      ))}
+    </CardContent>
+  </Card>
+
+  <Card>
+    <CardContent>
+      <h3 className="font-bold">💊 Supplementler</h3>
+      {day.supplements.map((s, i) => (
+        <p key={i}>{s}</p>
+      ))}
+    </CardContent>
+  </Card>
+</div>
+
+); } 
