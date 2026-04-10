@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS - KALICI MOD</title>
+    <title>MEMILI FITNESS - YEDEKLEME MODU</title>
     <style>
         :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -21,7 +22,8 @@
         .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 10px; }
         .summary-box { background: #1a1a1a; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px dashed #444; }
         .summary-item { font-size: 0.85rem; color: #aaa; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 8px; }
-        #alarm-ui { display: none; background: #ff4500; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+        .backup-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .backup-btn { flex: 1; padding: 10px; font-size: 0.7rem; border-radius: 5px; border: none; cursor: pointer; background: #555; color: white; }
     </style>
 </head>
 <body>
@@ -35,15 +37,15 @@
         <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h2>SU/ALARM</h2></div>
     </div>
 
+    <div class="backup-btns">
+        <button class="backup-btn" onclick="exportData()">VERİLERİ KOPYALA (YEDEK)</button>
+        <button class="backup-btn" onclick="importData()">YEDEKTEN GERİ YÜKLE</button>
+    </div>
+
     <div id="sub-page-container" class="sub-page">
         <div class="header">
             <button class="back-btn" onclick="closeSub()">← GERİ</button>
             <h2 id="sub-title">BÖLÜM</h2>
-        </div>
-
-        <div id="alarm-ui">
-            <h2 style="margin:0;">🔔 SU ZAMANI!</h2>
-            <button class="add-btn" style="background:white; color:black; margin-top:15px;" onclick="stopAlarm()">ALARM DURDUR</button>
         </div>
 
         <div id="su-content" style="display:none;">
@@ -66,12 +68,10 @@
         <ul id="main-list"></ul>
 
         <div class="summary-box">
-            <h4>📋 GEÇMİŞ VE GELECEK KAYITLAR</h4>
+            <h4>📋 GEÇMİŞ KAYITLAR</h4>
             <div id="summary-list"></div>
         </div>
     </div>
-
-    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto" loop></audio>
 
     <script>
         let currentType = '';
@@ -82,27 +82,21 @@
             currentType = type;
             document.getElementById('sub-title').innerText = type.toUpperCase();
             document.getElementById('sub-page-container').style.display = 'block';
-            
             document.getElementById('su-content').style.display = (type === 'su') ? 'block' : 'none';
             document.getElementById('general-content').style.display = (type === 'su') ? 'none' : 'block';
-            
             refreshView();
         }
 
-        function closeSub() {
-            document.getElementById('sub-page-container').style.display = 'none';
-        }
+        function closeSub() { document.getElementById('sub-page-container').style.display = 'none'; }
 
         function saveData() {
             const date = dateInput.value;
             const input = document.getElementById('targetInput');
             const val = input.value.trim();
             if(!val || !date) return;
-
             let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
             if(!db[date]) db[date] = [];
             db[date].push(val);
-            
             localStorage.setItem('mf_' + currentType, JSON.stringify(db));
             input.value = '';
             refreshView();
@@ -112,8 +106,7 @@
             const date = dateInput.value;
             const listUl = document.getElementById('main-list');
             const summaryDiv = document.getElementById('summary-list');
-            listUl.innerHTML = '';
-            summaryDiv.innerHTML = '';
+            listUl.innerHTML = ''; summaryDiv.innerHTML = '';
 
             if(currentType === 'su') {
                 let alarms = JSON.parse(localStorage.getItem('mf_su_alarms') || '[]');
@@ -123,15 +116,11 @@
                 return;
             }
 
-            document.getElementById('view-date-text').innerText = `📅 ${date} Planı`;
             let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
-            
-            // Seçili tarihin listesi
             (db[date] || []).forEach((item, index) => {
                 listUl.innerHTML += `<li><span>✅ ${item}</span> <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span></li>`;
             });
 
-            // Genel Özet
             Object.keys(db).sort().reverse().forEach(d => {
                 summaryDiv.innerHTML += `<div class="summary-item"><strong>${d}:</strong> ${db[d].join(', ')}</div>`;
             });
@@ -145,43 +134,33 @@
             refreshView();
         }
 
-        function addAlarm() {
-            const time = document.getElementById('suTime').value;
-            if(!time) return;
-            let alarms = JSON.parse(localStorage.getItem('mf_su_alarms') || '[]');
-            if(!alarms.includes(time)) {
-                alarms.push(time);
-                localStorage.setItem('mf_su_alarms', JSON.stringify(alarms.sort()));
-            }
-            refreshView();
+        // --- YEDEKLEME SİSTEMİ ---
+        function exportData() {
+            const data = {
+                mutfak: localStorage.getItem('mf_mutfak'),
+                egzersiz: localStorage.getItem('mf_egzersiz'),
+                supplement: localStorage.getItem('mf_supplement'),
+                alarms: localStorage.getItem('mf_su_alarms')
+            };
+            const str = JSON.stringify(data);
+            navigator.clipboard.writeText(str).then(() => {
+                alert("Tüm verilerin kopyalandı! Bir not defterine veya kendine mesaj olarak yapıştır kankam. Tarayıcı silerse oradan geri yüklersin.");
+            });
         }
 
-        function deleteAlarm(index) {
-            let alarms = JSON.parse(localStorage.getItem('mf_su_alarms'));
-            alarms.splice(index, 1);
-            localStorage.setItem('mf_su_alarms', JSON.stringify(alarms));
-            refreshView();
+        function importData() {
+            const str = prompt("Daha önce kopyaladığın yedek metnini buraya yapıştır:");
+            if(!str) return;
+            try {
+                const data = JSON.parse(str);
+                if(data.mutfak) localStorage.setItem('mf_mutfak', data.mutfak);
+                if(data.egzersiz) localStorage.setItem('mf_egzersiz', data.egzersiz);
+                if(data.supplement) localStorage.setItem('mf_supplement', data.supplement);
+                if(data.alarms) localStorage.setItem('mf_su_alarms', data.alarms);
+                alert("Veriler başarıyla geri yüklendi! Sayfa yenileniyor...");
+                location.reload();
+            } catch(e) { alert("Hatalı kod yapıştırdın kankam."); }
         }
-
-        function stopAlarm() {
-            const audio = document.getElementById('alarmSound');
-            audio.pause();
-            audio.currentTime = 0;
-            document.getElementById('alarm-ui').style.display = 'none';
-        }
-
-        // Saniyelik Kontrol
-        setInterval(() => {
-            const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-            let alarms = JSON.parse(localStorage.getItem('mf_su_alarms') || '[]');
-            if(alarms.includes(time) && now.getSeconds() === 0) {
-                const audio = document.getElementById('alarmSound');
-                audio.volume = 1.0;
-                audio.play().catch(e => console.log("Ses çalma hatası, bir yere dokunun."));
-                document.getElementById('alarm-ui').style.display = 'block';
-            }
-        }, 1000);
     </script>
 </body>
 </html>
