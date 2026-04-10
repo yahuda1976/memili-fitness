@@ -1,35 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Memili Fitness</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memili Fitness Pro</title>
+    <style>
+        :root { --primary: #ff4500; --secondary: #2ecc71; --bg: #f4f4f9; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h2, h3 { text-align: center; color: #333; margin-bottom: 10px; }
+        .date-header { text-align: center; font-weight: bold; color: var(--primary); margin-bottom: 20px; }
+        .section { background: #fff; border: 1px solid #eee; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; margin-top: 5px; }
+        .btn-set { width: auto; padding: 8px 15px; background: #eee; margin: 5px; }
+        .btn-active { background: var(--secondary) !important; color: white; }
+        input { width: 80px; padding: 8px; border-radius: 8px; border: 1px solid #ddd; }
+        .timer { font-size: 1.5rem; text-align: center; font-weight: bold; color: var(--primary); margin: 10px 0; }
+        .history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 10px; }
+        .history-table th, .history-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .hidden { display: none; }
+    </style>
 </head>
-<body style="font-family:sans-serif;padding:20px;max-width:500px;margin:auto;">
+<body>
 
-<h2>🔥 MEMİLİ FITNESS APP</h2>
+<div class="card" id="main-app">
+    <div class="date-header" id="currentDate"></div>
+    
+    <div class="section">
+        <h3>🏋️ Bugünkü Antrenman</h3>
+        <p id="targetRegion"><strong>Bölge:</strong> Göğüs & Kol</p>
+        <div id="exercise">
+            <p>Bench Press (4 Set x 12 Tekrar)</p>
+            <div id="setButtons">
+                <button class="btn btn-set" onclick="toggleSet(this)">1. Set</button>
+                <button class="btn btn-set" onclick="toggleSet(this)">2. Set</button>
+                <button class="btn btn-set" onclick="toggleSet(this)">3. Set</button>
+                <button class="btn btn-set" onclick="toggleSet(this)">4. Set</button>
+            </div>
+        </div>
+        <div class="timer" id="timerDisplay">00:00</div>
+        <button class="btn" style="background: #333; color: white;" onclick="startTimer()">Dinlenmeyi Başlat (60sn)</button>
+    </div>
 
-<h3>🏋️ Antrenman</h3>
-<button onclick="toggleWorkout()">Antrenman Yapıldı</button>
+    <div class="section">
+        <h3>💧 Su & 🍲 Yemek</h3>
+        <label><input type="checkbox" class="save" id="su1"> 08:00 Su</label><br>
+        <label><input type="checkbox" class="save" id="meal1"> 09:00 Kahvaltı</label><br>
+        <label><input type="checkbox" class="save" id="su2"> 12:00 Su</label><br>
+        <button class="btn" onclick="requestNotification()" style="background: #eee; font-size: 0.8rem;">Sesli Hatırlatıcıyı Aç</button>
+    </div>
 
-<h3>🍽️ Yemek</h3>
-<input type="checkbox"> Kahvaltı<br>
-<input type="checkbox"> Öğle<br>
-<input type="checkbox"> Akşam<br>
+    <div class="section">
+        <h3>⚖️ Kilo Takibi</h3>
+        <input type="number" id="dailyKilo" step="0.1" placeholder="kg">
+        <button class="btn" onclick="saveKilo()" style="background: var(--primary); color: white;">Bugünü Kaydet</button>
+    </div>
 
-<h3>💧 Su</h3>
-<input type="checkbox"> 500ml<br>
-<input type="checkbox"> 1L<br>
+    <button class="btn" onclick="toggleSettings()" style="background: #ddd;">⚙️ Ayarlar & Geçmiş</button>
+</div>
 
-<h3>⚖️ Kilo</h3>
-<input type="number" placeholder="kg">
+<div class="card hidden" id="settings-page">
+    <h3>📊 Geçmiş & Durum</h3>
+    <p id="statusAnalysis">Veri bekleniyor...</p>
+    <table class="history-table">
+        <thead>
+            <tr><th>Tarih</th><th>Kilo</th><th>Durum</th></tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+    </table>
+    <button class="btn" onclick="toggleSettings()" style="background: #333; color: white; margin-top: 20px;">Geri Dön</button>
+</div>
 
 <script>
-let done = false;
-function toggleWorkout(){
-  done = !done;
-  alert(done ? "🔥 Antrenman tamam!" : "❌ Yapılmadı");
-}
+    // Tarihi Ayarla
+    const d = new Date();
+    document.getElementById('currentDate').innerText = d.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Set Takibi ve Kronometre
+    let timer;
+    function toggleSet(btn) {
+        btn.classList.toggle('btn-active');
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        let seconds = 60;
+        timer = setInterval(() => {
+            seconds--;
+            let mins = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            document.getElementById('timerDisplay').innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            if (seconds <= 0) {
+                clearInterval(timer);
+                alert("Dinlenme bitti, sete dön kankam!");
+            }
+        }, 1000);
+    }
+
+    // Kilo Kaydetme ve Analiz
+    function saveKilo() {
+        const kilo = document.getElementById('dailyKilo').value;
+        if(!kilo) return alert("Kilo gir kankam!");
+        
+        const history = JSON.parse(localStorage.getItem('fitnessHistory') || '[]');
+        const today = new Date().toLocaleDateString('tr-TR');
+        
+        history.push({ date: today, weight: parseFloat(kilo) });
+        localStorage.setItem('fitnessHistory', JSON.stringify(history));
+        alert("Kaydedildi!");
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const history = JSON.parse(localStorage.getItem('fitnessHistory') || '[]');
+        const body = document.getElementById('historyBody');
+        body.innerHTML = '';
+        
+        if(history.length > 1) {
+            const last = history[history.length - 1].weight;
+            const prev = history[history.length - 2].weight;
+            const diff = (last - prev).toFixed(1);
+            let msg = diff < 0 ? `🔥 Harika! Geçen seferden ${Math.abs(diff)}kg vermişsin.` : 
+                      diff > 0 ? `💪 Kütle alıyorsun! ${diff}kg artış var.` : "Aynı kilodasın, istikrar iyidir!";
+            document.getElementById('statusAnalysis').innerText = msg;
+        }
+
+        history.reverse().forEach(entry => {
+            body.innerHTML += `<tr><td>${entry.date}</td><td>${entry.weight} kg</td><td>✅</td></tr>`;
+        });
+    }
+
+    function toggleSettings() {
+        document.getElementById('main-app').classList.toggle('hidden');
+        document.getElementById('settings-page').classList.toggle('hidden');
+        renderHistory();
+    }
+
+    // Sesli Uyarı İzni
+    function requestNotification() {
+        alert("Yemek ve su saatlerinde tarayıcı üzerinden sesli uyarılar yakında eklenecek. Şimdilik manuel takipteyiz!");
+    }
 </script>
 
 </body>
