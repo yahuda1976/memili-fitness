@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS - TAMİR MODU</title>
+    <title>MEMILI FITNESS - FINAL</title>
     <style>
         :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -11,33 +11,33 @@
         .main-card { background: var(--card); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 1px solid #333; }
         .icon { font-size: 2.5rem; }
         
-        .flow-btn { width: 100%; background: linear-gradient(45deg, #ff4500, #ff8c00); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; margin: 15px 0; cursor: pointer; }
+        .flow-btn { width: 100%; background: linear-gradient(45deg, #ff4500, #ff8c00); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; margin: 15px 0; cursor: pointer; border: 1px solid #fff3; }
 
-        .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 100; }
+        .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 1000; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .back-btn { background: var(--p); color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; }
+        .back-btn { background: var(--p); color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; }
         
         .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; font-size: 1rem; }
         .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
         ul { list-style: none; padding: 0; }
         li { background: #2a2a2a; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--p); }
-        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; }
+        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 5px 10px; }
         
         .flow-item { background: #1e1e1e; border-left: 5px solid var(--s); margin-bottom: 15px; padding: 15px; border-radius: 12px; }
         .flow-time { color: var(--p); font-weight: bold; }
-        .backup-btns { display: flex; gap: 5px; margin-bottom: 10px; }
-        .backup-btn { flex: 1; font-size: 0.6rem; padding: 5px; background: #222; color: #777; border: 1px solid #333; border-radius: 5px; }
+        .backup-section { margin-top: 30px; display: flex; gap: 10px; }
+        .b-btn { flex: 1; padding: 8px; font-size: 0.7rem; background: #222; color: #555; border: 1px solid #333; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align: center; color: var(--p);">MEMILI FITNESS 🚀</h1>
+    <h1 style="text-align: center; color: var(--p); margin-top: 10px;">MEMILI FITNESS 🚀</h1>
     
     <div class="input-group">
-        <label>Günü Seç:</label>
-        <input type="date" id="globalDate" onchange="updateAll()">
+        <label style="font-size: 0.8rem; color: #888;">Günü Seç:</label>
+        <input type="date" id="globalDate">
     </div>
 
     <button class="flow-btn" onclick="openFlow()">📅 BUGÜNKÜ AKIŞIM</button>
@@ -49,25 +49,118 @@
         <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h2>SU/ALARM</h2></div>
     </div>
 
-    <div class="backup-btns" style="margin-top:20px;">
-        <button class="backup-btn" onclick="exportData()">YEDEKLE</button>
-        <button class="backup-btn" onclick="importData()">GERİ YÜKLE</button>
+    <div class="backup-section">
+        <button class="b-btn" onclick="exportData()">📤 YEDEK KOPYALA</button>
+        <button class="b-btn" onclick="importData()">📥 GERİ YÜKLE</button>
     </div>
 
-    <div id="sub-page-container" class="sub-page">
+    <div id="sub-page" class="sub-page">
         <div class="header">
             <button class="back-btn" onclick="closeSub()">← GERİ</button>
             <h2 id="sub-title">BÖLÜM</h2>
         </div>
-        <div id="item-input-ui">
-            <div class="input-group">
-                <input type="time" id="itemTime">
-                <input type="text" id="itemDesc" placeholder="Detay yaz kankam...">
-                <button class="add-btn" onclick="saveData()">KAYDET</button>
-            </div>
+        <div class="input-group">
+            <input type="time" id="itemTime">
+            <input type="text" id="itemDesc" placeholder="Detay yaz kankam...">
+            <button class="add-btn" onclick="saveData()">KAYDET</button>
         </div>
         <ul id="main-list"></ul>
     </div>
 
-    <div id="
- 
+    <div id="flow-page" class="sub-page">
+        <div class="header">
+            <button class="back-btn" onclick="closeFlow()">← GERİ</button>
+            <h2>GÜNLÜK AKIŞ</h2>
+        </div>
+        <div id="flow-content"></div>
+    </div>
+
+    <script>
+        let currentType = '';
+        const gDate = document.getElementById('globalDate');
+        gDate.value = new Date().toISOString().split('T')[0];
+
+        function openSub(type) {
+            currentType = type;
+            document.getElementById('sub-title').innerText = type.toUpperCase();
+            document.getElementById('sub-page').style.display = 'block';
+            refreshView();
+        }
+
+        function closeSub() { 
+            document.getElementById('sub-page').style.display = 'none'; 
+        }
+
+        function saveData() {
+            const date = gDate.value;
+            const time = document.getElementById('itemTime').value;
+            const desc = document.getElementById('itemDesc').value.trim();
+            if(!time || !desc) { alert("Saat ve detay boş kalmaz!"); return; }
+
+            let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
+            if(!db[date]) db[date] = [];
+            db[date].push({ time, desc });
+            localStorage.setItem('mf_' + currentType, JSON.stringify(db));
+            
+            document.getElementById('itemDesc').value = '';
+            refreshView();
+        }
+
+        function refreshView() {
+            const date = gDate.value;
+            const listUl = document.getElementById('main-list');
+            listUl.innerHTML = '';
+            let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
+            let items = db[date] || [];
+            
+            items.sort((a,b) => a.time.localeCompare(b.time));
+            items.forEach((item, index) => {
+                listUl.innerHTML += `<li><span>⏰ ${item.time} - ${item.desc}</span> <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span></li>`;
+            });
+        }
+
+        function deleteItem(date, index) {
+            let db = JSON.parse(localStorage.getItem('mf_' + currentType));
+            db[date].splice(index, 1);
+            if(db[date].length === 0) delete db[date];
+            localStorage.setItem('mf_' + currentType, JSON.stringify(db));
+            refreshView();
+        }
+
+        function openFlow() {
+            const date = gDate.value;
+            const content = document.getElementById('flow-content');
+            content.innerHTML = '';
+            let all = [];
+            ['mutfak', 'egzersiz', 'supplement', 'su'].forEach(t => {
+                let db = JSON.parse(localStorage.getItem('mf_' + t) || '{}');
+                (db[date] || []).forEach(i => all.push({...i, type: t}));
+            });
+            all.sort((a,b) => a.time.localeCompare(b.time));
+            if(all.length === 0) content.innerHTML = '<p style="text-align:center; color:#555;">Bu gün için plan yok kankam.</p>';
+            all.forEach(ev => {
+                content.innerHTML += `<div class="flow-item"><small style="color:#888">${ev.type.toUpperCase()}</small><br><span class="flow-time">⏰ ${ev.time}</span> - ${ev.desc}</div>`;
+            });
+            document.getElementById('flow-page').style.display = 'block';
+        }
+
+        function closeFlow() { document.getElementById('flow-page').style.display = 'none'; }
+
+        function exportData() { 
+            navigator.clipboard.writeText(JSON.stringify(localStorage)); 
+            alert("Tüm verilerin kopyalandı kankam!"); 
+        }
+        
+        function importData() { 
+            let s = prompt("Yedek kodunu buraya yapıştır:"); 
+            if(s) { 
+                try {
+                    let d = JSON.parse(s); 
+                    Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); 
+                    location.reload(); 
+                } catch(e) { alert("Hata! Kod yanlış."); }
+            }
+        }
+    </script>
+</body>
+</html>
