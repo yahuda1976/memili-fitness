@@ -3,144 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memili Fitness Pro</title>
+    <title>MEMILI FITNESS DASHBOARD</title>
     <style>
-        :root { --primary: #ff4500; --secondary: #2ecc71; --bg: #f4f4f9; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        h2, h3 { text-align: center; color: #333; margin-bottom: 10px; }
-        .date-header { text-align: center; font-weight: bold; color: var(--primary); margin-bottom: 20px; }
-        .section { background: #fff; border: 1px solid #eee; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; margin-top: 5px; }
-        .btn-set { width: auto; padding: 8px 15px; background: #eee; margin: 5px; }
-        .btn-active { background: var(--secondary) !important; color: white; }
-        input { width: 80px; padding: 8px; border-radius: 8px; border: 1px solid #ddd; }
-        .timer { font-size: 1.5rem; text-align: center; font-weight: bold; color: var(--primary); margin: 10px 0; }
-        .history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 10px; }
-        .history-table th, .history-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .hidden { display: none; }
+        :root { --p: #ff4500; --s: #2ecc71; --bg: #1a1a1a; --card: #2c2c2e; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
+        
+        /* Ana Ekran Grid Sistemi */
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; height: 90vh; margin-top: 10px; }
+        .main-card { background: var(--card); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
+        .main-card:active { transform: scale(0.95); border-color: var(--p); }
+        .main-card h2 { font-size: 1.2rem; margin-top: 10px; }
+        .icon { font-size: 3rem; }
+
+        /* Alt Sayfalar (Gizli Menüler) */
+        .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 100; }
+        .header { display: flex; align-items: center; margin-bottom: 20px; }
+        .back-btn { background: var(--p); color: white; border: none; padding: 10px 15px; border-radius: 10px; margin-right: 15px; cursor: pointer; }
+
+        /* Listeleme Tasarımı */
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { flex: 1; padding: 12px; border-radius: 10px; border: none; background: #3a3a3c; color: white; }
+        .add-btn { background: var(--s); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+        ul { list-style: none; padding: 0; }
+        li { background: #3a3a3c; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .del-btn { color: #ff3b30; font-weight: bold; cursor: pointer; }
+
+        /* Su Ayarları */
+        .alarm-row { background: #3a3a3c; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .time-input { background: #1a1a1a; color: var(--s); font-weight: bold; border: 1px solid var(--s); }
     </style>
 </head>
 <body>
 
-<div class="card" id="main-app">
-    <div class="date-header" id="currentDate"></div>
-    
-    <div class="section">
-        <h3>🏋️ Bugünkü Antrenman</h3>
-        <p id="targetRegion"><strong>Bölge:</strong> Göğüs & Kol</p>
-        <div id="exercise">
-            <p>Bench Press (4 Set x 12 Tekrar)</p>
-            <div id="setButtons">
-                <button class="btn btn-set" onclick="toggleSet(this)">1. Set</button>
-                <button class="btn btn-set" onclick="toggleSet(this)">2. Set</button>
-                <button class="btn btn-set" onclick="toggleSet(this)">3. Set</button>
-                <button class="btn btn-set" onclick="toggleSet(this)">4. Set</button>
-            </div>
+    <h1 style="text-align: center; color: var(--p); font-size: 1.5rem;">MEMILI FITNESS</h1>
+    <div class="grid-container">
+        <div class="main-card" onclick="openPage('mutfak')">
+            <span class="icon">🍳</span>
+            <h2>MUTFAK</h2>
         </div>
-        <div class="timer" id="timerDisplay">00:00</div>
-        <button class="btn" style="background: #333; color: white;" onclick="startTimer()">Dinlenmeyi Başlat (60sn)</button>
+        <div class="main-card" onclick="openPage('egzersiz')">
+            <span class="icon">🏋️‍♂️</span>
+            <h2>EGZERSİZLER</h2>
+        </div>
+        <div class="main-card" onclick="openPage('supplement')">
+            <span class="icon">💊</span>
+            <h2>SUPPLEMENTLER</h2>
+        </div>
+        <div class="main-card" onclick="openPage('ayarlar')">
+            <span class="icon">💧</span>
+            <h2>SU VE AYARLAR</h2>
+        </div>
     </div>
 
-    <div class="section">
-        <h3>💧 Su & 🍲 Yemek</h3>
-        <label><input type="checkbox" class="save" id="su1"> 08:00 Su</label><br>
-        <label><input type="checkbox" class="save" id="meal1"> 09:00 Kahvaltı</label><br>
-        <label><input type="checkbox" class="save" id="su2"> 12:00 Su</label><br>
-        <button class="btn" onclick="requestNotification()" style="background: #eee; font-size: 0.8rem;">Sesli Hatırlatıcıyı Aç</button>
+    <div id="mutfak" class="sub-page">
+        <div class="header"><button class="back-btn" onclick="closePage('mutfak')">← Geri</button><h2>🍳 MUTFAK</h2></div>
+        <div class="input-group">
+            <input type="text" id="mutfakInput" placeholder="Yemek ismi yaz...">
+            <button class="add-btn" onclick="addItem('mutfak')">EKLE</button>
+        </div>
+        <ul id="mutfakList"></ul>
     </div>
 
-    <div class="section">
-        <h3>⚖️ Kilo Takibi</h3>
-        <input type="number" id="dailyKilo" step="0.1" placeholder="kg">
-        <button class="btn" onclick="saveKilo()" style="background: var(--primary); color: white;">Bugünü Kaydet</button>
+    <div id="egzersiz" class="sub-page">
+        <div class="header"><button class="back-btn" onclick="closePage('egzersiz')">← Geri</button><h2>🏋️‍♂️ EGZERSİZLER</h2></div>
+        <div class="input-group">
+            <input type="text" id="egzersizInput" placeholder="Egzersiz ismi yaz...">
+            <button class="add-btn" onclick="addItem('egzersiz')">EKLE</button>
+        </div>
+        <ul id="egzersizList"></ul>
     </div>
 
-    <button class="btn" onclick="toggleSettings()" style="background: #ddd;">⚙️ Ayarlar & Geçmiş</button>
-</div>
+    <div id="supplement" class="sub-page">
+        <div class="header"><button class="back-btn" onclick="closePage('supplement')">← Geri</button><h2>💊 SUPPLEMENTLER</h2></div>
+        <div class="input-group">
+            <input type="text" id="supplementInput" placeholder="Ürün ismi yaz...">
+            <button class="add-btn" onclick="addItem('supplement')">EKLE</button>
+        </div>
+        <ul id="supplementList"></ul>
+    </div>
 
-<div class="card hidden" id="settings-page">
-    <h3>📊 Geçmiş & Durum</h3>
-    <p id="statusAnalysis">Veri bekleniyor...</p>
-    <table class="history-table">
-        <thead>
-            <tr><th>Tarih</th><th>Kilo</th><th>Durum</th></tr>
-        </thead>
-        <tbody id="historyBody"></tbody>
-    </table>
-    <button class="btn" onclick="toggleSettings()" style="background: #333; color: white; margin-top: 20px;">Geri Dön</button>
-</div>
+    <div id="ayarlar" class="sub-page">
+        <div class="header"><button class="back-btn" onclick="closePage('ayarlar')">← Geri</button><h2>💧 SU VE AYARLAR</h2></div>
+        <h3>Su İçme Alarmları</h3>
+        <div class="alarm-row">
+            <span>1. Hatırlatıcı</span>
+            <input type="time" class="time-input" value="09:00">
+        </div>
+        <div class="alarm-row">
+            <span>2. Hatırlatıcı</span>
+            <input type="time" class="time-input" value="13:00">
+        </div>
+        <div class="alarm-row">
+            <span>3. Hatırlatıcı</span>
+            <input type="time" class="time-input" value="18:00">
+        </div>
+        <p style="color: #888; font-size: 0.8rem; text-align: center;">* Alarmlar ve bildirimler üzerinde çalışmaya devam ediyoruz kankam!</p>
+    </div>
 
-<script>
-    // Tarihi Ayarla
-    const d = new Date();
-    document.getElementById('currentDate').innerText = d.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    <script>
+        // Sayfa Değiştirme Fonksiyonları
+        function openPage(id) { document.getElementById(id).style.display = 'block'; renderList(id); }
+        function closePage(id) { document.getElementById(id).style.display = 'none'; }
 
-    // Set Takibi ve Kronometre
-    let timer;
-    function toggleSet(btn) {
-        btn.classList.toggle('btn-active');
-    }
-
-    function startTimer() {
-        clearInterval(timer);
-        let seconds = 60;
-        timer = setInterval(() => {
-            seconds--;
-            let mins = Math.floor(seconds / 60);
-            let secs = seconds % 60;
-            document.getElementById('timerDisplay').innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            if (seconds <= 0) {
-                clearInterval(timer);
-                alert("Dinlenme bitti, sete dön kankam!");
-            }
-        }, 1000);
-    }
-
-    // Kilo Kaydetme ve Analiz
-    function saveKilo() {
-        const kilo = document.getElementById('dailyKilo').value;
-        if(!kilo) return alert("Kilo gir kankam!");
-        
-        const history = JSON.parse(localStorage.getItem('fitnessHistory') || '[]');
-        const today = new Date().toLocaleDateString('tr-TR');
-        
-        history.push({ date: today, weight: parseFloat(kilo) });
-        localStorage.setItem('fitnessHistory', JSON.stringify(history));
-        alert("Kaydedildi!");
-        renderHistory();
-    }
-
-    function renderHistory() {
-        const history = JSON.parse(localStorage.getItem('fitnessHistory') || '[]');
-        const body = document.getElementById('historyBody');
-        body.innerHTML = '';
-        
-        if(history.length > 1) {
-            const last = history[history.length - 1].weight;
-            const prev = history[history.length - 2].weight;
-            const diff = (last - prev).toFixed(1);
-            let msg = diff < 0 ? `🔥 Harika! Geçen seferden ${Math.abs(diff)}kg vermişsin.` : 
-                      diff > 0 ? `💪 Kütle alıyorsun! ${diff}kg artış var.` : "Aynı kilodasın, istikrar iyidir!";
-            document.getElementById('statusAnalysis').innerText = msg;
+        // Liste İşlemleri
+        function addItem(type) {
+            const input = document.getElementById(type + 'Input');
+            if(!input.value) return;
+            
+            let list = JSON.parse(localStorage.getItem(type) || '[]');
+            list.push(input.value);
+            localStorage.setItem(type, JSON.stringify(list));
+            
+            input.value = '';
+            renderList(type);
         }
 
-        history.reverse().forEach(entry => {
-            body.innerHTML += `<tr><td>${entry.date}</td><td>${entry.weight} kg</td><td>✅</td></tr>`;
-        });
-    }
+        function renderList(type) {
+            if(type === 'ayarlar') return;
+            const ul = document.getElementById(type + 'List');
+            let list = JSON.parse(localStorage.getItem(type) || '[]');
+            ul.innerHTML = list.map((item, index) => `
+                <li>
+                    ${item}
+                    <span class="del-btn" onclick="deleteItem('${type}', ${index})">SİL</span>
+                </li>
+            `).join('');
+        }
 
-    function toggleSettings() {
-        document.getElementById('main-app').classList.toggle('hidden');
-        document.getElementById('settings-page').classList.toggle('hidden');
-        renderHistory();
-    }
-
-    // Sesli Uyarı İzni
-    function requestNotification() {
-        alert("Yemek ve su saatlerinde tarayıcı üzerinden sesli uyarılar yakında eklenecek. Şimdilik manuel takipteyiz!");
-    }
-</script>
-
+        function deleteItem(type, index) {
+            let list = JSON.parse(localStorage.getItem(type) || '[]');
+            list.splice(index, 1);
+            localStorage.setItem(type, JSON.stringify(list));
+            renderList(type);
+        }
+    </script>
 </body>
 </html>
