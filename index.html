@@ -1,49 +1,193 @@
-import React, { useState } from "react"; import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button";
+<!DOCTYPE html><html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MEMILI FITNESS PRO V2 🚀</title><style>
+:root{
+  --p:#ff4500;
+  --s:#2ecc71;
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#fff;
+  --muted:#aaa;
+}
+body{
+  margin:0;
+  font-family:Arial;
+  background:var(--bg);
+  color:var(--text);
+  padding:10px;
+}
 
-const days = [ { name: "Pazartesi", focus: "Göğüs + Triceps", water: 4, training: [ { name: "Dumbbell Bench Press", set: "4x10", rest: "90 sn", alt: "Machine Press" }, { name: "Incline Dumbbell Press", set: "4x10", rest: "90 sn", alt: "Incline Machine Press" }, { name: "Chest Fly (Dumbbell)", set: "3x12", rest: "60 sn", alt: "Cable Fly" }, { name: "Triceps Pushdown", set: "4x12", rest: "60 sn", alt: "Dumbbell Kickback" }, { name: "Overhead Triceps Extension", set: "3x12", rest: "60 sn", alt: "Skull Crusher" } ], meals: [ "07:00 Kahvaltı: Yumurta + peynir + zeytin", "10:00 Ara: Whey protein", "14:00 Öğün: Tavuk döner + pilav + salata", "17:00 Pre-workout: Whey + muz", "20:00 Post-workout: Skyr + yulaf" ], supplements: [ "Omega-3: 2 kapsül", "EAA: antrenman öncesi", "Whey: 2 ölçek", "Betaine: 1 kapsül" ] }, { name: "Salı", focus: "Sırt + Biceps", water: 4, training: [ { name: "Lat Pulldown", set: "4x10", rest: "90 sn", alt: "Assisted Pull-up" }, { name: "One Arm Dumbbell Row", set: "4x10", rest: "90 sn", alt: "Cable Row" }, { name: "Seated Row", set: "3x12", rest: "60 sn", alt: "Machine Row" }, { name: "Dumbbell Curl", set: "3x12", rest: "60 sn", alt: "Barbell Curl" }, { name: "Hammer Curl", set: "3x12", rest: "60 sn", alt: "Cable Curl" } ], meals: [ "07:00 Kahvaltı: Yumurta + lor", "10:00 Ara: Whey protein", "14:00 Öğün: Et + pirinç + yoğurt", "17:00 Pre-workout: Whey", "20:00 Post-workout: Skyr + meyve" ], supplements: [ "Omega-3", "EAA", "Whey", "Betaine" ] }, { name: "Çarşamba", focus: "Omuz + Core", water: 3, training: [ { name: "Dumbbell Shoulder Press", set: "4x10", rest: "90 sn", alt: "Machine Press" }, { name: "Lateral Raise", set: "4x12", rest: "60 sn", alt: "Cable Lateral" }, { name: "Rear Delt Fly", set: "3x12", rest: "60 sn", alt: "Machine Rear Delt" }, { name: "Plank", set: "3x45 sn", rest: "60 sn", alt: "Crunch" } ], meals: [ "07:00 Kahvaltı: Yumurtalı tost", "10:00 Ara: Whey", "14:00 Öğün: Tavuk + salata", "17:00 Pre-workout: Whey + muz", "20:00 Post-workout: Skyr" ], supplements: ["Omega-3", "EAA", "Whey"] }, { name: "Perşembe", focus: "Dinlenme / Active Recovery", water: 3, training: [ { name: "Yürüyüş", set: "30-40 dk", rest: "-", alt: "Hafif bisiklet" } ], meals: [ "07:00 Kahvaltı: Yumurta + peynir", "10:00 Ara: Kefir", "14:00 Öğün: Ev yemeği", "20:00 Hafif protein" ], supplements: ["Omega-3", "Whey"] }, { name: "Cuma", focus: "Göğüs + Triceps (2)", water: 4, training: [ { name: "Incline Dumbbell Press", set: "4x10", rest: "90 sn", alt: "Machine Press" }, { name: "Flat Dumbbell Press", set: "4x10", rest: "90 sn", alt: "Barbell Press" }, { name: "Cable Fly", set: "3x12", rest: "60 sn", alt: "Dumbbell Fly" }, { name: "Triceps Dip", set: "3xMax", rest: "90 sn", alt: "Machine Dip" } ], meals: [ "07:00 Kahvaltı", "10:00 Whey", "14:00 Tavuk + pilav", "17:00 Pre-workout", "20:00 Skyr + yulaf" ], supplements: ["Omega-3", "EAA", "Whey"] }, { name: "Cumartesi", focus: "Bacak (Başlangıç)", water: 4, training: [ { name: "Leg Press", set: "4x12", rest: "90 sn", alt: "Squat" }, { name: "Leg Curl", set: "3x12", rest: "60 sn", alt: "Romanian Deadlift" }, { name: "Leg Extension", set: "3x12", rest: "60 sn", alt: "Lunge" } ], meals: ["Standart yüksek protein gün"], supplements: ["Omega-3", "Whey", "EAA"] }, { name: "Pazar", focus: "Full Rest", water: 3, training: [ { name: "Dinlenme", set: "-", rest: "-", alt: "Hafif yürüyüş" } ], meals: ["Serbest ama protein yüksek"], supplements: ["Omega-3"] } ];
+h2{color:var(--p); text-align:center;}
 
-export default function App() { const [selectedDay, setSelectedDay] = useState(0); const day = days[selectedDay];
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.card{
+  background:var(--card);
+  padding:15px;
+  border-radius:15px;
+  text-align:center;
+  cursor:pointer;
+  border:1px solid #333;
+}
+.card:active{transform:scale(0.97)}
 
-const glassCount = Math.round((day.water * 1000) / 250);
+.btn{
+  width:100%;
+  padding:12px;
+  margin:5px 0;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.primary{background:var(--p);color:#fff;}
+.green{background:var(--s);color:#fff;}
 
-return ( <div className="p-4 space-y-4"> <div className="flex flex-wrap gap-2"> {days.map((d, i) => ( <Button key={i} onClick={() => setSelectedDay(i)}> {d.name} </Button> ))} </div>
+.page{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:var(--bg);
+  overflow:auto;
+  padding:15px;
+}
 
-<Card>
-    <CardContent>
-      <h2 className="text-xl font-bold">{day.name} - {day.focus}</h2>
-      <p>💧 Su: {day.water}L (~{glassCount} bardak)</p>
-    </CardContent>
-  </Card>
+.item{
+  background:var(--card);
+  padding:10px;
+  border-radius:10px;
+  margin:8px 0;
+  border-left:4px solid var(--p);
+}
 
-  <Card>
-    <CardContent>
-      <h3 className="font-bold">🏋️ Antrenman</h3>
-      {day.training.map((t, i) => (
-        <div key={i} className="mb-2">
-          <p>{t.name} | {t.set} | Dinlenme: {t.rest}</p>
-          <p className="text-sm text-gray-500">Alternatif: {t.alt}</p>
-        </div>
-      ))}
-    </CardContent>
-  </Card>
+.done{
+  opacity:0.5;
+  text-decoration:line-through;
+}
 
-  <Card>
-    <CardContent>
-      <h3 className="font-bold">🍽️ Beslenme</h3>
-      {day.meals.map((m, i) => (
-        <p key={i}>{m}</p>
-      ))}
-    </CardContent>
-  </Card>
+small{color:var(--muted)}
 
-  <Card>
-    <CardContent>
-      <h3 className="font-bold">💊 Supplementler</h3>
-      {day.supplements.map((s, i) => (
-        <p key={i}>{s}</p>
-      ))}
-    </CardContent>
-  </Card>
-</div>
+</style></head>
+<body><h2>MEMILI FITNESS PRO V2 🚀</h2><button class="btn primary" onclick="openFlow()">🔥 GÜN AKIŞI</button>
 
-); }
+<div class="grid">
+  <div class="card" onclick="openPage('egzersiz')">🏋️ Egzersiz</div>
+  <div class="card" onclick="openPage('mutfak')">🍳 Mutfak</div>
+  <div class="card" onclick="openPage('supp')">💊 Supplement</div>
+  <div class="card" onclick="openPage('su')">💧 Su Takip</div>
+</div><div id="page" class="page">
+  <button class="btn" onclick="closePage()">← GERİ</button>
+  <h3 id="title"></h3>  <input id="time" type="time" style="width:100%;padding:10px;margin:5px 0" />
+  <input id="desc" type="text" placeholder="Ne yapıyoruz kankam?" style="width:100%;padding:10px" /><button class="btn green" onclick="addItem()">+ EKLE</button>
+
+  <div id="list"></div>
+</div><div id="flow" class="page">
+  <button class="btn" onclick="closeFlow()">← GERİ</button>
+  <h3>GÜN AKIŞI</h3>
+  <div id="flowList"></div>
+</div><script>
+let type="";
+const cats=["egzersiz","mutfak","supp","su"];
+const db=()=>JSON.parse(localStorage.getItem("db")||"{}");
+const save=d=>localStorage.setItem("db",JSON.stringify(d));
+
+function openPage(t){
+  type=t;
+  document.getElementById("title").innerText=t.toUpperCase();
+  document.getElementById("page").style.display="block";
+  render();
+}
+function closePage(){document.getElementById("page").style.display="none"}
+
+function addItem(){
+  let d=db();
+  let date=new Date().toISOString().split('T')[0];
+  if(!d[type])d[type]={};
+  if(!d[type][date])d[type][date]=[];
+  d[type][date].push({
+    time:time.value,
+    desc:desc.value,
+    done:false
+  });
+  save(d);
+  time.value="";
+  desc.value="";
+  render();
+}
+
+function render(){
+  let d=db();
+  let date=new Date().toISOString().split('T')[0];
+  let list=(d[type]&&d[type][date])||[];
+  list.sort((a,b)=>a.time.localeCompare(b.time));
+
+  document.getElementById("list").innerHTML=list.map((i,idx)=>`
+    <div class="item ${i.done?'done':''}" onclick="toggle(${idx})">
+      <b>${i.time}</b> - ${i.desc}
+    </div>
+  `).join("");
+}
+
+function toggle(i){
+  let d=db();
+  let date=new Date().toISOString().split('T')[0];
+  d[type][date][i].done=!d[type][date][i].done;
+  save(d);
+  render();
+  updateStreak();
+}
+
+function openFlow(){
+  let d=db();
+  let date=new Date().toISOString().split('T')[0];
+  let all=[];
+
+  cats.forEach(c=>{
+    if(d[c]&&d[c][date]){
+      d[c][date].forEach(i=>all.push({...i,cat:c}));
+    }
+  });
+
+  all.sort((a,b)=>a.time.localeCompare(b.time));
+
+  document.getElementById("flowList").innerHTML=
+  all.map(i=>`
+    <div class="item">
+      <small>${i.cat}</small><br>
+      <b>${i.time}</b> - ${i.desc}
+    </div>
+  `).join("");
+
+  document.getElementById("flow").style.display="block";
+}
+
+function closeFlow(){document.getElementById("flow").style.display="none"}
+
+// STREAK SYSTEM
+function updateStreak(){
+  let d=db();
+  let streak=parseInt(localStorage.getItem("streak")||"0");
+  streak++;
+  localStorage.setItem("streak",streak);
+}
+
+// NOTIFICATION SIMULATION
+setInterval(()=>{
+  let now=new Date().toTimeString().slice(0,5);
+  let d=db();
+  let date=new Date().toISOString().split('T')[0];
+  cats.forEach(c=>{
+    if(d[c]&&d[c][date]){
+      d[c][date].forEach(i=>{
+        if(i.time===now && !i.done){
+          console.log("ALARM:",i.desc);
+        }
+      })
+    }
+  });
+},60000);
+
+</script></body>
+</html>
