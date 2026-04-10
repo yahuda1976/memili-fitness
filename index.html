@@ -1,10 +1,9 @@
-</html>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS PRO</title>
+    <title>MEMILI FITNESS - TAM GAZ</title>
     <style>
         :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -22,11 +21,13 @@
         .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 5px; }
         .summary-box { background: #1a1a1a; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px dashed #444; }
         .summary-item { font-size: 0.85rem; color: #aaa; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+        #alarm-ui { display: none; background: #ff4500; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align: center; color: var(--p); letter-spacing: 2px;">MEMILI FITNESS</h1>
+    <h1 style="text-align: center; color: var(--p);">MEMILI FITNESS</h1>
     
     <div class="grid-container">
         <div class="main-card" onclick="openSub('mutfak')"><span class="icon">🍳</span><h2>MUTFAK</h2></div>
@@ -41,10 +42,16 @@
             <h2 id="sub-title">BÖLÜM</h2>
         </div>
 
+        <div id="alarm-ui">
+            <h2 style="margin:0;">🔔 SU ZAMANI KANKAM!</h2>
+            <button class="add-btn" style="background:white; color:black; margin-top:15px;" onclick="stopAlarm()">ALARM SİL VE DURDUR</button>
+        </div>
+
         <div id="su-content" style="display:none;">
             <div class="input-group">
+                <p style="font-size: 0.8rem; color:#888;">Not: Alarmın çalması için bu sayfanın tarayıcıda açık kalması gerekir.</p>
                 <input type="time" id="suTime">
-                <button class="add-btn" onclick="addAlarm()">ALARM EKLE</button>
+                <button class="add-btn" onclick="addAlarm()">ALARM KUR</button>
             </div>
         </div>
 
@@ -52,8 +59,8 @@
             <div class="input-group">
                 <label>Tarih Seç:</label>
                 <input type="date" id="targetDate" onchange="refreshView()">
-                <input type="text" id="targetInput" placeholder="Buraya yaz kankam...">
-                <button class="add-btn" onclick="saveData()">LİSTEYE EKLE</button>
+                <input type="text" id="targetInput" placeholder="Neler yaptın/yapacaksın?">
+                <button class="add-btn" id="save-btn" onclick="saveData()">LİSTEYE KAYDET</button>
             </div>
         </div>
 
@@ -61,17 +68,16 @@
         <ul id="main-list"></ul>
 
         <div class="summary-box">
-            <h4>📋 TÜM GÜNLERİN ÖZETİ</h4>
+            <h4>📋 TÜM KAYITLARIN</h4>
             <div id="summary-list"></div>
         </div>
     </div>
 
-    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
+    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto" loop></audio>
 
     <script>
         let currentType = '';
         const dateInput = document.getElementById('targetDate');
-        // Varsayılan tarih bugün olsun
         dateInput.value = new Date().toISOString().split('T')[0];
 
         function openSub(type) {
@@ -79,13 +85,10 @@
             document.getElementById('sub-title').innerText = type.toUpperCase();
             document.getElementById('sub-page-container').style.display = 'block';
             
-            if(type === 'su') {
-                document.getElementById('su-content').style.display = 'block';
-                document.getElementById('general-content').style.display = 'none';
-            } else {
-                document.getElementById('su-content').style.display = 'none';
-                document.getElementById('general-content').style.display = 'block';
-            }
+            const isSu = type === 'su';
+            document.getElementById('su-content').style.display = isSu ? 'block' : 'none';
+            document.getElementById('general-content').style.display = isSu ? 'none' : 'block';
+            
             refreshView();
         }
 
@@ -100,12 +103,12 @@
             
             if(!val || !date) return;
 
-            let db = JSON.parse(localStorage.getItem(currentType) || '{}');
+            let db = JSON.parse(localStorage.getItem('memili_' + currentType) || '{}');
             if(!db[date]) db[date] = [];
             db[date].push(val);
             
-            localStorage.setItem(currentType, JSON.stringify(db));
-            input.value = ''; // Kutuyu temizle
+            localStorage.setItem('memili_' + currentType, JSON.stringify(db));
+            input.value = '';
             refreshView();
         }
 
@@ -117,64 +120,70 @@
             summaryDiv.innerHTML = '';
 
             if(currentType === 'su') {
-                let alarms = JSON.parse(localStorage.getItem('su-alarms') || '[]');
+                let alarms = JSON.parse(localStorage.getItem('memili_su_alarms') || '[]');
                 alarms.forEach((time, index) => {
                     listUl.innerHTML += `<li><span>⏰ ${time}</span> <span class="del-btn" onclick="deleteAlarm(${index})">SİL</span></li>`;
                 });
                 return;
             }
 
-            // Seçili tarihin listesi
             document.getElementById('view-date-text').innerText = `📅 ${date} Planı`;
-            let db = JSON.parse(localStorage.getItem(currentType) || '{}');
+            let db = JSON.parse(localStorage.getItem('memili_' + currentType) || '{}');
             let items = db[date] || [];
             
             items.forEach((item, index) => {
                 listUl.innerHTML += `<li><span>✅ ${item}</span> <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span></li>`;
             });
 
-            // Özet listesi
             Object.keys(db).sort().reverse().forEach(d => {
-                if(db[d].length > 0) {
-                    summaryDiv.innerHTML += `<div class="summary-item"><strong>${d}:</strong> ${db[d].join(', ')}</div>`;
-                }
+                summaryDiv.innerHTML += `<div class="summary-item"><strong>${d}:</strong> ${db[d].join(', ')}</div>`;
             });
         }
 
         function deleteItem(date, index) {
-            let db = JSON.parse(localStorage.getItem(currentType));
+            let db = JSON.parse(localStorage.getItem('memili_' + currentType));
             db[date].splice(index, 1);
             if(db[date].length === 0) delete db[date];
-            localStorage.setItem(currentType, JSON.stringify(db));
+            localStorage.setItem('memili_' + currentType, JSON.stringify(db));
             refreshView();
         }
 
         function addAlarm() {
             const time = document.getElementById('suTime').value;
             if(!time) return;
-            let alarms = JSON.parse(localStorage.getItem('su-alarms') || '[]');
-            alarms.push(time);
-            localStorage.setItem('su-alarms', JSON.stringify(alarms.sort()));
+            let alarms = JSON.parse(localStorage.getItem('memili_su_alarms') || '[]');
+            if(!alarms.includes(time)) {
+                alarms.push(time);
+                localStorage.setItem('memili_su_alarms', JSON.stringify(alarms.sort()));
+            }
             refreshView();
         }
 
         function deleteAlarm(index) {
-            let alarms = JSON.parse(localStorage.getItem('su-alarms'));
+            let alarms = JSON.parse(localStorage.getItem('memili_su_alarms'));
             alarms.splice(index, 1);
-            localStorage.setItem('su-alarms', JSON.stringify(alarms));
+            localStorage.setItem('memili_su_alarms', JSON.stringify(alarms));
             refreshView();
         }
 
-        // Alarm Kontrolü
+        function stopAlarm() {
+            const audio = document.getElementById('alarmSound');
+            audio.pause();
+            audio.currentTime = 0;
+            document.getElementById('alarm-ui').style.display = 'none';
+        }
+
         setInterval(() => {
             const now = new Date();
             const time = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-            let alarms = JSON.parse(localStorage.getItem('su-alarms') || '[]');
+            let alarms = JSON.parse(localStorage.getItem('memili_su_alarms') || '[]');
             if(alarms.includes(time)) {
-                document.getElementById('alarmSound').play();
-                alert("🔔 SU İÇME ZAMANI KANKAM!");
+                const audio = document.getElementById('alarmSound');
+                audio.volume = 1.0; 
+                audio.play().catch(() => console.log("Etkileşim gerekli"));
+                document.getElementById('alarm-ui').style.display = 'block';
             }
-        }, 30000);
+        }, 1000);
     </script>
 </body>
 </html>
