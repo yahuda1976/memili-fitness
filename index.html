@@ -1,38 +1,33 @@
-<!DOCTYPE html><html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memili Fitness Tracker</title>
-<style>
-body { font-family: Arial; background:#111; color:#fff; padding:20px; }
-.card { background:#1e1e1e; padding:15px; border-radius:10px; margin-bottom:15px; }
-button { padding:10px; margin:5px; border:none; border-radius:6px; }
-.done { background:green; color:white; }
-</style>
-</head>
-<body>
-<h1>💪 Günlük Fitness Paneli</h1><div class="card">
-<h2>💧 Su Takibi</h2>
-<div id="water"></div>
-</div><div class="card">
-<h2>🏋️ Dumbbell Bench Press (4x10)</h2>
-<button onclick="toggle(this)">Set 1</button>
-<button onclick="toggle(this)">Set 2</button>
-<button onclick="toggle(this)">Set 3</button>
-<button onclick="toggle(this)">Set 4</button>
-</div><div class="card">
-<h2>🍽️ Öğünler</h2>
-<button onclick="toggle(this)">Sabah</button>
-<button onclick="toggle(this)">Öğle</button>
-<button onclick="toggle(this)">Pre Workout</button>
-<button onclick="toggle(this)">Post Workout</button>
-<button onclick="toggle(this)">Akşam</button>
-</div><script>
-function toggle(btn){
-  btn.classList.toggle("done");
-}
+import React, { useState } from "react"; import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button";
 
-// water
-const waterDiv = document.getElementById("water");
-for(let i=1;i<=8;i++){
- let b=document.create
+const days = [ { name: "Pazartesi", focus: "Göğüs + Triceps", water: 4, training: [ { name: "Dumbbell Bench Press", set: "4x10", rest: "90 sn", alt: "Machine Press" }, { name: "Incline Dumbbell Press", set: "4x10", rest: "90 sn", alt: "Incline Machine Press" }, { name: "Chest Fly (Dumbbell)", set: "3x12", rest: "60 sn", alt: "Cable Fly" }, { name: "Triceps Pushdown", set: "4x12", rest: "60 sn", alt: "Dumbbell Kickback" }, { name: "Overhead Triceps Extension", set: "3x12", rest: "60 sn", alt: "Skull Crusher" } ], meals: [ "07:00 Kahvaltı: Yumurta + peynir + zeytin", "10:00 Ara: Whey protein", "14:00 Öğün: Tavuk döner + pilav + salata", "17:00 Pre-workout: Whey + muz", "20:00 Post-workout: Skyr + yulaf" ], supplements: [ "Omega-3: 2 kapsül", "EAA: antrenman öncesi", "Whey: 2 ölçek", "Betaine: 1 kapsül" ] }, { name: "Salı", focus: "Sırt + Biceps", water: 4, training: [ { name: "Lat Pulldown", set: "4x10", rest: "90 sn", alt: "Assisted Pull-up" }, { name: "One Arm Dumbbell Row", set: "4x10", rest: "90 sn", alt: "Cable Row" }, { name: "Seated Row", set: "3x12", rest: "60 sn", alt: "Machine Row" }, { name: "Dumbbell Curl", set: "3x12", rest: "60 sn", alt: "Barbell Curl" }, { name: "Hammer Curl", set: "3x12", rest: "60 sn", alt: "Cable Curl" } ], meals: [ "07:00 Kahvaltı: Yumurta + lor", "10:00 Ara: Whey protein", "14:00 Öğün: Et + pirinç + yoğurt", "17:00 Pre-workout: Whey", "20:00 Post-workout: Skyr + meyve" ], supplements: [ "Omega-3", "EAA", "Whey", "Betaine" ] }, { name: "Çarşamba", focus: "Omuz + Core", water: 3, training: [ { name: "Dumbbell Shoulder Press", set: "4x10", rest: "90 sn", alt: "Machine Press" }, { name: "Lateral Raise", set: "4x12", rest: "60 sn", alt: "Cable Lateral" }, { name: "Rear Delt Fly", set: "3x12", rest: "60 sn", alt: "Machine Rear Delt" }, { name: "Plank", set: "3x45 sn", rest: "60 sn", alt: "Crunch" } ], meals: [ "07:00 Kahvaltı: Yumurtalı tost", "10:00 Ara: Whey", "14:00 Öğün: Tavuk + salata", "17:00 Pre-workout: Whey + muz", "20:00 Post-workout: Skyr" ], supplements: ["Omega-3", "EAA", "Whey"] }, { name: "Perşembe", focus: "Dinlenme / Active Recovery", water: 3, training: [ { name: "Yürüyüş", set: "30-40 dk", rest: "-", alt: "Hafif bisiklet" } ], meals: [ "07:00 Kahvaltı: Yumurta + peynir", "10:00 Ara: Kefir", "14:00 Öğün: Ev yemeği", "20:00 Hafif protein" ], supplements: ["Omega-3", "Whey"] }, { name: "Cuma", focus: "Göğüs + Triceps (2)", water: 4, training: [ { name: "Incline Dumbbell Press", set: "4x10", rest: "90 sn", alt: "Machine Press" }, { name: "Flat Dumbbell Press", set: "4x10", rest: "90 sn", alt: "Barbell Press" }, { name: "Cable Fly", set: "3x12", rest: "60 sn", alt: "Dumbbell Fly" }, { name: "Triceps Dip", set: "3xMax", rest: "90 sn", alt: "Machine Dip" } ], meals: [ "07:00 Kahvaltı", "10:00 Whey", "14:00 Tavuk + pilav", "17:00 Pre-workout", "20:00 Skyr + yulaf" ], supplements: ["Omega-3", "EAA", "Whey"] }, { name: "Cumartesi", focus: "Bacak (Başlangıç)", water: 4, training: [ { name: "Leg Press", set: "4x12", rest: "90 sn", alt: "Squat" }, { name: "Leg Curl", set: "3x12", rest: "60 sn", alt: "Romanian Deadlift" }, { name: "Leg Extension", set: "3x12", rest: "60 sn", alt: "Lunge" } ], meals: ["Standart yüksek protein gün"], supplements: ["Omega-3", "Whey", "EAA"] }, { name: "Pazar", focus: "Full Rest", water: 3, training: [ { name: "Dinlenme", set: "-", rest: "-", alt: "Hafif yürüyüş" } ], meals: ["Serbest ama protein yüksek"], supplements: ["Omega-3"] } ];
+
+export default function App() { const [selectedDay, setSelectedDay] = useState(0); const day = days[selectedDay];
+
+const glassCount = Math.round((day.water * 1000) / 250);
+
+return ( <div className="p-4 space-y-4"> <div className="flex flex-wrap gap-2"> {days.map((d, i) => ( <Button key={i} onClick={() => setSelectedDay(i)}> {d.name} </Button> ))} </div>
+
+<Card>
+    <CardContent>
+      <h2 className="text-xl font-bold">{day.name} - {day.focus}</h2>
+      <p>💧 Su: {day.water}L (~{glassCount} bardak)</p>
+    </CardContent>
+  </Card>
+
+  <Card>
+    <CardContent>
+      <h3 className="font-bold">🏋️ Antrenman</h3>
+      {day.training.map((t, i) => (
+        <div key={i} className="mb-2">
+          <p>{t.name} | {t.set} | Dinlenme: {t.rest}</p>
+          <p className="text-sm text-gray-500">Alternatif: {t.alt}</p>
+        </div>
+      ))}
+    </CardContent>
+  </Card>
+
+  <Card>
+    <CardContent>
+      <h3 className="font-bold">🍽️ Beslenme</h3>
+      {day.meals.map((m, 
