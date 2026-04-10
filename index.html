@@ -1,35 +1,77 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Memili Fitness</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memili Fitness</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #333; text-align: center; }
+        .section { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        button { width: 100%; padding: 12px; background-color: #ff4500; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        input[type="number"] { width: 60px; padding: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        label { display: block; margin: 8px 0; cursor: pointer; }
+    </style>
 </head>
-<body style="font-family:sans-serif;padding:20px;max-width:500px;margin:auto;">
+<body>
 
-<h2>🔥 MEMİLİ FITNESS APP</h2>
+<div class="card">
+    <h2>🔥 MEMİLİ FITNESS APP</h2>
 
-<h3>🏋️ Antrenman</h3>
-<button onclick="toggleWorkout()">Antrenman Yapıldı</button>
+    <div class="section">
+        <h3>🏋️ Antrenman</h3>
+        <button id="workBtn" onclick="toggleWorkout()">Antrenman Yapılmadı</button>
+    </div>
 
-<h3>🍽️ Yemek</h3>
-<input type="checkbox"> Kahvaltı<br>
-<input type="checkbox"> Öğle<br>
-<input type="checkbox"> Akşam<br>
+    <div class="section">
+        <h3>🥗 Yemek</h3>
+        <label><input type="checkbox" class="save" id="kahl"> Kahvaltı</label>
+        <label><input type="checkbox" class="save" id="ogle"> Öğle</label>
+        <label><input type="checkbox" class="save" id="aksam"> Akşam</label>
+    </div>
 
-<h3>💧 Su</h3>
-<input type="checkbox"> 500ml<br>
-<input type="checkbox"> 1L<br>
+    <div class="section">
+        <h3>💧 Su</h3>
+        <label><input type="checkbox" class="save" id="su500"> 500ml</label>
+        <label><input type="checkbox" class="save" id="su1l"> 1L</label>
+    </div>
 
-<h3>⚖️ Kilo</h3>
-<input type="number" placeholder="kg">
+    <div class="section">
+        <h3>⚖️ Kilo</h3>
+        <input type="number" id="kilo" class="save" placeholder="kg"> kg
+    </div>
+</div>
 
 <script>
-let done = false;
-function toggleWorkout(){
-  done = !done;
-  alert(done ? "🔥 Antrenman tamam!" : "❌ Yapılmadı");
-}
+    const workBtn = document.getElementById('workBtn');
+    let done = localStorage.getItem('workout') === 'true';
+
+    function updateBtn() {
+        workBtn.innerText = done ? "✅ Antrenman Tamam!" : "❌ Yapılmadı";
+        workBtn.style.backgroundColor = done ? "#2ecc71" : "#ff4500";
+    }
+
+    function toggleWorkout() {
+        done = !done;
+        localStorage.setItem('workout', done);
+        updateBtn();
+    }
+
+    // Kaydetme Fonksiyonu
+    document.querySelectorAll('.save').forEach(el => {
+        const id = el.id;
+        if(el.type === 'checkbox') el.checked = localStorage.getItem(id) === 'true';
+        else el.value = localStorage.getItem(id);
+
+        el.addEventListener('change', () => {
+            const val = el.type === 'checkbox' ? el.checked : el.value;
+            localStorage.setItem(id, val);
+        });
+    });
+
+    updateBtn();
 </script>
 
 </body>
