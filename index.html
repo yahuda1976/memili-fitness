@@ -2,149 +2,208 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MEMILI FITNESS PRO 💪</title>
+<title>Memili Fitness UI PRO</title>
 <style>
-:root{--p:#ff4500;--s:#2ecc71;--bg:#121212;--card:#1e1e1e;}
-body{font-family:sans-serif;background:var(--bg);color:white;margin:0;padding:12px}
-h2{text-align:center;color:var(--p)}
-.card{background:var(--card);padding:15px;border-radius:15px;margin:10px 0}
-button{padding:10px;border:none;border-radius:10px;margin-top:5px;font-weight:bold}
-.add{background:var(--s);color:white;width:100%}
-.flow{background:var(--p);color:white;width:100%}
+:root{
+--bg:#0f0f0f;
+--card:#1c1c1c;
+--accent:#ff4500;
+--green:#2ecc71;
+}
+body{
+margin:0;
+font-family:sans-serif;
+background:var(--bg);
+color:white;
+padding:15px;
+}
+h1{text-align:center;color:var(--accent)}
+.card{
+background:var(--card);
+padding:15px;
+border-radius:20px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+input{
+width:100%;
+padding:12px;
+margin:5px 0;
+border-radius:10px;
+border:none;
+background:#2a2a2a;
+color:white;
+}
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:10px;
+}
+.cat{
+padding:15px;
+border-radius:15px;
+background:#2a2a2a;
+border:2px solid transparent;
+font-size:1.2rem;
+}
+.active{
+border-color:var(--accent);
+transform:scale(0.97);
+}
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:15px;
+margin-top:10px;
+font-weight:bold;
+font-size:1rem;
+}
+.add{background:var(--green);}
+.flow{background:var(--accent);color:white}
+.item{
+padding:12px;
+border-radius:15px;
+background:#222;
+margin-top:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 .done{opacity:.5;text-decoration:line-through}
-.progress{height:10px;background:#333;border-radius:10px;overflow:hidden;margin-top:10px}
-.progress-bar{height:100%;background:var(--s);width:0%}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.cat-btn{padding:12px;border-radius:12px;background:#2a2a2a;color:white;border:1px solid #333}
-.cat-active{border:2px solid var(--p)}
+.small-btn{
+padding:8px 10px;
+border-radius:10px;
+margin-left:5px;
+}
+.progress{
+height:10px;
+background:#333;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+.bar{
+height:100%;
+background:var(--green);
+width:0%;
+}
+.center{text-align:center}
 </style>
 </head>
-<body><h2>MEMILI FITNESS PRO 🚀</h2><input type="date" id="date"><div class="card">
+<body><h1>💪 MEMILI FITNESS</h1><div class="card">
+<input type="date" id="date">
 <input type="time" id="time">
-<input type="text" id="text" placeholder="Ne yapıyoruz kankam?"><div class="grid" id="catGrid">
-<button class="cat-btn" data-cat="beslenme">🍳 Beslenme</button>
-<button class="cat-btn" data-cat="antrenman">🏋️ Antrenman</button>
-<button class="cat-btn" data-cat="supp">💊 Takviye</button>
-<button class="cat-btn" data-cat="su">💧 Su</button>
-</div><button class="add" onclick="addItem()">EKLE</button>
+<input type="text" id="text" placeholder="Ne yapıyoruz kankam?"><div class="grid">
+<div class="cat" onclick="setCat(this,'beslenme')">🍳 Beslenme</div>
+<div class="cat" onclick="setCat(this,'antrenman')">🏋️ Antrenman</div>
+<div class="cat" onclick="setCat(this,'supp')">💊 Takviye</div>
+<div class="cat" onclick="setCat(this,'su')">💧 Su</div>
+</div><button class="add" onclick="add()">EKLE</button>
 
-</div><button class="flow" onclick="showFlow()">GÜNLÜK AKIŞ</button>
-
-<div class="card">
-<h3>İLERLEME</h3>
-<div class="progress"><div class="progress-bar" id="bar"></div></div>
-<span id="percent">0%</span>
+</div><div class="card">
+<h3>📊 Günlük İlerleme</h3>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="center" id="percent">0%</div>
 </div><div class="card">
 <h3>💧 Su Takibi</h3>
-<button onclick="addWater()">+1 Bardak</button>
-<span id="water">0</span> bardak
-</div><ul id="list"></ul><script>
+<button onclick="water()">+1 Bardak</button>
+<div class="center"><span id="water">0</span> bardak</div>
+</div><div class="card">
+<h3>📋 Liste</h3>
+<div id="list"></div>
+</div><script>
+let selected='beslenme';
 let d=document.getElementById('date');
 d.value=new Date().toISOString().split('T')[0];
 
-let selectedCat='beslenme';
-document.querySelectorAll('.cat-btn').forEach(btn=>{
- btn.onclick=()=>{
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('cat-active'));
-  btn.classList.add('cat-active');
-  selectedCat=btn.dataset.cat;
- }
-});
+function setCat(el,cat){
+ document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));
+ el.classList.add('active');
+ selected=cat;
+}
 
-function getDB(){return JSON.parse(localStorage.getItem('mf_pro')||'{}');}
-function saveDB(db){localStorage.setItem('mf_pro',JSON.stringify(db));}
+function db(){return JSON.parse(localStorage.getItem('db')||'{}')}
+function save(x){localStorage.setItem('db',JSON.stringify(x))}
 
-function addItem(){
-let db=getDB();
-let date=d.value;
-let t=document.getElementById('time').value;
-let txt=document.getElementById('text').value;
+function add(){
+ let t=time.value;
+ let txt=text.value;
+ if(!t||!txt)return alert('Eksik var kankam');
 
-if(!t||!txt)return alert('Eksik var kankam');
-
-if(!db[date])db[date]=[];
-db[date].push({t,txt,cat:selectedCat,done:false});
-saveDB(db);
-
-document.getElementById('text').value='';
-document.getElementById('time').value='';
-render();
+ let data=db();
+ if(!data[d.value])data[d.value]=[];
+ data[d.value].push({t,txt,done:false});
+ save(data);
+ text.value=''; time.value='';
+ render();
 }
 
 function toggle(i){
-let db=getDB();
-db[d.value][i].done=!db[d.value][i].done;
-saveDB(db);
-render();
+ let data=db();
+ data[d.value][i].done=!data[d.value][i].done;
+ save(data);
+ render();
 }
 
 function del(i){
-let db=getDB();
-db[d.value].splice(i,1);
-saveDB(db);
-render();
+ let data=db();
+ data[d.value].splice(i,1);
+ save(data);
+ render();
 }
 
 function render(){
-let db=getDB();
-let arr=db[d.value]||[];
-let ul=document.getElementById('list');
-ul.innerHTML='';
+ let data=db();
+ let arr=data[d.value]||[];
+ let list=document.getElementById('list');
+ list.innerHTML='';
 
-arr.sort((a,b)=>a.t.localeCompare(b.t));
+ arr.sort((a,b)=>a.t.localeCompare(b.t));
 
-arr.forEach((x,i)=>{
-ul.innerHTML+=`<li class="card ${x.done?'done':''}">
-<b>${x.t}</b> - ${x.txt} (${x.cat})<br>
-<button onclick="toggle(${i})">✔ Yapıldı</button>
-<button onclick="del(${i})">❌ Sil</button>
-</li>`;
-});
+ arr.forEach((x,i)=>{
+ list.innerHTML+=`<div class="item ${x.done?'done':''}">
+ <div><b>${x.t}</b><br>${x.txt}</div>
+ <div>
+ <button class="small-btn" onclick="toggle(${i})">✔</button>
+ <button class="small-btn" onclick="del(${i})">❌</button>
+ </div>
+ </div>`;
+ });
 
-updateProgress(arr);
-updateWater();
+ updateProgress(arr);
+ updateWater();
 }
 
 function updateProgress(arr){
-if(arr.length===0){document.getElementById('bar').style.width='0%';return}
-let done=arr.filter(x=>x.done).length;
-let p=Math.round((done/arr.length)*100);
-document.getElementById('bar').style.width=p+'%';
-document.getElementById('percent').innerText=p+'%';
+ if(arr.length===0){bar.style.width='0%';percent.innerText='0%';return}
+ let done=arr.filter(x=>x.done).length;
+ let p=Math.round((done/arr.length)*100);
+ bar.style.width=p+'%';
+ percent.innerText=p+'%';
 }
 
-function showFlow(){
-let db=getDB();
-let arr=db[d.value]||[];
-arr.sort((a,b)=>a.t.localeCompare(b.t));
-alert(arr.map(x=>x.t+' - '+x.txt).join('\n')||'Boş gün');
+function water(){
+ let w=JSON.parse(localStorage.getItem('water')||'{}');
+ w[d.value]=(w[d.value]||0)+1;
+ localStorage.setItem('water',JSON.stringify(w));
+ updateWater();
 }
 
-// 💧 SU
-function addWater(){
-let w=JSON.parse(localStorage.getItem('water')||'{}');
-w[d.value]=(w[d.value]||0)+1;
-localStorage.setItem('water',JSON.stringify(w));
-updateWater();
-}
 function updateWater(){
-let w=JSON.parse(localStorage.getItem('water')||'{}');
-document.getElementById('water').innerText=w[d.value]||0;
+ let w=JSON.parse(localStorage.getItem('water')||'{}');
+ document.getElementById('water').innerText=w[d.value]||0;
 }
 
-// 🔔 ALARM (daha stabil)
 setInterval(()=>{
-let now=new Date();
-let cur=now.toTimeString().slice(0,5);
-let db=getDB();
-let arr=db[d.value]||[];
-arr.forEach(x=>{
- if(x.t===cur && !x.done){
-  alert('⏰ KANKAM ZAMAN GELDİ: '+x.txt);
- }
-});
-},30000);
+ let now=new Date().toTimeString().slice(0,5);
+ let arr=(db()[d.value]||[]);
+ arr.forEach(x=>{
+  if(x.t===now && !x.done){alert('⏰ '+x.txt)}
+ });
+},60000);
 
 render();
 </script></body>
-</html> 
+</html>
