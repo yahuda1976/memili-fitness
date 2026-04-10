@@ -2,86 +2,92 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MEMILI FITNESS V5 🚀 PRO MAX SYSTEM</title>
+<title>MEMILI FITNESS FINAL APP 🚀</title>
 <style>
 body{margin:0;font-family:Arial;background:#121212;color:#fff;padding:10px}
 h2{text-align:center;color:#ff4500}
-.topbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px}
-.btn{padding:10px;border:none;border-radius:10px;cursor:pointer}
-.daybtn{background:#1e1e1e;color:#fff}
+.top{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px}
+.btn{padding:10px;border:none;border-radius:10px;cursor:pointer;background:#1e1e1e;color:#fff}
 .active{background:#ff4500}
-.card{background:#1e1e1e;padding:10px;border-radius:10px;margin:10px 0;border-left:4px solid #ff4500}
+.card{background:#1e1e1e;padding:12px;border-radius:12px;margin:10px 0;border-left:4px solid #ff4500;cursor:pointer}
+.done{opacity:0.4;text-decoration:line-through}
 .small{color:#aaa;font-size:12px}
-.setrow{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
-.set{padding:6px 10px;border-radius:8px;background:#333;cursor:pointer;font-size:12px}
-.set.done{background:#2ecc71}
-.stats{background:#1e1e1e;padding:10px;border-radius:10px;margin:10px 0;text-align:center}
-canvas{background:#1e1e1e;border-radius:10px;margin-top:10px}
+.page{display:none}
 </style>
 </head>
-<body><h2>MEMILI FITNESS V5 🚀 PRO MAX</h2><div class="topbar" id="days"></div><div class="stats" id="stats">📊 Loading...</div><canvas id="chart" height="120"></canvas>
-
-<h3 id="title"></h3>
-<div id="timeline"></div><script>
+<body><h2>MEMILI FITNESS FINAL SYSTEM 🚀</h2><div class="top" id="days"></div><h3 id="title"></h3>
+<div id="content"></div><script>
 const days=[
 {
 name:"Pazartesi",
-exercises:[
-{name:"Dumbbell Bench Press",sets:4},
-{name:"Incline Press",sets:4},
-{name:"Chest Fly",sets:3},
-{name:"Triceps Pushdown",sets:4}
+plan:[
+{t:"07:45",type:"meal",text:"Trende kahvaltı: yumurta + peynir"},
+{t:"08:00",type:"water",text:"1 bardak su iç"},
+{t:"09:00",type:"meal",text:"Ekstra kahve + hafif atıştırma"},
+{t:"11:00",type:"supp",text:"Omega 3 + vitamin"},
+{t:"14:00",type:"meal",text:"Tavuk döner + pilav + salata"},
+{t:"17:00",type:"supp",text:"Whey protein"},
+{t:"18:30",type:"preworkout",text:"Muz + kahve"},
+{t:"19:30",type:"training",text:"Göğüs + Triceps: Dumbbell Press 4x10 / Incline 4x10 / Fly 3x12 / Pushdown 4x12"},
+{t:"21:00",type:"meal",text:"Skyr + yulaf"}
 ]
 },
 {
 name:"Salı",
-exercises:[
-{name:"Lat Pulldown",sets:4},
-{name:"One Arm Row",sets:4},
-{name:"Seated Row",sets:3},
-{name:"Biceps Curl",sets:3}
+plan:[
+{t:"07:30",type:"meal",text:"Kahvaltı"},
+{t:"11:00",type:"supp",text:"Whey"},
+{t:"14:00",type:"meal",text:"Et + pilav"},
+{t:"18:00",type:"training",text:"Sırt: Lat Pulldown 4x10 / Row 4x10 / Seated Row 3x12 / Curl 3x12"},
+{t:"21:00",type:"meal",text:"Skyr"}
 ]
 },
 {
 name:"Çarşamba",
-exercises:[
-{name:"Shoulder Press",sets:4},
-{name:"Lateral Raise",sets:4},
-{name:"Rear Delt",sets:3}
+plan:[
+{t:"07:30",type:"meal",text:"Kahvaltı"},
+{t:"11:00",type:"supp",text:"Whey"},
+{t:"18:00",type:"training",text:"Omuz + Core"},
+{t:"21:00",type:"meal",text:"Protein"}
 ]
 },
 {
 name:"Perşembe",
-exercises:[
-{name:"Walking",sets:1}]
+plan:[
+{t:"08:00",type:"rest",text:"Aktif dinlenme"},
+{t:"12:00",type:"meal",text:"Ev yemeği"},
+{t:"20:00",type:"meal",text:"Hafif protein"}
+]
 },
 {
 name:"Cuma",
-exercises:[
-{name:"Incline Press",sets:4},
-{name:"Flat Press",sets:4},
-{name:"Dip",sets:3}
+plan:[
+{t:"07:30",type:"meal",text:"Kahvaltı"},
+{t:"18:00",type:"training",text:"Göğüs + Triceps 2"},
+{t:"21:00",type:"meal",text:"Skyr"}
 ]
 },
 {
 name:"Cumartesi",
-exercises:[
-{name:"Leg Press",sets:4},
-{name:"Leg Curl",sets:3},
-{name:"Lunge",sets:3}
+plan:[
+{t:"08:00",type:"meal",text:"Kahvaltı"},
+{t:"17:00",type:"training",text:"Bacak"},
+{t:"21:00",type:"meal",text:"Protein"}
 ]
 },
 {
 name:"Pazar",
-exercises:[
-{name:"Rest",sets:1}]
+plan:[
+{t:"09:00",type:"rest",text:"Dinlenme günü"},
+{t:"14:00",type:"meal",text:"Serbest"}
+]
 }
 ];
 
 let current=0;
-let db=JSON.parse(localStorage.getItem("v5")||"{}");
+let db=JSON.parse(localStorage.getItem("final_app")||"{}");
 
-function save(){localStorage.setItem("v5",JSON.stringify(db));updateStats();drawChart();}
+function save(){localStorage.setItem("final_app",JSON.stringify(db));}
 
 function renderDays(){
 let d=document.getElementById("days");
@@ -89,81 +95,38 @@ d.innerHTML="";
 days.forEach((x,i)=>{
 let b=document.createElement("button");
 b.innerText=x.name;
-b.className="btn daybtn"+(i===current?" active":"");
+b.className="btn"+(i===current?" active":"");
 b.onclick=()=>{current=i;render()};
 d.appendChild(b);
 });
 }
 
-function toggleSet(dayIndex,exIndex,setIndex){
-let key=days[dayIndex].name;
+function toggle(i){
+let key=days[current].name;
 if(!db[key])db[key]={};
-if(!db[key][exIndex])db[key][exIndex]={};
-db[key][exIndex][setIndex]=!db[key][exIndex][setIndex];
-save();
-render();
+db[key][i]=!db[key][i];
+save();render();
 }
 
 function render(){
 let day=days[current];
-document.getElementById("title").innerText=day.name+" ANTR.ÖZET";
-let t=document.getElementById("timeline");
-t.innerHTML="";
+document.getElementById("title").innerText=day.name+" GÜN PLANI";
+let c=document.getElementById("content");
+c.innerHTML="";
+
 let saved=db[day.name]||{};
 
-day.exercises.forEach((ex,ei)=>{
-let div=document.createElement("div");
-div.className="card";
-
-let setHTML="<div class='setrow'>";
-for(let s=0;s<ex.sets;s++){
-let done=saved?.[ei]?.[s];
-setHTML+=`<div class='set ${done?"done":""}' onclick='toggleSet(${current},${ei},${s})'>S${s+1}</div>`;
-}
-setHTML+="</div>";
-
-div.innerHTML=`<b>${ex.name}</b><div class='small'>Set: ${ex.sets}</div>${setHTML}`;
-t.appendChild(div);
+day.plan.forEach((p,i)=>{
+let done=saved[i];
+c.innerHTML+=`
+<div class='card ${done?"done":""}' onclick='toggle(${i})'>
+<b>${p.t}</b> - ${p.text}
+<div class='small'>${p.type}</div>
+</div>
+`;
 });
 }
 
-function updateStats(){
-let total=0,done=0;
-for(let d in db){
-for(let e in db[d]){
-for(let s in db[d][e]){
-total++;
-if(db[d][e][s])done++;
-}
-}
-}
-let pct=total?Math.round((done/total)*100):0;
-document.getElementById("stats").innerText=`📊 Completion: %${pct} | Total sets: ${done}/${total}`;
-}
-
-function drawChart(){
-let c=document.getElementById("chart");
-let ctx=c.getContext("2d");
-ctx.clearRect(0,0,c.width,c.height);
-
-let vals=days.map(d=>{
-let total=0,done=0;
-let s=db[d.name]||{};
-(d.exercises||[]).forEach((ex,ei)=>{
-for(let i=0;i<ex.sets;i++){
-total++;
-if(s?.[ei]?.[i])done++;
-}
-});
-return total?done/total:0;
-});
-
-ctx.fillStyle="#ff4500";
-vals.forEach((v,i)=>{
-ctx.fillRect(i*40+10,100,20,-v*80);
-});
-}
-
-renderDays();render();updateStats();drawChart();
+renderDays();render();
 </script></body>
 </html>
