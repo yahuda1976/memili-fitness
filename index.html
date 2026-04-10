@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Memili Fitness</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family:sans-serif;padding:20px;max-width:500px;margin:auto;">
+
+<h2>🔥 MEMİLİ FITNESS APP</h2>
+
+<h3>🏋️ Antrenman</h3>
+<button onclick="toggleWorkout()">Antrenman Yapıldı</button>
+
+<h3>🍽️ Yemek</h3>
+<input type="checkbox"> Kahvaltı<br>
+<input type="checkbox"> Öğle<br>
+<input type="checkbox"> Akşam<br>
+
+<h3>💧 Su</h3>
+<input type="checkbox"> 500ml<br>
+<input type="checkbox"> 1L<br>
+
+<h3>⚖️ Kilo</h3>
+<input type="number" placeholder="kg">
+
+<script>
+let done = false;
+function toggleWorkout(){
+  done = !done;
+  alert(done ? "🔥 Antrenman tamam!" : "❌ Yapılmadı");
+}
+</script>
+
+</body>
+</html>
