@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS - FULL ORGANIZER</title>
+    <title>MEMILI FITNESS - TAMİR MODU</title>
     <style>
         :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -11,37 +11,32 @@
         .main-card { background: var(--card); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 1px solid #333; }
         .icon { font-size: 2.5rem; }
         
-        /* Akış Butonu */
-        .flow-btn { width: 100%; background: linear-gradient(45deg, #ff4500, #ff8c00); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; margin-top: 15px; cursor: pointer; border: 2px solid #fff3; }
-
-        .backup-container { display: flex; gap: 10px; margin: 15px 0; }
-        .backup-btn { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #444; background: #222; color: #aaa; cursor: pointer; font-size: 0.7rem; }
+        .flow-btn { width: 100%; background: linear-gradient(45deg, #ff4500, #ff8c00); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; margin: 15px 0; cursor: pointer; }
 
         .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 100; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .back-btn { background: var(--p); color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; }
         
         .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
         .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        /* Liste ve Akış Tasarımı */
         ul { list-style: none; padding: 0; }
         li { background: #2a2a2a; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--p); }
+        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; }
         
         .flow-item { background: #1e1e1e; border-left: 5px solid var(--s); margin-bottom: 15px; padding: 15px; border-radius: 12px; }
-        .flow-time { color: var(--p); font-weight: bold; font-size: 1.1rem; display: block; margin-bottom: 5px; }
-        .flow-desc { color: #eee; font-size: 1rem; }
-        .flow-tag { float: right; font-size: 0.7rem; background: #333; padding: 3px 8px; border-radius: 5px; color: #888; text-transform: uppercase; }
+        .flow-time { color: var(--p); font-weight: bold; }
+        .backup-btns { display: flex; gap: 5px; margin-bottom: 10px; }
+        .backup-btn { flex: 1; font-size: 0.6rem; padding: 5px; background: #222; color: #777; border: 1px solid #333; border-radius: 5px; }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align: center; color: var(--p); margin-bottom: 5px;">MEMILI FITNESS 🚀</h1>
-    <p style="text-align: center; font-size: 0.8rem; color: #666; margin-top: 0;">Kankamla Zirveye</p>
+    <h1 style="text-align: center; color: var(--p);">MEMILI FITNESS 🚀</h1>
     
-    <div style="margin: 10px 0;">
-        <label style="font-size: 0.8rem; color: #888;">Günü Seç:</label>
+    <div class="input-group">
+        <label>Günü Seç:</label>
         <input type="date" id="globalDate" onchange="updateAll()">
     </div>
 
@@ -51,12 +46,12 @@
         <div class="main-card" onclick="openSub('mutfak')"><span class="icon">🍳</span><h2>MUTFAK</h2></div>
         <div class="main-card" onclick="openSub('egzersiz')"><span class="icon">🏋️</span><h2>EGZERSİZ</h2></div>
         <div class="main-card" onclick="openSub('supplement')"><span class="icon">💊</span><h2>SUPP</h2></div>
-        <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h2>ALARM</h2></div>
+        <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h2>SU/ALARM</h2></div>
     </div>
 
-    <div class="backup-container">
-        <button class="backup-btn" onclick="exportData()">📤 VERİYİ KOPYALA</button>
-        <button class="backup-btn" onclick="importData()">📥 GERİ YÜKLE</button>
+    <div class="backup-btns" style="margin-top:20px;">
+        <button class="backup-btn" onclick="exportData()">YEDEKLE</button>
+        <button class="backup-btn" onclick="importData()">GERİ YÜKLE</button>
     </div>
 
     <div id="sub-page-container" class="sub-page">
@@ -64,161 +59,15 @@
             <button class="back-btn" onclick="closeSub()">← GERİ</button>
             <h2 id="sub-title">BÖLÜM</h2>
         </div>
-        
-        <div class="input-group">
-            <label id="time-label">Saat:</label>
-            <input type="time" id="itemTime">
-            <input type="text" id="itemDesc" placeholder="Detay yaz...">
-            <button class="add-btn" onclick="saveData()">KAYDET</button>
+        <div id="item-input-ui">
+            <div class="input-group">
+                <input type="time" id="itemTime">
+                <input type="text" id="itemDesc" placeholder="Detay yaz kankam...">
+                <button class="add-btn" onclick="saveData()">KAYDET</button>
+            </div>
         </div>
-
-        <h3 id="view-date-text">📅 Plan</h3>
         <ul id="main-list"></ul>
     </div>
 
-    <div id="flow-page-container" class="sub-page">
-        <div class="header">
-            <button class="back-btn" onclick="closeFlow()">← GERİ</button>
-            <h2 id="flow-title">GÜNLÜK AKIŞ</h2>
-        </div>
-        <div id="flow-content"></div>
-    </div>
-
-    <script>
-        let currentType = '';
-        const globalDateInput = document.getElementById('globalDate');
-        globalDateInput.value = new Date().toISOString().split('T')[0];
-
-        function updateAll() { refreshView(); }
-
-        function openSub(type) {
-            currentType = type;
-            document.getElementById('sub-title').innerText = type.toUpperCase();
-            document.getElementById('sub-page-container').style.display = 'block';
-            refreshView();
-        }
-
-        function closeSub() { document.getElementById('sub-page-container').style.display = 'none'; }
-
-        function openFlow() {
-            const date = globalDateInput.value;
-            document.getElementById('flow-title').innerText = date + " AKIŞI";
-            const content = document.getElementById('flow-content');
-            content.innerHTML = '';
-
-            let allEvents = [];
-            const types = ['mutfak', 'egzersiz', 'supplement', 'su'];
-
-            types.forEach(t => {
-                let db = JSON.parse(localStorage.getItem('mf_' + t) || '{}');
-                let dayItems = db[date] || [];
-                dayItems.forEach(item => {
-                    allEvents.push({ ...item, type: t });
-                });
-            });
-
-            // Özel Su Alarmları (Su alarmları tarihsizdir, her güne ekleyelim)
-            let alarms = JSON.parse(localStorage.getItem('mf_su_alarms') || '[]');
-            alarms.forEach(time => {
-                allEvents.push({ time: time, desc: "Su İçme Zamanı!", type: 'su' });
-            });
-
-            // Saate göre sırala
-            allEvents.sort((a, b) => a.time.localeCompare(b.time));
-
-            if(allEvents.length === 0) {
-                content.innerHTML = '<p style="text-align:center; color:#666; margin-top:50px;">Bu gün için henüz bir plan yapmadın kankam.</p>';
-            } else {
-                allEvents.forEach(ev => {
-                    content.innerHTML += `
-                        <div class="flow-item">
-                            <span class="flow-tag">${ev.type}</span>
-                            <span class="flow-time">⏰ ${ev.time}</span>
-                            <span class="flow-desc">${ev.desc}</span>
-                        </div>`;
-                });
-            }
-            document.getElementById('flow-page-container').style.display = 'block';
-        }
-
-        function closeFlow() { document.getElementById('flow-page-container').style.display = 'none'; }
-
-        function saveData() {
-            const date = globalDateInput.value;
-            const time = document.getElementById('itemTime').value;
-            const desc = document.getElementById('itemDesc').value.trim();
-            if(!time || !desc) { alert("Saat ve açıklama boş olmaz!"); return; }
-
-            if(currentType === 'su') {
-                addAlarm(time); // Su için direkt alarm kurar
-            } else {
-                let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
-                if(!db[date]) db[date] = [];
-                db[date].push({ time, desc });
-                localStorage.setItem('mf_' + currentType, JSON.stringify(db));
-            }
-            
-            document.getElementById('itemDesc').value = '';
-            refreshView();
-        }
-
-        function refreshView() {
-            const date = globalDateInput.value;
-            const listUl = document.getElementById('main-list');
-            listUl.innerHTML = '';
-
-            if(currentType === 'su') {
-                let alarms = JSON.parse(localStorage.getItem('mf_su_alarms') || '[]');
-                alarms.forEach((time, index) => {
-                    listUl.innerHTML += `<li><span>⏰ ${time} - Su Alarmı</span> <span class="del-btn" onclick="deleteAlarm(${index})">SİL</span></li>`;
-                });
-            } else {
-                let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
-                let items = db[date] || [];
-                items.sort((a, b) => a.time.localeCompare(b.time));
-                items.forEach((item, index) => {
-                    listUl.innerHTML += `<li><span>⏰ ${item.time} - ${item.desc}</span> <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span></li>`;
-                });
-            }
-        }
-
-        function deleteItem(date, index) {
-            let db = JSON.parse(localStorage.getItem('mf_' + currentType));
-            db[date].splice(index, 1);
-            if(db[date].length === 0) delete db[date];
-            localStorage.setItem('mf_' + currentType, JSON.stringify(db));
-            refreshView();
-        }
-
-        function addAlarm(time) {
-            let alarms = JSON.parse(localStorage.getItem('mf_su_alarms') || '[]');
-            if(!alarms.includes(time)) { alarms.push(time); localStorage.setItem('mf_su_alarms', JSON.stringify(alarms.sort())); }
-        }
-
-        function deleteAlarm(index) {
-            let alarms = JSON.parse(localStorage.getItem('mf_su_alarms'));
-            alarms.splice(index, 1);
-            localStorage.setItem('mf_su_alarms', JSON.stringify(alarms));
-            refreshView();
-        }
-
-        function exportData() {
-            const data = { mutfak: localStorage.getItem('mf_mutfak'), egzersiz: localStorage.getItem('mf_egzersiz'), supplement: localStorage.getItem('mf_supplement'), alarms: localStorage.getItem('mf_su_alarms') };
-            navigator.clipboard.writeText(JSON.stringify(data)).then(() => alert("Kopyalandı kankam!"));
-        }
-
-        function importData() {
-            const str = prompt("Yedek kodunu yapıştır:");
-            if(!str) return;
-            try {
-                const data = JSON.parse(str);
-                localStorage.setItem('mf_mutfak', data.mutfak || '{}');
-                localStorage.setItem('mf_egzersiz', data.egzersiz || '{}');
-                localStorage.setItem('mf_supplement', data.supplement || '{}');
-                localStorage.setItem('mf_su_alarms', data.alarms || '[]');
-                location.reload();
-            } catch(e) { alert("Hata!"); }
-        }
-    </script>
-</body>
-</html>
+    <div id="
+ 
