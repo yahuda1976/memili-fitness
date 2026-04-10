@@ -1,204 +1,54 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html><html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS - CAN KANKAM V4</title>
-    <style>
-        :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; --white: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
-        
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .main-card { background: var(--card); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 2px solid #333; transition: 0.3s; height: 120px; justify-content: center; }
-        .main-card:active { transform: scale(0.95); border-color: var(--p); }
-        .icon { font-size: 2.2rem; }
-        
-        .flow-btn { width: 100%; background: linear-gradient(45deg, #ff4500, #ff8c00); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; margin: 10px 0 20px 0; cursor: pointer; box-shadow: 0 4px 15px rgba(255,69,0,0.3); }
-
-        .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 9999; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .back-btn { background: #444; color: white; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; }
-        
-        .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
-        /* Saat seçici için özel stil */
-        input[type="time"], input[type="text"], input[type="date"] { 
-            width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid #333; 
-            background: #252525; color: white; box-sizing: border-box; font-size: 1.1rem; 
-        }
-        
-        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
-
-        ul { list-style: none; padding: 0; }
-        li { background: #1e1e1e; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
-        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 5px 10px; }
-        
-        .flow-item { background: #1e1e1e; border-left: 5px solid var(--p); margin-bottom: 12px; padding: 15px; border-radius: 12px; border: 1px solid #333; }
-        
-        .backup-section { margin-top: 30px; display: flex; gap: 10px; }
-        .b-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; }
-        .export { background: #3498db; }
-        .import { background: #9b59b6; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEMILI FITNESS PRO 💪</title>
+<style>
+:root { --p:#ff4500; --s:#2ecc71; --bg:#121212; --card:#1e1e1e; }
+body { font-family:sans-serif; background:var(--bg); color:white; margin:0; padding:10px; }
+h2{text-align:center;color:var(--p);} 
+.card{background:var(--card);padding:15px;border-radius:15px;margin:10px 0;}
+button{padding:10px;border:none;border-radius:10px;margin-top:5px;font-weight:bold;}
+.add{background:var(--s);color:white;width:100%;}
+.flow{background:var(--p);color:white;width:100%;}
+.done{opacity:0.5;text-decoration:line-through;}
+.progress{height:10px;background:#333;border-radius:10px;overflow:hidden;margin-top:10px;}
+.progress-bar{height:100%;background:var(--s);width:0%;}
+</style>
 </head>
-<body>
+<body><h2>MEMILI FITNESS PRO 🚀</h2><input type="date" id="date"><div class="card">
+<input type="time" id="time">
+<input type="text" id="text" placeholder="Ne yapıyoruz kankam?">
+<select id="cat">
+<option value="beslenme">🍳 Beslenme</option>
+<option value="antrenman">🏋️ Antrenman</option>
+<option value="supp">💊 Takviye</option>
+<option value="su">💧 Su</option>
+</select>
+<button class="add" onclick="addItem()">EKLE</button>
+</div><button class="flow" onclick="showFlow()">GÜNLÜK AKIŞ</button>
 
-    <h2 style="text-align: center; color: var(--p);">MEMILI FITNESS V4 🚀</h2>
-    
-    <div class="input-group">
-        <label style="font-size: 0.8rem; color: #888;">📅 GÜN SEÇ:</label>
-        <input type="date" id="globalDate">
-    </div>
+<div class="card">
+<h3>GÜNLÜK İLERLEME</h3>
+<div class="progress"><div class="progress-bar" id="bar"></div></div>
+<span id="percent">0%</span>
+</div><ul id="list"></ul><script>
+let d=document.getElementById('date');
+d.value=new Date().toISOString().split('T')[0];
 
-    <button class="flow-btn" onclick="openFlow()">🔥 TÜM GÜNÜ GÖR (AKIŞ)</button>
+function getDB(){return JSON.parse(localStorage.getItem('mf_pro')||'{}');}
+function saveDB(db){localStorage.setItem('mf_pro',JSON.stringify(db));}
 
-    <div class="grid-container">
-        <div class="main-card" onclick="openSub('mutfak')"><span class="icon">🍳</span><span>MUTFAK</span></div>
-        <div class="main-card" onclick="openSub('egzersiz')"><span class="icon">🏋️</span><span>EGZERSİZ</span></div>
-        <div class="main-card" onclick="openSub('supplement')"><span class="icon">💊</span><span>SUPP</span></div>
-        <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><span>SU / ALARM</span></div>
-    </div>
+function addItem(){
+let db=getDB();
+let date=d.value;
+let t=time.value;
+let txt=text.value;
+let cat=document.getElementById('cat').value;
 
-    <div class="backup-section">
-        <button class="b-btn export" onclick="exportData()">📤 KODU KOPYALA</button>
-        <button class="b-btn import" onclick="importData()">📥 KODU YAPIŞTIR</button>
-    </div>
+if(!t||!txt)return alert('Eksik var kankam');
 
-    <div id="sub-page" class="sub-page">
-        <div class="header">
-            <button class="back-btn" onclick="closeSub()">← GERİ</button>
-            <h2 id="sub-title">BÖLÜM</h2>
-        </div>
-        <div class="input-group">
-            <label style="color:#888; font-size:0.8rem;">SAAT SEÇ:</label>
-            <input type="time" id="itemTime">
-            <input type="text" id="itemDesc" placeholder="Ne yapıyoruz kankam?">
-            <button class="add-btn" onclick="saveData()">✅ KAYDET VE EKLE</button>
-        </div>
-        <ul id="main-list"></ul>
-    </div>
+if(!db[date])db[date]=[];
 
-    <div id="flow-page" class="sub-page">
-        <div class="header">
-            <button class="back-btn" onclick="closeFlow()">← GERİ</button>
-            <h2 id="flow-title">GÜNLÜK AKIŞ</h2>
-        </div>
-        <div id="flow-content"></div>
-    </div>
-
-    <script>
-        let currentType = '';
-        const gDate = document.getElementById('globalDate');
-        gDate.value = new Date().toISOString().split('T')[0];
-
-        // Kategorilerin listesi (ID sorununu çözmek için)
-        const categories = ['mutfak', 'egzersiz', 'supplement', 'su'];
-
-        function openSub(type) {
-            currentType = type;
-            document.getElementById('sub-title').innerText = type.toUpperCase();
-            document.getElementById('sub-page').style.display = 'block';
-            refreshView();
-        }
-
-        function closeSub() { document.getElementById('sub-page').style.display = 'none'; }
-
-        function saveData() {
-            const date = gDate.value;
-            const time = document.getElementById('itemTime').value;
-            const desc = document.getElementById('itemDesc').value.trim();
-            
-            if(!time || !desc) { alert("Saat ve açıklama şart kankam!"); return; }
-
-            let db = JSON.parse(localStorage.getItem('mf_data') || '{}');
-            if(!db[currentType]) db[currentType] = {};
-            if(!db[currentType][date]) db[currentType][date] = [];
-            
-            db[currentType][date].push({ time, desc });
-            localStorage.setItem('mf_data', JSON.stringify(db));
-            
-            document.getElementById('itemTime').value = '';
-            document.getElementById('itemDesc').value = '';
-            refreshView();
-        }
-
-        function refreshView() {
-            const date = gDate.value;
-            const listUl = document.getElementById('main-list');
-            listUl.innerHTML = '';
-            let db = JSON.parse(localStorage.getItem('mf_data') || '{}');
-            let items = (db[currentType] && db[currentType][date]) ? db[currentType][date] : [];
-            
-            items.sort((a,b) => a.time.localeCompare(b.time));
-            items.forEach((item, index) => {
-                listUl.innerHTML += `<li>
-                    <span><strong>${item.time}</strong> - ${item.desc}</span> 
-                    <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span>
-                </li>`;
-            });
-        }
-
-        function deleteItem(date, index) {
-            let db = JSON.parse(localStorage.getItem('mf_data'));
-            db[currentType][date].splice(index, 1);
-            localStorage.setItem('mf_data', JSON.stringify(db));
-            refreshView();
-        }
-
-        function openFlow() {
-            const date = gDate.value;
-            const content = document.getElementById('flow-content');
-            document.getElementById('flow-title').innerText = date + " PROGRAMI";
-            content.innerHTML = '';
-            
-            let allItems = [];
-            let db = JSON.parse(localStorage.getItem('mf_data') || '{}');
-            
-            categories.forEach(cat => {
-                if(db[cat] && db[cat][date]) {
-                    db[cat][date].forEach(item => {
-                        allItems.push({...item, category: cat});
-                    });
-                }
-            });
-
-            allItems.sort((a,b) => a.time.localeCompare(b.time));
-
-            if(allItems.length === 0) {
-                content.innerHTML = '<p style="text-align:center; color:#888;">Bu gün için plan yok kankam.</p>';
-            } else {
-                allItems.forEach(ev => {
-                    content.innerHTML += `<div class="flow-item">
-                        <small style="color:var(--p)">${ev.category.toUpperCase()}</small><br>
-                        <strong>${ev.time}</strong> - ${ev.desc}
-                    </div>`;
-                });
-            }
-            document.getElementById('flow-page').style.display = 'block';
-        }
-
-        function closeFlow() { document.getElementById('flow-page').style.display = 'none'; }
-
-        // YEDEKLEME VE GERİ YÜKLEME (ID SORUNU ÇÖZÜLDÜ)
-        function exportData() {
-            const data = localStorage.getItem('mf_data');
-            if(!data || data === '{}') { alert("Yedeklenecek veri yok!"); return; }
-            navigator.clipboard.writeText(data);
-            alert("Tüm veriler başarıyla kopyalandı! Bir yere not et.");
-        }
-
-        function importData() {
-            let s = prompt("Yedek kodunu buraya yapıştır:");
-            if(s) {
-                try {
-                    JSON.parse(s); // Kontrol et
-                    localStorage.setItem('mf_data', s);
-                    alert("Veriler başarıyla geri yüklendi kankam!");
-                    location.reload();
-                } catch(e) {
-                    alert("Kod hatalı kankam, düzgün yapıştırdığından emin ol.");
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+db[date].push({t,txt,cat,done:false});
+saveDB(db
