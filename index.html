@@ -2,192 +2,136 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MEMILI FITNESS PRO V2 🚀</title><style>
-:root{
-  --p:#ff4500;
-  --s:#2ecc71;
-  --bg:#121212;
-  --card:#1e1e1e;
-  --text:#fff;
-  --muted:#aaa;
+<title>MEMILI FITNESS V4 - PRO TRACKER 🚀</title>
+<style>
+body{margin:0;font-family:Arial;background:#121212;color:#fff;padding:10px}
+h2{text-align:center;color:#ff4500}
+.topbar{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px}
+.btn{padding:10px;border:none;border-radius:10px;cursor:pointer}
+.daybtn{background:#1e1e1e;color:#fff}
+.active{background:#ff4500}
+.card{background:#1e1e1e;padding:10px;border-radius:10px;margin:8px 0;border-left:4px solid #ff4500;cursor:pointer}
+.small{color:#aaa;font-size:12px}
+.done{opacity:0.5;text-decoration:line-through}
+.stats{background:#1e1e1e;padding:10px;border-radius:10px;margin:10px 0;text-align:center}
+</style>
+</head>
+<body><h2>MEMILI FITNESS V4 🚀 PRO TRACKER</h2><div class="topbar" id="days"></div><div class="stats" id="stats">Streak: 0 gün 🔥</div><h3 id="title"></h3>
+<div id="timeline"></div><script>
+const days=[
+{
+name:"Pazartesi",
+plan:[
+{t:"07:00",type:"meal",text:"Yumurta + peynir + zeytin"},
+{t:"07:30",type:"water",text:"1 bardak su"},
+{t:"10:00",type:"supp",text:"Whey + Omega3"},
+{t:"12:30",type:"meal",text:"Tavuk döner + pilav"},
+{t:"15:30",type:"training",text:"Göğüs + Triceps (DB Press 4x10)"},
+{t:"20:00",type:"meal",text:"Skyr + yulaf"}
+]
+},
+{
+name:"Salı",
+plan:[
+{t:"07:00",type:"meal",text:"Yumurta + lor"},
+{t:"10:00",type:"supp",text:"Whey"},
+{t:"15:30",type:"training",text:"Sırt + Biceps"},
+{t:"20:00",type:"meal",text:"Et + pilav"}
+]
+},
+{
+name:"Çarşamba",
+plan:[
+{t:"07:00",type:"meal",text:"Kahvaltı"},
+{t:"15:30",type:"training",text:"Omuz + Core"},
+{t:"20:00",type:"meal",text:"Skyr"}
+]
+},
+{
+name:"Perşembe",
+plan:[
+{t:"08:00",type:"rest",text:"Aktif dinlenme / yürüyüş"},
+{t:"12:00",type:"meal",text:"Ev yemeği"},
+{t:"20:00",type:"meal",text:"Hafif protein"}
+]
+},
+{
+name:"Cuma",
+plan:[
+{t:"07:00",type:"meal",text:"Kahvaltı"},
+{t:"15:30",type:"training",text:"Göğüs + Triceps 2"},
+{t:"20:00",type:"meal",text:"Skyr + yulaf"}
+]
+},
+{
+name:"Cumartesi",
+plan:[
+{t:"08:00",type:"meal",text:"Yumurta"},
+{t:"15:00",type:"training",text:"Bacak"},
+{t:"20:00",type:"meal",text:"Protein öğünü"}
+]
+},
+{
+name:"Pazar",
+plan:[
+{t:"09:00",type:"rest",text:"Dinlenme"},
+{t:"14:00",type:"meal",text:"Serbest"}
+]
 }
-body{
-  margin:0;
-  font-family:Arial;
-  background:var(--bg);
-  color:var(--text);
-  padding:10px;
+];
+
+let current=0;
+let db=JSON.parse(localStorage.getItem("v4")||"{}");
+
+function save(){localStorage.setItem("v4",JSON.stringify(db))}
+
+function renderDays(){
+let d=document.getElementById("days");
+d.innerHTML="";
+days.forEach((x,i)=>{
+let b=document.createElement("button");
+b.innerText=x.name;
+b.className="btn daybtn"+(i===current?" active":"");
+b.onclick=()=>{current=i;render()};
+d.appendChild(b);
+});
 }
 
-h2{color:var(--p); text-align:center;}
-
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
-.card{
-  background:var(--card);
-  padding:15px;
-  border-radius:15px;
-  text-align:center;
-  cursor:pointer;
-  border:1px solid #333;
-}
-.card:active{transform:scale(0.97)}
-
-.btn{
-  width:100%;
-  padding:12px;
-  margin:5px 0;
-  border:none;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.primary{background:var(--p);color:#fff;}
-.green{background:var(--s);color:#fff;}
-
-.page{
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:var(--bg);
-  overflow:auto;
-  padding:15px;
+function toggle(dayIndex,itemIndex){
+let key=days[dayIndex].name;
+if(!db[key])db[key]={};
+db[key][itemIndex]=!db[key][itemIndex];
+save();
+render();
+updateStreak();
 }
 
-.item{
-  background:var(--card);
-  padding:10px;
-  border-radius:10px;
-  margin:8px 0;
-  border-left:4px solid var(--p);
-}
-
-.done{
-  opacity:0.5;
-  text-decoration:line-through;
-}
-
-small{color:var(--muted)}
-
-</style></head>
-<body><h2>MEMILI FITNESS PRO V2 🚀</h2><button class="btn primary" onclick="openFlow()">🔥 GÜN AKIŞI</button>
-
-<div class="grid">
-  <div class="card" onclick="openPage('egzersiz')">🏋️ Egzersiz</div>
-  <div class="card" onclick="openPage('mutfak')">🍳 Mutfak</div>
-  <div class="card" onclick="openPage('supp')">💊 Supplement</div>
-  <div class="card" onclick="openPage('su')">💧 Su Takip</div>
-</div><div id="page" class="page">
-  <button class="btn" onclick="closePage()">← GERİ</button>
-  <h3 id="title"></h3>  <input id="time" type="time" style="width:100%;padding:10px;margin:5px 0" />
-  <input id="desc" type="text" placeholder="Ne yapıyoruz kankam?" style="width:100%;padding:10px" /><button class="btn green" onclick="addItem()">+ EKLE</button>
-
-  <div id="list"></div>
-</div><div id="flow" class="page">
-  <button class="btn" onclick="closeFlow()">← GERİ</button>
-  <h3>GÜN AKIŞI</h3>
-  <div id="flowList"></div>
-</div><script>
-let type="";
-const cats=["egzersiz","mutfak","supp","su"];
-const db=()=>JSON.parse(localStorage.getItem("db")||"{}");
-const save=d=>localStorage.setItem("db",JSON.stringify(d));
-
-function openPage(t){
-  type=t;
-  document.getElementById("title").innerText=t.toUpperCase();
-  document.getElementById("page").style.display="block";
-  render();
-}
-function closePage(){document.getElementById("page").style.display="none"}
-
-function addItem(){
-  let d=db();
-  let date=new Date().toISOString().split('T')[0];
-  if(!d[type])d[type]={};
-  if(!d[type][date])d[type][date]=[];
-  d[type][date].push({
-    time:time.value,
-    desc:desc.value,
-    done:false
-  });
-  save(d);
-  time.value="";
-  desc.value="";
-  render();
+function updateStreak(){
+let streak=parseInt(localStorage.getItem("streak")||"0");
+streak++;
+localStorage.setItem("streak",streak);
+document.getElementById("stats").innerText="Streak: "+streak+" gün 🔥";
 }
 
 function render(){
-  let d=db();
-  let date=new Date().toISOString().split('T')[0];
-  let list=(d[type]&&d[type][date])||[];
-  list.sort((a,b)=>a.time.localeCompare(b.time));
+let day=days[current];
+document.getElementById("title").innerText=day.name+" PLAN";
+let t=document.getElementById("timeline");
+t.innerHTML="";
 
-  document.getElementById("list").innerHTML=list.map((i,idx)=>`
-    <div class="item ${i.done?'done':''}" onclick="toggle(${idx})">
-      <b>${i.time}</b> - ${i.desc}
-    </div>
-  `).join("");
+let saved=db[day.name]||{};
+
+day.plan.forEach((i,idx)=>{
+let done=saved[idx];
+let div=document.createElement("div");
+div.className="card"+(done?" done":"");
+div.innerHTML=`<b>${i.t}</b> - ${i.text}<div class='small'>${i.type}</div>`;
+div.onclick=()=>toggle(current,idx);
+t.appendChild(div);
+});
 }
 
-function toggle(i){
-  let d=db();
-  let date=new Date().toISOString().split('T')[0];
-  d[type][date][i].done=!d[type][date][i].done;
-  save(d);
-  render();
-  updateStreak();
-}
-
-function openFlow(){
-  let d=db();
-  let date=new Date().toISOString().split('T')[0];
-  let all=[];
-
-  cats.forEach(c=>{
-    if(d[c]&&d[c][date]){
-      d[c][date].forEach(i=>all.push({...i,cat:c}));
-    }
-  });
-
-  all.sort((a,b)=>a.time.localeCompare(b.time));
-
-  document.getElementById("flowList").innerHTML=
-  all.map(i=>`
-    <div class="item">
-      <small>${i.cat}</small><br>
-      <b>${i.time}</b> - ${i.desc}
-    </div>
-  `).join("");
-
-  document.getElementById("flow").style.display="block";
-}
-
-function closeFlow(){document.getElementById("flow").style.display="none"}
-
-// STREAK SYSTEM
-function updateStreak(){
-  let d=db();
-  let streak=parseInt(localStorage.getItem("streak")||"0");
-  streak++;
-  localStorage.setItem("streak",streak);
-}
-
-// NOTIFICATION SIMULATION
-setInterval(()=>{
-  let now=new Date().toTimeString().slice(0,5);
-  let d=db();
-  let date=new Date().toISOString().split('T')[0];
-  cats.forEach(c=>{
-    if(d[c]&&d[c][date]){
-      d[c][date].forEach(i=>{
-        if(i.time===now && !i.done){
-          console.log("ALARM:",i.desc);
-        }
-      })
-    }
-  });
-},60000);
-
+renderDays();
+render();
 </script></body>
 </html>
