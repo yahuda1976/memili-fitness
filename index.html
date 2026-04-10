@@ -3,63 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS - CAN KANKAM EDITION</title>
+    <title>MEMILI FITNESS - CAN KANKAM V3</title>
     <style>
-        :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
+        :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; --white: #ffffff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
         
-        /* Ana Ekran Kartları */
         .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
-        .main-card { background: var(--card); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 1px solid #333; }
+        .main-card { background: var(--card); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; border: 2px solid #333; transition: 0.3s; }
+        .main-card:active { transform: scale(0.95); border-color: var(--p); }
         .icon { font-size: 2.5rem; }
         
-        /* Akış Butonu */
-        .flow-btn { width: 100%; background: linear-gradient(45deg, #ff4500, #ff8c00); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; font-size: 1.1rem; margin: 15px 0; cursor: pointer; box-shadow: 0 4px 15px rgba(255,69,0,0.3); }
+        /* Akış Butonu - En Üstte ve Canlı */
+        .flow-btn { width: 100%; background: linear-gradient(45deg, #00c6ff, #0072ff); color: white; border: none; padding: 20px; border-radius: 15px; font-weight: bold; font-size: 1.2rem; margin: 10px 0 20px 0; cursor: pointer; box-shadow: 0 4px 15px rgba(0,114,255,0.4); }
 
-        /* Alt Sayfalar (Modallar) */
         .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 9999; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .back-btn { background: var(--p); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
         
-        /* Giriş Alanları */
         .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
         input { width: 100%; padding: 14px; margin: 8px 0; border-radius: 10px; border: 1px solid #333; background: #252525; color: white; box-sizing: border-box; font-size: 1rem; }
-        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        /* Kaydet Butonu - Canlı Yeşil */
+        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(46,204,113,0.3); }
 
-        /* Liste Tasarımı */
         ul { list-style: none; padding: 0; }
         li { background: #1e1e1e; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--p); border: 1px solid #333; }
         .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 10px; }
         
-        .flow-item { background: #1e1e1e; border-left: 5px solid var(--s); margin-bottom: 15px; padding: 15px; border-radius: 12px; border: 1px solid #333; }
-        .flow-time { color: var(--p); font-weight: bold; font-size: 1.1rem; }
+        .flow-item { background: #1e1e1e; border-left: 5px solid #0072ff; margin-bottom: 15px; padding: 15px; border-radius: 12px; border: 1px solid #333; }
         
-        /* Yedekleme */
-        .backup-section { margin-top: 30px; display: flex; gap: 10px; opacity: 0.5; }
-        .b-btn { flex: 1; padding: 10px; font-size: 0.7rem; background: #222; color: #888; border: 1px solid #333; border-radius: 8px; }
+        /* Alt Butonlar - Renkli ve Canlı */
+        .backup-section { margin-top: 30px; display: flex; gap: 10px; }
+        .b-btn-export { flex: 1; padding: 15px; background: #333; color: white; border: 1px solid #555; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .b-btn-import { flex: 1; padding: 15px; background: #555; color: white; border: 1px solid #777; border-radius: 10px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align: center; color: var(--p); letter-spacing: 2px;">MEMILI FITNESS 🚀</h1>
+    <h1 style="text-align: center; color: var(--p); margin-bottom: 5px;">MEMILI FITNESS 🚀</h1>
+    <p style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 0;">CAN KANKAM ÖZEL SERİ</p>
     
     <div class="input-group">
-        <label style="font-size: 0.8rem; color: #888; display: block; margin-bottom: 5px;">📅 PLANLANAN GÜN:</label>
+        <label style="font-size: 0.8rem; color: #888;">📅 İŞLEM YAPILACAK GÜN:</label>
         <input type="date" id="globalDate">
     </div>
 
-    <button class="flow-btn" onclick="openFlow()">📅 BUGÜNKÜ AKIŞIM</button>
+    <button class="flow-btn" onclick="openFlow()">🔥 BUGÜNKÜ AKIŞIM (TIKLA BAK)</button>
 
     <div class="grid-container">
         <div class="main-card" onclick="openSub('mutfak')"><span class="icon">🍳</span><h3>MUTFAK</h3></div>
-        <div class="main-card" onclick="openSub('egzersiz')"><span class="icon">🏋️</span><h2>EGZERSİZ</h2></div>
-        <div class="main-card" onclick="openSub('supplement')"><span class="icon">💊</span><h2>SUPP</h2></div>
-        <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h2>SU/ALARM</h2></div>
+        <div class="main-card" onclick="openSub('egzersiz')"><span class="icon">🏋️</span><h3>EGZERSİZ</h3></div>
+        <div class="main-card" onclick="openSub('supplement')"><span class="icon">💊</span><h3>SUPP</h3></div>
+        <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h3>SU/ALARM</h3></div>
     </div>
 
     <div class="backup-section">
-        <button class="b-btn" onclick="exportData()">YEDEKLE</button>
-        <button class="b-btn" onclick="importData()">GERİ YÜKLE</button>
+        <button class="b-btn-export" onclick="exportData()">📤 VERİ YEDEKLE</button>
+        <button class="b-btn-import" onclick="importData()">📥 GERİ YÜKLE</button>
     </div>
 
     <div id="sub-page" class="sub-page">
@@ -68,11 +68,9 @@
             <h2 id="sub-title">BÖLÜM</h2>
         </div>
         <div class="input-group">
-            <label style="font-size: 0.8rem; color: #888;">Saat (Örn: 09:30):</label>
-            <input type="text" id="itemTime" placeholder="00:00" maxlength="5">
-            <label style="font-size: 0.8rem; color: #888; margin-top: 10px; display: block;">Detay:</label>
-            <input type="text" id="itemDesc" placeholder="Yaz kankam...">
-            <button class="add-btn" onclick="saveData()">KAYDET</button>
+            <input type="text" id="itemTime" placeholder="Saat (Örn: 09:30)" maxlength="5">
+            <input type="text" id="itemDesc" placeholder="Ne yapıyoruz kankam?">
+            <button class="add-btn" onclick="saveData()">✅ LİSTEYE EKLE</button>
         </div>
         <ul id="main-list"></ul>
     </div>
@@ -88,11 +86,7 @@
     <script>
         let currentType = '';
         const gDate = document.getElementById('globalDate');
-        
-        // Bugünün tarihini varsayılan yap
-        window.onload = () => {
-            gDate.value = new Date().toISOString().split('T')[0];
-        };
+        gDate.value = new Date().toISOString().split('T')[0];
 
         function openSub(type) {
             currentType = type;
@@ -101,23 +95,16 @@
             refreshView();
         }
 
-        function closeSub() { 
-            document.getElementById('sub-page').style.display = 'none'; 
-        }
+        function closeSub() { document.getElementById('sub-page').style.display = 'none'; }
 
         function saveData() {
             const date = gDate.value;
             const time = document.getElementById('itemTime').value.trim();
             const desc = document.getElementById('itemDesc').value.trim();
-            
-            if(!time || !desc) { 
-                alert("Kankam saat ve detay kısmını boş geçme!"); 
-                return; 
-            }
+            if(!time || !desc) { alert("Boş bırakma kankam!"); return; }
 
             let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
             if(!db[date]) db[date] = [];
-            
             db[date].push({ time, desc });
             localStorage.setItem('mf_' + currentType, JSON.stringify(db));
             
@@ -130,26 +117,17 @@
             const date = gDate.value;
             const listUl = document.getElementById('main-list');
             listUl.innerHTML = '';
-            
             let db = JSON.parse(localStorage.getItem('mf_' + currentType) || '{}');
             let items = db[date] || [];
-            
-            // Saate göre sırala
             items.sort((a,b) => a.time.localeCompare(b.time));
-            
             items.forEach((item, index) => {
-                listUl.innerHTML += `
-                    <li>
-                        <span><strong>${item.time}</strong> - ${item.desc}</span> 
-                        <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span>
-                    </li>`;
+                listUl.innerHTML += `<li><span><strong>${item.time}</strong> - ${item.desc}</span> <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span></li>`;
             });
         }
 
         function deleteItem(date, index) {
             let db = JSON.parse(localStorage.getItem('mf_' + currentType));
             db[date].splice(index, 1);
-            if(db[date].length === 0) delete db[date];
             localStorage.setItem('mf_' + currentType, JSON.stringify(db));
             refreshView();
         }
@@ -157,49 +135,30 @@
         function openFlow() {
             const date = gDate.value;
             const content = document.getElementById('flow-content');
-            document.getElementById('flow-title').innerText = date + " ÖZETİ";
+            document.getElementById('flow-title').innerText = date + " AKIŞI";
             content.innerHTML = '';
-            
-            let allItems = [];
+            let all = [];
             ['mutfak', 'egzersiz', 'supplement', 'su'].forEach(t => {
                 let db = JSON.parse(localStorage.getItem('mf_' + t) || '{}');
-                (db[date] || []).forEach(i => allItems.push({...i, category: t}));
+                if(db[date]) db[date].forEach(i => all.push({...i, cat: t}));
             });
-
-            allItems.sort((a,b) => a.time.localeCompare(b.time));
-
-            if(allItems.length === 0) {
-                content.innerHTML = '<p style="text-align:center; color:#666; margin-top:50px;">Kankam bu güne henüz bir şey eklememişsin.</p>';
-            } else {
-                allItems.forEach(ev => {
-                    content.innerHTML += `
-                        <div class="flow-item">
-                            <div style="font-size:0.7rem; color:#888; text-transform:uppercase; margin-bottom:5px;">${ev.category}</div>
-                            <span class="flow-time">⏰ ${ev.time}</span> - ${ev.desc}
-                        </div>`;
-                });
-            }
+            all.sort((a,b) => a.time.localeCompare(b.time));
+            if(all.length === 0) content.innerHTML = '<p style="text-align:center;">Henüz plan yok.</p>';
+            all.forEach(ev => {
+                content.innerHTML += `<div class="flow-item"><small>${ev.cat.toUpperCase()}</small><br><strong>${ev.time}</strong> - ${ev.desc}</div>`;
+            });
             document.getElementById('flow-page').style.display = 'block';
         }
 
-        function closeFlow() { 
-            document.getElementById('flow-page').style.display = 'none'; 
-        }
+        function closeFlow() { document.getElementById('flow-page').style.display = 'none'; }
 
         function exportData() { 
             navigator.clipboard.writeText(JSON.stringify(localStorage)); 
-            alert("Tüm veriler kopyalandı kankam!"); 
+            alert("Tüm veriler kopyalandı!"); 
         }
-        
         function importData() { 
-            let s = prompt("Yedek kodunu yapıştır kankam:"); 
-            if(s) { 
-                try {
-                    let d = JSON.parse(s); 
-                    Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); 
-                    location.reload(); 
-                } catch(e) { alert("Hata! Kod geçersiz."); }
-            }
+            let s = prompt("Yedek kodunu yapıştır:"); 
+            if(s) { try { let d = JSON.parse(s); Object.keys(d).forEach(k => localStorage.setItem(k, d[k])); location.reload(); } catch(e){alert("Hata!");} }
         }
     </script>
 </body>
