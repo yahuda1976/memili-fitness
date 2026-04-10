@@ -1,9 +1,10 @@
+</html>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEMILI FITNESS ULTRA PRO</title>
+    <title>MEMILI FITNESS PRO</title>
     <style>
         :root { --p: #ff4500; --s: #2ecc71; --bg: #121212; --card: #1e1e1e; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -12,139 +13,166 @@
         .icon { font-size: 2.5rem; }
         .sub-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); padding: 20px; box-sizing: border-box; overflow-y: auto; z-index: 100; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .back-btn { background: var(--p); color: white; border: none; padding: 10px; border-radius: 10px; }
+        .back-btn { background: var(--p); color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; }
         .input-group { background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #444; }
-        input { width: 100%; padding: 12px; margin: 5px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; }
-        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        ul { list-style: none; padding: 0; }
-        li { background: #2a2a2a; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 5px solid var(--p); }
-        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; }
-        .summary-section { margin-top: 30px; border-top: 1px solid #444; padding-top: 20px; }
-        .date-title { color: var(--p); border-bottom: 1px solid var(--p); padding-bottom: 5px; margin-top: 15px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: none; background: #333; color: white; box-sizing: border-box; font-size: 1rem; }
+        .add-btn { width: 100%; background: var(--s); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        ul { list-style: none; padding: 0; margin-top: 20px; }
+        li { background: #2a2a2a; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--p); }
+        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 5px; }
+        .summary-box { background: #1a1a1a; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px dashed #444; }
+        .summary-item { font-size: 0.85rem; color: #aaa; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <h1 style="text-align: center; color: var(--p);">MEMILI FITNESS 🚀</h1>
+    <h1 style="text-align: center; color: var(--p); letter-spacing: 2px;">MEMILI FITNESS</h1>
+    
     <div class="grid-container">
-        <div class="main-card" onclick="openPage('mutfak')"><span class="icon">🍳</span><h2>MUTFAK</h2></div>
-        <div class="main-card" onclick="openPage('egzersiz')"><span class="icon">🏋️</span><h2>EGZERSİZ</h2></div>
-        <div class="main-card" onclick="openPage('supplement')"><span class="icon">💊</span><h2>SUPP</h2></div>
-        <div class="main-card" onclick="openPage('su')"><span class="icon">💧</span><h2>SU/ALARM</h2></div>
+        <div class="main-card" onclick="openSub('mutfak')"><span class="icon">🍳</span><h2>MUTFAK</h2></div>
+        <div class="main-card" onclick="openSub('egzersiz')"><span class="icon">🏋️</span><h2>EGZERSİZ</h2></div>
+        <div class="main-card" onclick="openSub('supplement')"><span class="icon">💊</span><h2>SUPP</h2></div>
+        <div class="main-card" onclick="openSub('su')"><span class="icon">💧</span><h2>SU/ALARM</h2></div>
     </div>
 
-    <div id="mutfak" class="sub-page"></div>
-    <div id="egzersiz" class="sub-page"></div>
-    <div id="supplement" class="sub-page"></div>
-    <div id="su" class="sub-page">
-        <div class="header"><button class="back-btn" onclick="closePage('su')">Geri</button><h2>💧 SU ALARMLARI</h2></div>
-        <div class="input-group">
-            <input type="time" id="suTime">
-            <button class="add-btn" onclick="addAlarm()">ALARM EKLE</button>
+    <div id="sub-page-container" class="sub-page">
+        <div class="header">
+            <button class="back-btn" onclick="closeSub()">← GERİ</button>
+            <h2 id="sub-title">BÖLÜM</h2>
         </div>
-        <ul id="suList"></ul>
+
+        <div id="su-content" style="display:none;">
+            <div class="input-group">
+                <input type="time" id="suTime">
+                <button class="add-btn" onclick="addAlarm()">ALARM EKLE</button>
+            </div>
+        </div>
+
+        <div id="general-content">
+            <div class="input-group">
+                <label>Tarih Seç:</label>
+                <input type="date" id="targetDate" onchange="refreshView()">
+                <input type="text" id="targetInput" placeholder="Buraya yaz kankam...">
+                <button class="add-btn" onclick="saveData()">LİSTEYE EKLE</button>
+            </div>
+        </div>
+
+        <h3 id="view-date-text" style="color:var(--s);">📅 Plan</h3>
+        <ul id="main-list"></ul>
+
+        <div class="summary-box">
+            <h4>📋 TÜM GÜNLERİN ÖZETİ</h4>
+            <div id="summary-list"></div>
+        </div>
     </div>
 
     <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg" preload="auto"></audio>
 
     <script>
-        let viewDate = new Date().toISOString().split('T')[0];
+        let currentType = '';
+        const dateInput = document.getElementById('targetDate');
+        // Varsayılan tarih bugün olsun
+        dateInput.value = new Date().toISOString().split('T')[0];
 
-        function openPage(type) {
-            const page = document.getElementById(type);
-            if(type !== 'su') {
-                page.innerHTML = `
-                    <div class="header"><button class="back-btn" onclick="closePage('${type}')">Geri</button><h2>${type.toUpperCase()}</h2></div>
-                    <div class="input-group">
-                        <label>Plan Tarihi Seç:</label>
-                        <input type="date" id="dateInput" value="${viewDate}" onchange="updateViewDate('${type}', this.value)">
-                        <input type="text" id="itemInput" placeholder="Yaz ve ekle...">
-                        <button class="add-btn" onclick="saveItem('${type}')">LİSTEYE EKLE</button>
-                    </div>
-                    <h3 class="date-title">📅 ${viewDate} Planın</h3>
-                    <ul id="${type}List"></ul>
-                    <div class="summary-section">
-                        <h4>📋 Tüm Günlerin Özeti</h4>
-                        <div id="${type}Summary"></div>
-                    </div>`;
-            }
-            page.style.display = 'block';
-            renderList(type);
-        }
-
-        function closePage(id) { document.getElementById(id).style.display = 'none'; }
-        function updateViewDate(type, val) { viewDate = val; renderList(type); }
-
-        function saveItem(type) {
-            const val = document.getElementById('itemInput').value;
-            if(!val) return;
-            let data = JSON.parse(localStorage.getItem(type) || '{}');
-            if(!data[viewDate]) data[viewDate] = [];
-            data[viewDate].push(val);
-            localStorage.setItem(type, JSON.stringify(data));
-            document.getElementById('itemInput').value = '';
-            renderList(type);
-        }
-
-        function renderList(type) {
-            const listContainer = document.getElementById(type + 'List');
-            const summaryContainer = document.getElementById(type + 'Summary');
-            if(!listContainer) return;
-
-            let data = JSON.parse(localStorage.getItem(type) || (type === 'su' ? '[]' : '{}'));
-            listContainer.innerHTML = '';
-
+        function openSub(type) {
+            currentType = type;
+            document.getElementById('sub-title').innerText = type.toUpperCase();
+            document.getElementById('sub-page-container').style.display = 'block';
+            
             if(type === 'su') {
-                data.forEach((t, i) => {
-                    listContainer.innerHTML += `<li><span>⏰ ${t}</span> <span class="del-btn" onclick="deleteAlarm(${i})">SİL</span></li>`;
-                });
+                document.getElementById('su-content').style.display = 'block';
+                document.getElementById('general-content').style.display = 'none';
             } else {
-                // Seçili günün listesi
-                let items = data[viewDate] || [];
-                items.forEach((item, i) => {
-                    listContainer.innerHTML += `<li><span>✅ ${item}</span> <span class="del-btn" onclick="deleteItem('${type}', '${viewDate}', ${i})">SİL</span></li>`;
-                });
-
-                // Tüm günlerin özeti
-                summaryContainer.innerHTML = '';
-                Object.keys(data).sort().reverse().forEach(date => {
-                    if(data[date].length > 0) {
-                        summaryContainer.innerHTML += `<div style="font-size:0.9rem; margin-top:10px; color:#888;"><strong>${date}:</strong> ${data[date].join(', ')}</div>`;
-                    }
-                });
+                document.getElementById('su-content').style.display = 'none';
+                document.getElementById('general-content').style.display = 'block';
             }
+            refreshView();
         }
 
-        function deleteItem(type, date, index) {
-            let data = JSON.parse(localStorage.getItem(type));
-            data[date].splice(index, 1);
-            localStorage.setItem(type, JSON.stringify(data));
-            renderList(type);
+        function closeSub() {
+            document.getElementById('sub-page-container').style.display = 'none';
+        }
+
+        function saveData() {
+            const date = dateInput.value;
+            const input = document.getElementById('targetInput');
+            const val = input.value.trim();
+            
+            if(!val || !date) return;
+
+            let db = JSON.parse(localStorage.getItem(currentType) || '{}');
+            if(!db[date]) db[date] = [];
+            db[date].push(val);
+            
+            localStorage.setItem(currentType, JSON.stringify(db));
+            input.value = ''; // Kutuyu temizle
+            refreshView();
+        }
+
+        function refreshView() {
+            const date = dateInput.value;
+            const listUl = document.getElementById('main-list');
+            const summaryDiv = document.getElementById('summary-list');
+            listUl.innerHTML = '';
+            summaryDiv.innerHTML = '';
+
+            if(currentType === 'su') {
+                let alarms = JSON.parse(localStorage.getItem('su-alarms') || '[]');
+                alarms.forEach((time, index) => {
+                    listUl.innerHTML += `<li><span>⏰ ${time}</span> <span class="del-btn" onclick="deleteAlarm(${index})">SİL</span></li>`;
+                });
+                return;
+            }
+
+            // Seçili tarihin listesi
+            document.getElementById('view-date-text').innerText = `📅 ${date} Planı`;
+            let db = JSON.parse(localStorage.getItem(currentType) || '{}');
+            let items = db[date] || [];
+            
+            items.forEach((item, index) => {
+                listUl.innerHTML += `<li><span>✅ ${item}</span> <span class="del-btn" onclick="deleteItem('${date}', ${index})">SİL</span></li>`;
+            });
+
+            // Özet listesi
+            Object.keys(db).sort().reverse().forEach(d => {
+                if(db[d].length > 0) {
+                    summaryDiv.innerHTML += `<div class="summary-item"><strong>${d}:</strong> ${db[d].join(', ')}</div>`;
+                }
+            });
+        }
+
+        function deleteItem(date, index) {
+            let db = JSON.parse(localStorage.getItem(currentType));
+            db[date].splice(index, 1);
+            if(db[date].length === 0) delete db[date];
+            localStorage.setItem(currentType, JSON.stringify(db));
+            refreshView();
         }
 
         function addAlarm() {
-            const t = document.getElementById('suTime').value;
-            if(!t) return;
-            let alarms = JSON.parse(localStorage.getItem('su') || '[]');
-            alarms.push(t);
-            localStorage.setItem('su', JSON.stringify(alarms.sort()));
-            renderList('su');
+            const time = document.getElementById('suTime').value;
+            if(!time) return;
+            let alarms = JSON.parse(localStorage.getItem('su-alarms') || '[]');
+            alarms.push(time);
+            localStorage.setItem('su-alarms', JSON.stringify(alarms.sort()));
+            refreshView();
         }
 
-        function deleteAlarm(i) {
-            let alarms = JSON.parse(localStorage.getItem('su'));
-            alarms.splice(i, 1);
-            localStorage.setItem('su', JSON.stringify(alarms));
-            renderList('su');
+        function deleteAlarm(index) {
+            let alarms = JSON.parse(localStorage.getItem('su-alarms'));
+            alarms.splice(index, 1);
+            localStorage.setItem('su-alarms', JSON.stringify(alarms));
+            refreshView();
         }
 
+        // Alarm Kontrolü
         setInterval(() => {
             const now = new Date();
-            const currentTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-            let alarms = JSON.parse(localStorage.getItem('su') || '[]');
-            if(alarms.includes(currentTime)) {
+            const time = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+            let alarms = JSON.parse(localStorage.getItem('su-alarms') || '[]');
+            if(alarms.includes(time)) {
                 document.getElementById('alarmSound').play();
-                alert("🔔 KANKAM SU ZAMANI! (" + currentTime + ")");
+                alert("🔔 SU İÇME ZAMANI KANKAM!");
             }
         }, 30000);
     </script>
