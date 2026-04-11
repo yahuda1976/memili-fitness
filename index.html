@@ -1,202 +1,157 @@
 <!DOCTYPE html><html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MEMILI FITNESS V6 - TEMİZ SİSTEM 🚀</title>
-<style>
-body{margin:0;font-family:Arial;background:#121212;color:#fff;padding:10px}
-h2{text-align:center;color:#ff4500}
-.topbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px}
-.btn{padding:10px;border:none;border-radius:10px;cursor:pointer;background:#1e1e1e;color:#fff}
-.active{background:#ff4500}
-.section{background:#1e1e1e;padding:12px;border-radius:12px;margin:10px 0}
-.card{background:#2a2a2a;padding:10px;border-radius:10px;margin:10px 0}
-.small{color:#aaa;font-size:12px}
-.setrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.set{padding:6px 10px;border-radius:8px;background:#444;cursor:pointer;font-size:12px}
-.set.done{background:#2ecc71}
-.done{text-decoration:line-through;opacity:0.6}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haftalık Fitness Takip</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .day {
+      background: #1c1c1c;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      padding: 15px;
+    }
+    .day h2 {
+      margin: 0 0 10px 0;
+      color: #00ff99;
+    }
+    .item {
+      padding: 8px;
+      margin: 5px 0;
+      background: #2a2a2a;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      user-select: none;
+    }
+    .item.done {
+      opacity: 0.4;
+      text-decoration: line-through;
+      background: #004d3a;
+    }
+    .section-title {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #00c2ff;
+    }
+  </style>
 </head>
-<body><h2>MEMILI FITNESS V6 🚀</h2><div class="topbar" id="days"></div><h3 id="title"></h3>
-<div id="content"></div><script>
+<body><h1>💪 Haftalık Fitness & Beslenme Takip</h1><div id="app"></div><script>
+const data = {
+  "Pazartesi - Göğüs + Triceps": [
+    "07:00 Kahve + Omega-3",
+    "07:30 Skyr + chia + muz",
+    "09:30 Yoğurt",
+    "12:30 Ton balığı + lavaş",
+    "14:00 Pirinç + tavuk",
+    "14:45 Whey",
+    "15:30 Kahve + EAA",
+    "18:00 Yoğurt + muz",
+    "19:30 Göğüs + Triceps antrenman",
+    "21:00 Whey + skyr + yulaf",
+    "22:30 Skyr"
+  ],
+  "Salı - Sırt + Biceps": [
+    "07:00 Kahve + Omega-3",
+    "07:30 Skyr + muz",
+    "09:30 Yoğurt",
+    "12:30 Ton balığı + lavaş",
+    "14:00 Pirinç + tavuk",
+    "14:45 Whey",
+    "15:30 Kahve + EAA",
+    "18:00 Skyr + meyve",
+    "19:30 Sırt + Biceps antrenman",
+    "21:00 Whey + skyr + yulaf",
+    "22:30 Skyr"
+  ],
+  "Çarşamba - Dinlenme": [
+    "07:30 Skyr + muz",
+    "09:30 Yoğurt",
+    "12:30 Ton balığı + lavaş",
+    "14:00 Tavuk + pirinç",
+    "18:00 Skyr",
+    "20:00 Et + salata",
+    "22:30 Skyr"
+  ],
+  "Perşembe - Bacak": [
+    "07:00 Kahve + Omega-3",
+    "07:30 Skyr + muz",
+    "09:30 Yoğurt",
+    "12:30 Ton balığı + lavaş",
+    "14:00 Pirinç + tavuk",
+    "14:45 Whey",
+    "15:30 Kahve + EAA",
+    "18:00 Yoğurt + muz",
+    "19:30 Bacak antrenman",
+    "21:00 Whey + skyr + yulaf",
+    "22:30 Skyr"
+  ],
+  "Cuma - Omuz + Triceps": [
+    "07:00 Kahve + Omega-3",
+    "07:30 Skyr + chia",
+    "09:30 Yoğurt",
+    "12:30 Ton balığı + lavaş",
+    "14:00 Pirinç + kebap",
+    "14:45 Whey",
+    "15:30 Kahve + EAA",
+    "18:00 Skyr + muz",
+    "19:30 Omuz + Triceps antrenman",
+    "21:00 Whey + skyr + yulaf",
+    "22:30 Skyr"
+  ],
+  "Cumartesi - Aktif": [
+    "07:30 Skyr + muz",
+    "09:30 Yoğurt",
+    "12:30 Ton balığı + lavaş",
+    "14:00 Tavuk + pirinç",
+    "18:00 Skyr",
+    "20:00 Et + salata",
+    "22:30 Skyr"
+  ],
+  "Pazar - Dinlenme": [
+    "08:00 Kahve + Omega-3",
+    "08:30 Skyr + muz",
+    "11:00 Yoğurt",
+    "14:00 Tavuk + pirinç",
+    "18:00 Skyr",
+    "20:00 Et + salata",
+    "22:30 Skyr"
+  ]
+};
 
-// =====================
-// PROGRAM (DOĞRU SPLIT)
-// =====================
-const days = [
-{
-name:"Pazartesi",
-water:4,
-meals:[
-"07:00 Kahvaltı (Trende): yumurta + peynir",
-"10:00 Ara öğün",
-"14:00 Öğle: tavuk + pilav",
-"21:00 Akşam: skyr + yulaf"
-],
-supp:[
-"11:00 Omega 3 + vitamin",
-"17:00 Whey protein"
-],
-training:[
-{name:"Dumbbell Bench Press",sets:4},
-{name:"Incline Dumbbell Press",sets:4},
-{name:"Chest Fly",sets:3},
-{name:"Triceps Pushdown",sets:4}
-]
-},
-{
-name:"Salı",
-water:4,
-meals:[
-"07:00 Kahvaltı",
-"14:00 Et + pirinç",
-"21:00 Skyr"
-],
-supp:[
-"11:00 Whey protein"
-],
-training:[
-{name:"Leg Press",sets:4},
-{name:"Leg Curl",sets:3},
-{name:"Lunge",sets:3},
-{name:"Calf Raise",sets:3}
-]
-},
-{
-name:"Çarşamba",
-water:3,
-meals:["Serbest dinlenme günü"],supp:[],training:[]},
-{
-name:"Perşembe",
-water:4,
-meals:[
-"07:00 Kahvaltı",
-"14:00 Öğle",
-"21:00 Akşam"
-],
-supp:["11:00 Whey"],
-training:[
-{name:"Lat Pulldown",sets:4},
-{name:"Seated Row",sets:4},
-{name:"One Arm Row",sets:4},
-{name:"Biceps Curl",sets:3}
-]
-},
-{
-name:"Cuma",
-water:4,
-meals:[
-"07:00 Kahvaltı",
-"14:00 Öğle",
-"21:00 Skyr"
-],
-supp:["11:00 Whey"],
-training:[
-{name:"Shoulder Press",sets:4},
-{name:"Lateral Raise",sets:4},
-{name:"Rear Delt Fly",sets:3},
-{name:"Biceps Curl",sets:3}
-]
-},
-{
-name:"Cumartesi",
-water:3,
-meals:["Dinlenme"],supp:[],training:[]},
-{
-name:"Pazar",
-water:3,
-meals:["Dinlenme"],supp:[],training:[]}
-];
+const app = document.getElementById("app");
 
-let current=0;
-let db=JSON.parse(localStorage.getItem("v6")||"{}");
+Object.entries(data).forEach(([day, items]) => {
+  const dayDiv = document.createElement("div");
+  dayDiv.className = "day";
 
-function save(){localStorage.setItem("v6",JSON.stringify(db));}
+  const title = document.createElement("h2");
+  title.textContent = day;
+  dayDiv.appendChild(title);
 
-// =====================
-// GÜN BUTONLARI (FIXED)
-// =====================
-function renderDays(){
-let d=document.getElementById("days");
-d.innerHTML="";
-days.forEach((x,i)=>{
-let b=document.createElement("button");
-b.innerText=x.name;
-b.className="btn"+(i===current?" active":"");
-b.onclick=()=>{current=i;render()};
-d.appendChild(b);
+  items.forEach(text => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.textContent = text;
+
+    div.addEventListener("click", () => {
+      div.classList.toggle("done");
+    });
+
+    dayDiv.appendChild(div);
+  });
+
+  app.appendChild(dayDiv);
 });
-}
-
-// =====================
-// SET TOGGLE
-// =====================
-function toggleSet(exIndex,setIndex){
-let day=days[current].name;
-if(!db[day])db[day]={};
-if(!db[day][exIndex])db[day][exIndex]={};
-db[day][exIndex][setIndex]=!db[day][exIndex][setIndex];
-save();render();
-}
-
-// =====================
-// TASK TOGGLE (MEAL / SUPP)
-// =====================
-function toggleTask(type,index){
-let day=days[current].name;
-let key=type+"_"+index;
-if(!db[day])db[day]={};
-db[day][key]=!db[day][key];
-save();render();
-}
-
-// =====================
-// RENDER
-// =====================
-function render(){
-let day=days[current];
-document.getElementById("title").innerText=day.name+" GÜN PLANI";
-let c=document.getElementById("content");
-c.innerHTML="";
-let saved=db[day.name]||{};
-
-// SU
-c.innerHTML+=`<div class='section'>💧 Su: ${day.water} L (gün içine yay)</div>`;
-
-// MEALS
-c.innerHTML+=`<div class='section'><b>🍽 Yemekler</b>`;
-day.meals.forEach((m,i)=>{
-let done=saved["meal_"+i];
-c.innerHTML+=`<div class='card ${done?"done":""}' onclick='toggleTask("meal",${i})'>${m}</div>`;
-});
-c.innerHTML+=`</div>`;
-
-// SUPPLEMENTS
-c.innerHTML+=`<div class='section'><b>💊 Supplement</b>`;
-day.supp.forEach((s,i)=>{
-let done=saved["supp_"+i];
-c.innerHTML+=`<div class='card ${done?"done":""}' onclick='toggleTask("supp",${i})'>${s}</div>`;
-});
-c.innerHTML+=`</div>`;
-
-// TRAINING
-c.innerHTML+=`<div class='section'><b>🏋️ Antrenman</b>`;
-day.training.forEach((ex,ei)=>{
-let exDiv="<div class='card'><b>"+ex.name+"</b><div class='small'>Set: "+ex.sets+"</div><div class='setrow'>";
-
-for(let s=0;s<ex.sets;s++){
-let done=saved?.[ei]?.[s];
-exDiv+=`<div class='set ${done?"done":""}' onclick='toggleSet(${ei},${s})'>S${s+1}</div>`;
-}
-
-exDiv+="</div></div>";
-c.innerHTML+=exDiv;
-});
-c.innerHTML+=`</div>`;
-}
-
-renderDays();render();
-
 </script></body>
 </html>
