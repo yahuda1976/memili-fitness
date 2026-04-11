@@ -10,45 +10,89 @@
       color: #fff;
       margin: 0;
       padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .day {
-      background: #1c1c1c;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      padding: 15px;
-    }
-    .day h2 {
-      margin: 0 0 10px 0;
-      color: #00ff99;
-    }
-    .item {
-      padding: 8px;
-      margin: 5px 0;
-      background: #2a2a2a;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-      user-select: none;
-    }
-    .item.done {
-      opacity: 0.4;
-      text-decoration: line-through;
-      background: #004d3a;
-    }
-    .section-title {
-      margin-top: 10px;
-      font-weight: bold;
-      color: #00c2ff;
-    }
+    }h1 {
+  text-align: center;
+}
+
+/* HOME GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: bold;
+  color: #00ff99;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+/* DAY VIEW */
+.hidden {
+  display: none;
+}
+
+.day {
+  background: #1c1c1c;
+  margin-top: 15px;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.item {
+  padding: 10px;
+  margin: 6px 0;
+  background: #2a2a2a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  user-select: none;
+}
+
+.item.done {
+  opacity: 0.35;
+  text-decoration: line-through;
+  background: #004d3a;
+}
+
+.back {
+  margin-top: 10px;
+  padding: 10px;
+  background: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+}
+
   </style>
 </head>
-<body><h1>💪 Haftalık Fitness & Beslenme Takip</h1><div id="app"></div><script>
+<body><h1>💪 Fitness App</h1><!-- HOME --><div id="home">
+  <div class="grid">
+    <div class="card" onclick="openDay('Pazartesi')">Pazartesi</div>
+    <div class="card" onclick="openDay('Salı')">Salı</div>
+    <div class="card" onclick="openDay('Çarşamba')">Çarşamba</div>
+    <div class="card" onclick="openDay('Perşembe')">Perşembe</div>
+    <div class="card" onclick="openDay('Cuma')">Cuma</div>
+    <div class="card" onclick="openDay('Cumartesi')">Cumartesi</div>
+    <div class="card" onclick="openDay('Pazar')">Pazar</div>
+  </div>
+</div><!-- DAY VIEW --><div id="dayView" class="hidden">
+  <div class="back" onclick="goBack()">⬅ Geri</div>
+  <h2 id="dayTitle"></h2>
+  <div id="items"></div>
+</div><script>
 const data = {
-  "Pazartesi - Göğüs + Triceps": [
+  "Pazartesi": [
     "07:00 Kahve + Omega-3",
     "07:30 Skyr + chia + muz",
     "09:30 Yoğurt",
@@ -57,11 +101,11 @@ const data = {
     "14:45 Whey",
     "15:30 Kahve + EAA",
     "18:00 Yoğurt + muz",
-    "19:30 Göğüs + Triceps antrenman",
+    "19:30 Göğüs + Triceps",
     "21:00 Whey + skyr + yulaf",
     "22:30 Skyr"
   ],
-  "Salı - Sırt + Biceps": [
+  "Salı": [
     "07:00 Kahve + Omega-3",
     "07:30 Skyr + muz",
     "09:30 Yoğurt",
@@ -70,88 +114,41 @@ const data = {
     "14:45 Whey",
     "15:30 Kahve + EAA",
     "18:00 Skyr + meyve",
-    "19:30 Sırt + Biceps antrenman",
+    "19:30 Sırt + Biceps",
     "21:00 Whey + skyr + yulaf",
     "22:30 Skyr"
   ],
-  "Çarşamba - Dinlenme": [
-    "07:30 Skyr + muz",
-    "09:30 Yoğurt",
-    "12:30 Ton balığı + lavaş",
-    "14:00 Tavuk + pirinç",
-    "18:00 Skyr",
-    "20:00 Et + salata",
-    "22:30 Skyr"
-  ],
-  "Perşembe - Bacak": [
-    "07:00 Kahve + Omega-3",
-    "07:30 Skyr + muz",
-    "09:30 Yoğurt",
-    "12:30 Ton balığı + lavaş",
-    "14:00 Pirinç + tavuk",
-    "14:45 Whey",
-    "15:30 Kahve + EAA",
-    "18:00 Yoğurt + muz",
-    "19:30 Bacak antrenman",
-    "21:00 Whey + skyr + yulaf",
-    "22:30 Skyr"
-  ],
-  "Cuma - Omuz + Triceps": [
-    "07:00 Kahve + Omega-3",
-    "07:30 Skyr + chia",
-    "09:30 Yoğurt",
-    "12:30 Ton balığı + lavaş",
-    "14:00 Pirinç + kebap",
-    "14:45 Whey",
-    "15:30 Kahve + EAA",
-    "18:00 Skyr + muz",
-    "19:30 Omuz + Triceps antrenman",
-    "21:00 Whey + skyr + yulaf",
-    "22:30 Skyr"
-  ],
-  "Cumartesi - Aktif": [
-    "07:30 Skyr + muz",
-    "09:30 Yoğurt",
-    "12:30 Ton balığı + lavaş",
-    "14:00 Tavuk + pirinç",
-    "18:00 Skyr",
-    "20:00 Et + salata",
-    "22:30 Skyr"
-  ],
-  "Pazar - Dinlenme": [
-    "08:00 Kahve + Omega-3",
-    "08:30 Skyr + muz",
-    "11:00 Yoğurt",
-    "14:00 Tavuk + pirinç",
-    "18:00 Skyr",
-    "20:00 Et + salata",
-    "22:30 Skyr"
-  ]
+  "Çarşamba": ["Dinlenme günü"],
+  "Perşembe": ["Bacak antrenmanı"],
+  "Cuma": ["Omuz + Triceps"],
+  "Cumartesi": ["Aktif toparlanma"],
+  "Pazar": ["Dinlenme"]
 };
 
-const app = document.getElementById("app");
+function openDay(day) {
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("dayView").classList.remove("hidden");
+  document.getElementById("dayTitle").innerText = day;
 
-Object.entries(data).forEach(([day, items]) => {
-  const dayDiv = document.createElement("div");
-  dayDiv.className = "day";
+  const container = document.getElementById("items");
+  container.innerHTML = "";
 
-  const title = document.createElement("h2");
-  title.textContent = day;
-  dayDiv.appendChild(title);
-
-  items.forEach(text => {
+  (data[day] || []).forEach(text => {
     const div = document.createElement("div");
     div.className = "item";
     div.textContent = text;
 
-    div.addEventListener("click", () => {
+    div.onclick = () => {
       div.classList.toggle("done");
-    });
+    };
 
-    dayDiv.appendChild(div);
+    container.appendChild(div);
   });
+}
 
-  app.appendChild(dayDiv);
-});
+function goBack() {
+  document.getElementById("home").classList.remove("hidden");
+  document.getElementById("dayView").classList.add("hidden");
+}
 </script></body>
 </html>
