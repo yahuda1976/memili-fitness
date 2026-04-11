@@ -142,14 +142,16 @@ body {
 .card h3 {
     font-size: 1.1rem;
     margin-bottom: 8px;
-    color: #000;
-    font-weight: bold;
+    color: #FFFFFF;
+    font-weight: 900;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 .card.settings-card {
     background: linear-gradient(145deg, #555, #3a3a3a);
 }
 .card.settings-card h3 {
-    color: #fff;
+    color: #FFD700;
+    font-weight: 900;
 }
 .progress-bar {
     width: 100%;
@@ -161,16 +163,17 @@ body {
 }
 .progress-fill {
     height: 100%;
-    background: #000;
+    background: #FFFFFF;
     transition: width 0.3s;
 }
 small {
     font-size: 0.7rem;
-    font-weight: bold;
-    color: #000;
+    font-weight: 900;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
 }
 .card.settings-card small {
-    color: #ccc;
+    color: #FFD700;
 }
 
 .day-view {
@@ -566,60 +569,60 @@ small {
         <div style="width:50px;"></div>
     </div>
     <div style="padding: 15px;">
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#87CEEB; margin-bottom:10px;">☁️ CLOUD YEDEKLEME</h3>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">☁️ CLOUD YEDEKLEME</h3>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="cloud-btn" onclick="cloudBackup()">☁️ Buluta Yedekle</button>
-                <button class="cloud-btn" onclick="cloudRestore()">⬇️ Buluttan Geri Yükle</button>
+                <button class="cloud-btn" onclick="simpleBackup()">📥 Yedek Al (İndir)</button>
+                <button class="cloud-btn" onclick="simpleRestore()">📤 Yedek Yükle</button>
             </div>
-            <p style="font-size:0.7rem; margin-top:8px; opacity:0.7;">Google Drive hesabınıza yedek alır ve geri yükler</p>
+            <p style="font-size:0.7rem; margin-top:8px; color:#FFD700;">Yedek dosyası telefonunuza kaydedilir. Geri yüklemek için aynı dosyayı seçin.</p>
         </div>
 
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#87CEEB; margin-bottom:10px;">⏰ SU ALARMI</h3>
-            <input type="time" id="waterAlarmTime" style="width:100%; padding:10px; background:#2a2a3e; border:1px solid #87CEEB; border-radius:10px; color:white; font-size:1rem;">
-            <button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#87CEEB; border:none; padding:10px; border-radius:25px; color:#000; font-weight:bold; cursor:pointer;">🔔 Alarm Kur</button>
-            <button onclick="cancelWaterAlarm()" style="width:100%; margin-top:5px; background:#555; border:none; padding:8px; border-radius:25px; color:#fff; cursor:pointer;">Alarmı İptal Et</button>
-            <div id="alarmStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">⏰ SU ALARMI</h3>
+            <input type="time" id="waterAlarmTime" style="width:100%; padding:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:white; font-size:1rem;">
+            <button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#FFD700; border:none; padding:10px; border-radius:25px; color:#000; font-weight:bold; cursor:pointer;">🔔 Alarm Kur</button>
+            <button onclick="cancelWaterAlarm()" style="width:100%; margin-top:5px; background:#555; border:none; padding:8px; border-radius:25px; color:#FFD700; cursor:pointer;">Alarmı İptal Et</button>
+            <div id="alarmStatus" style="margin-top:8px; font-size:0.7rem; text-align:center; color:#FFD700;"></div>
         </div>
         
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#87CEEB; margin-bottom:10px;">📦 YEDEKLEME</h3>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">📦 YEDEKLEME</h3>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button onclick="exportData()" style="background:#2a2a3e; border:none; padding:8px 16px; border-radius:30px; color:#87CEEB; cursor:pointer;">📥 Yedek Al</button>
-                <button onclick="importData()" style="background:#2a2a3e; border:none; padding:8px 16px; border-radius:30px; color:#87CEEB; cursor:pointer;">📤 Geri Yükle</button>
+                <button onclick="exportData()" style="background:#555; border:none; padding:8px 16px; border-radius:30px; color:#FFD700; cursor:pointer;">📥 JSON Yedek Al</button>
+                <button onclick="importData()" style="background:#555; border:none; padding:8px 16px; border-radius:30px; color:#FFD700; cursor:pointer;">📤 JSON Geri Yükle</button>
             </div>
         </div>
         
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#ffaa33; margin-bottom:10px;">⚠️ HAFTA YÖNETİMİ</h3>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">⚠️ HAFTA YÖNETİMİ</h3>
             <button class="reset-btn" onclick="resetWeek()" style="width:100%;">🔄 Tüm Haftayı Sıfırla</button>
-            <p style="font-size:0.7rem; margin-top:8px; opacity:0.7;">Bu işlem tüm setleri, yemekleri ve su takibini sıfırlar. (İçerikler korunur)</p>
+            <p style="font-size:0.7rem; margin-top:8px; color:#FFD700;">Bu işlem tüm setleri, yemekleri ve su takibini sıfırlar. (İçerikler korunur)</p>
         </div>
         
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#87CEEB; margin-bottom:10px;">🍽️ Yemek Yönetimi</h3>
-            <select id="mealManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #87CEEB; border-radius:10px; color:white;"></select>
-            <div id="mealList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
-            <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:8px; margin-bottom:10px;">
-            <button onclick="addMealToDay()" style="background:#87CEEB; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Yemek Ekle</button>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">🍽️ Yemek Yönetimi</h3>
+            <select id="mealManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;"></select>
+            <div id="mealList" style="max-height:200px; overflow-y:auto; margin-bottom:10px; color:#FFD700;"></div>
+            <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
+            <button onclick="addMealToDay()" style="background:#FFD700; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Yemek Ekle</button>
         </div>
         
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#87CEEB; margin-bottom:10px;">💪 Egzersiz Yönetimi</h3>
-            <select id="exerciseManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #87CEEB; border-radius:10px; color:white;"></select>
-            <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
-            <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:8px; margin-bottom:5px;">
-            <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:8px; margin-bottom:10px;">
-            <button onclick="addExerciseToDay()" style="background:#87CEEB; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Hareket Ekle</button>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">💪 Egzersiz Yönetimi</h3>
+            <select id="exerciseManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;"></select>
+            <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin-bottom:10px; color:#FFD700;"></div>
+            <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:8px; margin-bottom:5px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
+            <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
+            <button onclick="addExerciseToDay()" style="background:#FFD700; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Hareket Ekle</button>
         </div>
         
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px;">
-            <h3 style="color:#87CEEB; margin-bottom:10px;">💊 Supplement Takviye</h3>
-            <div id="supplementList" style="margin-bottom:10px;"></div>
-            <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:8px; margin-bottom:5px;">
-            <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı (ör: Sabah)" style="width:100%; padding:8px; margin-bottom:10px;">
-            <button onclick="addSupplement()" style="background:#87CEEB; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Takviye Ekle</button>
+        <div style="background:#3a3a3a; border-radius:16px; padding:15px;">
+            <h3 style="color:#FFD700; margin-bottom:10px;">💊 Supplement Takviye</h3>
+            <div id="supplementList" style="margin-bottom:10px; color:#FFD700;"></div>
+            <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:8px; margin-bottom:5px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
+            <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı (ör: Sabah)" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
+            <button onclick="addSupplement()" style="background:#FFD700; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Takviye Ekle</button>
         </div>
     </div>
 </div>
@@ -673,7 +676,67 @@ let timerInterval = null;
 let currentDayOpen = null;
 let waterAlarmInterval = null;
 
-// ==================== SU ALARMI (24 SAAT MANTIĞI) ====================
+// ==================== ÇOKLU BİP SESİ (4 kere) ====================
+function playMultiBeep() {
+    if(!soundEnabled) return;
+    for(let i = 0; i < 4; i++) {
+        setTimeout(() => {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(880, ctx.currentTime);
+                osc.connect(ctx.destination);
+                osc.start();
+                setTimeout(() => { osc.stop(); ctx.close(); }, 150);
+            } catch(e) {}
+        }, i * 300);
+    }
+}
+
+// ==================== BASİT YEDEKLEME (404 hatası yok) ====================
+function simpleBackup() {
+    const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([dataStr], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("✅ Yedek dosyanız kaydedildi!");
+}
+
+function simpleRestore() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const imported = JSON.parse(event.target.result);
+                if(imported.data) data = imported.data;
+                if(imported.doneState) doneState = imported.doneState;
+                if(imported.waterIntake) waterIntake = imported.waterIntake;
+                if(imported.totalSetCount !== undefined) totalSetCount = imported.totalSetCount;
+                if(imported.supplements) supplements = imported.supplements;
+                saveDataToLocal();
+                buildHome();
+                if(currentDayOpen) renderDayItems(currentDayOpen);
+                updateAllStats();
+                updateSupplementsDisplay();
+                showToast("✅ Yedek geri yüklendi!");
+            } catch(err) { showToast("❌ Hatalı dosya!"); }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+
+// ==================== SU ALARMI (ÇOKLU BİP İLE) ====================
 function setWaterAlarm() {
     const alarmTime = document.getElementById("waterAlarmTime").value;
     if(!alarmTime) {
@@ -682,7 +745,7 @@ function setWaterAlarm() {
     }
     
     localStorage.setItem("waterAlarmTime", alarmTime);
-    document.getElementById("alarmStatus").innerHTML = `⏰ Alarm kuruldu: ${alarmTime} saatinde su içmenizi hatırlatacağım`;
+    document.getElementById("alarmStatus").innerHTML = `⏰ Alarm kuruldu: ${alarmTime}`;
     showToast(`✅ Su alarmı ${alarmTime} için kuruldu!`);
     startWaterAlarmCheck(alarmTime);
 }
@@ -705,17 +768,7 @@ function startWaterAlarmCheck(alarmTime) {
         const currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         if(currentTime === alarmTime) {
             showToast("💧💧💧 SU İÇME ZAMANI! 💧💧💧");
-            if(soundEnabled) {
-                try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    osc.type = "sine";
-                    osc.frequency.setValueAtTime(880, ctx.currentTime);
-                    osc.connect(ctx.destination);
-                    osc.start();
-                    setTimeout(() => { osc.stop(); ctx.close(); }, 500);
-                } catch(e) {}
-            }
+            playMultiBeep(); // 4 kere bip sesi
         }
     }
     
@@ -727,36 +780,9 @@ function loadWaterAlarm() {
     const savedAlarm = localStorage.getItem("waterAlarmTime");
     if(savedAlarm) {
         document.getElementById("waterAlarmTime").value = savedAlarm;
-        document.getElementById("alarmStatus").innerHTML = `⏰ Alarm kuruldu: ${savedAlarm} saatinde su içmenizi hatırlatacağım`;
+        document.getElementById("alarmStatus").innerHTML = `⏰ Alarm kuruldu: ${savedAlarm}`;
         startWaterAlarmCheck(savedAlarm);
     }
-}
-
-// ==================== CLOUD YEDEKLEME (Google Drive) ====================
-function cloudBackup() {
-    const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const blob = new Blob([dataStr], {type: "application/json"});
-    const file = new File([blob], `fitness_backup_${new Date().toISOString().slice(0,19)}.json`, {type: "application/json"});
-    
-    // Google Drive'a yükleme için link
-    const driveUrl = `https://drive.google.com/drive/u/0/upload`;
-    showToast("📱 Google Drive açılıyor, dosyayı yükleyin...");
-    setTimeout(() => {
-        window.open(driveUrl, "_blank");
-        // Otomatik indir de yapalım
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-    }, 500);
-}
-
-function cloudRestore() {
-    showToast("📱 Google Drive'dan yedek dosyasını seçin...");
-    importData();
 }
 
 // ==================== GİRİŞ SİSTEMİ ====================
@@ -841,17 +867,7 @@ function startTimer(seconds) {
             clearInterval(timerInterval);
             timerInterval = null;
             timerBox.style.display = "none";
-            if(soundEnabled) {
-                try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    osc.type = "sine";
-                    osc.frequency.setValueAtTime(880, ctx.currentTime);
-                    osc.connect(ctx.destination);
-                    osc.start();
-                    setTimeout(() => { osc.stop(); ctx.close(); }, 300);
-                } catch(e) {}
-            }
+            playMultiBeep(); // 4 kere bip sesi
             showToast("🔔 Dinlenme bitti! Devam et! 🔥");
         } else {
             remaining--;
@@ -1054,7 +1070,7 @@ function populateManageSelects() {
 function refreshMealList() {
     const day = document.getElementById("mealManageDay").value;
     const container = document.getElementById("mealList");
-    if(!day || !data[day]) { container.innerHTML = "<i>Gün seçin</i>"; return; }
+    if(!day || !data[day]) { container.innerHTML = "<i style='color:#FFD700;'>Gün seçin</i>"; return; }
     container.innerHTML = "";
     data[day].forEach((item, idx) => {
         if(typeof item === "string" && !item.includes("🏋️")) {
@@ -1063,8 +1079,8 @@ function refreshMealList() {
             div.style.justifyContent = "space-between";
             div.style.alignItems = "center";
             div.style.padding = "6px";
-            div.style.borderBottom = "1px solid #333";
-            div.innerHTML = `<span>${item}</span><button class="delete-btn" onclick="deleteMeal('${day}', ${idx})">Sil</button>`;
+            div.style.borderBottom = "1px solid #FFD700";
+            div.innerHTML = `<span style="color:#FFD700;">${item}</span><button class="delete-btn" onclick="deleteMeal('${day}', ${idx})">Sil</button>`;
             container.appendChild(div);
         }
     });
@@ -1094,7 +1110,7 @@ function addMealToDay() {
 function refreshExerciseList() {
     const day = document.getElementById("exerciseManageDay").value;
     const container = document.getElementById("exerciseList");
-    if(!day || !data[day]) { container.innerHTML = "<i>Gün seçin</i>"; return; }
+    if(!day || !data[day]) { container.innerHTML = "<i style='color:#FFD700;'>Gün seçin</i>"; return; }
     container.innerHTML = "";
     data[day].forEach((item, idx) => {
         if(item && typeof item === "object" && item.ex) {
@@ -1103,8 +1119,8 @@ function refreshExerciseList() {
             div.style.justifyContent = "space-between";
             div.style.alignItems = "center";
             div.style.padding = "6px";
-            div.style.borderBottom = "1px solid #333";
-            div.innerHTML = `<span>💪 ${item.ex} (${item.sets} set)</span><button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>`;
+            div.style.borderBottom = "1px solid #FFD700";
+            div.innerHTML = `<span style="color:#FFD700;">💪 ${item.ex} (${item.sets} set)</span><button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>`;
             container.appendChild(div);
         }
     });
@@ -1143,8 +1159,8 @@ function updateSupplementsDisplay() {
         div.style.justifyContent = "space-between";
         div.style.alignItems = "center";
         div.style.padding = "6px";
-        div.style.borderBottom = "1px solid #333";
-        div.innerHTML = `<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})">Sil</button>`;
+        div.style.borderBottom = "1px solid #FFD700";
+        div.innerHTML = `<span style="color:#FFD700;">💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})">Sil</button>`;
         container.appendChild(div);
     });
 }
