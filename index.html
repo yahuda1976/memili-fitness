@@ -2,36 +2,277 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fitness Pro App</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Fitness Pro App - Gelişmiş</title>
 <style>
-html,body{height:100%;margin:0;font-family:Arial;background:#0b0b0b;color:#fff}
-h1{text-align:center;color:#00ffc3;margin:10px 0}
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
+html,body{
+    height:100%;
+    margin:0;
+    font-family:'Segoe UI', Roboto, Arial, sans-serif;
+    background:#0b0b0b;
+    color:#eee;
+}
+h1{
+    text-align:center;
+    color:#00ffc3;
+    margin:10px 0;
+    font-size:1.8rem;
+    letter-spacing:1px;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:12px;
+    height:calc(100vh - 70px);
+}
+.card{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,#1f1f1f,#121212);
+    border-radius:24px;
+    text-align:center;
+    cursor:pointer;
+    color:#00ff99;
+    font-weight:bold;
+    font-size:1.3rem;
+    transition:0.1s linear;
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
+    min-height:100px;
+}
+.card:active{ transform:scale(0.97); background:#2a2a2a; }
+.hidden{ display:none; }
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 16px;
+    gap:10px;
+    flex-wrap:wrap;
+}
+.btn{
+    padding:12px 18px;
+    border:none;
+    border-radius:40px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:1rem;
+}
+.back{
+    background:#ff0055;
+    color:white;
+    box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+.summary-btn{
+    background:#2c2c2c;
+    color:#00ffc3;
+}
+.dayTitle{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#00ffc3;
+    margin:5px 0 15px;
+}
+.item, .set{
+    background:#1e1e1e;
+    margin:8px 12px;
+    padding:14px 12px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:0.05s linear;
+    font-size:1rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+}
+.item:active, .set:active{ transform:scale(0.98); background:#2c2c2c; }
+.item.done, .set.done{
+    background:#003d2a;
+    opacity:0.8;
+    text-decoration:line-through;
+}
+.set{
+    justify-content:space-between;
+}
+.set-badge{
+    background:#00ffc32c;
+    padding:4px 12px;
+    border-radius:40px;
+    font-size:0.8rem;
+}
+.ex-title{
+    color:#00ffc3;
+    font-weight:bold;
+    margin:12px 12px 0 12px;
+    padding-left:6px;
+    font-size:1.2rem;
+    border-left:4px solid #00ffc3;
+}
+.timerBox{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#111;
+    padding:15px;
+    border-radius:24px;
+    border:2px solid #00ffc3;
+    background:#0a0a0a;
+    z-index:200;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    min-width:130px;
+    box-shadow:0 0 15px rgba(0,255,195,0.3);
+}
+.timerNum{
+    font-size:32px;
+    font-weight:bold;
+    font-family:monospace;
+}
+.timer-buttons{
+    display:flex;
+    gap:8px;
+}
+.timer-btn{
+    background:#2c2c2c;
+    border:none;
+    color:#00ffc3;
+    padding:6px 12px;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.toast{
+    position:fixed;
+    bottom:30%;
+    left:50%;
+    transform:translateX(-50%);
+    background:#00ffc3dd;
+    color:#000;
+    padding:12px 20px;
+    border-radius:50px;
+    font-weight:bold;
+    z-index:300;
+    animation:fadeOut 1.5s ease forwards;
+    pointer-events:none;
+}
+@keyframes fadeOut{
+    0%{opacity:1; bottom:28%;}
+    70%{opacity:1;}
+    100%{opacity:0; bottom:35%; display:none;}
+}
+.day-summary{
+    background:#1a1a1a;
+    margin:15px 12px;
+    padding:12px;
+    border-radius:20px;
+    font-size:0.9rem;
+    text-align:center;
+    color:#aaa;
+    border:1px solid #2c2c2c;
+}
 
-/* HOME FULL */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr;gap:10px;padding:10px;height:calc(100vh - 60px)}
-.card{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#1f1f1f,#141414);border-radius:16px;text-align:center;cursor:pointer;color:#00ff99;font-weight:bold;font-size:18px}
-.card:hover{background:#2a2a2a}
-
-.hidden{display:none}
-.topbar{display:flex;justify-content:space-between;padding:10px}
-.btn{padding:10px;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
-.back{background:#ff0055;color:#fff}
-.dayTitle{text-align:center;font-size:22px;color:#00ffc3;margin-bottom:10px}
-.item{background:#1e1e1e;margin:6px 10px;padding:10px;border-radius:10px;cursor:pointer}
-.item.done{background:#003d2a;opacity:.5;text-decoration:line-through}
-
-/* SET BUTTON */
-.set{background:#2a2a2a;margin:4px 10px;padding:10px;border-radius:10px;cursor:pointer;text-align:center}
-.set.done{background:#003d2a;opacity:.5;text-decoration:line-through}
-
-/* TIMER */
-.timerBox{position:fixed;bottom:20px;right:20px;background:#111;padding:15px;border-radius:10px;border:2px solid #00ffc3;display:none}
-.timerNum{font-size:22px}
+/* Ayarlar menüsü stilleri */
+.settings-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a0aee;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+}
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #00ffc3;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+.settings-title {
+    font-size: 1.8rem;
+    color: #00ffc3;
+}
+.close-settings {
+    background: #ff0055;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.settings-section {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.settings-section h3 {
+    color: #00ffc3;
+    margin-top: 0;
+}
+.add-btn {
+    background: #00ffc3;
+    color: #000;
+    border: none;
+    border-radius: 40px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin: 5px;
+    font-weight: bold;
+}
+.delete-btn {
+    background: #ff0055;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 4px 12px;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 0.8rem;
+}
+.custom-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c2c2c;
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-radius: 12px;
+}
+.settings-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #00ffc3;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 150;
+    box-shadow: 0 0 10px #00ffc3;
+}
 </style>
 </head>
 <body>
+
+<button class="settings-btn" id="settingsBtn">⚙️</button>
 
 <h1>💪 FITNESS PRO</h1>
 
@@ -39,115 +280,451 @@ h1{text-align:center;color:#00ffc3;margin:10px 0}
 
 <div id="dayView" class="hidden">
 <div class="topbar">
-<button class="btn back" onclick="goBack()">⬅ Geri</button>
+<button class="btn back" id="backBtn">⬅ Geri</button>
+<button class="btn summary-btn" id="showSummaryBtn">📊 Gün Özeti</button>
 </div>
 <div id="dayTitle" class="dayTitle"></div>
 <div id="items"></div>
+<div id="summaryPanel" class="day-summary hidden"></div>
 </div>
 
-<div class="timerBox" id="timerBox">
-<div id="timerNum" class="timerNum">150</div>
-<div>Dinlenme</div>
+<div class="timerBox" id="timerBox" style="display:none;">
+<div id="timerNum" class="timerNum">90</div>
+<div style="font-size:12px;">⏱️ Dinlenme</div>
+<div class="timer-buttons">
+<button class="timer-btn" id="timerCloseBtn">✖ Kapat</button>
+<button class="timer-btn" id="timerCustomBtn">⚙ 60-180</button>
+</div>
+</div>
+
+<!-- Ayarlar Menüsü -->
+<div id="settingsPanel" class="settings-panel hidden">
+    <div class="settings-header">
+        <div class="settings-title">⚙️ AYARLAR</div>
+        <button class="close-settings" id="closeSettingsBtn">Kapat</button>
+    </div>
+    
+    <div class="settings-section">
+        <h3>🍽️ ÖZEL YEMEK EKLE</h3>
+        <input type="text" id="newMealName" placeholder="Yemek adı" style="width:70%; padding:8px; border-radius:20px; border:none;">
+        <button class="add-btn" id="addMealBtn">➕ Ekle</button>
+        <div id="customMealsList"></div>
+    </div>
+    
+    <div class="settings-section">
+        <h3>💪 ÖZEL EGZERSİZ EKLE</h3>
+        <input type="text" id="newExName" placeholder="Egzersiz adı" style="width:70%; padding:8px; border-radius:20px; border:none;">
+        <input type="number" id="newExSets" placeholder="Set sayısı" style="width:20%; padding:8px; border-radius:20px; border:none;">
+        <button class="add-btn" id="addExBtn">➕ Ekle</button>
+        <div id="customExList"></div>
+    </div>
+    
+    <div class="settings-section">
+        <h3>💊 ÖZEL SUPPLEMENT EKLE</h3>
+        <input type="text" id="newSuppName" placeholder="Supplement adı" style="width:70%; padding:8px; border-radius:20px; border:none;">
+        <button class="add-btn" id="addSuppBtn">➕ Ekle</button>
+        <div id="customSuppList"></div>
+    </div>
 </div>
 
 <script>
-const data={
+// ---------------------- ANA VERİ ----------------------
+let data = {
 "Pazartesi":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4},{ex:"Incline Dumbbell Press",sets:4},{ex:"Dumbbell Fly",sets:3},{ex:"Cable Crossover",sets:3},{ex:"Rope Pushdown",sets:4},{ex:"Overhead DB Extension",sets:3},{ex:"Dips",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-
 "Salı":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + meyve","💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4},{ex:"Seated Row",sets:4},{ex:"Dumbbell Row",sets:3},{ex:"Straight Arm Pulldown",sets:3},{ex:"Face Pull",sets:3},{ex:"DB Curl",sets:4},{ex:"Hammer Curl",sets:3},{ex:"Incline Curl",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-
 "Çarşamba":["07:30 Skyr + keten + muz","💧 2 bardak","09:30 Yoğurt + meyve","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata + zeytinyağı","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-
 "Perşembe":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},{ex:"Leg Curl",sets:3},{ex:"Leg Extension",sets:3},{ex:"Calf Raise",sets:4},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-
 "Cuma":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + kebap","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + muz","💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},{ex:"Rear Delt Fly",sets:3},{ex:"Upright Row",sets:3},{ex:"Pushdown",sets:3},{ex:"Dips",sets:2},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-
 "Cumartesi":["07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-
-"Pazar":["08:00 Kahve + Omega-3","💧 2 bardak","08:30 Skyr + muz","💧 2 bardak","11:00 Yoğurt + meyve","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"]
+"Pazar":["08:00 Kahve + Omega-3","💧 2 bardak","08:30 Skyr + muz","💧 2 bardak","11:00 Yoğurt + meyve","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak","🧘 AKTİF DİNLENME (Yürüyüş / Esneme)"]
 };
 
-const home=document.getElementById("home");
-const items=document.getElementById("items");
+// Özel eklenenler (localStorage'a kaydedilecek)
+let customMeals = [];
+let customExercises = [];
+let customSupplements = [];
 
-Object.keys(data).forEach(d=>{
-let div=document.createElement("div");
-div.className="card";
-div.innerText=d;
-div.onclick=()=>openDay(d);
-home.appendChild(div);
-});
+// localStorage anahtarları
+const STORAGE_KEY = "fitnessProDone";
+const CUSTOM_MEALS_KEY = "customMeals";
+const CUSTOM_EX_KEY = "customExercises";
+const CUSTOM_SUPP_KEY = "customSupplements";
+const DATA_KEY = "fitnessData";
+
+let doneState = {};
+let waterIntake = {};
+
+// Yardımcı fonksiyonlar
+function showToast(msg){
+    let toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(()=>{ if(toast) toast.remove(); }, 1600);
+}
+
+function beep(){
+    try{
+        const ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.connect(ctx.destination);
+        osc.start();
+        setTimeout(()=>{ osc.stop(); ctx.close(); }, 200);
+    }catch(e){ console.log("ses hatası"); }
+}
+
+// Timer sistemi
+let currentTimer = null;
+let timerActive = false;
+let timerSeconds = 90;
+const timerBox = document.getElementById("timerBox");
+const timerNumSpan = document.getElementById("timerNum");
+
+function stopTimer(){
+    if(currentTimer){
+        clearInterval(currentTimer);
+        currentTimer = null;
+    }
+    timerActive = false;
+    timerBox.style.display = "none";
+}
+function startTimerDisplay(seconds){
+    stopTimer();
+    timerSeconds = seconds;
+    timerNumSpan.innerText = timerSeconds;
+    timerBox.style.display = "flex";
+    timerActive = true;
+    currentTimer = setInterval(()=>{
+        if(timerSeconds <= 1){
+            stopTimer();
+            beep();
+            showToast("🔔 Dinlenme bitti! Hazır mısın?");
+            timerBox.style.display = "none";
+        } else {
+            timerSeconds--;
+            timerNumSpan.innerText = timerSeconds;
+        }
+    }, 1000);
+}
+function startRestTimer(sec=90){
+    startTimerDisplay(sec);
+}
+
+// localStorage yükle/kaydet
+function loadDoneState(){
+    let saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+        doneState = JSON.parse(saved);
+    } else {
+        doneState = {};
+    }
+    let savedWater = localStorage.getItem("fitnessWater");
+    if(savedWater){
+        waterIntake = JSON.parse(savedWater);
+    } else {
+        waterIntake = {};
+    }
+    
+    // Özel eklenenleri yükle
+    let savedMeals = localStorage.getItem(CUSTOM_MEALS_KEY);
+    if(savedMeals) customMeals = JSON.parse(savedMeals);
+    let savedEx = localStorage.getItem(CUSTOM_EX_KEY);
+    if(savedEx) customExercises = JSON.parse(savedEx);
+    let savedSupp = localStorage.getItem(CUSTOM_SUPP_KEY);
+    if(savedSupp) customSupplements = JSON.parse(savedSupp);
+    
+    // Özel verileri ana verilere ekle
+    applyCustomData();
+    
+    // Kaydedilmiş ana veriyi yükle
+    let savedData = localStorage.getItem(DATA_KEY);
+    if(savedData){
+        data = JSON.parse(savedData);
+    }
+}
+function saveDoneState(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(doneState));
+    localStorage.setItem("fitnessWater", JSON.stringify(waterIntake));
+    localStorage.setItem(DATA_KEY, JSON.stringify(data));
+    localStorage.setItem(CUSTOM_MEALS_KEY, JSON.stringify(customMeals));
+    localStorage.setItem(CUSTOM_EX_KEY, JSON.stringify(customExercises));
+    localStorage.setItem(CUSTOM_SUPP_KEY, JSON.stringify(customSupplements));
+}
+
+function applyCustomData(){
+    // Özel yemekleri her güne eklemek için (isteğe bağlı, şimdilik sadece ayarlarda göster)
+    // Bu fonksiyonu istersen her günün sonuna ekleme yapmak için kullanabiliriz
+}
+
+// Su fonksiyonları
+function getWaterForDay(day){
+    return waterIntake[day+"_water"] || 0;
+}
+function addWaterForDay(day, amount=2){
+    let key = day+"_water";
+    let current = waterIntake[key] || 0;
+    waterIntake[key] = current + amount;
+    saveDoneState();
+    if(currentDayOpen === day){
+        renderDayItems(day);
+        updateSummaryPanel(day);
+    }
+}
+
+let currentDayOpen = null;
+
+// Özet panelini güncelle
+function updateSummaryPanel(day){
+    let panel = document.getElementById("summaryPanel");
+    if(!panel) return;
+    let totalSets = 0;
+    let doneSets = 0;
+    let totalMeals = 0;
+    let doneMeals = 0;
+    const dayData = data[day];
+    if(!dayData) return;
+    dayData.forEach((item,idx)=>{
+        if(typeof item === "string"){
+            totalMeals++;
+            let key = `${day}|meal|${idx}`;
+            if(doneState[key]) doneMeals++;
+        } else if(item && typeof item === "object" && item.sets){
+            for(let s=1;s<=item.sets;s++){
+                totalSets++;
+                let key = `${day}|set|${item.ex}|${s}`;
+                if(doneState[key]) doneSets++;
+            }
+        }
+    });
+    let water = getWaterForDay(day);
+    let percentSets = totalSets===0?0:Math.round((doneSets/totalSets)*100);
+    let percentMeals = totalMeals===0?0:Math.round((doneMeals/totalMeals)*100);
+    panel.innerHTML = `📋 GÜN ÖZETİ &nbsp; 💧 ${water} bardak su &nbsp;🏋️ Setler: ${doneSets}/${totalSets} (%${percentSets}) &nbsp;🍽️ Öğün: ${doneMeals}/${totalMeals}`;
+    if(totalSets===0 && totalMeals===0) panel.innerHTML = `💧 Su: ${water} bardak | Aktif dinlenme günü`;
+    panel.classList.remove("hidden");
+}
+
+function renderDayItems(day){
+    const container = document.getElementById("items");
+    if(!container) return;
+    container.innerHTML = "";
+    const dayArray = data[day];
+    dayArray.forEach((item, idx)=>{
+        if(typeof item === "string"){
+            let div = document.createElement("div");
+            div.className = "item";
+            let isWater = item.includes("💧");
+            div.innerHTML = `<span>${item}</span>${isWater ? '<span style="font-size:12px;">💧+2</span>' : ''}`;
+            let key = `${day}|meal|${idx}`;
+            if(doneState[key]) div.classList.add("done");
+            div.onclick = (e)=>{
+                e.stopPropagation();
+                if(isWater){
+                    addWaterForDay(day, 2);
+                    showToast(`+2 bardak su (toplam: ${getWaterForDay(day)})`);
+                } else {
+                    if(doneState[key]){
+                        delete doneState[key];
+                        div.classList.remove("done");
+                        showToast("❌ İşaret kaldırıldı");
+                    } else {
+                        doneState[key] = true;
+                        div.classList.add("done");
+                        showToast("✅ Tamamlandı!");
+                    }
+                    saveDoneState();
+                    updateSummaryPanel(day);
+                }
+            };
+            container.appendChild(div);
+        } else if(item && typeof item === "object" && item.ex){
+            let exTitle = document.createElement("div");
+            exTitle.className = "ex-title";
+            exTitle.innerText = `💪 ${item.ex}`;
+            container.appendChild(exTitle);
+            for(let s=1;s<=item.sets;s++){
+                let setDiv = document.createElement("div");
+                setDiv.className = "set";
+                setDiv.innerHTML = `<span>Set ${s}</span><span class="set-badge">⏱️ 90sn dinlenme</span>`;
+                let setKey = `${day}|set|${item.ex}|${s}`;
+                if(doneState[setKey]) setDiv.classList.add("done");
+                setDiv.onclick = (e)=>{
+                    e.stopPropagation();
+                    if(doneState[setKey]){
+                        delete doneState[setKey];
+                        setDiv.classList.remove("done");
+                        showToast("Set iptal edildi");
+                    } else {
+                        doneState[setKey] = true;
+                        setDiv.classList.add("done");
+                        showToast(`Set ${s} tamamlandı! 💪`);
+                        startRestTimer(90);
+                    }
+                    saveDoneState();
+                    updateSummaryPanel(day);
+                };
+                container.appendChild(setDiv);
+            }
+        }
+    });
+    updateSummaryPanel(day);
+}
 
 function openDay(day){
-document.getElementById("home").style.display="none";
-document.getElementById("dayView").classList.remove("hidden");
-document.getElementById("dayTitle").innerText=day;
-items.innerHTML="";
-
-data[day].forEach((it)=>{
-if(typeof it==="string"){
-let div=document.createElement("div");
-div.className="item";
-div.innerText=it;
-div.onclick=()=>div.classList.toggle("done");
-items.appendChild(div);
-}else{
-let title=document.createElement("div");
-title.innerText=it.ex;
-title.style.color="#00ffc3";
-title.style.margin="10px";
-items.appendChild(title);
-
-for(let s=1;s<=it.sets;s++){
-let set=document.createElement("div");
-set.className="set";
-set.innerText="Set "+s;
-set.onclick=()=>{
-set.classList.toggle("done");
-startTimer(150);
-};
-items.appendChild(set);
-}
-}
-});
+    currentDayOpen = day;
+    document.getElementById("home").style.display = "none";
+    document.getElementById("dayView").classList.remove("hidden");
+    document.getElementById("dayTitle").innerText = day;
+    renderDayItems(day);
 }
 
 function goBack(){
-document.getElementById("dayView").classList.add("hidden");
-document.getElementById("home").style.display="grid";
+    stopTimer();
+    document.getElementById("dayView").classList.add("hidden");
+    document.getElementById("home").style.display = "grid";
+    currentDayOpen = null;
 }
 
-// TIMER + SOUND
-let timer;
-function beep(){
-const ctx=new (window.AudioContext||window.webkitAudioContext)();
-const osc=ctx.createOscillator();
-osc.type="sine";
-osc.frequency.setValueAtTime(1000,ctx.currentTime);
-osc.connect(ctx.destination);
-osc.start();
-setTimeout(()=>osc.stop(),300);
+function buildHome(){
+    const homeDiv = document.getElementById("home");
+    homeDiv.innerHTML = "";
+    Object.keys(data).forEach(day=>{
+        let card = document.createElement("div");
+        card.className = "card";
+        card.innerText = day;
+        card.onclick = ()=>openDay(day);
+        homeDiv.appendChild(card);
+    });
 }
 
-function startTimer(sec){
-let box=document.getElementById("timerBox");
-let num=document.getElementById("timerNum");
-box.style.display="block";
-let t=sec;
-clearInterval(timer);
+// Ayarlar menüsü fonksiyonları
+function openSettings(){
+    document.getElementById("settingsPanel").classList.remove("hidden");
+    updateSettingsLists();
+}
 
-timer=setInterval(()=>{
-num.innerText=t;
-t--;
-if(t<0){
-clearInterval(timer);
-box.style.display="none";
-beep();
-alert("Set bitti 🔥");
+function closeSettings(){
+    document.getElementById("settingsPanel").classList.add("hidden");
 }
-},1000);
+
+function updateSettingsLists(){
+    // Özel yemekler listesi
+    let mealsDiv = document.getElementById("customMealsList");
+    mealsDiv.innerHTML = "";
+    customMeals.forEach((meal, index) => {
+        let div = document.createElement("div");
+        div.className = "custom-item";
+        div.innerHTML = `<span>🍽️ ${meal}</span><button class="delete-btn" data-type="meal" data-index="${index}">Sil</button>`;
+        mealsDiv.appendChild(div);
+    });
+    
+    // Özel egzersizler listesi
+    let exDiv = document.getElementById("customExList");
+    exDiv.innerHTML = "";
+    customExercises.forEach((ex, index) => {
+        let div = document.createElement("div");
+        div.className = "custom-item";
+        div.innerHTML = `<span>💪 ${ex.name} (${ex.sets} set)</span><button class="delete-btn" data-type="ex" data-index="${index}">Sil</button>`;
+        exDiv.appendChild(div);
+    });
+    
+    // Özel supplementler listesi
+    let suppDiv = document.getElementById("customSuppList");
+    suppDiv.innerHTML = "";
+    customSupplements.forEach((supp, index) => {
+        let div = document.createElement("div");
+        div.className = "custom-item";
+        div.innerHTML = `<span>💊 ${supp}</span><button class="delete-btn" data-type="supp" data-index="${index}">Sil</button>`;
+        suppDiv.appendChild(div);
+    });
+    
+    // Sil butonlarına event ekle
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            let type = btn.dataset.type;
+            let index = parseInt(btn.dataset.index);
+            if(type === "meal"){
+                customMeals.splice(index, 1);
+            } else if(type === "ex"){
+                customExercises.splice(index, 1);
+            } else if(type === "supp"){
+                customSupplements.splice(index, 1);
+            }
+            saveDoneState();
+            updateSettingsLists();
+            showToast("Silindi!");
+        });
+    });
 }
+
+// Yeni yemek ekle
+function addCustomMeal(){
+    let name = document.getElementById("newMealName").value.trim();
+    if(name){
+        customMeals.push(name);
+        saveDoneState();
+        updateSettingsLists();
+        document.getElementById("newMealName").value = "";
+        showToast(`🍽️ ${name} eklendi! (Tüm günlere eklemek için kod güncellenmeli)`);
+    }
+}
+
+// Yeni egzersiz ekle
+function addCustomExercise(){
+    let name = document.getElementById("newExName").value.trim();
+    let sets = parseInt(document.getElementById("newExSets").value);
+    if(name && sets>0){
+        customExercises.push({name: name, sets: sets});
+        saveDoneState();
+        updateSettingsLists();
+        document.getElementById("newExName").value = "";
+        document.getElementById("newExSets").value = "";
+        showToast(`💪 ${name} (${sets} set) eklendi!`);
+    }
+}
+
+// Yeni supplement ekle
+function addCustomSupplement(){
+    let name = document.getElementById("newSuppName").value.trim();
+    if(name){
+        customSupplements.push(name);
+        saveDoneState();
+        updateSettingsLists();
+        document.getElementById("newSuppName").value = "";
+        showToast(`💊 ${name} eklendi!`);
+    }
+}
+
+// Event listener'lar
+document.getElementById("timerCloseBtn")?.addEventListener("click",()=>{ stopTimer(); });
+document.getElementById("timerCustomBtn")?.addEventListener("click",()=>{
+    let newSec = prompt("Dinlenme süresi (saniye):", "90");
+    if(newSec && !isNaN(parseInt(newSec))){
+        let sec = parseInt(newSec);
+        if(sec>=10 && sec<=300){
+            startTimerDisplay(sec);
+        } else { showToast("10-300 saniye arası girin"); }
+    }
+});
+document.getElementById("showSummaryBtn")?.addEventListener("click",()=>{
+    if(currentDayOpen){
+        updateSummaryPanel(currentDayOpen);
+        let panel = document.getElementById("summaryPanel");
+        if(panel.classList.contains("hidden")) panel.classList.remove("hidden");
+        else panel.classList.add("hidden");
+    }
+});
+document.getElementById("backBtn")?.addEventListener("click",goBack);
+document.getElementById("settingsBtn")?.addEventListener("click",openSettings);
+document.getElementById("closeSettingsBtn")?.addEventListener("click",closeSettings);
+document.getElementById("addMealBtn")?.addEventListener("click",addCustomMeal);
+document.getElementById("addExBtn")?.addEventListener("click",addCustomExercise);
+document.getElementById("addSuppBtn")?.addEventListener("click",addCustomSupplement);
+
+loadDoneState();
+buildHome();
 </script>
-
 </body>
 </html>
