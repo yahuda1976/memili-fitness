@@ -2,93 +2,121 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MEMILI FITNESS FINAL APP 🚀</title>
+<title>MEMILI FITNESS V6 - TEMİZ SİSTEM 🚀</title>
 <style>
 body{margin:0;font-family:Arial;background:#121212;color:#fff;padding:10px}
 h2{text-align:center;color:#ff4500}
-.top{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px}
+.topbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:10px}
 .btn{padding:10px;border:none;border-radius:10px;cursor:pointer;background:#1e1e1e;color:#fff}
 .active{background:#ff4500}
-.card{background:#1e1e1e;padding:12px;border-radius:12px;margin:10px 0;border-left:4px solid #ff4500;cursor:pointer}
-.done{opacity:0.4;text-decoration:line-through}
+.section{background:#1e1e1e;padding:12px;border-radius:12px;margin:10px 0}
+.card{background:#2a2a2a;padding:10px;border-radius:10px;margin:10px 0}
 .small{color:#aaa;font-size:12px}
-.page{display:none}
+.setrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.set{padding:6px 10px;border-radius:8px;background:#444;cursor:pointer;font-size:12px}
+.set.done{background:#2ecc71}
+.done{text-decoration:line-through;opacity:0.6}
 </style>
 </head>
-<body><h2>MEMILI FITNESS FINAL SYSTEM 🚀</h2><div class="top" id="days"></div><h3 id="title"></h3>
+<body><h2>MEMILI FITNESS V6 🚀</h2><div class="topbar" id="days"></div><h3 id="title"></h3>
 <div id="content"></div><script>
-const days=[
+
+// =====================
+// PROGRAM (DOĞRU SPLIT)
+// =====================
+const days = [
 {
 name:"Pazartesi",
-plan:[
-{t:"07:45",type:"meal",text:"Trende kahvaltı: yumurta + peynir"},
-{t:"08:00",type:"water",text:"1 bardak su iç"},
-{t:"09:00",type:"meal",text:"Ekstra kahve + hafif atıştırma"},
-{t:"11:00",type:"supp",text:"Omega 3 + vitamin"},
-{t:"14:00",type:"meal",text:"Tavuk döner + pilav + salata"},
-{t:"17:00",type:"supp",text:"Whey protein"},
-{t:"18:30",type:"preworkout",text:"Muz + kahve"},
-{t:"19:30",type:"training",text:"Göğüs + Triceps: Dumbbell Press 4x10 / Incline 4x10 / Fly 3x12 / Pushdown 4x12"},
-{t:"21:00",type:"meal",text:"Skyr + yulaf"}
+water:4,
+meals:[
+"07:00 Kahvaltı (Trende): yumurta + peynir",
+"10:00 Ara öğün",
+"14:00 Öğle: tavuk + pilav",
+"21:00 Akşam: skyr + yulaf"
+],
+supp:[
+"11:00 Omega 3 + vitamin",
+"17:00 Whey protein"
+],
+training:[
+{name:"Dumbbell Bench Press",sets:4},
+{name:"Incline Dumbbell Press",sets:4},
+{name:"Chest Fly",sets:3},
+{name:"Triceps Pushdown",sets:4}
 ]
 },
 {
 name:"Salı",
-plan:[
-{t:"07:30",type:"meal",text:"Kahvaltı"},
-{t:"11:00",type:"supp",text:"Whey"},
-{t:"14:00",type:"meal",text:"Et + pilav"},
-{t:"18:00",type:"training",text:"Sırt: Lat Pulldown 4x10 / Row 4x10 / Seated Row 3x12 / Curl 3x12"},
-{t:"21:00",type:"meal",text:"Skyr"}
+water:4,
+meals:[
+"07:00 Kahvaltı",
+"14:00 Et + pirinç",
+"21:00 Skyr"
+],
+supp:[
+"11:00 Whey protein"
+],
+training:[
+{name:"Leg Press",sets:4},
+{name:"Leg Curl",sets:3},
+{name:"Lunge",sets:3},
+{name:"Calf Raise",sets:3}
 ]
 },
 {
 name:"Çarşamba",
-plan:[
-{t:"07:30",type:"meal",text:"Kahvaltı"},
-{t:"11:00",type:"supp",text:"Whey"},
-{t:"18:00",type:"training",text:"Omuz + Core"},
-{t:"21:00",type:"meal",text:"Protein"}
-]
-},
+water:3,
+meals:["Serbest dinlenme günü"],supp:[],training:[]},
 {
 name:"Perşembe",
-plan:[
-{t:"08:00",type:"rest",text:"Aktif dinlenme"},
-{t:"12:00",type:"meal",text:"Ev yemeği"},
-{t:"20:00",type:"meal",text:"Hafif protein"}
+water:4,
+meals:[
+"07:00 Kahvaltı",
+"14:00 Öğle",
+"21:00 Akşam"
+],
+supp:["11:00 Whey"],
+training:[
+{name:"Lat Pulldown",sets:4},
+{name:"Seated Row",sets:4},
+{name:"One Arm Row",sets:4},
+{name:"Biceps Curl",sets:3}
 ]
 },
 {
 name:"Cuma",
-plan:[
-{t:"07:30",type:"meal",text:"Kahvaltı"},
-{t:"18:00",type:"training",text:"Göğüs + Triceps 2"},
-{t:"21:00",type:"meal",text:"Skyr"}
+water:4,
+meals:[
+"07:00 Kahvaltı",
+"14:00 Öğle",
+"21:00 Skyr"
+],
+supp:["11:00 Whey"],
+training:[
+{name:"Shoulder Press",sets:4},
+{name:"Lateral Raise",sets:4},
+{name:"Rear Delt Fly",sets:3},
+{name:"Biceps Curl",sets:3}
 ]
 },
 {
 name:"Cumartesi",
-plan:[
-{t:"08:00",type:"meal",text:"Kahvaltı"},
-{t:"17:00",type:"training",text:"Bacak"},
-{t:"21:00",type:"meal",text:"Protein"}
-]
-},
+water:3,
+meals:["Dinlenme"],supp:[],training:[]},
 {
 name:"Pazar",
-plan:[
-{t:"09:00",type:"rest",text:"Dinlenme günü"},
-{t:"14:00",type:"meal",text:"Serbest"}
-]
-}
+water:3,
+meals:["Dinlenme"],supp:[],training:[]}
 ];
 
 let current=0;
-let db=JSON.parse(localStorage.getItem("final_app")||"{}");
+let db=JSON.parse(localStorage.getItem("v6")||"{}");
 
-function save(){localStorage.setItem("final_app",JSON.stringify(db));}
+function save(){localStorage.setItem("v6",JSON.stringify(db));}
 
+// =====================
+// GÜN BUTONLARI (FIXED)
+// =====================
 function renderDays(){
 let d=document.getElementById("days");
 d.innerHTML="";
@@ -101,32 +129,74 @@ d.appendChild(b);
 });
 }
 
-function toggle(i){
-let key=days[current].name;
-if(!db[key])db[key]={};
-db[key][i]=!db[key][i];
+// =====================
+// SET TOGGLE
+// =====================
+function toggleSet(exIndex,setIndex){
+let day=days[current].name;
+if(!db[day])db[day]={};
+if(!db[day][exIndex])db[day][exIndex]={};
+db[day][exIndex][setIndex]=!db[day][exIndex][setIndex];
 save();render();
 }
 
+// =====================
+// TASK TOGGLE (MEAL / SUPP)
+// =====================
+function toggleTask(type,index){
+let day=days[current].name;
+let key=type+"_"+index;
+if(!db[day])db[day]={};
+db[day][key]=!db[day][key];
+save();render();
+}
+
+// =====================
+// RENDER
+// =====================
 function render(){
 let day=days[current];
 document.getElementById("title").innerText=day.name+" GÜN PLANI";
 let c=document.getElementById("content");
 c.innerHTML="";
-
 let saved=db[day.name]||{};
 
-day.plan.forEach((p,i)=>{
-let done=saved[i];
-c.innerHTML+=`
-<div class='card ${done?"done":""}' onclick='toggle(${i})'>
-<b>${p.t}</b> - ${p.text}
-<div class='small'>${p.type}</div>
-</div>
-`;
+// SU
+c.innerHTML+=`<div class='section'>💧 Su: ${day.water} L (gün içine yay)</div>`;
+
+// MEALS
+c.innerHTML+=`<div class='section'><b>🍽 Yemekler</b>`;
+day.meals.forEach((m,i)=>{
+let done=saved["meal_"+i];
+c.innerHTML+=`<div class='card ${done?"done":""}' onclick='toggleTask("meal",${i})'>${m}</div>`;
 });
+c.innerHTML+=`</div>`;
+
+// SUPPLEMENTS
+c.innerHTML+=`<div class='section'><b>💊 Supplement</b>`;
+day.supp.forEach((s,i)=>{
+let done=saved["supp_"+i];
+c.innerHTML+=`<div class='card ${done?"done":""}' onclick='toggleTask("supp",${i})'>${s}</div>`;
+});
+c.innerHTML+=`</div>`;
+
+// TRAINING
+c.innerHTML+=`<div class='section'><b>🏋️ Antrenman</b>`;
+day.training.forEach((ex,ei)=>{
+let exDiv="<div class='card'><b>"+ex.name+"</b><div class='small'>Set: "+ex.sets+"</div><div class='setrow'>";
+
+for(let s=0;s<ex.sets;s++){
+let done=saved?.[ei]?.[s];
+exDiv+=`<div class='set ${done?"done":""}' onclick='toggleSet(${ei},${s})'>S${s+1}</div>`;
+}
+
+exDiv+="</div></div>";
+c.innerHTML+=exDiv;
+});
+c.innerHTML+=`</div>`;
 }
 
 renderDays();render();
+
 </script></body>
 </html>
