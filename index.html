@@ -1,1 +1,62 @@
-const data={ "Pazartesi":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4},{ex:"Incline Dumbbell Press",sets:4},{ex:"Dumbbell Fly",sets:3},{ex:"Cable Crossover",sets:3},{ex:"Rope Pushdown",sets:4},{ex:"Overhead DB Extension",sets:3},{ex:"Dips",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"], "Salı":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + meyve","💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4},{ex:"Seated Row",sets:4},{ex:"Dumbbell Row",sets:3},{ex:"Straight Arm Pulldown",sets:3},{ex:"Face Pull",sets:3},{ex:"DB Curl",sets:4},{ex:"Hammer Curl",sets:3},{ex:"Incline Curl",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"], "Çarşamba":["07:30 Skyr + keten + muz","💧 2 bardak","09:30 Yoğurt + meyve","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata + zeytinyağı","💧 2 bardak","22:30 Skyr","💧 2 bardak"], "Perşembe":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},{ex:"Leg Curl",sets:3},{ex:"Leg Extension",sets:3},{ex:"Calf Raise",sets:4},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"], "Cuma":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + kebap","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + muz","💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},{ex:"Rear Delt Fly",sets:3},{ex:"Upright Row",sets:3},{ex:"Pushdown",sets:3},{ex:"Dips",sets:2},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"], "Cumartesi":["07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"], "Pazar":["08:00 Kahve + Omega-3","💧 2 bardak","08:30 Skyr + muz","💧 2 bardak","11:00 Yoğurt + meyve","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"] }; const home=document.getElementById("home"); const items=document.getElementById("items"); Object.keys(data).forEach(d=>{ let div=document.createElement("div"); div.className="card"; div.innerText=d; div.onclick=()=>openDay(d); home.appendChild(div); }); function openDay(day){ document.getElementById("home").style.display="none"; document.getElementById("dayView").classList.remove("hidden"); document.getElementById("dayTitle").innerText=day; items.innerHTML=""; data[day].forEach((it)=>{ if(typeof it==="string"){ let div=document.createElement("div"); div.className="item"; div.innerText=it; div.onclick=()=>div.classList.toggle("done"); items.appendChild(div); }else{ let title=document.createElement("div"); title.innerText=it.ex; title.style.color="#00ffc3"; title.style.margin="10px"; items.appendChild(title); for(let s=1;s<=it.sets;s++){ let set=document.createElement("div"); set.className="set"; set.innerText="Set "+s; set.onclick=()=>{ set.classList.toggle("done"); startTimer(150); }; items.appendChild(set); } } }); } function goBack(){ document.getElementById("dayView").classList.add("hidden"); document.getElementById("home").style.display="grid"; } // TIMER + SOUND let timer; function beep(){ const ctx=new (window.AudioContext||window.webkitAudioContext)(); const osc=ctx.createOscillator(); osc.type="sine"; osc.frequency.setValueAtTime(1000,ctx.currentTime); osc.connect(ctx.destination); osc.start(); setTimeout(()=>osc.stop(),300); } function startTimer(sec){ let box=document.getElementById("timerBox"); let num=document.getElementById("timerNum"); box.style.display="block"; let t=sec; clearInterval(timer); timer=setInterval(()=>{ num.innerText=t; t--; if(t<0){ clearInterval(timer); box.style.display="none"; beep(); alert("Set bitti 🔥"); } },1000); }
+<!DOCTYPE html><html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Pro V2</title>
+<style>
+body{margin:0;font-family:Arial;background:#0b0b0b;color:#fff}
+.header{display:flex;justify-content:space-around;background:#111;padding:10px}
+.tab{cursor:pointer;padding:10px 15px;border-radius:10px}
+.tab.active{background:#00ffc3;color:#000}
+.section{display:none;padding:10px}
+.section.active{display:block}
+.card{background:#1e1e1e;margin:10px;padding:15px;border-radius:10px;text-align:center;cursor:pointer}
+input{padding:10px;margin:5px;width:90%;border-radius:8px;border:none}
+button{padding:10px 15px;border:none;border-radius:10px;background:#00ffc3;color:#000;font-weight:bold;cursor:pointer}
+</style>
+</head>
+<body><div class="header">
+<div class="tab active" onclick="showTab('antrenman')">🏋️</div>
+<div class="tab" onclick="showTab('tracking')">📈</div>
+<div class="tab" onclick="showTab('program')">🔥</div>
+</div><div id="antrenman" class="section active">
+<h2>Antrenman Planı</h2>
+<p>Buraya mevcut app gelecek (dokunmadık)</p>
+</div><div id="tracking" class="section">
+<h2>Kilo & Güç Takip</h2>
+<input id="kilo" placeholder="Kilo">
+<input id="bench" placeholder="Bench kg">
+<input id="squat" placeholder="Squat kg">
+<button onclick="saveData()">Kaydet</button>
+<p id="output"></p>
+</div><div id="program" class="section">
+<h2>Program Seç</h2>
+<div class="card" onclick="selectProgram('level1')">💥 Level 1</div>
+<div class="card" onclick="selectProgram('level2')">🔥 Level 2</div>
+<div class="card" onclick="selectProgram('def')">🧊 Definasyon</div>
+<div class="card" onclick="selectProgram('bulk')">🍚 Bulk</div>
+<p id="programSec"></p>
+</div><script>
+function showTab(tab){
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ event.target.classList.add('active');
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(tab).classList.add('active');
+}
+
+function saveData(){
+ let kilo=document.getElementById('kilo').value;
+ let bench=document.getElementById('bench').value;
+ let squat=document.getElementById('squat').value;
+ localStorage.setItem('kilo',kilo);
+ localStorage.setItem('bench',bench);
+ localStorage.setItem('squat',squat);
+ document.getElementById('output').innerText="Kaydedildi ✔";
+}
+
+function selectProgram(p){
+ localStorage.setItem('program',p);
+ document.getElementById('programSec').innerText="Seçilen: "+p;
+}
+</script></body>
+</html>
