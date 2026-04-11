@@ -1,233 +1,206 @@
 <!DOCTYPE html><html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fitness Pro App</title>  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: white;
-    }
-
-    h1 {
-      text-align: center;
-      padding: 10px;
-      margin: 0;
-      color: #00ffcc;
-    }
-
-    /* HOME GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
-      padding: 10px;
-    }
-
-    .card {
-      background: linear-gradient(145deg, #1f1f1f, #141414);
-      border: 1px solid #2a2a2a;
-      padding: 15px 5px;
-      text-align: center;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
-      color: #00ff99;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-      background: #222;
-    }
-
-    /* DAY VIEW */
-    .hidden { display: none; }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px;
-      align-items: center;
-    }
-
-    .btn {
-      padding: 10px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      border: none;
-    }
-
-    .back {
-      background: #ff0055;
-      color: white;
-    }
-
-    .timerBtn {
-      background: #00bfff;
-      color: white;
-    }
-
-    .dayTitle {
-      text-align: center;
-      font-size: 20px;
-      color: #00ffcc;
-    }
-
-    .progress {
-      text-align: center;
-      margin: 10px;
-      color: #ffaa00;
-    }
-
-    .item {
-      background: #1e1e1e;
-      margin: 6px 10px;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .item.done {
-      background: #003d2a;
-      text-decoration: line-through;
-      opacity: 0.5;
-    }
-
-    /* TIMER */
-    .timerBox {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #111;
-      border: 2px solid #00ffcc;
-      padding: 15px;
-      border-radius: 12px;
-      text-align: center;
-      display: none;
-    }
-
-    .timerNum {
-      font-size: 24px;
-      color: #00ffcc;
-    }
-  </style></head>
-<body><h1>💪 FITNESS PRO APP</h1><!-- HOME --><div id="home" class="grid"></div><!-- DAY VIEW --><div id="dayView" class="hidden">  <div class="topbar">
-    <button class="btn back" onclick="goBack()">⬅ Geri</button>
-    <button class="btn timerBtn" onclick="startTimer(150)">⏱ 150 sn Dinlenme</button>
-  </div>  <div class="dayTitle" id="dayTitle"></div>
-  <div class="progress" id="progress"></div>
-  <div id="items"></div>
-</div><!-- TIMER --><div class="timerBox" id="timerBox">
-  <div class="timerNum" id="timerNum">150</div>
-  <div>Dinlenme</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Pro App</title><style>
+body{margin:0;font-family:Arial;background:#0b0b0b;color:#fff}
+h1{text-align:center;color:#00ffc3}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:10px}
+.card{background:#1c1c1c;padding:12px;border-radius:10px;text-align:center;cursor:pointer;color:#00ff99;font-weight:bold}
+.card:hover{background:#2a2a2a}
+.hidden{display:none}
+.topbar{display:flex;justify-content:space-between;padding:10px}
+.btn{padding:10px;border:none;border-radius:10px;font-weight:bold;cursor:pointer}
+.back{background:#ff0055;color:#fff}
+.dayTitle{text-align:center;font-size:20px;color:#00ffc3}
+.item{background:#1e1e1e;margin:6px 10px;padding:10px;border-radius:10px;cursor:pointer}
+.item.done{background:#003d2a;opacity:.5;text-decoration:line-through}
+.timerBox{position:fixed;bottom:20px;right:20px;background:#111;padding:15px;border-radius:10px;border:2px solid #00ffc3;display:none}
+.timerNum{font-size:22px}
+.set{background:#2a2a2a;margin:4px 0;padding:8px;border-radius:8px;cursor:pointer}
+</style></head>
+<body><h1>💪 FITNESS PRO</h1><div id="home" class="grid"></div><div id="dayView" class="hidden">
+<div class="topbar">
+<button class="btn back" onclick="goBack()">⬅ Geri</button>
+</div>
+<div id="dayTitle" class="dayTitle"></div>
+<div id="items"></div>
+</div><div class="timerBox" id="timerBox">
+<div id="timerNum" class="timerNum">150</div>
+<div>Dinlenme</div>
 </div><script>
 const data = {
-  "Pzt": ["Kahve","Skyr","Yoğurt","Ton balığı","Pirinç","Whey","EAA","Antrenman"],
-  "Sal": ["Kahve","Skyr","Yoğurt","Ton balığı","Pirinç","Whey","EAA","Antrenman"],
-  "Çar": ["Dinlenme"],
-  "Per": ["Bacak"],
-  "Cum": ["Omuz"],
-  "Cts": ["Aktif"],
-  "Paz": ["Dinlenme"]
+"Pazartesi": [
+"07:00 Kahve + Omega-3","💧 2 bardak",
+"07:30 Skyr 500g + chia + keten","1 muz","💧 2 bardak",
+"09:30 Yoğurt","💧 2 bardak",
+"12:30 Ton balığı + lavaş + zeytinyağı","💧 2 bardak",
+"14:00 Pirinç + tavuk/kebap + salata","💧 2 bardak",
+"14:45 Whey","15:30 Kahve + EAA","💧 2 bardak",
+"18:00 Yoğurt + muz","💧 2 bardak",
+"🏋️ GÖĞÜS + TRİCEPS",
+{ex:"Dumbbell Bench Press",sets:4},
+{ex:"Incline Dumbbell Press",sets:4},
+{ex:"Dumbbell Fly",sets:3},
+{ex:"Cable Crossover",sets:3},
+{ex:"Rope Pushdown",sets:4},
+{ex:"Overhead DB Extension",sets:3},
+{ex:"Dips",sets:3},
+"💧 2 bardak",
+"21:00 Whey + skyr + yulaf","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+],
+
+"Salı": [
+"07:00 Kahve + Omega-3","💧 2 bardak",
+"07:30 Skyr + muz + chia","💧 2 bardak",
+"09:30 Yoğurt","💧 2 bardak",
+"12:30 Ton balığı + lavaş","💧 2 bardak",
+"14:00 Pirinç + tavuk","💧 2 bardak",
+"14:45 Whey","15:30 Kahve + EAA","💧 2 bardak",
+"18:00 Skyr + meyve","💧 2 bardak",
+"🏋️ SIRT + BİCEPS",
+{ex:"Lat Pulldown",sets:4},
+{ex:"Seated Row",sets:4},
+{ex:"Dumbbell Row",sets:3},
+{ex:"Straight Arm Pulldown",sets:3},
+{ex:"Face Pull",sets:3},
+{ex:"DB Curl",sets:4},
+{ex:"Hammer Curl",sets:3},
+{ex:"Incline Curl",sets:3},
+"💧 2 bardak",
+"21:00 Whey + skyr + yulaf","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+],
+
+"Çarşamba": [
+"07:30 Skyr + keten + muz","💧 2 bardak",
+"09:30 Yoğurt + meyve","💧 2 bardak",
+"12:30 Ton balığı + lavaş","💧 2 bardak",
+"14:00 Tavuk + az pirinç","💧 2 bardak",
+"18:00 Skyr","💧 2 bardak",
+"20:00 Et + salata + zeytinyağı","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+],
+
+"Perşembe": [
+"07:00 Kahve + Omega-3","💧 2 bardak",
+"07:30 Skyr + muz","💧 2 bardak",
+"09:30 Yoğurt","💧 2 bardak",
+"12:30 Ton balığı + lavaş","💧 2 bardak",
+"14:00 Pirinç + tavuk","💧 2 bardak",
+"14:45 Whey","15:30 Kahve + EAA","💧 2 bardak",
+"18:00 Yoğurt + muz","💧 2 bardak",
+"🏋️ BACAK",
+{ex:"Leg Press",sets:4},
+{ex:"Squat",sets:3},
+{ex:"Leg Curl",sets:3},
+{ex:"Leg Extension",sets:3},
+{ex:"Calf Raise",sets:4},
+"💧 2 bardak",
+"21:00 Whey + skyr + yulaf","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+],
+
+"Cuma": [
+"07:00 Kahve + Omega-3","💧 2 bardak",
+"07:30 Skyr + chia","💧 2 bardak",
+"09:30 Yoğurt","💧 2 bardak",
+"12:30 Ton balığı + lavaş","💧 2 bardak",
+"14:00 Pirinç + kebap","💧 2 bardak",
+"14:45 Whey","15:30 Kahve + EAA","💧 2 bardak",
+"18:00 Skyr + muz","💧 2 bardak",
+"🏋️ OMUZ + TRİCEPS",
+{ex:"Shoulder Press",sets:4},
+{ex:"Lateral Raise",sets:4},
+{ex:"Rear Delt Fly",sets:3},
+{ex:"Upright Row",sets:3},
+{ex:"Pushdown",sets:3},
+{ex:"Dips",sets:2},
+"💧 2 bardak",
+"21:00 Whey + skyr + yulaf","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+],
+
+"Cumartesi": [
+"07:30 Skyr + muz","💧 2 bardak",
+"09:30 Yoğurt","💧 2 bardak",
+"12:30 Ton balığı + lavaş","💧 2 bardak",
+"14:00 Tavuk + pirinç","💧 2 bardak",
+"18:00 Skyr","💧 2 bardak",
+"20:00 Et + salata","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+],
+
+"Pazar": [
+"08:00 Kahve + Omega-3","💧 2 bardak",
+"08:30 Skyr + muz","💧 2 bardak",
+"11:00 Yoğurt + meyve","💧 2 bardak",
+"14:00 Tavuk + az pirinç","💧 2 bardak",
+"18:00 Skyr","💧 2 bardak",
+"20:00 Et + salata","💧 2 bardak",
+"22:30 Skyr","💧 2 bardak"
+]
 };
 
-const home = document.getElementById("home");
-const dayView = document.getElementById("dayView");
-const items = document.getElementById("items");
-const progress = document.getElementById("progress");
+const home=document.getElementById("home");
+const items=document.getElementById("items");
 
-let currentDay = null;
-
-// LOCAL STORAGE
-function saveState(day, index) {
-  localStorage.setItem(day + "_" + index, "done");
-}
-
-function loadState(day, index) {
-  return localStorage.getItem(day + "_" + index) === "done";
-}
-
-// HOME
-Object.keys(data).forEach(day => {
-  const div = document.createElement("div");
-  div.className = "card";
-  div.innerText = day;
-  div.onclick = () => openDay(day);
-  home.appendChild(div);
+Object.keys(data).forEach(d=>{
+let div=document.createElement("div");
+div.className="card";
+div.innerText=d;
+div.onclick=()=>openDay(d);
+home.appendChild(div);
 });
 
-function openDay(day) {
-  currentDay = day;
-  home.style.display = "none";
-  dayView.classList.remove("hidden");
+function openDay(day){
+document.getElementById("home").style.display="none";
+document.getElementById("dayView").classList.remove("hidden");
+document.getElementById("dayTitle").innerText=day;
+items.innerHTML="";
 
-  document.getElementById("dayTitle").innerText = day;
+data[day].forEach((it,i)=>{
+if(typeof it==="string"){
+let div=document.createElement("div");
+div.className="item";
+div.innerText=it;
+div.onclick=()=>div.classList.toggle("done");
+items.appendChild(div);
+}else{
+let title=document.createElement("div");
+title.innerText=it.ex;
+title.style.color="#00ffc3";
+items.appendChild(title);
 
-  renderDay();
+for(let s=1;s<=it.sets;s++){
+let set=document.createElement("div");
+set.className="set";
+set.innerText="Set "+s+" (tıkla başlat)";
+set.onclick=()=>startTimer(150);
+items.appendChild(set);
+}
+}
+});
 }
 
-function renderDay() {
-  items.innerHTML = "";
-
-  let list = data[currentDay];
-  let done = 0;
-
-  list.forEach((t, i) => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerText = t;
-
-    if (loadState(currentDay, i)) {
-      div.classList.add("done");
-      done++;
-    }
-
-    div.onclick = () => {
-      div.classList.toggle("done");
-      saveState(currentDay, i);
-      renderDay();
-    };
-
-    items.appendChild(div);
-  });
-
-  let percent = Math.round((done / list.length) * 100);
-  progress.innerText = "Tamamlama: %" + percent;
-
-  // streak
-  localStorage.setItem(currentDay + "_percent", percent);
+function goBack(){
+document.getElementById("dayView").classList.add("hidden");
+document.getElementById("home").style.display="grid";
 }
 
-function goBack() {
-  dayView.classList.add("hidden");
-  home.style.display = "grid";
-}
-
-// TIMER
 let timer;
-function startTimer(sec) {
-  let box = document.getElementById("timerBox");
-  let num = document.getElementById("timerNum");
-
-  box.style.display = "block";
-  let time = sec;
-
-  clearInterval(timer);
-
-  timer = setInterval(() => {
-    num.innerText = time;
-    time--;
-
-    if (time < 0) {
-      clearInterval(timer);
-      box.style.display = "none";
-      alert("Dinlenme bitti 🔥");
-    }
-  }, 1000);
+function startTimer(sec){
+let box=document.getElementById("timerBox");
+let num=document.getElementById("timerNum");
+box.style.display="block";
+let t=sec;
+clearInterval(timer);
+timer=setInterval(()=>{
+num.innerText=t;
+t--;
+if(t<0){clearInterval(timer);box.style.display="none";alert("Set bitti 🔥");}
+},1000);
 }
 
 </script></body>
