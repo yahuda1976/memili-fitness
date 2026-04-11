@@ -117,7 +117,6 @@ body {
     font-size: 0.7rem;
 }
 
-/* 8'li GRİD */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -233,6 +232,7 @@ small {
     justify-content: space-between;
     align-items: center;
     border: none;
+    flex-wrap: wrap;
 }
 .item.done, .set.done {
     background: #2a6b3c;
@@ -250,6 +250,22 @@ small {
     font-weight: bold;
     padding-left: 8px;
     border-left: 3px solid #87CEEB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.video-btn {
+    background: #ff0000;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.7rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+.video-btn:hover {
+    background: #cc0000;
 }
 
 .bottom-quest {
@@ -385,6 +401,39 @@ small {
     color: #000;
 }
 
+/* SU GRAFİĞİ */
+.water-chart {
+    margin-top: 15px;
+    padding: 10px;
+    background: #1e1e2e;
+    border-radius: 16px;
+}
+.chart-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.chart-tab {
+    flex: 1;
+    background: #2a2a3e;
+    border: none;
+    padding: 8px;
+    border-radius: 20px;
+    color: #87CEEB;
+    cursor: pointer;
+    font-weight: bold;
+}
+.chart-tab.active {
+    background: #87CEEB;
+    color: #000;
+}
+.water-stats {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #87CEEB;
+}
+
 .timer-box {
     position: fixed;
     bottom: 170px;
@@ -487,9 +536,6 @@ small {
     background: #ffaa33;
     margin-top: 10px;
 }
-.cloud-btn {
-    background: #4285F4;
-}
 .toast {
     position: fixed;
     bottom: 30%;
@@ -548,6 +594,19 @@ small {
         <div class="stat-card">⭐ En İyi Gün<br><span id="bestDay">-</span></div>
         <div class="stat-card">🔥 Toplam XP<br><span id="totalXP">0</span></div>
     </div>
+    
+    <!-- SU GRAFİĞİ -->
+    <div class="water-chart">
+        <h3 style="color:#87CEEB; margin-bottom:10px;">💧 SU TAKİP GRAFİĞİ</h3>
+        <div class="chart-tabs">
+            <button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button>
+            <button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button>
+            <button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button>
+        </div>
+        <div id="waterChartContainer"></div>
+        <div id="waterChartMessage" class="water-stats"></div>
+    </div>
+    
     <div id="weeklyChart" class="chart-bars"></div>
     <div id="badgesContainer" class="badges"></div>
 </div>
@@ -570,18 +629,17 @@ small {
     </div>
     <div style="padding: 15px;">
         <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#FFD700; margin-bottom:10px;">☁️ CLOUD YEDEKLEME</h3>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="cloud-btn" onclick="simpleBackup()">📥 Yedek Al (İndir)</button>
-                <button class="cloud-btn" onclick="simpleRestore()">📤 Yedek Yükle</button>
-            </div>
-            <p style="font-size:0.7rem; margin-top:8px; color:#FFD700;">Yedek dosyası telefonunuza kaydedilir. Geri yüklemek için aynı dosyayı seçin.</p>
+            <h3 style="color:#FFD700; margin-bottom:10px;">⏰ ANTRENMAN HATIRLATICI</h3>
+            <input type="time" id="reminderTime" style="width:100%; padding:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:white; font-size:1rem;">
+            <button onclick="setWorkoutReminder()" style="width:100%; margin-top:10px; background:#FFD700; border:none; padding:10px; border-radius:25px; color:#000; font-weight:bold; cursor:pointer;">🔔 Hatırlatıcı Kur</button>
+            <button onclick="cancelWorkoutReminder()" style="width:100%; margin-top:5px; background:#555; border:none; padding:8px; border-radius:25px; color:#FFD700; cursor:pointer;">Hatırlatıcıyı İptal Et</button>
+            <div id="reminderStatus" style="margin-top:8px; font-size:0.7rem; text-align:center; color:#FFD700;"></div>
         </div>
-
+        
         <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#FFD700; margin-bottom:10px;">⏰ SU ALARMI</h3>
             <input type="time" id="waterAlarmTime" style="width:100%; padding:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:white; font-size:1rem;">
-            <button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#FFD700; border:none; padding:10px; border-radius:25px; color:#000; font-weight:bold; cursor:pointer;">🔔 Alarm Kur</button>
+            <button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#FFD700; border:none; padding:10px; border-radius:25px; color:#000; font-weight:bold; cursor:pointer;">💧 Alarm Kur</button>
             <button onclick="cancelWaterAlarm()" style="width:100%; margin-top:5px; background:#555; border:none; padding:8px; border-radius:25px; color:#FFD700; cursor:pointer;">Alarmı İptal Et</button>
             <div id="alarmStatus" style="margin-top:8px; font-size:0.7rem; text-align:center; color:#FFD700;"></div>
         </div>
@@ -589,21 +647,21 @@ small {
         <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#FFD700; margin-bottom:10px;">📦 YEDEKLEME</h3>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button onclick="exportData()" style="background:#555; border:none; padding:8px 16px; border-radius:30px; color:#FFD700; cursor:pointer;">📥 JSON Yedek Al</button>
-                <button onclick="importData()" style="background:#555; border:none; padding:8px 16px; border-radius:30px; color:#FFD700; cursor:pointer;">📤 JSON Geri Yükle</button>
+                <button onclick="simpleBackup()" style="background:#555; border:none; padding:8px 16px; border-radius:30px; color:#FFD700; cursor:pointer;">📥 Yedek Al</button>
+                <button onclick="simpleRestore()" style="background:#555; border:none; padding:8px 16px; border-radius:30px; color:#FFD700; cursor:pointer;">📤 Geri Yükle</button>
             </div>
         </div>
         
         <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#FFD700; margin-bottom:10px;">⚠️ HAFTA YÖNETİMİ</h3>
             <button class="reset-btn" onclick="resetWeek()" style="width:100%;">🔄 Tüm Haftayı Sıfırla</button>
-            <p style="font-size:0.7rem; margin-top:8px; color:#FFD700;">Bu işlem tüm setleri, yemekleri ve su takibini sıfırlar. (İçerikler korunur)</p>
+            <p style="font-size:0.7rem; margin-top:8px; color:#FFD700;">İçerikler korunur, sadece işaretler sıfırlanır</p>
         </div>
         
         <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#FFD700; margin-bottom:10px;">🍽️ Yemek Yönetimi</h3>
             <select id="mealManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;"></select>
-            <div id="mealList" style="max-height:200px; overflow-y:auto; margin-bottom:10px; color:#FFD700;"></div>
+            <div id="mealList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
             <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
             <button onclick="addMealToDay()" style="background:#FFD700; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Yemek Ekle</button>
         </div>
@@ -611,7 +669,7 @@ small {
         <div style="background:#3a3a3a; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#FFD700; margin-bottom:10px;">💪 Egzersiz Yönetimi</h3>
             <select id="exerciseManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;"></select>
-            <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin-bottom:10px; color:#FFD700;"></div>
+            <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
             <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:8px; margin-bottom:5px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
             <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
             <button onclick="addExerciseToDay()" style="background:#FFD700; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Hareket Ekle</button>
@@ -619,9 +677,9 @@ small {
         
         <div style="background:#3a3a3a; border-radius:16px; padding:15px;">
             <h3 style="color:#FFD700; margin-bottom:10px;">💊 Supplement Takviye</h3>
-            <div id="supplementList" style="margin-bottom:10px; color:#FFD700;"></div>
+            <div id="supplementList" style="margin-bottom:10px;"></div>
             <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:8px; margin-bottom:5px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
-            <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı (ör: Sabah)" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
+            <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:8px; margin-bottom:10px; background:#555; border:1px solid #FFD700; border-radius:10px; color:#FFD700;">
             <button onclick="addSupplement()" style="background:#FFD700; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Takviye Ekle</button>
         </div>
     </div>
@@ -675,11 +733,180 @@ let soundEnabled = true;
 let timerInterval = null;
 let currentDayOpen = null;
 let waterAlarmInterval = null;
+let workoutReminderInterval = null;
+let currentChartType = 'daily';
 
-// ==================== ÇOKLU BİP SESİ (4 kere) ====================
+// ==================== BİLDİRİM İZİN ====================
+function requestNotificationPermission() {
+    if ('Notification' in window) {
+        Notification.requestPermission();
+    }
+}
+
+function sendNotification(title, body) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, { body: body, icon: 'https://a1976.github.io/favicon.ico' });
+    }
+}
+
+// ==================== ANTRENMAN HATIRLATICI ====================
+function setWorkoutReminder() {
+    const reminderTime = document.getElementById("reminderTime").value;
+    if(!reminderTime) {
+        showToast("Lütfen bir saat seçin!");
+        return;
+    }
+    
+    localStorage.setItem("workoutReminderTime", reminderTime);
+    document.getElementById("reminderStatus").innerHTML = `⏰ Hatırlatıcı kuruldu: ${reminderTime} - "Bugün antrenman günün!"`;
+    showToast(`✅ Antrenman hatırlatıcısı ${reminderTime} için kuruldu!`);
+    startWorkoutReminder(reminderTime);
+}
+
+function cancelWorkoutReminder() {
+    if(workoutReminderInterval) {
+        clearInterval(workoutReminderInterval);
+        workoutReminderInterval = null;
+    }
+    localStorage.removeItem("workoutReminderTime");
+    document.getElementById("reminderStatus").innerHTML = "Hatırlatıcı iptal edildi";
+    showToast("❌ Antrenman hatırlatıcısı iptal edildi");
+}
+
+function startWorkoutReminder(reminderTime) {
+    if(workoutReminderInterval) clearInterval(workoutReminderInterval);
+    
+    function checkReminder() {
+        const now = new Date();
+        const currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        if(currentTime === reminderTime) {
+            sendNotification("🏋️ FITNESS PRO", "Bugün antrenman günün! Hadi başlayalım! 💪");
+            showToast("🏋️ Antrenman zamanı! Hadi başlayalım!");
+            playMultiBeep();
+        }
+    }
+    
+    workoutReminderInterval = setInterval(checkReminder, 30000);
+    checkReminder();
+}
+
+function loadWorkoutReminder() {
+    const savedReminder = localStorage.getItem("workoutReminderTime");
+    if(savedReminder) {
+        document.getElementById("reminderTime").value = savedReminder;
+        document.getElementById("reminderStatus").innerHTML = `⏰ Hatırlatıcı kuruldu: ${savedReminder} - "Bugün antrenman günün!"`;
+        startWorkoutReminder(savedReminder);
+    }
+}
+
+// ==================== SU GRAFİĞİ ====================
+function getWaterData() {
+    const days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    const data = [];
+    for(let i = 0; i < days.length; i++) {
+        const day = days[i];
+        const waterKey = `${day}_water`;
+        const amount = waterIntake[waterKey] || 0;
+        data.push({day: day.substring(0,3), amount: amount});
+    }
+    return data;
+}
+
+function getWeeklyWaterData() {
+    const weeks = [];
+    let currentWeek = [];
+    for(let i = 0; i < 7; i++) {
+        const day = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"][i];
+        const waterKey = `${day}_water`;
+        const amount = waterIntake[waterKey] || 0;
+        currentWeek.push(amount);
+    }
+    weeks.push({week: "Bu Hafta", total: currentWeek.reduce((a,b)=>a+b,0)});
+    return weeks;
+}
+
+function getMonthlyWaterData() {
+    const monthly = [];
+    let total = 0;
+    for(let i = 0; i < 7; i++) {
+        const day = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"][i];
+        const waterKey = `${day}_water`;
+        const amount = waterIntake[waterKey] || 0;
+        total += amount;
+    }
+    monthly.push({month: "Bu Ay", total: total});
+    return monthly;
+}
+
+function setWaterChartType(type) {
+    currentChartType = type;
+    document.querySelectorAll('.chart-tab').forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+    updateWaterChart();
+}
+
+function updateWaterChart() {
+    const container = document.getElementById("waterChartContainer");
+    const messageDiv = document.getElementById("waterChartMessage");
+    if(!container) return;
+    
+    if(currentChartType === 'daily') {
+        const waterData = getWaterData();
+        const maxWater = Math.max(...waterData.map(d => d.amount), 1);
+        container.innerHTML = '<h4 style="font-size:0.8rem;">📊 Günlük Su Tüketimi (bardak)</h4>';
+        waterData.forEach(d => {
+            const percent = (d.amount / maxWater) * 100;
+            container.innerHTML += `
+                <div class="chart-bar-item">
+                    <div class="bar-label">${d.day}</div>
+                    <div class="bar-fill"><div class="bar" style="width:${percent}%">${d.amount}</div></div>
+                </div>
+            `;
+        });
+        messageDiv.innerHTML = `💧 Toplam su tüketimi: ${waterData.reduce((a,b)=>a+b.amount,0)} bardak`;
+    } 
+    else if(currentChartType === 'weekly') {
+        const weeklyData = getWeeklyWaterData();
+        container.innerHTML = '<h4 style="font-size:0.8rem;">📆 Haftalık Su Tüketimi</h4>';
+        weeklyData.forEach(w => {
+            const percent = (w.total / 100) * 100;
+            container.innerHTML += `
+                <div class="chart-bar-item">
+                    <div class="bar-label">${w.week}</div>
+                    <div class="bar-fill"><div class="bar" style="width:${Math.min(percent,100)}%">${w.total}</div></div>
+                </div>
+            `;
+        });
+        messageDiv.innerHTML = `💧 Bu hafta toplam ${weeklyData[0]?.total || 0} bardak su içildi`;
+    }
+    else if(currentChartType === 'monthly') {
+        const monthlyData = getMonthlyWaterData();
+        container.innerHTML = '<h4 style="font-size:0.8rem;">📊 Aylık Su Tüketimi</h4>';
+        monthlyData.forEach(m => {
+            const percent = (m.total / 200) * 100;
+            container.innerHTML += `
+                <div class="chart-bar-item">
+                    <div class="bar-label">${m.month}</div>
+                    <div class="bar-fill"><div class="bar" style="width:${Math.min(percent,100)}%">${m.total}</div></div>
+                </div>
+            `;
+        });
+        messageDiv.innerHTML = `💧 Bu ay toplam ${monthlyData[0]?.total || 0} bardak su içildi`;
+    }
+}
+
+// ==================== VİDEO BUTONU ====================
+function openExerciseVideo(exerciseName) {
+    const searchQuery = encodeURIComponent(`${exerciseName} egzersizi nasıl yapılır`);
+    const youtubeUrl = `https://www.youtube.com/results?search_query=${searchQuery}`;
+    window.open(youtubeUrl, '_blank');
+    showToast(`📹 ${exerciseName} videosu açılıyor...`);
+}
+
+// ==================== ÇOKLU BİP SESİ ====================
 function playMultiBeep() {
     if(!soundEnabled) return;
-    for(let i = 0; i < 4; i++) {
+    for(let i = 0; i < 3; i++) {
         setTimeout(() => {
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -694,7 +921,7 @@ function playMultiBeep() {
     }
 }
 
-// ==================== BASİT YEDEKLEME (404 hatası yok) ====================
+// ==================== BASİT YEDEKLEME ====================
 function simpleBackup() {
     const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
     const dataStr = JSON.stringify(exportData, null, 2);
@@ -728,6 +955,7 @@ function simpleRestore() {
                 if(currentDayOpen) renderDayItems(currentDayOpen);
                 updateAllStats();
                 updateSupplementsDisplay();
+                updateWaterChart();
                 showToast("✅ Yedek geri yüklendi!");
             } catch(err) { showToast("❌ Hatalı dosya!"); }
         };
@@ -736,7 +964,7 @@ function simpleRestore() {
     input.click();
 }
 
-// ==================== SU ALARMI (ÇOKLU BİP İLE) ====================
+// ==================== SU ALARMI ====================
 function setWaterAlarm() {
     const alarmTime = document.getElementById("waterAlarmTime").value;
     if(!alarmTime) {
@@ -767,8 +995,9 @@ function startWaterAlarmCheck(alarmTime) {
         const now = new Date();
         const currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
         if(currentTime === alarmTime) {
+            sendNotification("💧 SU İÇME ZAMANI!", "Su içmeyi unutma! Sağlıklı kal! 💪");
             showToast("💧💧💧 SU İÇME ZAMANI! 💧💧💧");
-            playMultiBeep(); // 4 kere bip sesi
+            playMultiBeep();
         }
     }
     
@@ -810,6 +1039,9 @@ function login() {
         updateSupplementsDisplay();
         setupTimerButtons();
         loadWaterAlarm();
+        loadWorkoutReminder();
+        requestNotificationPermission();
+        updateWaterChart();
         showToast(`Hoş geldin ${username}! 💪`);
     } else {
         document.getElementById("loginError").innerText = "Kullanıcı adı ve şifre girin!";
@@ -832,7 +1064,7 @@ function checkSavedLogin() {
 
 // ==================== HAFTAYI SIFIRLA ====================
 function resetWeek() {
-    if(confirm("⚠️ TÜM HAFTAYI SIFIRLAMAK İSTEDİĞİNİZE EMİN MİSİNİZ?\n\nBu işlem tüm setleri, yemekleri ve su takibini sıfırlar. İçerikler korunur.")) {
+    if(confirm("⚠️ TÜM HAFTAYI SIFIRLAMAK İSTEDİĞİNİZE EMİN MİSİNİZ?\n\nBu işlem tüm setleri ve su takibini sıfırlar. İçerikler korunur.")) {
         doneState = {};
         waterIntake = {};
         totalSetCount = 0;
@@ -840,7 +1072,8 @@ function resetWeek() {
         if(currentDayOpen) renderDayItems(currentDayOpen);
         buildHome();
         updateAllStats();
-        showToast("✅ Tüm hafta sıfırlandı! Yeni bir haftaya başlayabilirsin.");
+        updateWaterChart();
+        showToast("✅ Tüm hafta sıfırlandı!");
     }
 }
 
@@ -867,7 +1100,7 @@ function startTimer(seconds) {
             clearInterval(timerInterval);
             timerInterval = null;
             timerBox.style.display = "none";
-            playMultiBeep(); // 4 kere bip sesi
+            playMultiBeep();
             showToast("🔔 Dinlenme bitti! Devam et! 🔥");
         } else {
             remaining--;
@@ -989,6 +1222,7 @@ function renderDayItems(day) {
                     if(item.includes("💧")) {
                         const waterKey = `${day}_water`;
                         waterIntake[waterKey] = (waterIntake[waterKey] || 0) + 2;
+                        updateWaterChart();
                         showToast("💧 +2 bardak su!");
                     } else { showToast("✅ Tamamlandı!"); }
                 }
@@ -999,10 +1233,11 @@ function renderDayItems(day) {
             };
             container.appendChild(div);
         } else if(item && typeof item === "object" && item.ex) {
-            const title = document.createElement("div");
-            title.className = "ex-title";
-            title.innerText = `💪 ${item.ex}`;
-            container.appendChild(title);
+            const titleDiv = document.createElement("div");
+            titleDiv.className = "ex-title";
+            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><button class="video-btn" onclick="openExerciseVideo('${item.ex}')">📹 Video</button>`;
+            container.appendChild(titleDiv);
+            
             for(let s = 1; s <= item.sets; s++) {
                 const setDiv = document.createElement("div");
                 setDiv.className = "set";
@@ -1244,47 +1479,7 @@ function updateAllStats() {
         const width = Math.min((setsDone / maxSets) * 100, 100);
         chartDiv.innerHTML += `<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${width}%">${setsDone}</div></div></div>`;
     });
-}
-
-// ==================== YEDEKLEME ====================
-function exportData() {
-    const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const blob = new Blob([dataStr], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast("✅ Veriler yedeklendi!");
-}
-function importData() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/json";
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const imported = JSON.parse(event.target.result);
-                if(imported.data) data = imported.data;
-                if(imported.doneState) doneState = imported.doneState;
-                if(imported.waterIntake) waterIntake = imported.waterIntake;
-                if(imported.totalSetCount !== undefined) totalSetCount = imported.totalSetCount;
-                if(imported.supplements) supplements = imported.supplements;
-                saveDataToLocal();
-                buildHome();
-                if(currentDayOpen) renderDayItems(currentDayOpen);
-                updateAllStats();
-                updateSupplementsDisplay();
-                showToast("✅ Yedek geri yüklendi!");
-            } catch(err) { showToast("❌ Hatalı dosya!"); }
-        };
-        reader.readAsText(file);
-    };
-    input.click();
+    updateWaterChart();
 }
 
 // ==================== DİĞER ====================
@@ -1341,6 +1536,7 @@ function toggleSound() {
 window.onload = () => {
     document.getElementById("soundToggle").onclick = toggleSound;
     checkSavedLogin();
+    setWaterChartType('daily');
 };
 </script>
 </body>
