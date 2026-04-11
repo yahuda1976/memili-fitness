@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Fitness Pro Premium | Rozetler & İstatistik</title>
+    <title>Fitness Pro | Gelişmiş Ayar & Rozetler</title>
     <style>
         * {
             margin: 0;
@@ -13,431 +13,413 @@
         }
 
         body {
-            background: radial-gradient(circle at 10% 20%, #0a0f1e, #03060c);
-            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            color: #eef5ff;
-            padding-bottom: 95px;
+            background: linear-gradient(145deg, #0c111f 0%, #02060c 100%);
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            color: #f0f3fa;
+            padding-bottom: 80px;
             min-height: 100vh;
         }
 
         /* HEADER */
-        .glow-header {
+        .header {
             text-align: center;
-            padding: 24px 20px 12px;
-            background: rgba(0, 20, 30, 0.6);
-            backdrop-filter: blur(10px);
+            padding: 28px 20px 16px;
+            background: rgba(0, 20, 30, 0.4);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0, 255, 200, 0.3);
         }
-        .glow-header h1 {
-            font-size: 2.1rem;
-            background: linear-gradient(135deg, #C0FFB0, #2AF598, #00E0FF);
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #FEE190, #FFB347, #FF6B6B);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 12px #00ffc355;
             letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         .sub {
             font-size: 0.75rem;
-            color: #8aaec0;
+            color: #aad0ff;
             margin-top: 6px;
         }
 
-        /* ANA GRID (günler) */
+        /* ANA GRID (günler) - SARI ZEMİN + MAVİ KART */
         .days-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 16px;
-            padding: 24px 18px;
+            gap: 18px;
+            padding: 30px 20px;
         }
         .day-card {
-            background: linear-gradient(145deg, #141e2a, #0b1119);
-            border-radius: 32px;
+            background: #FFD966;  /* sarı zemin */
+            border-radius: 36px;
             padding: 22px 8px;
             text-align: center;
             font-weight: 800;
-            font-size: 1.35rem;
-            backdrop-filter: blur(4px);
+            font-size: 1.4rem;
             cursor: pointer;
-            border: 1px solid #2c3e44;
-            transition: all 0.2s ease;
-            color: #d6eeff;
-            box-shadow: 0 10px 20px -8px rgba(0,0,0,0.6);
+            transition: 0.1s linear;
+            color: #0a2f4d;
+            box-shadow: 0 12px 18px -8px rgba(0,0,0,0.5);
+            border: none;
         }
         .day-card:active {
-            transform: scale(0.95);
-            background: #1e2f3c;
-            border-color: #2ef7b0;
-            box-shadow: 0 0 15px #00ffc366;
+            transform: scale(0.96);
+            background: #FFC107;
         }
 
-        /* GÜN DETAY SAYFASI */
+        /* GÜN DETAY */
         .day-detail {
-            padding: 18px 14px 100px;
+            padding: 18px 16px 100px;
         }
         .detail-header {
             display: flex;
             justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 14px;
+            margin-bottom: 28px;
         }
-        .glass-btn {
-            background: rgba(20, 30, 45, 0.8);
-            backdrop-filter: blur(8px);
-            border: 1px solid #2ecc71;
+        .btn {
+            border: none;
             border-radius: 60px;
-            padding: 12px 22px;
+            padding: 12px 26px;
             font-weight: bold;
-            color: #ccffdd;
             cursor: pointer;
-            transition: 0.1s linear;
+            background: #1f6392;
+            color: white;
+            font-size: 0.9rem;
+            transition: 0.08s linear;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
-        .glass-btn:active { transform: scale(0.96); background: #2ecc7133; }
+        .btn:active { transform: scale(0.96); background: #0e4a70; }
         .day-title {
             text-align: center;
-            font-size: 2.3rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin: 5px 0 20px;
-            background: linear-gradient(120deg, #FFE5B4, #A0F0FF);
+            margin: 0 0 20px;
+            background: linear-gradient(120deg, #FFE5B4, #FFA559);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        /* item kartları (yemek, set) */
+        /* item kartları */
         .item-card, .set-card {
-            background: linear-gradient(115deg, #111a24, #0e1620);
+            background: #14232e;
             margin: 12px 0;
             padding: 16px 20px;
-            border-radius: 28px;
+            border-radius: 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: 0.08s linear;
-            border-left: 6px solid #2ecc71;
-            box-shadow: 0 6px 12px #00000040;
+            transition: 0.05s linear;
+            border-left: 6px solid #FFB347;
+            box-shadow: 0 5px 10px #00000030;
         }
-        .item-card:active, .set-card:active { transform: scale(0.98); background: #1a2a34; }
+        .item-card:active, .set-card:active { transform: scale(0.98); background: #1f3a48; }
         .item-card.done, .set-card.done {
-            background: #0a2f1fcc;
+            background: #1c6d3fcc;
             text-decoration: line-through;
-            border-left-color: #F4D03F;
-        }
-        .badge {
-            background: #0f6b8c;
-            border-radius: 40px;
-            padding: 5px 14px;
-            font-size: 0.75rem;
-        }
-        .set-badge-rest {
-            background: #1f6e43;
-            border-radius: 30px;
-            padding: 4px 12px;
-            font-size: 0.7rem;
+            border-left-color: gold;
         }
         .ex-title {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
-            margin: 20px 0 5px 8px;
-            color: #FFD966;
+            margin: 24px 0 5px 8px;
+            color: #FFB347;
             border-left: 4px solid cyan;
             padding-left: 14px;
         }
 
-        /* ALT MENÜ (yeni butonlar) */
-        .bottom-menu {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(5, 15, 22, 0.95);
-            backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 16px 22px;
-            border-top: 1px solid #2ecc71;
-            z-index: 200;
-        }
-        .menu-icon-btn {
-            background: #0f212e;
-            border: none;
-            border-radius: 48px;
-            padding: 12px 20px;
-            color: #c0ffee;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-        .menu-icon-btn:active { transform: scale(0.94); background: #2ecc71; color: black; }
-        .menu-icon-btn span:first-child { font-size: 1.5rem; }
-
-        /* MADALYA & ÖZET PANELİ (ana ekranda) */
-        .stats-achievement {
-            background: linear-gradient(125deg, #0f1824, #07111c);
-            margin: 20px 18px;
-            padding: 18px;
-            border-radius: 44px;
-            border: 1px solid gold;
-        }
-        .medals-area {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-        .medal {
-            background: #2c2a24;
+        /* AYARLAR BUTONU (8. buton) */
+        .settings-big-btn {
+            background: #ff884d;
+            margin: 8px 20px 16px;
             border-radius: 60px;
-            padding: 8px 16px;
+            padding: 16px;
+            text-align: center;
             font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #1f2a0e;
+            box-shadow: 0 6px 12px black;
         }
-        .earned {
-            background: #f7b32b;
-            color: #1e2a1f;
-            box-shadow: 0 0 8px gold;
-        }
-        .progress-text {
-            font-size: 0.8rem;
-            color: #bbffdd;
-        }
+        .settings-big-btn:active { transform: scale(0.97); background: #ffaa66; }
 
-        /* modal ekleme penceresi */
-        .modal {
+        /* AYARLAR PANELİ */
+        .settings-panel {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: #000000dd;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(16px);
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 24px;
+            overflow-y: auto;
         }
-        .modal-card {
-            background: #111d2b;
-            width: 80%;
+        .settings-card {
+            background: #0f1a24;
             border-radius: 48px;
             padding: 24px;
-            text-align: center;
-            border: 1px solid cyan;
+            margin-bottom: 20px;
         }
-        .modal-card input, .modal-card select {
-            width: 90%;
-            padding: 12px;
+        .settings-card h3 { color: #FFB347; margin-bottom: 12px; }
+        .custom-item {
+            background: #1e2f3c;
+            margin: 8px 0;
+            padding: 10px 14px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .add-input-group {
+            display: flex;
+            gap: 8px;
             margin: 12px 0;
+            flex-wrap: wrap;
+        }
+        .add-input-group input, .add-input-group select {
+            flex: 1;
+            padding: 10px;
             border-radius: 60px;
             border: none;
             background: #2c3e44;
             color: white;
         }
-        .modal-buttons {
+        .small-btn {
+            background: #2ecc71;
+            border: none;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .delete-btn {
+            background: #e67e22;
+            border: none;
+            border-radius: 40px;
+            padding: 4px 12px;
+            cursor: pointer;
+        }
+
+        /* BAŞARILAR (en altta, küçük) */
+        .achievement-footer {
+            background: #0a111acc;
+            margin: 20px 16px 10px;
+            padding: 12px;
+            border-radius: 48px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        .medals-area {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-top: 15px;
+            margin-top: 8px;
         }
-        .hidden {
-            display: none;
+        .medal {
+            background: #2c2a24;
+            border-radius: 40px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: bold;
         }
+        .earned {
+            background: #f7b32b;
+            color: #1e2a1f;
+        }
+        .timer-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 16px;
+            background: #000000bb;
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 10px 18px;
+            text-align: center;
+            border: 1px solid #FFB347;
+        }
+        .hidden { display: none; }
         .toast {
             position: fixed;
             bottom: 25%;
             left: 50%;
             transform: translateX(-50%);
-            background: #0f212e;
+            background: #1e2a36;
             border: 1px solid #2ecc71;
             padding: 10px 24px;
             border-radius: 60px;
-            z-index: 1100;
-            animation: fadeOut 1.6s forwards;
+            z-index: 1200;
+            animation: fadeOut 1.4s forwards;
         }
         @keyframes fadeOut {
             0% { opacity: 1; bottom: 25%;}
             100% { opacity: 0; bottom: 15%; display: none;}
         }
-        .timer-panel {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background: #000000cc;
-            backdrop-filter: blur(20px);
-            border-radius: 40px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid cyan;
-        }
     </style>
 </head>
 <body>
 
-<div class="glow-header">
-    <h1>💎 FITNESS PRO</h1>
-    <div class="sub">Premium | Rozetler & İstatistik</div>
+<div class="header">
+    <h1><span>🏋️</span> FITNESS PRO</h1>
+    <div class="sub">Premium | Ayarlar + Rozetler</div>
 </div>
 
-<!-- ANA EKRAN (günler + gelişim/madalya) -->
+<!-- ANA EKRAN -->
 <div id="homeScreen">
-    <div class="days-grid" id="daysGridContainer"></div>
-    
-    <!-- GELİŞİM ÖZETİ + MADALYALAR -->
-    <div class="stats-achievement" id="statsArea">
-        <div style="display: flex; justify-content: space-between;">
-            <span>🏆 BAŞARILAR</span>
-            <span id="totalMedalCount">0</span>
-        </div>
+    <div class="days-grid" id="daysGrid"></div>
+    <!-- AYARLAR BUTONU (8. buton) -->
+    <div class="settings-big-btn" id="openSettingsBtn">⚙️ TÜM AYARLAR (Ekle / Çıkar)</div>
+    <!-- BAŞARILAR BÖLÜMÜ (en altta küçük) -->
+    <div class="achievement-footer">
+        <div>🏆 BAŞARILARIM <span id="medalCount">0</span></div>
         <div id="medalsList" class="medals-area"></div>
-        <div class="progress-text" id="progressSummary">Tamamlanan setler: 0</div>
+        <div id="progressText" style="font-size:0.7rem;">Setler: 0/0</div>
     </div>
 </div>
 
-<!-- GÜN DETAY EKRANI -->
+<!-- GÜN DETAY -->
 <div id="dayScreen" class="day-detail hidden">
     <div class="detail-header">
-        <button class="glass-btn" id="backHomeBtn">◀ Geri</button>
-        <button class="glass-btn" id="daySummaryBtn">📊 Özet</button>
+        <button class="btn" id="backHomeBtn">◀ Geri</button>
+        <button class="btn" id="daySummaryBtn">📊 Özet</button>
     </div>
     <div id="dayTitle" class="day-title"></div>
     <div id="dayContent"></div>
-    <div id="summaryBox" class="stats-achievement hidden"></div>
+    <div id="summaryBox" style="background:#0f1a24; margin-top:16px; padding:14px; border-radius:36px;" class="hidden"></div>
 </div>
 
-<!-- ALT MENU (ekleme butonları) -->
-<div class="bottom-menu">
-    <button class="menu-icon-btn" id="openMealModalBtn"><span>🍽️</span><span>Yemek</span></button>
-    <button class="menu-icon-btn" id="openExerciseModalBtn"><span>💪</span><span>Egzersiz</span></button>
-    <button class="menu-icon-btn" id="openSuppModalBtn"><span>💊</span><span>Supplement</span></button>
-</div>
-
-<!-- MODAL (ekleme pencereleri) -->
-<div id="modal" class="modal hidden">
-    <div class="modal-card">
-        <h3 id="modalTitle">Yeni Ekle</h3>
-        <input type="text" id="modalInput" placeholder="İsim">
-        <div id="extraSetDiv" style="display:none;"><input type="number" id="modalSets" placeholder="Set sayısı"></div>
-        <div class="modal-buttons">
-            <button class="glass-btn" id="modalConfirmBtn">Ekle</button>
-            <button class="glass-btn" id="modalCancelBtn">İptal</button>
+<!-- AYARLAR PANELİ (Ekle + Çıkar) -->
+<div id="settingsPanel" class="settings-panel hidden">
+    <div style="text-align:right;"><button class="btn" id="closeSettingsBtn">Kapat</button></div>
+    
+    <div class="settings-card">
+        <h3>🍽️ YEMEKLER</h3>
+        <div class="add-input-group">
+            <input type="text" id="newMealName" placeholder="Yemek adı">
+            <button class="small-btn" id="addMealBtn">EKLE</button>
         </div>
+        <div id="mealsList"></div>
+    </div>
+    
+    <div class="settings-card">
+        <h3>💪 EGZERSİZLER</h3>
+        <div class="add-input-group">
+            <input type="text" id="newExName" placeholder="Egzersiz adı">
+            <input type="number" id="newExSets" placeholder="Set" value="3" style="width:80px;">
+            <button class="small-btn" id="addExBtn">EKLE</button>
+        </div>
+        <div id="exList"></div>
+    </div>
+    
+    <div class="settings-card">
+        <h3>💊 SUPPLEMENTLER</h3>
+        <div class="add-input-group">
+            <input type="text" id="newSuppName" placeholder="Supplement adı">
+            <button class="small-btn" id="addSuppBtn">EKLE</button>
+        </div>
+        <div id="suppList"></div>
     </div>
 </div>
 
-<div id="timerWidget" class="timer-panel hidden">
+<div id="timerPanel" class="timer-panel hidden">
     <div id="timerNumber" style="font-size:28px;font-weight:bold;">90</div>
     <div>⏱️ Dinlenme</div>
-    <button id="closeTimerBtn" style="background: cyan; border:none; border-radius:30px;">Kapat</button>
+    <div style="display:flex; gap:6px; margin-top:6px;">
+        <button id="timer60Btn" class="small-btn">60sn</button>
+        <button id="timer90Btn" class="small-btn">90sn</button>
+        <button id="timer120Btn" class="small-btn">120sn</button>
+        <button id="closeTimerBtn" style="background:#ff8855;">Kapat</button>
+    </div>
 </div>
 
 <script>
-    // ---------- ANA VERİLER ----------
+    // ========== VERİLER ==========
     let programData = {
-        "Pazartesi": ["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk/kebap","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4},{ex:"Incline Press",sets:4},{ex:"Fly",sets:3},{ex:"Rope Pushdown",sets:4},"💧 2 bardak","21:00 Whey + skyr","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-        "Salı": ["07:00 Kahve","💧 2 bardak","07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Skyr","💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4},{ex:"Row",sets:4},{ex:"DB Curl",sets:4},"💧 2 bardak","21:00 Whey + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-        "Çarşamba": ["07:30 Skyr + keten","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-        "Perşembe": ["07:00 Kahve","💧 2 bardak","07:30 Skyr","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},{ex:"Leg Curl",sets:3},"💧 2 bardak","21:00 Whey + skyr","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-        "Cuma": ["07:00 Kahve + Omega","💧 2 bardak","07:30 Skyr + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + kebap","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Skyr + muz","💧 2 bardak","🏋️ OMUZ",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},"💧 2 bardak","21:00 Whey + skyr","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-        "Cumartesi": ["07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+        "Pazartesi": ["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + chia","1 muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Yoğurt","💧 2 bardak","🏋️ GÖĞÜS",{ex:"Bench Press",sets:4},{ex:"Incline Press",sets:4},"💧 2 bardak","21:00 Whey","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+        "Salı": ["07:00 Kahve","💧 2 bardak","07:30 Skyr","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Skyr","💧 2 bardak","🏋️ SIRT",{ex:"Lat Pulldown",sets:4},{ex:"Row",sets:4},"💧 2 bardak","21:00 Whey","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+        "Çarşamba": ["07:30 Skyr","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+        "Perşembe": ["07:00 Kahve","💧 2 bardak","07:30 Skyr","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Yoğurt","💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},"💧 2 bardak","21:00 Whey","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+        "Cuma": ["07:00 Kahve + Omega","💧 2 bardak","07:30 Skyr","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Pirinç + kebap","💧 2 bardak","14:45 Whey","15:30 Kahve","💧 2 bardak","18:00 Skyr","💧 2 bardak","🏋️ OMUZ",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},"💧 2 bardak","21:00 Whey","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+        "Cumartesi": ["07:30 Skyr","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
         "Pazar": ["08:00 Kahve","💧 2 bardak","08:30 Skyr","💧 2 bardak","11:00 Yoğurt","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak","🧘 AKTİF DİNLENME"]
     };
 
-    // STATE
-    let completedState = {};   // key: day|type|id
+    let completedState = {};
     let waterIntake = {};
-
-    // BAŞARI MADALYALARI
     let medalsEarned = [];
 
-    // ---------- YARDIMCILAR ----------
-    function showToast(msg) {
-        let t = document.createElement("div");
-        t.className = "toast";
-        t.innerText = msg;
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 1500);
-    }
-
-    function beep() {
+    // Ses & titreşim
+    function playStrongBeep() {
         try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            osc.type = "sine";
+            let ctx = new (window.AudioContext || window.webkitAudioContext)();
+            let osc = ctx.createOscillator();
+            let gain = ctx.createGain();
+            osc.type = "square";
             osc.frequency.value = 880;
-            osc.connect(ctx.destination);
+            gain.gain.value = 0.3;
+            osc.connect(gain);
+            gain.connect(ctx.destination);
             osc.start();
-            setTimeout(() => { osc.stop(); ctx.close(); }, 200);
+            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.7);
+            osc.stop(ctx.currentTime + 0.7);
+            setTimeout(() => ctx.close(), 800);
         } catch(e) {}
+        if(navigator.vibrate) navigator.vibrate(500);
     }
 
-    // Timer
-    let timerInterval = null;
-    const timerWidget = document.getElementById("timerWidget");
-    const timerNumberSpan = document.getElementById("timerNumber");
-    function stopTimer() { if(timerInterval) clearInterval(timerInterval); timerWidget.classList.add("hidden"); }
-    function startTimer(sec) {
+    // Timer (60-120 arası)
+    let timerInt = null;
+    const timerPanel = document.getElementById("timerPanel");
+    const timerNumSpan = document.getElementById("timerNumber");
+    function stopTimer() { if(timerInt) clearInterval(timerInt); timerPanel.classList.add("hidden"); }
+    function startTimer(seconds) {
         stopTimer();
-        let remaining = sec;
-        timerNumberSpan.innerText = remaining;
-        timerWidget.classList.remove("hidden");
-        timerInterval = setInterval(() => {
+        let remaining = seconds;
+        timerNumSpan.innerText = remaining;
+        timerPanel.classList.remove("hidden");
+        timerInt = setInterval(() => {
             remaining--;
-            timerNumberSpan.innerText = remaining;
-            if (remaining <= 0) {
-                stopTimer();
-                beep();
-                showToast("🔔 Dinlenme tamam!");
-                timerWidget.classList.add("hidden");
+            timerNumSpan.innerText = remaining;
+            if(remaining <= 0) {
+                clearInterval(timerInt);
+                playStrongBeep();
+                timerPanel.classList.add("hidden");
             }
         }, 1000);
     }
+    document.getElementById("timer60Btn").onclick = () => startTimer(60);
+    document.getElementById("timer90Btn").onclick = () => startTimer(90);
+    document.getElementById("timer120Btn").onclick = () => startTimer(120);
     document.getElementById("closeTimerBtn").onclick = stopTimer;
 
     // LocalStorage
-    function persistAll() {
-        localStorage.setItem("fit_completed", JSON.stringify(completedState));
+    function persist() {
+        localStorage.setItem("fit_prog", JSON.stringify(programData));
+        localStorage.setItem("fit_done", JSON.stringify(completedState));
         localStorage.setItem("fit_water", JSON.stringify(waterIntake));
         localStorage.setItem("fit_medals", JSON.stringify(medalsEarned));
-        localStorage.setItem("fit_program", JSON.stringify(programData));
     }
     function loadAll() {
-        let c = localStorage.getItem("fit_completed");
-        if(c) completedState = JSON.parse(c);
-        let w = localStorage.getItem("fit_water");
-        if(w) waterIntake = JSON.parse(w);
-        let m = localStorage.getItem("fit_medals");
-        if(m) medalsEarned = JSON.parse(m);
-        let p = localStorage.getItem("fit_program");
-        if(p) programData = JSON.parse(p);
+        let p = localStorage.getItem("fit_prog"); if(p) programData = JSON.parse(p);
+        let d = localStorage.getItem("fit_done"); if(d) completedState = JSON.parse(d);
+        let w = localStorage.getItem("fit_water"); if(w) waterIntake = JSON.parse(w);
+        let m = localStorage.getItem("fit_medals"); if(m) medalsEarned = JSON.parse(m);
     }
 
-    function getWater(day) { return waterIntake[day+"_water"] || 0; }
-    function addWater(day, amt=2) {
-        let key = day+"_water";
-        waterIntake[key] = (waterIntake[key]||0) + amt;
-        persistAll();
-        if(currentDay === day) renderDayDetails(day);
-        updateStatsAndMedals();
-        showToast(`💧 +${amt} su (toplam: ${waterIntake[key]})`);
-    }
-
-    // Madalya kontrol ve istatistik
-    function calculateStats() {
-        let totalSets = 0, doneSets = 0, totalMeals = 0, doneMeals = 0;
+    // İstatistik & Madalya
+    function calcStats() {
+        let totalSets=0, doneSets=0, totalMeals=0, doneMeals=0;
         for(let day in programData) {
-            let arr = programData[day];
-            arr.forEach((item, idx) => {
+            programData[day].forEach((item, idx) => {
                 if(typeof item === "string") {
                     totalMeals++;
                     if(completedState[`${day}|meal|${idx}`]) doneMeals++;
-                } else if(item && item.sets) {
+                } else if(item.sets) {
                     for(let i=1;i<=item.sets;i++) {
                         totalSets++;
                         if(completedState[`${day}|set|${item.ex}|${i}`]) doneSets++;
@@ -447,32 +429,28 @@
         }
         return { totalSets, doneSets, totalMeals, doneMeals };
     }
-
     function updateMedals() {
-        const { doneSets, totalSets, doneMeals } = calculateStats();
+        const { doneSets } = calcStats();
+        if(doneSets >= 5 && !medalsEarned.includes("5_set")) { medalsEarned.push("5_set"); showToast("🏅 5 Set Madalyası!"); }
+        if(doneSets >= 15 && !medalsEarned.includes("15_set")) { medalsEarned.push("15_set"); showToast("🏅 15 Set Ustası!"); }
+        if(doneSets >= 30 && !medalsEarned.includes("30_set")) { medalsEarned.push("30_set"); showToast("🏆 30 SET EFSANESİ!"); }
+        persist();
         const medalsDiv = document.getElementById("medalsList");
-        if(!medalsDiv) return;
-        let newMedals = [];
-        if(doneSets >= 10 && !medalsEarned.includes("10_set")) { medalsEarned.push("10_set"); newMedals.push("🏅 10 Set Tamamlandı"); showToast("🏆 Yeni madalya: 10 SET!"); }
-        if(doneSets >= 30 && !medalsEarned.includes("30_set")) { medalsEarned.push("30_set"); newMedals.push("🏅 30 Set Kahramanı"); showToast("🏆 MADALYA: 30 SET!"); }
-        if(doneMeals >= 20 && !medalsEarned.includes("20_meal")) { medalsEarned.push("20_meal"); newMedals.push("🍽️ 20 Öğün Ustası"); showToast("🏆 MADALYA: 20 Öğün!"); }
-        persistAll();
-        medalsDiv.innerHTML = "";
-        medalsEarned.forEach(m => {
-            let medalDiv = document.createElement("div");
-            medalDiv.className = "medal earned";
-            medalDiv.innerHTML = m.includes("Set") ? `🏋️ ${m}` : `🍽️ ${m}`;
-            medalsDiv.appendChild(medalDiv);
-        });
-        if(medalsEarned.length===0) medalsDiv.innerHTML = "<span style='opacity:0.6'>Henüz madalya yok, set tamamla!</span>";
-        document.getElementById("totalMedalCount").innerText = medalsEarned.length;
+        if(medalsDiv) {
+            medalsDiv.innerHTML = medalsEarned.map(m => `<div class="medal earned">🏋️ ${m}</div>`).join("");
+            document.getElementById("medalCount").innerText = medalsEarned.length;
+        }
+        let { doneSets:ds, totalSets:ts, doneMeals:dm, totalMeals:tm } = calcStats();
+        document.getElementById("progressText").innerHTML = `🏋️ Set: ${ds}/${ts} &nbsp;&nbsp; 🍽️ Öğün: ${dm}/${tm}`;
     }
 
-    function updateStatsAndMedals() {
-        const { doneSets, totalSets, doneMeals, totalMeals } = calculateStats();
-        let summaryDiv = document.getElementById("progressSummary");
-        if(summaryDiv) summaryDiv.innerHTML = `📊 Toplam Set: ${doneSets}/${totalSets}  |  Öğün: ${doneMeals}/${totalMeals}`;
+    function addWater(day, amt=2) {
+        let key = day+"_water";
+        waterIntake[key] = (waterIntake[key]||0)+amt;
+        persist();
+        if(currentDay===day) renderDayDetails(day);
         updateMedals();
+        showToast(`💧 +${amt} su`);
     }
 
     // GÜN DETAY RENDER
@@ -480,13 +458,12 @@
     function renderDayDetails(day) {
         const container = document.getElementById("dayContent");
         container.innerHTML = "";
-        const items = programData[day];
-        items.forEach((item, idx) => {
+        programData[day].forEach((item, idx) => {
             if(typeof item === "string") {
-                const div = document.createElement("div");
+                let div = document.createElement("div");
                 div.className = "item-card";
                 let isWater = item.includes("💧");
-                div.innerHTML = `<span>${item}</span>${isWater ? '<span class="badge">💧+2</span>' : ''}`;
+                div.innerHTML = `<span>${item}</span>${isWater ? '<span style="background:#1f6e8c; border-radius:30px; padding:2px 10px;">+2 su</span>' : ''}`;
                 let key = `${day}|meal|${idx}`;
                 if(completedState[key]) div.classList.add("done");
                 div.onclick = () => {
@@ -494,15 +471,14 @@
                     else {
                         if(completedState[key]) delete completedState[key];
                         else completedState[key]=true;
-                        persistAll();
+                        persist();
                         renderDayDetails(day);
-                        updateStatsAndMedals();
-                        showToast(completedState[key] ? "✅ Tamamlandı" : "❌ Geri alındı");
+                        updateMedals();
+                        showToast(completedState[key]?"✅ Tamam":"❌ Geri");
                     }
                 };
                 container.appendChild(div);
-            } 
-            else if(item && item.ex) {
+            } else if(item.ex) {
                 let title = document.createElement("div");
                 title.className = "ex-title";
                 title.innerText = `💪 ${item.ex}`;
@@ -510,49 +486,45 @@
                 for(let s=1;s<=item.sets;s++) {
                     let setDiv = document.createElement("div");
                     setDiv.className = "set-card";
-                    setDiv.innerHTML = `<span>Set ${s}</span><span class="set-badge-rest">⏱️ 90sn dinlenme</span>`;
+                    setDiv.innerHTML = `<span>Set ${s}</span><span style="background:#2c5a4a; border-radius:30px; padding:2px 12px;">⏱️ dinlenme</span>`;
                     let setKey = `${day}|set|${item.ex}|${s}`;
                     if(completedState[setKey]) setDiv.classList.add("done");
                     setDiv.onclick = () => {
                         if(completedState[setKey]) delete completedState[setKey];
-                        else { completedState[setKey]=true; startTimer(90); }
-                        persistAll();
+                        else { completedState[setKey]=true; startTimer(90); playStrongBeep(); }
+                        persist();
                         renderDayDetails(day);
-                        updateStatsAndMedals();
-                        showToast(completedState[setKey] ? `Set ${s} tamam!` : "Set iptal");
+                        updateMedals();
+                        showToast(completedState[setKey]?`Set ${s} tamam!`:"Set iptal");
                     };
                     container.appendChild(setDiv);
                 }
             }
         });
-        let summaryBox = document.getElementById("summaryBox");
-        if(summaryBox && !summaryBox.classList.contains("hidden")) updateDaySummary(day);
+        let sumDiv = document.getElementById("summaryBox");
+        if(!sumDiv.classList.contains("hidden")) updateDaySummary(day);
     }
-
     function updateDaySummary(day) {
-        let box = document.getElementById("summaryBox");
         let total=0, done=0;
         programData[day].forEach((item,idx)=>{
             if(typeof item === "string") { total++; if(completedState[`${day}|meal|${idx}`]) done++; }
             else if(item.sets) { for(let i=1;i<=item.sets;i++) { total++; if(completedState[`${day}|set|${item.ex}|${i}`]) done++; } }
         });
-        box.innerHTML = `📋 Gün Özeti: ${done}/${total} tamamlandı | 💧 Su: ${getWater(day)} bardak`;
-        box.classList.remove("hidden");
+        document.getElementById("summaryBox").innerHTML = `📊 Gün: ${done}/${total} tamamlandı | 💧 Su: ${waterIntake[day+"_water"]||0} bardak`;
     }
 
     function openDay(day) {
-        currentDay = day;
+        currentDay=day;
         document.getElementById("homeScreen").classList.add("hidden");
         document.getElementById("dayScreen").classList.remove("hidden");
-        document.getElementById("dayTitle").innerText = day;
+        document.getElementById("dayTitle").innerText=day;
         renderDayDetails(day);
         stopTimer();
     }
-    function closeDay() { stopTimer(); document.getElementById("homeScreen").classList.remove("hidden"); document.getElementById("dayScreen").classList.add("hidden"); currentDay=null; updateStatsAndMedals(); }
+    function closeDay() { stopTimer(); document.getElementById("homeScreen").classList.remove("hidden"); document.getElementById("dayScreen").classList.add("hidden"); updateMedals(); }
 
-    // ANA EKRAN GÜNLERİ
     function buildHome() {
-        const grid = document.getElementById("daysGridContainer");
+        const grid = document.getElementById("daysGrid");
         grid.innerHTML = "";
         Object.keys(programData).forEach(day => {
             let card = document.createElement("div");
@@ -561,53 +533,96 @@
             card.onclick = () => openDay(day);
             grid.appendChild(card);
         });
-        updateStatsAndMedals();
+        updateMedals();
     }
 
-    // MODAL EKLEME (yemek / egzersiz / supplement)
-    let modalType = "";
-    function openModal(type) {
-        modalType = type;
-        document.getElementById("modalTitle").innerText = type === "meal" ? "➕ Yemek Ekle" : (type === "exercise" ? "🏋️ Egzersiz Ekle" : "💊 Supplement Ekle");
-        let extraDiv = document.getElementById("extraSetDiv");
-        if(type === "exercise") extraDiv.style.display = "block";
-        else extraDiv.style.display = "none";
-        document.getElementById("modalInput").value = "";
-        document.getElementById("modalSets").value = "3";
-        document.getElementById("modal").classList.remove("hidden");
-    }
-    function closeModal() { document.getElementById("modal").classList.add("hidden"); }
-    function confirmModal() {
-        let name = document.getElementById("modalInput").value.trim();
-        if(!name) { showToast("İsim girin!"); return; }
-        if(modalType === "meal") {
-            for(let day in programData) programData[day].push(name);
-            showToast(`🍽️ ${name} tüm günlere eklendi`);
-        } else if(modalType === "exercise") {
-            let sets = parseInt(document.getElementById("modalSets").value);
-            if(isNaN(sets)) sets=3;
-            for(let day in programData) programData[day].push({ex:name, sets:sets});
-            showToast(`💪 ${name} (${sets} set) tüm günlere eklendi`);
-        } else if(modalType === "supp") {
-            for(let day in programData) programData[day].push(`💊 ${name}`);
-            showToast(`💊 ${name} supplement eklendi`);
+    // AYARLAR (Ekle + Çıkar) dinamik
+    let currentSettingsType = "";
+    function refreshSettingsUI() {
+        // yemekler
+        let mealsDiv = document.getElementById("mealsList");
+        mealsDiv.innerHTML = "";
+        let allMeals = [];
+        for(let day in programData) {
+            programData[day].forEach(item => { if(typeof item === "string" && !item.includes("💧") && !item.includes("🏋️") && !item.includes("🧘")) allMeals.push(item); });
         }
-        persistAll();
-        if(currentDay && !document.getElementById("homeScreen").classList.contains("hidden")===false) renderDayDetails(currentDay);
-        else buildHome();
-        closeModal();
+        let uniqueMeals = [...new Set(allMeals)];
+        uniqueMeals.forEach(meal => {
+            let div = document.createElement("div"); div.className="custom-item";
+            div.innerHTML = `<span>🍽️ ${meal}</span><button class="delete-btn" data-type="meal" data-value="${meal}">Sil</button>`;
+            mealsDiv.appendChild(div);
+        });
+        // egzersizler
+        let exDiv = document.getElementById("exList");
+        exDiv.innerHTML = "";
+        let exSet = new Set();
+        for(let day in programData) {
+            programData[day].forEach(item => { if(item.ex) exSet.add(JSON.stringify({name:item.ex, sets:item.sets})); });
+        }
+        [...exSet].forEach(exStr => {
+            let ex = JSON.parse(exStr);
+            let div = document.createElement("div"); div.className="custom-item";
+            div.innerHTML = `<span>💪 ${ex.name} (${ex.sets} set)</span><button class="delete-btn" data-type="ex" data-name="${ex.name}">Sil</button>`;
+            exDiv.appendChild(div);
+        });
+        // supplement
+        let suppDiv = document.getElementById("suppList");
+        suppDiv.innerHTML = "";
+        let supps = new Set();
+        for(let day in programData) {
+            programData[day].forEach(item => { if(typeof item === "string" && item.includes("💊")) supps.add(item); });
+        }
+        supps.forEach(supp => {
+            let div = document.createElement("div"); div.className="custom-item";
+            div.innerHTML = `<span>💊 ${supp}</span><button class="delete-btn" data-type="supp" data-value="${supp}">Sil</button>`;
+            suppDiv.appendChild(div);
+        });
+
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.onclick = (e) => {
+                let type = btn.dataset.type;
+                let value = btn.dataset.value || btn.dataset.name;
+                for(let day in programData) {
+                    if(type === "meal") programData[day] = programData[day].filter(i => !(typeof i === "string" && i===value));
+                    if(type === "ex") programData[day] = programData[day].filter(i => !(i.ex && i.ex===value));
+                    if(type === "supp") programData[day] = programData[day].filter(i => !(typeof i === "string" && i===value));
+                }
+                persist();
+                refreshSettingsUI();
+                if(currentDay && !document.getElementById("homeScreen").classList.contains("hidden")===false) renderDayDetails(currentDay);
+                else buildHome();
+                showToast("Silindi!");
+            };
+        });
     }
 
-    document.getElementById("openMealModalBtn").onclick = () => openModal("meal");
-    document.getElementById("openExerciseModalBtn").onclick = () => openModal("exercise");
-    document.getElementById("openSuppModalBtn").onclick = () => openModal("supp");
-    document.getElementById("modalConfirmBtn").onclick = confirmModal;
-    document.getElementById("modalCancelBtn").onclick = closeModal;
+    document.getElementById("addMealBtn").onclick = () => {
+        let name = document.getElementById("newMealName").value.trim();
+        if(name) { for(let day in programData) programData[day].push(name); persist(); refreshSettingsUI(); buildHome(); showToast("Yemek eklendi"); }
+    };
+    document.getElementById("addExBtn").onclick = () => {
+        let name = document.getElementById("newExName").value.trim();
+        let sets = parseInt(document.getElementById("newExSets").value);
+        if(name && sets>0) { for(let day in programData) programData[day].push({ex:name, sets}); persist(); refreshSettingsUI(); buildHome(); showToast("Egzersiz eklendi"); }
+    };
+    document.getElementById("addSuppBtn").onclick = () => {
+        let name = document.getElementById("newSuppName").value.trim();
+        if(name) { for(let day in programData) programData[day].push(`💊 ${name}`); persist(); refreshSettingsUI(); buildHome(); showToast("Supplement eklendi"); }
+    };
+
+    function showToast(msg) {
+        let t = document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t);
+        setTimeout(()=>t.remove(),1500);
+    }
+
+    document.getElementById("openSettingsBtn").onclick = () => { document.getElementById("settingsPanel").classList.remove("hidden"); refreshSettingsUI(); };
+    document.getElementById("closeSettingsBtn").onclick = () => document.getElementById("settingsPanel").classList.add("hidden");
     document.getElementById("backHomeBtn").onclick = closeDay;
     document.getElementById("daySummaryBtn").onclick = () => { if(currentDay) updateDaySummary(currentDay); let sb=document.getElementById("summaryBox"); sb.classList.toggle("hidden"); };
 
     loadAll();
     buildHome();
+    updateMedals();
 </script>
 </body>
 </html>
