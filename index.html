@@ -1,678 +1,244 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Fitness Pro Ultimate 🔥</title>
+<title>Fitness Pro - Günlük Takip</title>
 <style>
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
+    user-select: none;
 }
-
-body {
-    font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-    color: #fff;
-    min-height: 100vh;
-    padding-bottom: 160px;
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #0b0b0b;
+    color: #eee;
 }
-
-/* GİRİŞ EKRANI */
-.login-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.login-box {
-    background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
-    border-radius: 30px;
-    padding: 40px 30px;
+h1 {
     text-align: center;
-    max-width: 350px;
-    width: 100%;
-    border: 2px solid #00ffc3;
-}
-.login-box h2 {
     color: #00ffc3;
-    margin-bottom: 10px;
-    font-size: 1.8rem;
-}
-.login-box input {
-    width: 100%;
-    padding: 12px;
     margin: 10px 0;
-    background: #2a2a3e;
-    border: 1px solid #00ffc3;
-    border-radius: 25px;
-    color: white;
-    font-size: 1rem;
-}
-.login-box button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    background: linear-gradient(135deg, #00ffc3, #00b894);
-    border: none;
-    border-radius: 25px;
-    color: #000;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-}
-.login-error {
-    color: #ff0055;
-    margin-top: 10px;
-    font-size: 0.8rem;
-}
-
-.app-header {
-    background: linear-gradient(135deg, #00ffc3 0%, #00b894 100%);
-    padding: 12px 15px;
-    text-align: center;
-    position: relative;
-}
-.app-header h1 {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     letter-spacing: 1px;
 }
-.sound-toggle {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 10px;
-    background: rgba(0,0,0,0.3);
-    border: none;
-    border-radius: 30px;
-    padding: 5px 10px;
-    cursor: pointer;
-    color: white;
-    font-size: 0.7rem;
-}
-
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    padding: 15px;
-    max-width: 500px;
-    margin: 0 auto;
+    padding: 12px;
+    height: calc(100vh - 70px);
 }
 .card {
-    background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
-    border-radius: 16px;
-    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #1f1f1f, #121212);
+    border-radius: 24px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid rgba(0,255,195,0.2);
+    color: #00ff99;
+    font-weight: bold;
+    font-size: 1.3rem;
+    transition: 0.1s linear;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    min-height: 100px;
 }
-.card:hover {
-    transform: translateY(-3px);
-    border-color: #00ffc3;
+.card:active {
+    transform: scale(0.97);
+    background: #2a2a2a;
 }
-.card h3 {
+.hidden {
+    display: none;
+}
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.btn {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
     font-size: 1rem;
-    margin-bottom: 8px;
+}
+.back {
+    background: #ff0055;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.summary-btn {
+    background: #2c2c2c;
     color: #00ffc3;
 }
-.card.settings-card {
-    border-color: #ffd700;
-}
-.card.settings-card h3 {
-    color: #ffd700;
-}
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: #333;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 6px;
-}
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00ffc3, #00b894);
-    transition: width 0.3s;
-}
-small {
-    font-size: 0.65rem;
-    opacity: 0.8;
-}
-
-.day-view {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #0f0f1a;
-    z-index: 1000;
-    overflow-y: auto;
-    padding-bottom: 100px;
-}
-.day-header {
-    background: linear-gradient(135deg, #00ffc3, #00b894);
-    padding: 12px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-.back-btn, .add-item-btn {
-    background: rgba(0,0,0,0.3);
-    border: none;
-    padding: 6px 12px;
-    border-radius: 30px;
-    color: white;
-    font-size: 0.8rem;
-    cursor: pointer;
-}
-.day-title {
-    font-size: 1.2rem;
+.dayTitle {
+    text-align: center;
+    font-size: 28px;
     font-weight: bold;
+    color: #00ffc3;
+    margin: 5px 0 15px;
 }
 .item, .set {
-    background: #1e1e2e;
-    margin: 8px;
-    padding: 12px;
-    border-radius: 14px;
+    background: #1e1e1e;
+    margin: 8px 12px;
+    padding: 14px 12px;
+    border-radius: 20px;
     cursor: pointer;
+    transition: 0.05s linear;
+    font-size: 1rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.item:active, .set:active {
+    transform: scale(0.98);
+    background: #2c2c2c;
 }
 .item.done, .set.done {
-    background: linear-gradient(135deg, #00b89444, #00ffc344);
-    text-decoration: line-through;
+    background: #003d2a;
     opacity: 0.8;
+    text-decoration: line-through;
+}
+.set {
+    justify-content: space-between;
+}
+.set-badge {
+    background: #00ffc32c;
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-size: 0.8rem;
 }
 .ex-title {
     color: #00ffc3;
-    font-size: 1rem;
-    margin: 12px 10px 3px;
     font-weight: bold;
-    padding-left: 8px;
-    border-left: 3px solid #00ffc3;
+    margin: 12px 12px 0 12px;
+    padding-left: 6px;
+    font-size: 1.2rem;
+    border-left: 4px solid #00ffc3;
 }
-
-.bottom-quest {
+.timerBox {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
-    border-top: 2px solid #00ffc3;
-    padding: 8px 12px;
-    z-index: 100;
-}
-.quest-title {
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-align: center;
-    color: #00ffc3;
-}
-.quest-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin: 5px 0;
-}
-.quest-item {
-    text-align: center;
-    background: #2a2a3e;
-    padding: 4px;
-    border-radius: 10px;
-}
-.quest-icon {
-    font-size: 1.1rem;
-}
-.quest-progress {
-    font-size: 0.65rem;
-    font-weight: bold;
-}
-.daily-score {
-    text-align: center;
-    font-size: 0.7rem;
-}
-.score-bar {
-    width: 100%;
-    height: 4px;
-    background: #333;
-    border-radius: 10px;
-    margin-top: 3px;
-    overflow: hidden;
-}
-.score-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ffd700, #ffaa00);
-    transition: width 0.3s;
-}
-
-.stats-panel {
-    background: #1a1a2e;
-    margin: 15px;
-    padding: 12px;
-    border-radius: 16px;
-    border: 1px solid #00ffc3;
-}
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-top: 8px;
-}
-.stat-card {
-    text-align: center;
-    background: #2a2a3e;
-    padding: 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-}
-.chart-bars {
-    margin-top: 10px;
-}
-.chart-bar-item {
-    margin: 4px 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.bar-label {
-    width: 35px;
-    font-size: 0.65rem;
-}
-.bar-fill {
-    flex: 1;
-    height: 16px;
-    background: #333;
-    border-radius: 10px;
-    overflow: hidden;
-}
-.bar {
-    height: 100%;
-    background: linear-gradient(90deg, #00ffc3, #00b894);
-    transition: width 0.5s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 4px;
-    color: #000;
-    font-weight: bold;
-    font-size: 0.6rem;
-}
-.badges {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-}
-.badge {
-    background: linear-gradient(135deg, #ffd700, #ffaa00);
-    padding: 3px 8px;
-    border-radius: 30px;
-    font-size: 0.65rem;
-    font-weight: bold;
-    color: #000;
-}
-
-/* TIMER KUTUSU - BELİRGİN YAPILDI */
-.timer-box {
-    position: fixed;
-    bottom: 170px;
-    right: 15px;
-    background: #000000dd;
-    border: 3px solid #00ffc3;
-    border-radius: 20px;
+    bottom: 20px;
+    right: 20px;
+    background: #111;
     padding: 15px;
-    text-align: center;
-    z-index: 2000;
+    border-radius: 24px;
+    border: 2px solid #00ffc3;
+    background: #0a0a0a;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     min-width: 130px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 20px rgba(0,255,195,0.5);
+    box-shadow: 0 0 15px rgba(0,255,195,0.3);
 }
-.timer-num {
-    font-size: 36px;
+.timerNum {
+    font-size: 32px;
     font-weight: bold;
     font-family: monospace;
-    color: #00ffc3;
 }
 .timer-buttons {
     display: flex;
     gap: 8px;
-    margin-top: 10px;
-    justify-content: center;
 }
 .timer-btn {
-    background: #2a2a3e;
+    background: #2c2c2c;
     border: none;
-    padding: 5px 12px;
-    border-radius: 20px;
     color: #00ffc3;
-    cursor: pointer;
-    font-size: 0.7rem;
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 3000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.modal-content {
-    background: #1e1e2e;
-    border-radius: 20px;
-    padding: 20px;
-    max-width: 350px;
-    width: 100%;
-    border: 2px solid #00ffc3;
-    max-height: 80vh;
-    overflow-y: auto;
-}
-.modal-content input, .modal-content select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    background: #2a2a3e;
-    border: 1px solid #00ffc3;
-    border-radius: 10px;
-    color: white;
-}
-.modal-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-.modal-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
+    padding: 6px 12px;
+    border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
-}
-.modal-btn.confirm {
-    background: #00ffc3;
-    color: #000;
-}
-.modal-btn.cancel {
-    background: #ff0055;
-    color: white;
-}
-.delete-btn {
-    background: #ff0055;
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.7rem;
 }
 .toast {
     position: fixed;
     bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
-    background: #00ffc3;
+    background: #00ffc3dd;
     color: #000;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 50px;
     font-weight: bold;
-    z-index: 2000;
-    animation: fadeOut 1.5s forwards;
-    font-size: 0.85rem;
+    z-index: 300;
+    animation: fadeOut 1.5s ease forwards;
+    pointer-events: none;
 }
 @keyframes fadeOut {
-    0% { opacity: 1; bottom: 30%; }
+    0% { opacity: 1; bottom: 28%; }
     70% { opacity: 1; }
-    100% { opacity: 0; bottom: 40%; display: none; }
+    100% { opacity: 0; bottom: 35%; display: none; }
 }
-.hidden { display: none; }
+.day-summary {
+    background: #1a1a1a;
+    margin: 15px 12px;
+    padding: 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #aaa;
+    border: 1px solid #2c2c2c;
+}
 </style>
 </head>
 <body>
 
-<!-- GİRİŞ EKRANI -->
-<div id="loginScreen" class="login-container">
-    <div class="login-box">
-        <h2>🔥 FITNESS PRO</h2>
-        <p style="margin-bottom: 20px;">Giriş Yap</p>
-        <input type="text" id="loginUsername" placeholder="Kullanıcı Adı" value="demo">
-        <input type="password" id="loginPassword" placeholder="Şifre" value="demo">
-        <button onclick="login()">Giriş Yap</button>
-        <div id="loginError" class="login-error"></div>
-        <p style="margin-top: 15px; font-size: 0.7rem;">Demo: demo / demo</p>
-    </div>
+<h1>💪 FITNESS PRO</h1>
+
+<div id="home" class="grid"></div>
+
+<div id="dayView" class="hidden">
+<div class="topbar">
+<button class="btn back" id="backBtn">⬅ Geri</button>
+<button class="btn summary-btn" id="showSummaryBtn">📊 Gün Özeti</button>
+</div>
+<div id="dayTitle" class="dayTitle"></div>
+<div id="items"></div>
+<div id="summaryPanel" class="day-summary hidden"></div>
 </div>
 
-<!-- ANA UYGULAMA -->
-<div id="appContent" style="display:none;">
-<div class="app-header">
-    <h1>🔥 FITNESS PRO ULTIMATE</h1>
-    <button class="sound-toggle" id="soundToggle">🔊 Ses Açık</button>
-</div>
-
-<div id="homeGrid" class="grid"></div>
-
-<div id="statsPanel" class="stats-panel">
-    <h3 style="font-size:0.85rem;">📊 Haftalık İlerleme</h3>
-    <div class="stats-grid">
-        <div class="stat-card">🏋️ Toplam Set<br><span id="totalSets">0</span></div>
-        <div class="stat-card">💧 Toplam Su<br><span id="totalWater">0</span></div>
-        <div class="stat-card">⭐ En İyi Gün<br><span id="bestDay">-</span></div>
-        <div class="stat-card">🔥 Toplam XP<br><span id="totalXP">0</span></div>
-    </div>
-    <div id="weeklyChart" class="chart-bars"></div>
-    <div id="badgesContainer" class="badges"></div>
-</div>
-
-<div id="dayView" class="day-view hidden">
-    <div class="day-header">
-        <button class="back-btn" onclick="closeDay()">← Geri</button>
-        <div class="day-title" id="dayTitle"></div>
-        <button class="add-item-btn" onclick="showAddItemToDay()">+ Ekle</button>
-    </div>
-    <div id="dayItems"></div>
-</div>
-
-<!-- AYARLAR EKRANI -->
-<div id="settingsView" class="day-view hidden">
-    <div class="day-header">
-        <button class="back-btn" onclick="closeSettings()">← Geri</button>
-        <div class="day-title">⚙️ AYARLAR</div>
-        <div style="width:50px;"></div>
-    </div>
-    <div style="padding: 15px;">
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#00ffc3; margin-bottom:10px;">📦 Yedekleme</h3>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button onclick="exportData()" style="background:#2a2a3e; border:none; padding:8px 16px; border-radius:30px; color:#00ffc3; cursor:pointer;">📥 Yedek Al</button>
-                <button onclick="importData()" style="background:#2a2a3e; border:none; padding:8px 16px; border-radius:30px; color:#00ffc3; cursor:pointer;">📤 Geri Yükle</button>
-                <button onclick="backupToDrive()" style="background:#2a2a3e; border:none; padding:8px 16px; border-radius:30px; color:#00ffc3; cursor:pointer;">☁️ Drive</button>
-            </div>
-        </div>
-        
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#00ffc3; margin-bottom:10px;">🍽️ Yemek Yönetimi</h3>
-            <select id="mealManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #00ffc3; border-radius:10px; color:white;"></select>
-            <div id="mealList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
-            <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:8px; margin-bottom:10px;">
-            <button onclick="addMealToDay()" style="background:#00ffc3; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Yemek Ekle</button>
-        </div>
-        
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
-            <h3 style="color:#00ffc3; margin-bottom:10px;">💪 Egzersiz Yönetimi</h3>
-            <select id="exerciseManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #00ffc3; border-radius:10px; color:white;"></select>
-            <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
-            <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:8px; margin-bottom:5px;">
-            <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:8px; margin-bottom:10px;">
-            <button onclick="addExerciseToDay()" style="background:#00ffc3; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Hareket Ekle</button>
-        </div>
-        
-        <div style="background:#1e1e2e; border-radius:16px; padding:15px;">
-            <h3 style="color:#00ffc3; margin-bottom:10px;">💊 Supplement Takviye</h3>
-            <div id="supplementList" style="margin-bottom:10px;"></div>
-            <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:8px; margin-bottom:5px;">
-            <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı (ör: Sabah)" style="width:100%; padding:8px; margin-bottom:10px;">
-            <button onclick="addSupplement()" style="background:#00ffc3; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Takviye Ekle</button>
-        </div>
-    </div>
-</div>
-
-<div class="bottom-quest">
-    <div class="quest-title">✨ GÜNLÜK GÖREVLER ✨</div>
-    <div class="quest-grid">
-        <div class="quest-item"><div class="quest-icon">💧</div><div class="quest-progress" id="questWater">0/8</div></div>
-        <div class="quest-item"><div class="quest-icon">🍽️</div><div class="quest-progress" id="questMeal">0/12</div></div>
-        <div class="quest-item"><div class="quest-icon">🏋️</div><div class="quest-progress" id="questSet">0/20</div></div>
-        <div class="quest-item"><div class="quest-icon">⭐</div><div class="quest-progress" id="questScore">0/100</div></div>
-    </div>
-    <div class="daily-score">🎯 Günlük Puan: <span id="dailyScoreText">0</span>/100
-        <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
-    </div>
-</div>
-
-<!-- TIMER KUTUSU - GÖRÜNÜR ŞEKİLDE -->
-<div id="timerBox" class="timer-box" style="display:none;">
-    <div class="timer-num" id="timerNum">90</div>
-    <div style="font-size:10px; color:#ccc;">⏱️ Dinlenme Süresi</div>
-    <div class="timer-buttons">
-        <button class="timer-btn" id="timerCloseBtn">Kapat</button>
-        <button class="timer-btn" id="timerCustomBtn">Ayarla</button>
-    </div>
+<div class="timerBox" id="timerBox" style="display:none;">
+<div id="timerNum" class="timerNum">90</div>
+<div style="font-size:12px;">⏱️ Dinlenme</div>
+<div class="timer-buttons">
+<button class="timer-btn" id="timerCloseBtn">✖ Kapat</button>
+<button class="timer-btn" id="timerCustomBtn">⚙ 60-180</button>
 </div>
 </div>
 
 <script>
-// ==================== VERİLER ====================
-let data = {
-    "Pazartesi":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4},{ex:"Incline Dumbbell Press",sets:4},{ex:"Dumbbell Fly",sets:3},{ex:"Cable Crossover",sets:3},{ex:"Rope Pushdown",sets:4},{ex:"Overhead DB Extension",sets:3},{ex:"Dips",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-    "Salı":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + meyve","💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4},{ex:"Seated Row",sets:4},{ex:"Dumbbell Row",sets:3},{ex:"Straight Arm Pulldown",sets:3},{ex:"Face Pull",sets:3},{ex:"DB Curl",sets:4},{ex:"Hammer Curl",sets:3},{ex:"Incline Curl",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-    "Çarşamba":["07:30 Skyr + keten + muz","💧 2 bardak","09:30 Yoğurt + meyve","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata + zeytinyağı","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-    "Perşembe":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},{ex:"Leg Curl",sets:3},{ex:"Leg Extension",sets:3},{ex:"Calf Raise",sets:4},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-    "Cuma":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + kebap","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + muz","💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},{ex:"Rear Delt Fly",sets:3},{ex:"Upright Row",sets:3},{ex:"Pushdown",sets:3},{ex:"Dips",sets:2},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-    "Cumartesi":["07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
-    "Pazar":["08:00 Kahve + Omega-3","💧 2 bardak","08:30 Skyr + muz","💧 2 bardak","11:00 Yoğurt + meyve","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak","🧘 AKTİF DİNLENME"]
+const data = {
+"Pazartesi":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4},{ex:"Incline Dumbbell Press",sets:4},{ex:"Dumbbell Fly",sets:3},{ex:"Cable Crossover",sets:3},{ex:"Rope Pushdown",sets:4},{ex:"Overhead DB Extension",sets:3},{ex:"Dips",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+"Salı":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + meyve","💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4},{ex:"Seated Row",sets:4},{ex:"Dumbbell Row",sets:3},{ex:"Straight Arm Pulldown",sets:3},{ex:"Face Pull",sets:3},{ex:"DB Curl",sets:4},{ex:"Hammer Curl",sets:3},{ex:"Incline Curl",sets:3},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+"Çarşamba":["07:30 Skyr + keten + muz","💧 2 bardak","09:30 Yoğurt + meyve","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata + zeytinyağı","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+"Perşembe":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + tavuk","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Yoğurt + muz","💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},{ex:"Leg Curl",sets:3},{ex:"Leg Extension",sets:3},{ex:"Calf Raise",sets:4},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+"Cuma":["07:00 Kahve + Omega-3","💧 2 bardak","07:30 Skyr + chia","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Pirinç + kebap","💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","💧 2 bardak","18:00 Skyr + muz","💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},{ex:"Rear Delt Fly",sets:3},{ex:"Upright Row",sets:3},{ex:"Pushdown",sets:3},{ex:"Dips",sets:2},"💧 2 bardak","21:00 Whey + skyr + yulaf","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+"Cumartesi":["07:30 Skyr + muz","💧 2 bardak","09:30 Yoğurt","💧 2 bardak","12:30 Ton balığı + lavaş","💧 2 bardak","14:00 Tavuk + pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak"],
+"Pazar":["08:00 Kahve + Omega-3","💧 2 bardak","08:30 Skyr + muz","💧 2 bardak","11:00 Yoğurt + meyve","💧 2 bardak","14:00 Tavuk + az pirinç","💧 2 bardak","18:00 Skyr","💧 2 bardak","20:00 Et + salata","💧 2 bardak","22:30 Skyr","💧 2 bardak","🧘 AKTİF DİNLENME (Yürüyüş / Esneme)"]
 };
 
-let supplements = [
-    {name: "Omega-3", time: "Sabah"},
-    {name: "Whey Protein", time: "Antrenman sonrası"},
-    {name: "Kreatin", time: "Antrenman öncesi"}
-];
-
+const STORAGE_KEY = "fitnessProDone";
 let doneState = {};
 let waterIntake = {};
-let totalSetCount = 0;
-let soundEnabled = true;
-let timerInterval = null;
-let currentDayOpen = null;
 
-// ==================== GİRİŞ ====================
-function login() {
-    const username = document.getElementById("loginUsername").value;
-    const password = document.getElementById("loginPassword").value;
-    if(username && password) {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("appContent").style.display = "block";
-        loadDataFromLocal();
-        buildHome();
-        updateAllStats();
-        updateSupplementsDisplay();
-        setupTimerButtons();
-        showToast(`Hoş geldin ${username}! 💪`);
-    } else {
-        document.getElementById("loginError").innerText = "Kullanıcı adı ve şifre girin!";
-    }
+function showToast(msg) {
+    let toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => { if(toast) toast.remove(); }, 1600);
 }
 
-// ==================== TIMER FONKSİYONLARI (EN GARANTİLİ) ====================
-function stopTimer() {
-    if(timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
-    const timerBox = document.getElementById("timerBox");
-    if(timerBox) timerBox.style.display = "none";
-}
-
-function startTimer(seconds) {
-    // Önce varsa timer'ı durdur
-    stopTimer();
-    
-    let remaining = seconds;
-    const timerBox = document.getElementById("timerBox");
-    const timerNum = document.getElementById("timerNum");
-    
-    if(!timerBox || !timerNum) return;
-    
-    // Timer kutusunu göster
-    timerBox.style.display = "block";
-    timerNum.innerText = remaining;
-    
-    // Sesli geri sayım başlat
-    timerInterval = setInterval(function() {
-        if(remaining <= 1) {
-            // Süre bitti
-            clearInterval(timerInterval);
-            timerInterval = null;
-            timerBox.style.display = "none";
-            // Ses çal
-            if(soundEnabled) {
-                try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    osc.type = "sine";
-                    osc.frequency.setValueAtTime(880, ctx.currentTime);
-                    osc.connect(ctx.destination);
-                    osc.start();
-                    setTimeout(() => { osc.stop(); ctx.close(); }, 300);
-                } catch(e) {}
-            }
-            showToast("🔔 Dinlenme bitti! Devam et! 🔥");
-        } else {
-            remaining--;
-            timerNum.innerText = remaining;
-        }
-    }, 1000);
-}
-
-function customTimer() {
-    let sec = prompt("Dinlenme süresi (saniye):", "90");
-    if(sec && !isNaN(parseInt(sec)) && parseInt(sec) > 0) {
-        startTimer(parseInt(sec));
-    }
-}
-
-function setupTimerButtons() {
-    const closeBtn = document.getElementById("timerCloseBtn");
-    const customBtn = document.getElementById("timerCustomBtn");
-    if(closeBtn) closeBtn.onclick = stopTimer;
-    if(customBtn) customBtn.onclick = customTimer;
-}
-
-// ==================== SES ====================
-function playBeep() {
-    if(!soundEnabled) return;
+function beep() {
     try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = ctx.createOscillator();
@@ -684,462 +250,214 @@ function playBeep() {
     } catch(e) {}
 }
 
-// ==================== LOCALSTORAGE ====================
-function saveDataToLocal() {
-    localStorage.setItem("fitnessDataUltimate", JSON.stringify(data));
-    localStorage.setItem("fitnessDoneUltimate", JSON.stringify(doneState));
-    localStorage.setItem("fitnessWaterUltimate", JSON.stringify(waterIntake));
-    localStorage.setItem("fitnessSetsUltimate", JSON.stringify(totalSetCount));
-    localStorage.setItem("fitnessSupplements", JSON.stringify(supplements));
-}
-function loadDataFromLocal() {
-    let savedData = localStorage.getItem("fitnessDataUltimate");
-    if(savedData) data = JSON.parse(savedData);
-    let saved = localStorage.getItem("fitnessDoneUltimate");
-    if(saved) doneState = JSON.parse(saved);
-    let savedWater = localStorage.getItem("fitnessWaterUltimate");
-    if(savedWater) waterIntake = JSON.parse(savedWater);
-    let savedSets = localStorage.getItem("fitnessSetsUltimate");
-    if(savedSets) totalSetCount = JSON.parse(savedSets);
-    let savedSupps = localStorage.getItem("fitnessSupplements");
-    if(savedSupps) supplements = JSON.parse(savedSupps);
+let currentTimer = null;
+let timerActive = false;
+let timerSeconds = 90;
+const timerBox = document.getElementById("timerBox");
+const timerNumSpan = document.getElementById("timerNum");
+
+function stopTimer() {
+    if(currentTimer) {
+        clearInterval(currentTimer);
+        currentTimer = null;
+    }
+    timerActive = false;
+    timerBox.style.display = "none";
 }
 
-// ==================== ANA EKRAN ====================
-function buildHome() {
-    const grid = document.getElementById("homeGrid");
-    grid.innerHTML = "";
-    const days = Object.keys(data);
-    days.forEach(day => {
-        const stats = getDayStats(day);
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`;
-        card.onclick = () => openDay(day);
-        grid.appendChild(card);
-    });
-    const settingsCard = document.createElement("div");
-    settingsCard.className = "card settings-card";
-    settingsCard.innerHTML = `<h3>⚙️ AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`;
-    settingsCard.onclick = () => openSettings();
-    grid.appendChild(settingsCard);
+function startTimerDisplay(seconds) {
+    stopTimer();
+    timerSeconds = seconds;
+    timerNumSpan.innerText = timerSeconds;
+    timerBox.style.display = "flex";
+    timerActive = true;
+    currentTimer = setInterval(() => {
+        if(timerSeconds <= 1) {
+            stopTimer();
+            beep();
+            showToast("🔔 Dinlenme bitti! Hazır mısın?");
+            timerBox.style.display = "none";
+        } else {
+            timerSeconds--;
+            timerNumSpan.innerText = timerSeconds;
+        }
+    }, 1000);
 }
-function getDayStats(day) {
-    let total = 0, completed = 0;
-    const items = data[day];
-    if(!items) return { total, completed, percent: 0 };
-    items.forEach((item, idx) => {
+
+function startRestTimer(sec = 90) {
+    startTimerDisplay(sec);
+}
+
+function loadDoneState() {
+    let saved = localStorage.getItem(STORAGE_KEY);
+    if(saved) doneState = JSON.parse(saved);
+    let savedWater = localStorage.getItem("fitnessWater");
+    if(savedWater) waterIntake = JSON.parse(savedWater);
+}
+
+function saveDoneState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(doneState));
+    localStorage.setItem("fitnessWater", JSON.stringify(waterIntake));
+}
+
+function getWaterForDay(day) {
+    return waterIntake[day + "_water"] || 0;
+}
+
+function addWaterForDay(day, amount = 2) {
+    let key = day + "_water";
+    let current = waterIntake[key] || 0;
+    waterIntake[key] = current + amount;
+    saveDoneState();
+    if(currentDayOpen === day) {
+        renderDayItems(day);
+        updateSummaryPanel(day);
+    }
+}
+
+let currentDayOpen = null;
+
+function updateSummaryPanel(day) {
+    let panel = document.getElementById("summaryPanel");
+    if(!panel) return;
+    let totalSets = 0, doneSets = 0, totalMeals = 0, doneMeals = 0;
+    const dayData = data[day];
+    if(!dayData) return;
+    dayData.forEach((item, idx) => {
         if(typeof item === "string") {
-            total++;
-            if(doneState[`${day}|meal|${idx}`]) completed++;
+            totalMeals++;
+            let key = `${day}|meal|${idx}`;
+            if(doneState[key]) doneMeals++;
         } else if(item && typeof item === "object" && item.sets) {
             for(let s = 1; s <= item.sets; s++) {
-                total++;
-                if(doneState[`${day}|set|${item.ex}|${s}`]) completed++;
+                totalSets++;
+                let key = `${day}|set|${item.ex}|${s}`;
+                if(doneState[key]) doneSets++;
             }
         }
     });
-    return { total, completed, percent: total === 0 ? 0 : (completed/total)*100 };
+    let water = getWaterForDay(day);
+    let percentSets = totalSets === 0 ? 0 : Math.round((doneSets / totalSets) * 100);
+    let percentMeals = totalMeals === 0 ? 0 : Math.round((doneMeals / totalMeals) * 100);
+    panel.innerHTML = `📋 GÜN ÖZETİ 💧 ${water} bardak su 🏋️ Setler: ${doneSets}/${totalSets} (%${percentSets}) 🍽️ Öğün: ${doneMeals}/${totalMeals}`;
+    if(totalSets === 0 && totalMeals === 0) panel.innerHTML = `💧 Su: ${water} bardak | Aktif dinlenme günü`;
+    panel.classList.remove("hidden");
 }
 
-// ==================== GÜN GÖRÜNÜMÜ ====================
-function openDay(day) {
-    currentDayOpen = day;
-    document.getElementById("homeGrid").style.display = "none";
-    document.getElementById("statsPanel").style.display = "none";
-    document.getElementById("dayView").classList.remove("hidden");
-    document.getElementById("settingsView").classList.add("hidden");
-    document.getElementById("dayTitle").innerText = day;
-    renderDayItems(day);
-}
-function closeDay() {
-    stopTimer();
-    document.getElementById("dayView").classList.add("hidden");
-    document.getElementById("homeGrid").style.display = "grid";
-    document.getElementById("statsPanel").style.display = "block";
-    updateAllStats();
-    buildHome();
-}
 function renderDayItems(day) {
-    const container = document.getElementById("dayItems");
+    const container = document.getElementById("items");
+    if(!container) return;
     container.innerHTML = "";
-    const items = data[day];
-    if(!items) return;
-    items.forEach((item, idx) => {
+    const dayArray = data[day];
+    dayArray.forEach((item, idx) => {
         if(typeof item === "string") {
-            const div = document.createElement("div");
+            let div = document.createElement("div");
             div.className = "item";
-            div.innerHTML = `<span>${item}</span>`;
-            const key = `${day}|meal|${idx}`;
+            let isWater = item.includes("💧");
+            div.innerHTML = `<span>${item}</span>${isWater ? '<span style="font-size:12px;">💧+2</span>' : ''}`;
+            let key = `${day}|meal|${idx}`;
             if(doneState[key]) div.classList.add("done");
-            div.onclick = () => {
-                if(doneState[key]) {
-                    delete doneState[key];
-                    div.classList.remove("done");
-                    showToast("❌ İşaret kaldırıldı");
+            div.onclick = (e) => {
+                e.stopPropagation();
+                if(isWater) {
+                    addWaterForDay(day, 2);
+                    showToast(`+2 bardak su (toplam: ${getWaterForDay(day)})`);
                 } else {
-                    doneState[key] = true;
-                    div.classList.add("done");
-                    if(item.includes("💧")) {
-                        const waterKey = `${day}_water`;
-                        waterIntake[waterKey] = (waterIntake[waterKey] || 0) + 2;
-                        showToast("💧 +2 bardak su!");
-                    } else { showToast("✅ Tamamlandı!"); }
+                    if(doneState[key]) {
+                        delete doneState[key];
+                        div.classList.remove("done");
+                        showToast("❌ İşaret kaldırıldı");
+                    } else {
+                        doneState[key] = true;
+                        div.classList.add("done");
+                        showToast("✅ Tamamlandı!");
+                    }
+                    saveDoneState();
+                    updateSummaryPanel(day);
                 }
-                saveDataToLocal();
-                updateQuests(day);
-                updateAllStats();
-                buildHome();
             };
             container.appendChild(div);
         } else if(item && typeof item === "object" && item.ex) {
-            const title = document.createElement("div");
-            title.className = "ex-title";
-            title.innerText = `💪 ${item.ex}`;
-            container.appendChild(title);
+            let exTitle = document.createElement("div");
+            exTitle.className = "ex-title";
+            exTitle.innerText = `💪 ${item.ex}`;
+            container.appendChild(exTitle);
             for(let s = 1; s <= item.sets; s++) {
-                const setDiv = document.createElement("div");
+                let setDiv = document.createElement("div");
                 setDiv.className = "set";
-                setDiv.innerHTML = `<span>Set ${s}</span><span style="font-size:10px;">⏱️ Dinlenme</span>`;
-                const setKey = `${day}|set|${item.ex}|${s}`;
+                setDiv.innerHTML = `<span>Set ${s}</span><span class="set-badge">⏱️ 90sn dinlenme</span>`;
+                let setKey = `${day}|set|${item.ex}|${s}`;
                 if(doneState[setKey]) setDiv.classList.add("done");
-                setDiv.onclick = (function(setNum, setKeyParam) {
-                    return function() {
-                        if(doneState[setKeyParam]) {
-                            delete doneState[setKeyParam];
-                            setDiv.classList.remove("done");
-                            totalSetCount--;
-                            showToast("❌ Set iptal edildi");
-                        } else {
-                            doneState[setKeyParam] = true;
-                            setDiv.classList.add("done");
-                            totalSetCount++;
-                            showToast(`✅ Set ${setNum} tamamlandı! +30 XP 🔥`);
-                            // TIMER BAŞLAT - KESİN ÇALIŞIYOR
-                            startTimer(90);
-                        }
-                        saveDataToLocal();
-                        updateQuests(day);
-                        updateAllStats();
-                        buildHome();
-                    };
-                })(s, setKey);
+                setDiv.onclick = (e) => {
+                    e.stopPropagation();
+                    if(doneState[setKey]) {
+                        delete doneState[setKey];
+                        setDiv.classList.remove("done");
+                        showToast("Set iptal edildi");
+                    } else {
+                        doneState[setKey] = true;
+                        setDiv.classList.add("done");
+                        showToast(`Set ${s} tamamlandı! 💪`);
+                        startRestTimer(90);
+                    }
+                    saveDoneState();
+                    updateSummaryPanel(day);
+                };
                 container.appendChild(setDiv);
             }
         }
     });
-    updateQuests(day);
+    updateSummaryPanel(day);
 }
 
-// ==================== AYARLAR ====================
-function openSettings() {
+function openDay(day) {
+    currentDayOpen = day;
+    document.getElementById("home").style.display = "none";
+    document.getElementById("dayView").classList.remove("hidden");
+    document.getElementById("dayTitle").innerText = day;
+    renderDayItems(day);
+}
+
+function goBack() {
     stopTimer();
-    document.getElementById("homeGrid").style.display = "none";
-    document.getElementById("statsPanel").style.display = "none";
     document.getElementById("dayView").classList.add("hidden");
-    document.getElementById("settingsView").classList.remove("hidden");
-    populateManageSelects();
-    refreshMealList();
-    refreshExerciseList();
-    updateSupplementsDisplay();
-}
-function closeSettings() {
-    document.getElementById("settingsView").classList.add("hidden");
-    document.getElementById("homeGrid").style.display = "grid";
-    document.getElementById("statsPanel").style.display = "block";
-    buildHome();
-}
-function populateManageSelects() {
-    const days = Object.keys(data);
-    const mealSelect = document.getElementById("mealManageDay");
-    const exerciseSelect = document.getElementById("exerciseManageDay");
-    mealSelect.innerHTML = '<option value="">Gün Seç</option>';
-    exerciseSelect.innerHTML = '<option value="">Gün Seç</option>';
-    days.forEach(day => {
-        mealSelect.innerHTML += `<option value="${day}">${day}</option>`;
-        exerciseSelect.innerHTML += `<option value="${day}">${day}</option>`;
-    });
-    mealSelect.onchange = () => refreshMealList();
-    exerciseSelect.onchange = () => refreshExerciseList();
-}
-function refreshMealList() {
-    const day = document.getElementById("mealManageDay").value;
-    const container = document.getElementById("mealList");
-    if(!day || !data[day]) { container.innerHTML = "<i>Gün seçin</i>"; return; }
-    container.innerHTML = "";
-    data[day].forEach((item, idx) => {
-        if(typeof item === "string" && !item.includes("🏋️")) {
-            const div = document.createElement("div");
-            div.style.display = "flex";
-            div.style.justifyContent = "space-between";
-            div.style.alignItems = "center";
-            div.style.padding = "6px";
-            div.style.borderBottom = "1px solid #333";
-            div.innerHTML = `<span>${item}</span><button class="delete-btn" onclick="deleteMeal('${day}', ${idx})">Sil</button>`;
-            container.appendChild(div);
-        }
-    });
-}
-function deleteMeal(day, idx) {
-    if(confirm("Bu yemeği silmek istediğinize emin misiniz?")) {
-        data[day].splice(idx, 1);
-        saveDataToLocal();
-        refreshMealList();
-        if(currentDayOpen === day) renderDayItems(day);
-        buildHome();
-        showToast("✅ Yemek silindi");
-    }
-}
-function addMealToDay() {
-    const day = document.getElementById("mealManageDay").value;
-    const name = document.getElementById("newMealName").value;
-    if(!day || !name) { showToast("Gün ve yemek adı girin!"); return; }
-    data[day].push(name);
-    saveDataToLocal();
-    document.getElementById("newMealName").value = "";
-    refreshMealList();
-    if(currentDayOpen === day) renderDayItems(day);
-    buildHome();
-    showToast(`✅ "${name}" eklendi`);
-}
-function refreshExerciseList() {
-    const day = document.getElementById("exerciseManageDay").value;
-    const container = document.getElementById("exerciseList");
-    if(!day || !data[day]) { container.innerHTML = "<i>Gün seçin</i>"; return; }
-    container.innerHTML = "";
-    data[day].forEach((item, idx) => {
-        if(item && typeof item === "object" && item.ex) {
-            const div = document.createElement("div");
-            div.style.display = "flex";
-            div.style.justifyContent = "space-between";
-            div.style.alignItems = "center";
-            div.style.padding = "6px";
-            div.style.borderBottom = "1px solid #333";
-            div.innerHTML = `<span>💪 ${item.ex} (${item.sets} set)</span><button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>`;
-            container.appendChild(div);
-        }
-    });
-}
-function deleteExercise(day, idx) {
-    if(confirm("Bu hareketi silmek istediğinize emin misiniz?")) {
-        data[day].splice(idx, 1);
-        saveDataToLocal();
-        refreshExerciseList();
-        if(currentDayOpen === day) renderDayItems(day);
-        buildHome();
-        showToast("✅ Hareket silindi");
-    }
-}
-function addExerciseToDay() {
-    const day = document.getElementById("exerciseManageDay").value;
-    const name = document.getElementById("newExerciseName").value;
-    const sets = parseInt(document.getElementById("newExerciseSets").value);
-    if(!day || !name || !sets) { showToast("Gün, hareket adı ve set sayısı girin!"); return; }
-    data[day].push({ex: name, sets: sets});
-    saveDataToLocal();
-    document.getElementById("newExerciseName").value = "";
-    document.getElementById("newExerciseSets").value = "";
-    refreshExerciseList();
-    if(currentDayOpen === day) renderDayItems(day);
-    buildHome();
-    showToast(`✅ "${name}" (${sets} set) eklendi`);
-}
-function updateSupplementsDisplay() {
-    const container = document.getElementById("supplementList");
-    if(!container) return;
-    container.innerHTML = "";
-    supplements.forEach((sup, idx) => {
-        const div = document.createElement("div");
-        div.style.display = "flex";
-        div.style.justifyContent = "space-between";
-        div.style.alignItems = "center";
-        div.style.padding = "6px";
-        div.style.borderBottom = "1px solid #333";
-        div.innerHTML = `<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})">Sil</button>`;
-        container.appendChild(div);
-    });
-}
-function deleteSupplement(idx) {
-    if(confirm("Takviyeyi silmek istediğinize emin misiniz?")) {
-        supplements.splice(idx, 1);
-        saveDataToLocal();
-        updateSupplementsDisplay();
-        showToast("✅ Takviye silindi");
-    }
-}
-function addSupplement() {
-    const name = document.getElementById("newSupplementName").value;
-    const time = document.getElementById("newSupplementTime").value;
-    if(!name || !time) { showToast("Takviye adı ve zamanı girin!"); return; }
-    supplements.push({name, time});
-    saveDataToLocal();
-    document.getElementById("newSupplementName").value = "";
-    document.getElementById("newSupplementTime").value = "";
-    updateSupplementsDisplay();
-    showToast(`✅ "${name}" eklendi`);
+    document.getElementById("home").style.display = "grid";
+    currentDayOpen = null;
 }
 
-// ==================== GÖREV VE PUAN ====================
-function updateQuests(day) {
-    let water = 0, meals = 0, sets = 0;
-    Object.keys(doneState).forEach(key => {
-        if(key.includes(day)) {
-            if(key.includes("meal")) {
-                meals++;
-                const idx = parseInt(key.split("|")[2]);
-                const itemText = data[day]?.[idx];
-                if(typeof itemText === "string" && itemText.includes("💧")) water += 2;
-            }
-            if(key.includes("set")) sets++;
-        }
-    });
-    const waterKey = `${day}_water`;
-    const totalWater = (waterIntake[waterKey] || 0) + water;
-    document.getElementById("questWater").innerHTML = `${Math.min(totalWater,8)}/8`;
-    document.getElementById("questMeal").innerHTML = `${Math.min(meals,12)}/12`;
-    document.getElementById("questSet").innerHTML = `${Math.min(sets,20)}/20`;
-    let score = Math.min(totalWater * 5 + meals * 3 + sets * 2, 100);
-    document.getElementById("dailyScoreText").innerText = score;
-    document.getElementById("scoreFill").style.width = score + "%";
-    document.getElementById("questScore").innerHTML = `${score}/100`;
-}
-function updateAllStats() {
-    let totalWater = 0;
-    Object.values(waterIntake).forEach(v => totalWater += v);
-    let bestDayScore = 0, bestDayName = "";
+function buildHome() {
+    const homeDiv = document.getElementById("home");
+    homeDiv.innerHTML = "";
     Object.keys(data).forEach(day => {
-        let dayScore = 0;
-        Object.keys(doneState).forEach(key => {
-            if(key.includes(day)) {
-                if(key.includes("set")) dayScore += 2;
-                if(key.includes("meal")) dayScore += 1;
-            }
-        });
-        if(dayScore > bestDayScore) { bestDayScore = dayScore; bestDayName = day; }
-    });
-    document.getElementById("totalSets").innerText = totalSetCount;
-    document.getElementById("totalWater").innerText = totalWater;
-    document.getElementById("bestDay").innerText = bestDayName || "-";
-    document.getElementById("totalXP").innerText = totalSetCount * 30;
-    const badgesDiv = document.getElementById("badgesContainer");
-    let badges = [];
-    if(totalSetCount >= 20) badges.push("🔥 Alev Rozeti");
-    if(totalSetCount >= 50) badges.push("💪 Demir Rozet");
-    if(totalSetCount >= 100) badges.push("👑 Efsane Rozeti");
-    if(badges.length === 0) badges.push("🔒 20 set yaparak ilk rozeti kazan!");
-    badgesDiv.innerHTML = badges.map(b => `<div class="badge">${b}</div>`).join('');
-    const chartDiv = document.getElementById("weeklyChart");
-    chartDiv.innerHTML = "<h4 style='font-size:0.75rem;'>📈 Haftalık Set Grafiği</h4>";
-    Object.keys(data).forEach(day => {
-        let setsDone = 0;
-        Object.keys(doneState).forEach(key => {
-            if(key.includes(day) && key.includes("set")) setsDone++;
-        });
-        const maxSets = 25;
-        const width = Math.min((setsDone / maxSets) * 100, 100);
-        chartDiv.innerHTML += `<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${width}%">${setsDone}</div></div></div>`;
+        let card = document.createElement("div");
+        card.className = "card";
+        card.innerText = day;
+        card.onclick = () => openDay(day);
+        homeDiv.appendChild(card);
     });
 }
 
-// ==================== YEDEKLEME ====================
-function exportData() {
-    const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const blob = new Blob([dataStr], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast("✅ Veriler yedeklendi!");
-}
-function importData() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/json";
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const imported = JSON.parse(event.target.result);
-                if(imported.data) data = imported.data;
-                if(imported.doneState) doneState = imported.doneState;
-                if(imported.waterIntake) waterIntake = imported.waterIntake;
-                if(imported.totalSetCount !== undefined) totalSetCount = imported.totalSetCount;
-                if(imported.supplements) supplements = imported.supplements;
-                saveDataToLocal();
-                buildHome();
-                if(currentDayOpen) renderDayItems(currentDayOpen);
-                updateAllStats();
-                updateSupplementsDisplay();
-                showToast("✅ Yedek geri yüklendi!");
-            } catch(err) { showToast("❌ Hatalı dosya!"); }
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-}
-function backupToDrive() {
-    showToast("📱 Veriler hazır, Google Drive'a yükleyebilirsin!");
-    exportData();
-}
-
-// ==================== DİĞER ====================
-function showAddItemToDay() {
-    if(!currentDayOpen) return;
-    const modal = document.createElement("div");
-    modal.className = "modal";
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h3>➕ ${currentDayOpen} gününe ekle</h3>
-            <select id="itemTypeSelect"><option value="meal">🍽️ Yemek/Öğün</option><option value="exercise">💪 Antrenman Hareketi</option></select>
-            <input type="text" id="itemNameInput" placeholder="İçerik adı" />
-            <div id="setsContainer" style="display:none;"><input type="number" id="itemSetsInput" placeholder="Set sayısı" min="1" max="10" /></div>
-            <div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-    const typeSelect = document.getElementById("itemTypeSelect");
-    const setsContainer = document.getElementById("setsContainer");
-    typeSelect.onchange = () => { setsContainer.style.display = typeSelect.value === "exercise" ? "block" : "none"; };
-}
-function addItemToCurrentDay() {
-    const type = document.getElementById("itemTypeSelect").value;
-    const name = document.getElementById("itemNameInput").value;
-    if(!name) { showToast("İçerik adı girin!"); return; }
-    if(type === "meal") {
-        data[currentDayOpen].push(name);
-        showToast(`✅ "${name}" eklendi!`);
-    } else {
-        const sets = parseInt(document.getElementById("itemSetsInput").value);
-        if(!sets) { showToast("Set sayısı girin!"); return; }
-        data[currentDayOpen].push({ex: name, sets: sets});
-        showToast(`✅ "${name}" (${sets} set) eklendi!`);
+document.getElementById("timerCloseBtn")?.addEventListener("click", () => { stopTimer(); });
+document.getElementById("timerCustomBtn")?.addEventListener("click", () => {
+    let newSec = prompt("Dinlenme süresi (saniye):", "90");
+    if(newSec && !isNaN(parseInt(newSec))) {
+        let sec = parseInt(newSec);
+        if(sec >= 10 && sec <= 300) startTimerDisplay(sec);
+        else showToast("10-300 saniye arası girin");
     }
-    saveDataToLocal();
-    renderDayItems(currentDayOpen);
-    buildHome();
-    document.querySelector(".modal").remove();
-}
-function showToast(msg) {
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.innerText = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 1600);
-}
-function toggleSound() {
-    soundEnabled = !soundEnabled;
-    const btn = document.getElementById("soundToggle");
-    if(btn) btn.innerText = soundEnabled ? "🔊 Ses Açık" : "🔇 Ses Kapalı";
-    showToast(soundEnabled ? "Ses açıldı 🔔" : "Ses kapatıldı 🔇");
-}
+});
+document.getElementById("showSummaryBtn")?.addEventListener("click", () => {
+    if(currentDayOpen) {
+        updateSummaryPanel(currentDayOpen);
+        let panel = document.getElementById("summaryPanel");
+        if(panel.classList.contains("hidden")) panel.classList.remove("hidden");
+        else panel.classList.add("hidden");
+    }
+});
+document.getElementById("backBtn")?.addEventListener("click", goBack);
 
-window.onload = () => {
-    document.getElementById("soundToggle").onclick = toggleSound;
-};
+loadDoneState();
+buildHome();
 </script>
 </body>
 </html>
