@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -75,7 +76,6 @@ body {
     font-size: 0.8rem;
 }
 
-/* ANA UYGULAMA */
 .app-header {
     background: linear-gradient(135deg, #00ffc3 0%, #00b894 100%);
     padding: 12px 15px;
@@ -100,7 +100,6 @@ body {
     font-size: 0.7rem;
 }
 
-/* 8'li GRİD (7 gün + 1 ayarlar) */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -128,7 +127,6 @@ body {
     color: #00ffc3;
 }
 .card.settings-card {
-    background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
     border-color: #ffd700;
 }
 .card.settings-card h3 {
@@ -152,7 +150,6 @@ small {
     opacity: 0.8;
 }
 
-/* GÜN GÖRÜNÜMÜ */
 .day-view {
     position: fixed;
     top: 0;
@@ -211,7 +208,6 @@ small {
     border-left: 3px solid #00ffc3;
 }
 
-/* ALT GÖREV ÇUBUĞU */
 .bottom-quest {
     position: fixed;
     bottom: 0;
@@ -265,7 +261,6 @@ small {
     transition: width 0.3s;
 }
 
-/* İSTATİSTİK PANELİ */
 .stats-panel {
     background: #1a1a2e;
     margin: 15px;
@@ -333,41 +328,43 @@ small {
     color: #000;
 }
 
-/* TIMER KUTUSU */
+/* TIMER KUTUSU - BELİRGİN YAPILDI */
 .timer-box {
     position: fixed;
     bottom: 170px;
-    right: 10px;
-    background: #0a0a0a;
-    border: 2px solid #00ffc3;
-    border-radius: 14px;
-    padding: 10px;
+    right: 15px;
+    background: #000000dd;
+    border: 3px solid #00ffc3;
+    border-radius: 20px;
+    padding: 15px;
     text-align: center;
-    z-index: 200;
-    min-width: 100px;
+    z-index: 2000;
+    min-width: 130px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0,255,195,0.5);
 }
 .timer-num {
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
     font-family: monospace;
+    color: #00ffc3;
 }
 .timer-buttons {
     display: flex;
-    gap: 5px;
-    margin-top: 5px;
+    gap: 8px;
+    margin-top: 10px;
     justify-content: center;
 }
 .timer-btn {
     background: #2a2a3e;
     border: none;
-    padding: 3px 8px;
-    border-radius: 14px;
+    padding: 5px 12px;
+    border-radius: 20px;
     color: #00ffc3;
     cursor: pointer;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
 }
 
-/* MODAL (AÇILIR PENCERE) */
 .modal {
     position: fixed;
     top: 0;
@@ -391,7 +388,7 @@ small {
     max-height: 80vh;
     overflow-y: auto;
 }
-.modal-content input, .modal-content select, .modal-content textarea {
+.modal-content input, .modal-content select {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -437,12 +434,12 @@ small {
     transform: translateX(-50%);
     background: #00ffc3;
     color: #000;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 50px;
     font-weight: bold;
     z-index: 2000;
     animation: fadeOut 1.5s forwards;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
 }
 @keyframes fadeOut {
     0% { opacity: 1; bottom: 30%; }
@@ -459,8 +456,8 @@ small {
     <div class="login-box">
         <h2>🔥 FITNESS PRO</h2>
         <p style="margin-bottom: 20px;">Giriş Yap</p>
-        <input type="text" id="loginUsername" placeholder="Kullanıcı Adı">
-        <input type="password" id="loginPassword" placeholder="Şifre">
+        <input type="text" id="loginUsername" placeholder="Kullanıcı Adı" value="demo">
+        <input type="password" id="loginPassword" placeholder="Şifre" value="demo">
         <button onclick="login()">Giriş Yap</button>
         <div id="loginError" class="login-error"></div>
         <p style="margin-top: 15px; font-size: 0.7rem;">Demo: demo / demo</p>
@@ -516,9 +513,7 @@ small {
         
         <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#00ffc3; margin-bottom:10px;">🍽️ Yemek Yönetimi</h3>
-            <select id="mealManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #00ffc3; border-radius:10px; color:white;">
-                <option value="">Gün Seç</option>
-            </select>
+            <select id="mealManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #00ffc3; border-radius:10px; color:white;"></select>
             <div id="mealList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
             <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:8px; margin-bottom:10px;">
             <button onclick="addMealToDay()" style="background:#00ffc3; border:none; padding:8px; border-radius:30px; color:#000; font-weight:bold; cursor:pointer;">+ Yemek Ekle</button>
@@ -526,9 +521,7 @@ small {
         
         <div style="background:#1e1e2e; border-radius:16px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#00ffc3; margin-bottom:10px;">💪 Egzersiz Yönetimi</h3>
-            <select id="exerciseManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #00ffc3; border-radius:10px; color:white;">
-                <option value="">Gün Seç</option>
-            </select>
+            <select id="exerciseManageDay" style="width:100%; padding:8px; margin-bottom:10px; background:#2a2a3e; border:1px solid #00ffc3; border-radius:10px; color:white;"></select>
             <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin-bottom:10px;"></div>
             <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:8px; margin-bottom:5px;">
             <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:8px; margin-bottom:10px;">
@@ -558,12 +551,13 @@ small {
     </div>
 </div>
 
+<!-- TIMER KUTUSU - GÖRÜNÜR ŞEKİLDE -->
 <div id="timerBox" class="timer-box" style="display:none;">
     <div class="timer-num" id="timerNum">90</div>
-    <div style="font-size:9px;">⏱️ Dinlenme</div>
+    <div style="font-size:10px; color:#ccc;">⏱️ Dinlenme Süresi</div>
     <div class="timer-buttons">
-        <button class="timer-btn" onclick="stopTimer()">Kapat</button>
-        <button class="timer-btn" onclick="customTimer()">Ayarla</button>
+        <button class="timer-btn" id="timerCloseBtn">Kapat</button>
+        <button class="timer-btn" id="timerCustomBtn">Ayarla</button>
     </div>
 </div>
 </div>
@@ -590,75 +584,94 @@ let doneState = {};
 let waterIntake = {};
 let totalSetCount = 0;
 let soundEnabled = true;
-let currentTimer = null;
+let timerInterval = null;
 let currentDayOpen = null;
-let currentUser = null;
 
 // ==================== GİRİŞ ====================
 function login() {
     const username = document.getElementById("loginUsername").value;
     const password = document.getElementById("loginPassword").value;
     if(username && password) {
-        currentUser = username;
         document.getElementById("loginScreen").style.display = "none";
         document.getElementById("appContent").style.display = "block";
         loadDataFromLocal();
         buildHome();
         updateAllStats();
         updateSupplementsDisplay();
+        setupTimerButtons();
         showToast(`Hoş geldin ${username}! 💪`);
     } else {
-        document.getElementById("loginError").innerText = "Kullanıcı adı ve şifre girin! (demo/demo)";
+        document.getElementById("loginError").innerText = "Kullanıcı adı ve şifre girin!";
     }
 }
 
-// ==================== YEDEKLEME ====================
-function exportData() {
-    const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const blob = new Blob([dataStr], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast("✅ Veriler yedeklendi!");
-}
-function importData() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "application/json";
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const imported = JSON.parse(event.target.result);
-                if(imported.data) data = imported.data;
-                if(imported.doneState) doneState = imported.doneState;
-                if(imported.waterIntake) waterIntake = imported.waterIntake;
-                if(imported.totalSetCount !== undefined) totalSetCount = imported.totalSetCount;
-                if(imported.supplements) supplements = imported.supplements;
-                saveDataToLocal();
-                buildHome();
-                if(currentDayOpen) renderDayItems(currentDayOpen);
-                updateAllStats();
-                updateSupplementsDisplay();
-                showToast("✅ Yedek geri yüklendi!");
-            } catch(err) { showToast("❌ Hatalı dosya!"); }
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-}
-function backupToDrive() {
-    showToast("📱 Veriler hazır, Google Drive'a yükleyebilirsin!");
-    exportData();
+// ==================== TIMER FONKSİYONLARI (EN GARANTİLİ) ====================
+function stopTimer() {
+    if(timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    const timerBox = document.getElementById("timerBox");
+    if(timerBox) timerBox.style.display = "none";
 }
 
-// ==================== TIMER (KESİN ÇALIŞIYOR) ====================
-function beep() {
+function startTimer(seconds) {
+    // Önce varsa timer'ı durdur
+    stopTimer();
+    
+    let remaining = seconds;
+    const timerBox = document.getElementById("timerBox");
+    const timerNum = document.getElementById("timerNum");
+    
+    if(!timerBox || !timerNum) return;
+    
+    // Timer kutusunu göster
+    timerBox.style.display = "block";
+    timerNum.innerText = remaining;
+    
+    // Sesli geri sayım başlat
+    timerInterval = setInterval(function() {
+        if(remaining <= 1) {
+            // Süre bitti
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerBox.style.display = "none";
+            // Ses çal
+            if(soundEnabled) {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(880, ctx.currentTime);
+                    osc.connect(ctx.destination);
+                    osc.start();
+                    setTimeout(() => { osc.stop(); ctx.close(); }, 300);
+                } catch(e) {}
+            }
+            showToast("🔔 Dinlenme bitti! Devam et! 🔥");
+        } else {
+            remaining--;
+            timerNum.innerText = remaining;
+        }
+    }, 1000);
+}
+
+function customTimer() {
+    let sec = prompt("Dinlenme süresi (saniye):", "90");
+    if(sec && !isNaN(parseInt(sec)) && parseInt(sec) > 0) {
+        startTimer(parseInt(sec));
+    }
+}
+
+function setupTimerButtons() {
+    const closeBtn = document.getElementById("timerCloseBtn");
+    const customBtn = document.getElementById("timerCustomBtn");
+    if(closeBtn) closeBtn.onclick = stopTimer;
+    if(customBtn) customBtn.onclick = customTimer;
+}
+
+// ==================== SES ====================
+function playBeep() {
     if(!soundEnabled) return;
     try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -669,37 +682,6 @@ function beep() {
         osc.start();
         setTimeout(() => { osc.stop(); ctx.close(); }, 200);
     } catch(e) {}
-}
-function stopTimer() {
-    if(currentTimer) {
-        clearInterval(currentTimer);
-        currentTimer = null;
-    }
-    document.getElementById("timerBox").style.display = "none";
-}
-function startTimer(seconds) {
-    stopTimer();
-    let remaining = seconds;
-    const timerBox = document.getElementById("timerBox");
-    const timerNum = document.getElementById("timerNum");
-    timerBox.style.display = "block";
-    timerNum.innerText = remaining;
-    currentTimer = setInterval(() => {
-        if(remaining <= 1) {
-            stopTimer();
-            beep();
-            showToast("🔔 Dinlenme bitti! Devam et! 🔥");
-        } else {
-            remaining--;
-            timerNum.innerText = remaining;
-        }
-    }, 1000);
-}
-function customTimer() {
-    let sec = prompt("Dinlenme süresi (saniye):", "90");
-    if(sec && !isNaN(parseInt(sec)) && parseInt(sec) > 0) {
-        startTimer(parseInt(sec));
-    }
 }
 
 // ==================== LOCALSTORAGE ====================
@@ -723,7 +705,7 @@ function loadDataFromLocal() {
     if(savedSupps) supplements = JSON.parse(savedSupps);
 }
 
-// ==================== ANA EKRAN (7 GÜN + AYARLAR) ====================
+// ==================== ANA EKRAN ====================
 function buildHome() {
     const grid = document.getElementById("homeGrid");
     grid.innerHTML = "";
@@ -736,7 +718,6 @@ function buildHome() {
         card.onclick = () => openDay(day);
         grid.appendChild(card);
     });
-    // AYARLAR KARTI (8.)
     const settingsCard = document.createElement("div");
     settingsCard.className = "card settings-card";
     settingsCard.innerHTML = `<h3>⚙️ AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`;
@@ -834,6 +815,7 @@ function renderDayItems(day) {
                             setDiv.classList.add("done");
                             totalSetCount++;
                             showToast(`✅ Set ${setNum} tamamlandı! +30 XP 🔥`);
+                            // TIMER BAŞLAT - KESİN ÇALIŞIYOR
                             startTimer(90);
                         }
                         saveDataToLocal();
@@ -851,6 +833,7 @@ function renderDayItems(day) {
 
 // ==================== AYARLAR ====================
 function openSettings() {
+    stopTimer();
     document.getElementById("homeGrid").style.display = "none";
     document.getElementById("statsPanel").style.display = "none";
     document.getElementById("dayView").classList.add("hidden");
@@ -885,7 +868,7 @@ function refreshMealList() {
     if(!day || !data[day]) { container.innerHTML = "<i>Gün seçin</i>"; return; }
     container.innerHTML = "";
     data[day].forEach((item, idx) => {
-        if(typeof item === "string" && !item.includes("🏋️") && typeof item === "string") {
+        if(typeof item === "string" && !item.includes("🏋️")) {
             const div = document.createElement("div");
             div.style.display = "flex";
             div.style.justifyContent = "space-between";
@@ -1058,6 +1041,51 @@ function updateAllStats() {
     });
 }
 
+// ==================== YEDEKLEME ====================
+function exportData() {
+    const exportData = { data, doneState, waterIntake, totalSetCount, supplements };
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([dataStr], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("✅ Veriler yedeklendi!");
+}
+function importData() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const imported = JSON.parse(event.target.result);
+                if(imported.data) data = imported.data;
+                if(imported.doneState) doneState = imported.doneState;
+                if(imported.waterIntake) waterIntake = imported.waterIntake;
+                if(imported.totalSetCount !== undefined) totalSetCount = imported.totalSetCount;
+                if(imported.supplements) supplements = imported.supplements;
+                saveDataToLocal();
+                buildHome();
+                if(currentDayOpen) renderDayItems(currentDayOpen);
+                updateAllStats();
+                updateSupplementsDisplay();
+                showToast("✅ Yedek geri yüklendi!");
+            } catch(err) { showToast("❌ Hatalı dosya!"); }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+function backupToDrive() {
+    showToast("📱 Veriler hazır, Google Drive'a yükleyebilirsin!");
+    exportData();
+}
+
 // ==================== DİĞER ====================
 function showAddItemToDay() {
     if(!currentDayOpen) return;
@@ -1109,7 +1137,6 @@ function toggleSound() {
     showToast(soundEnabled ? "Ses açıldı 🔔" : "Ses kapatıldı 🔇");
 }
 
-// ==================== BAŞLAT ====================
 window.onload = () => {
     document.getElementById("soundToggle").onclick = toggleSound;
 };
