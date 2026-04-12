@@ -708,21 +708,159 @@ small {
 </div>
 
 <script>
-// ==================== VERİLER ====================
+// ==================== YENİ VERİLER (SENİN PLANINA GÖRE) ====================
 let data = {
-    "Pazartesi":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","15:30 💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Yoğurt + muz","21:30 💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4,link:""},{ex:"Incline Dumbbell Press",sets:4,link:""},{ex:"Dumbbell Fly",sets:3,link:""},{ex:"Cable Crossover",sets:3,link:""},{ex:"Rope Pushdown",sets:4,link:""},{ex:"Overhead DB Extension",sets:3,link:""},{ex:"Dips",sets:3,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
-    "Salı":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + muz + chia","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + tavuk","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Skyr + meyve","21:30 💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4,link:""},{ex:"Seated Row",sets:4,link:""},{ex:"Dumbbell Row",sets:3,link:""},{ex:"Straight Arm Pulldown",sets:3,link:""},{ex:"Face Pull",sets:3,link:""},{ex:"DB Curl",sets:4,link:""},{ex:"Hammer Curl",sets:3,link:""},{ex:"Incline Curl",sets:3,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
-    "Çarşamba":["07:30 Skyr + keten + muz","09:30 💧 2 bardak","09:30 Yoğurt + meyve","11:30 💧 2 bardak","12:30 Ton balığı + lavaş","13:30 💧 2 bardak","14:00 Tavuk + az pirinç","15:30 💧 2 bardak","18:00 Skyr","17:30 💧 2 bardak","20:00 Et + salata + zeytinyağı","19:30 💧 2 bardak","22:30 Skyr","21:30 💧 2 bardak"],
-    "Perşembe":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + muz","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + tavuk","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Yoğurt + muz","21:30 💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4,link:""},{ex:"Squat",sets:3,link:""},{ex:"Leg Curl",sets:3,link:""},{ex:"Leg Extension",sets:3,link:""},{ex:"Calf Raise",sets:4,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
-    "Cuma":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + chia","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + kebap","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Skyr + muz","21:30 💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4,link:""},{ex:"Lateral Raise",sets:4,link:""},{ex:"Rear Delt Fly",sets:3,link:""},{ex:"Upright Row",sets:3,link:""},{ex:"Pushdown",sets:3,link:""},{ex:"Dips",sets:2,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
-    "Cumartesi":["07:30 Skyr + muz","09:30 💧 2 bardak","09:30 Yoğurt","11:30 💧 2 bardak","12:30 Ton balığı + lavaş","13:30 💧 2 bardak","14:00 Tavuk + pirinç","15:30 💧 2 bardak","18:00 Skyr","17:30 💧 2 bardak","20:00 Et + salata","19:30 💧 2 bardak","22:30 Skyr","21:30 💧 2 bardak"],
-    "Pazar":["08:00 Kahve + Omega-3","09:30 💧 2 bardak","08:30 Skyr + muz","11:30 💧 2 bardak","11:00 Yoğurt + meyve","13:30 💧 2 bardak","14:00 Tavuk + az pirinç","15:30 💧 2 bardak","18:00 Skyr","17:30 💧 2 bardak","20:00 Et + salata","19:30 💧 2 bardak","22:30 Skyr","21:30 💧 2 bardak","🧘 AKTİF DİNLENME"]
+    "Pazartesi": [
+        "07:00 Yulaf + süt + meyve + kahve - Whey #1 - Omega-3",
+        "💧 2 bardak",
+        "09:00 Skyr + chia + meyve",
+        "💧 2 bardak",
+        "14:00 Tavuk + pirinç + salata + zeytinyağı - EAA",
+        "💧 2 bardak",
+        "17:00 Tavuk + kinoa/pirinç + salata",
+        "💧 2 bardak",
+        "18:15 Muz + lavaş",
+        "💧 2 bardak",
+        "🏋️ GÖĞÜS + TRİCEPS",
+        {ex:"Dumbbell Bench Press", sets:4, link:""},
+        {ex:"Incline Dumbbell Press", sets:4, link:""},
+        {ex:"Dumbbell Fly", sets:3, link:""},
+        {ex:"Cable Crossover", sets:3, link:""},
+        {ex:"Rope Pushdown", sets:4, link:""},
+        {ex:"Overhead DB Extension", sets:3, link:""},
+        {ex:"Dips", sets:3, link:""},
+        "20:15 Whey #2 + meyve - Omega-3",
+        "💧 2 bardak",
+        "21:00 Kıyma/tavuk + patates/pirinç + salata",
+        "💧 2 bardak",
+        "23:00 Skyr veya quark + meyve",
+        "💧 1 bardak"
+    ],
+    "Salı": [
+        "07:00 Yulaf + süt + kahve - Whey #1 - Omega-3",
+        "💧 2 bardak",
+        "09:00 Skyr + keten + meyve",
+        "💧 2 bardak",
+        "14:00 Kıyma + pirinç + salata - EAA",
+        "💧 2 bardak",
+        "17:00 Tavuk + pilav",
+        "💧 2 bardak",
+        "18:15 Ton balığı + lavaş + meyve",
+        "💧 2 bardak",
+        "🏋️ SIRT + BİCEPS",
+        {ex:"Lat Pulldown", sets:4, link:""},
+        {ex:"Seated Row", sets:4, link:""},
+        {ex:"Dumbbell Row", sets:3, link:""},
+        {ex:"Straight Arm Pulldown", sets:3, link:""},
+        {ex:"Face Pull", sets:3, link:""},
+        {ex:"DB Curl", sets:4, link:""},
+        {ex:"Hammer Curl", sets:3, link:""},
+        {ex:"Incline Curl", sets:3, link:""},
+        "20:15 Whey #2 + meyve - Omega-3",
+        "💧 2 bardak",
+        "21:00 Tavuk + kinoa + salata",
+        "💧 2 bardak",
+        "23:00 Skyr",
+        "💧 1 bardak"
+    ],
+    "Çarşamba": [
+        "07:00 Yulaf + süt + kahve - Whey #1 - Omega-3",
+        "💧 2 bardak",
+        "09:00 Skyr + chia",
+        "💧 2 bardak",
+        "14:00 Tavuk + kinoa + salata - EAA",
+        "💧 2 bardak",
+        "17:00 Quark + meyve - Whey #2",
+        "💧 2 bardak",
+        "20:00 Lahmacun + salata",
+        "💧 2 bardak",
+        "23:00 Skyr",
+        "💧 1 bardak"
+    ],
+    "Perşembe": [
+        "07:00 Yulaf + süt + meyve + kahve - Whey #1 - Omega-3",
+        "💧 2 bardak",
+        "09:00 Skyr + chia + meyve",
+        "💧 2 bardak",
+        "14:00 Tavuk + pirinç + salata + zeytinyağı - EAA",
+        "💧 2 bardak",
+        "17:00 Tavuk + kinoa/pirinç + salata",
+        "💧 2 bardak",
+        "18:15 Muz + lavaş",
+        "💧 2 bardak",
+        "🏋️ BACAK",
+        {ex:"Leg Press", sets:4, link:""},
+        {ex:"Squat", sets:3, link:""},
+        {ex:"Leg Curl", sets:3, link:""},
+        {ex:"Leg Extension", sets:3, link:""},
+        {ex:"Calf Raise", sets:4, link:""},
+        "20:15 Whey #2 + meyve - Omega-3",
+        "💧 2 bardak",
+        "21:00 Kıyma/tavuk + patates/pirinç + salata",
+        "💧 2 bardak",
+        "23:00 Skyr veya quark + meyve",
+        "💧 1 bardak"
+    ],
+    "Cuma": [
+        "07:00 Yulaf + süt + kahve - Whey #1 - Omega-3",
+        "💧 2 bardak",
+        "09:00 Skyr + keten + meyve",
+        "💧 2 bardak",
+        "14:00 Kıyma + pirinç + salata - EAA",
+        "💧 2 bardak",
+        "17:00 Tavuk + pilav",
+        "💧 2 bardak",
+        "18:15 Ton balığı + lavaş + meyve",
+        "💧 2 bardak",
+        "🏋️ OMUZ + TRİCEPS",
+        {ex:"Shoulder Press", sets:4, link:""},
+        {ex:"Lateral Raise", sets:4, link:""},
+        {ex:"Rear Delt Fly", sets:3, link:""},
+        {ex:"Upright Row", sets:3, link:""},
+        {ex:"Pushdown", sets:3, link:""},
+        {ex:"Dips", sets:2, link:""},
+        "20:15 Whey #2 + meyve - Omega-3",
+        "💧 2 bardak",
+        "21:00 Tavuk + kinoa + salata",
+        "💧 2 bardak",
+        "23:00 Skyr",
+        "💧 1 bardak"
+    ],
+    "Cumartesi": [
+        "07:00 Yulaf + süt + kahve - Whey #1",
+        "💧 2 bardak",
+        "09:00 Skyr + meyve",
+        "💧 2 bardak",
+        "14:00 Tavuk + pirinç + salata - Omega-3",
+        "💧 2 bardak",
+        "17:00 Quark + meyve - Whey #2",
+        "💧 2 bardak",
+        "20:00 Döner / ton balığı lavaş",
+        "💧 2 bardak",
+        "23:00 Skyr",
+        "💧 1 bardak"
+    ],
+    "Pazar": [
+        "07:00 Yulaf + süt + kahve - Whey #1 - Omega-3",
+        "💧 2 bardak",
+        "09:00 Skyr + chia",
+        "💧 2 bardak",
+        "14:00 Tavuk + kinoa + salata - EAA",
+        "💧 2 bardak",
+        "17:00 Quark + meyve - Whey #2",
+        "💧 2 bardak",
+        "20:00 Ton balığı + lavaş",
+        "💧 2 bardak",
+        "23:00 Skyr",
+        "💧 1 bardak",
+        "🧘 AKTİF DİNLENME"
+    ]
 };
 
 let supplements = [
-    {name: "Omega-3", time: "Sabah"},
-    {name: "Whey Protein", time: "Antrenman sonrası"},
-    {name: "Kreatin", time: "Antrenman öncesi"}
+    {name: "Omega-3", time: "Sabah & Akşam"},
+    {name: "Whey Protein", time: "Sabah & Antrenman sonrası"},
+    {name: "EAA", time: "Antrenman öncesi ve gün içi"}
 ];
 
 let doneState = {};
@@ -763,7 +901,6 @@ function openExerciseVideo(exerciseName, link, day, idx) {
         showToast(`📹 ${exerciseName} videosu açılıyor...`);
     } else {
         showToast("⚠️ Bu hareket için henüz video linki eklenmemiş! Ayarlardan ekleyebilirsin.");
-        // Link ekleme seçeneği sun
         if(confirm("Bu hareket için video linki eklemek ister misiniz?")) {
             setVideoLink(exerciseName, day, idx);
         }
@@ -1264,7 +1401,7 @@ function refreshMealList() {
     if(!day || !data[day]) { container.innerHTML = "<i>Gün seçin</i>"; return; }
     container.innerHTML = "";
     data[day].forEach((item, idx) => {
-        if(typeof item === "string" && !item.includes("🏋️")) {
+        if(typeof item === "string" && !item.includes("🏋️") && !item.includes("🧘")) {
             const div = document.createElement("div");
             div.style.display = "flex";
             div.style.justifyContent = "space-between";
