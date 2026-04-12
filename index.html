@@ -1,164 +1,145 @@
-/* ===================== FITNESS PRO APP V2 REBUILD ===================== */
+/* ===================== FITNESS APP FULL UI REBUILD ===================== */
 
-body.app {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI;
-    background: radial-gradient(circle at top, #2b2b4f, #0f0c29);
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
+/* GLOBAL */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  background: #0f0c29;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* WRAPPER */
+.app {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #2b2b4f, #0f0c29);
 }
 
 /* HEADER */
 .app-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    padding: 14px;
-    background: rgba(20,20,40,0.6);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 14px;
+  background: rgba(20,20,40,0.75);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
 }
 
-/* TITLE */
-.app-header h1 {
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-/* GRID → APP LIST */
+/* GRID */
 .grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 14px;
-    max-width: 600px;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  max-width: 650px;
+  margin: auto;
 }
 
-/* DAY CARD (FULL WIDTH APP STYLE) */
+/* CARD */
 .card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.2s;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 16px;
+  transition: 0.2s ease;
 }
 
 .card:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
-/* DAY TITLE BIGGER */
+/* CARD TITLE */
 .card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-/* PROGRESS BAR */
-.progress-bar {
-    height: 6px;
-    width: 100%;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 8px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #feca57);
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 /* SETTINGS CARD */
 .settings-card {
-    background: linear-gradient(135deg, rgba(255,107,107,0.2), rgba(254,202,87,0.15));
+  background: linear-gradient(135deg, rgba(255,107,107,0.25), rgba(254,202,87,0.15));
 }
 
-/* STATS PANEL */
+/* STATS */
 .stats-panel {
-    margin: 10px;
-    padding: 14px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(10px);
+  margin: 10px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
 }
 
-/* STAT GRID */
 .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-/* STAT CARD */
 .stat-card {
-    background: rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 10px;
-    text-align: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 10px;
+  text-align: center;
 }
 
 /* DAY VIEW */
 .day-view {
-    position: fixed;
-    inset: 0;
-    background: #0f0c29;
-    overflow-y: auto;
-    padding-bottom: 120px;
+  min-height: 100vh;
+  padding-bottom: 120px;
+  background: #0f0c29;
 }
 
-/* ITEM LIST (APPLE STYLE) */
+/* ITEM / SET */
 .item, .set {
-    margin: 10px;
-    padding: 16px;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
+  margin: 10px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.2s ease;
 }
 
-/* DONE */
+.item:active, .set:active {
+  transform: scale(0.97);
+}
+
+/* DONE STATE */
 .item.done, .set.done {
-    background: rgba(0,200,150,0.25);
+  background: rgba(0,200,150,0.25);
+  border-color: rgba(0,200,150,0.4);
 }
 
 /* EX TITLE */
 .ex-title {
-    padding: 10px;
-    font-weight: 700;
-    color: #feca57;
+  padding: 10px;
+  font-weight: 700;
+  color: #feca57;
 }
 
-/* BOTTOM PANEL */
+/* BOTTOM BAR */
 .bottom-quest {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(10,10,20,0.85);
-    backdrop-filter: blur(15px);
-}
-
-/* TIMER */
-.timer-box {
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10,10,20,0.9);
+  backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 /* BUTTONS */
 button {
-    border-radius: 12px;
+  border-radius: 12px;
+  transition: 0.2s ease;
 }
 
-/* TAP EFFECT */
 button:active {
-    transform: scale(0.96);
+  transform: scale(0.96);
 }
 
-/* CLEAN SCROLL */
+/* SCROLLBAR */
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
