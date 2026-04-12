@@ -42,7 +42,6 @@ body {
     max-width: 350px;
     width: 100%;
     border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 .login-box h2 {
     background: linear-gradient(135deg, #ff6b6b, #feca57);
@@ -73,10 +72,6 @@ body {
     height: 18px;
     margin: 0;
     cursor: pointer;
-}
-.remember-me label {
-    cursor: pointer;
-    font-size: 0.85rem;
 }
 .login-box button {
     width: 100%;
@@ -123,7 +118,6 @@ body {
     font-size: 0.7rem;
 }
 
-/* 8'li GRİD - Modern Tasarım */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -141,12 +135,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 .card:hover {
     transform: translateY(-5px);
     background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.3);
 }
 .card h3 {
     font-size: 1.1rem;
@@ -184,9 +176,6 @@ small {
     font-weight: 600;
     color: rgba(255,255,255,0.7);
 }
-.card.settings-card small {
-    color: rgba(255,255,255,0.5);
-}
 
 .day-view {
     position: fixed;
@@ -218,7 +207,6 @@ small {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    min-width: 80px;
 }
 .add-item-btn {
     background: rgba(0,0,0,0.3);
@@ -234,7 +222,6 @@ small {
     font-size: 1.3rem;
     font-weight: bold;
     color: #fff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 .item, .set {
     background: rgba(255,255,255,0.08);
@@ -246,7 +233,6 @@ small {
     justify-content: space-between;
     align-items: center;
     border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.2s;
 }
 .item:active, .set:active {
     transform: scale(0.98);
@@ -271,8 +257,10 @@ small {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
-.video-btn {
+.video-btn, .link-btn {
     background: linear-gradient(135deg, #ff6b6b, #feca57);
     border: none;
     padding: 6px 14px;
@@ -281,6 +269,9 @@ small {
     font-size: 0.7rem;
     cursor: pointer;
     font-weight: bold;
+}
+.link-btn {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
 }
 
 .bottom-quest {
@@ -375,66 +366,6 @@ small {
     color: #fff;
     font-size: 1.2rem;
 }
-
-.water-chart {
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-}
-.chart-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-.chart-tab {
-    flex: 1;
-    background: rgba(255,255,255,0.1);
-    border: none;
-    padding: 8px;
-    border-radius: 25px;
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-}
-.chart-tab.active {
-    background: linear-gradient(135deg, #ff6b6b, #feca57);
-    color: #000;
-}
-.chart-bars {
-    margin-top: 15px;
-}
-.chart-bar-item {
-    margin: 8px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.bar-label {
-    width: 45px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    color: #feca57;
-}
-.bar-fill {
-    flex: 1;
-    height: 22px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 12px;
-    overflow: hidden;
-}
-.bar {
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #feca57);
-    transition: width 0.5s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 8px;
-    color: #000;
-    font-weight: bold;
-    font-size: 0.7rem;
-}
 .badges {
     display: flex;
     gap: 8px;
@@ -505,8 +436,6 @@ small {
     max-width: 350px;
     width: 100%;
     border: 1px solid #feca57;
-    max-height: 80vh;
-    overflow-y: auto;
 }
 .modal-content input, .modal-content select {
     width: 100%;
@@ -538,18 +467,13 @@ small {
     background: #ff6b6b;
     color: white;
 }
-.delete-btn, .reset-btn {
+.delete-btn {
     background: #ff6b6b;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 25px;
+    padding: 6px 12px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-.reset-btn {
-    background: linear-gradient(135deg, #ff6b6b, #feca57);
 }
 .toast {
     position: fixed;
@@ -571,6 +495,62 @@ small {
     100% { opacity: 0; bottom: 40%; display: none; }
 }
 .hidden { display: none; }
+.water-chart, .set-chart {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+.chart-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.chart-tab {
+    flex: 1;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    padding: 8px;
+    border-radius: 25px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+.chart-tab.active {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    color: #000;
+}
+.chart-bar-item {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.bar-label {
+    width: 45px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #feca57;
+}
+.bar-fill {
+    flex: 1;
+    height: 22px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
+    transition: width 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    color: #000;
+    font-weight: bold;
+    font-size: 0.7rem;
+}
 </style>
 </head>
 <body>
@@ -579,7 +559,7 @@ small {
 <div id="loginScreen" class="login-container">
     <div class="login-box">
         <h2>🔥 FITNESS PRO</h2>
-        <p style="margin-bottom: 20px; color:rgba(255,255,255,0.7);">Giriş Yap</p>
+        <p style="margin-bottom: 20px;">Giriş Yap</p>
         <input type="text" id="loginUsername" placeholder="Kullanıcı Adı">
         <input type="password" id="loginPassword" placeholder="Şifre">
         <div class="remember-me">
@@ -588,7 +568,7 @@ small {
         </div>
         <button onclick="login()">Giriş Yap</button>
         <div id="loginError" class="login-error"></div>
-        <p style="margin-top: 15px; font-size: 0.7rem; color:rgba(255,255,255,0.5);">Demo: demo / demo</p>
+        <p style="margin-top: 15px; font-size: 0.7rem;">Demo: demo / demo</p>
     </div>
 </div>
 
@@ -609,20 +589,6 @@ small {
         <div class="stat-card">⭐ En İyi Gün<br><span id="bestDay">-</span></div>
         <div class="stat-card">🔥 Toplam XP<br><span id="totalXP">0</span></div>
     </div>
-    
-    <!-- SU GRAFİĞİ -->
-    <div class="water-chart">
-        <h3 style="color:#feca57; margin-bottom:10px;">💧 SU TAKİP GRAFİĞİ</h3>
-        <div class="chart-tabs">
-            <button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button>
-            <button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button>
-            <button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button>
-        </div>
-        <div id="waterChartContainer"></div>
-        <div id="waterChartMessage" class="water-stats"></div>
-    </div>
-    
-    <div id="weeklyChart" class="chart-bars"></div>
     <div id="badgesContainer" class="badges"></div>
 </div>
 
@@ -643,6 +609,24 @@ small {
         <div style="width:50px;"></div>
     </div>
     <div style="padding: 15px;">
+        <!-- SU GRAFİĞİ (AYARLAR İÇİNE TAŞINDI) -->
+        <div class="water-chart">
+            <h3 style="color:#feca57; margin-bottom:10px;">💧 SU TAKİP GRAFİĞİ</h3>
+            <div class="chart-tabs">
+                <button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button>
+                <button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button>
+                <button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button>
+            </div>
+            <div id="waterChartContainer"></div>
+            <div id="waterChartMessage" style="margin-top:10px; text-align:center; font-size:0.8rem; color:#feca57;"></div>
+        </div>
+
+        <!-- HAFTALIK SET GRAFİĞİ (AYARLAR İÇİNE TAŞINDI) -->
+        <div class="set-chart">
+            <h3 style="color:#feca57; margin-bottom:10px;">📈 HAFTALIK SET GRAFİĞİ</h3>
+            <div id="weeklyChartContainer"></div>
+        </div>
+
         <div style="background:rgba(255,255,255,0.08); border-radius:20px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#feca57; margin-bottom:10px;">⏰ ANTRENMAN HATIRLATICI</h3>
             <input type="time" id="reminderTime" style="width:100%; padding:12px; background:rgba(255,255,255,0.1); border:1px solid #feca57; border-radius:16px; color:white;">
@@ -669,7 +653,7 @@ small {
         
         <div style="background:rgba(255,255,255,0.08); border-radius:20px; padding:15px; margin-bottom:15px;">
             <h3 style="color:#feca57; margin-bottom:10px;">⚠️ HAFTA YÖNETİMİ</h3>
-            <button class="reset-btn" onclick="resetWeek()" style="width:100%; padding:12px;">🔄 Tüm Haftayı Sıfırla</button>
+            <button onclick="resetWeek()" style="width:100%; padding:12px; background:linear-gradient(135deg,#ff6b6b,#feca57); border:none; border-radius:25px; color:#000; font-weight:bold; cursor:pointer;">🔄 Tüm Haftayı Sıfırla</button>
             <p style="font-size:0.7rem; margin-top:8px; color:rgba(255,255,255,0.6);">İçerikler korunur, sadece işaretler sıfırlanır</p>
         </div>
         
@@ -726,11 +710,11 @@ small {
 <script>
 // ==================== VERİLER ====================
 let data = {
-    "Pazartesi":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","15:30 💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Yoğurt + muz","21:30 💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4},{ex:"Incline Dumbbell Press",sets:4},{ex:"Dumbbell Fly",sets:3},{ex:"Cable Crossover",sets:3},{ex:"Rope Pushdown",sets:4},{ex:"Overhead DB Extension",sets:3},{ex:"Dips",sets:3},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
-    "Salı":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + muz + chia","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + tavuk","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Skyr + meyve","21:30 💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4},{ex:"Seated Row",sets:4},{ex:"Dumbbell Row",sets:3},{ex:"Straight Arm Pulldown",sets:3},{ex:"Face Pull",sets:3},{ex:"DB Curl",sets:4},{ex:"Hammer Curl",sets:3},{ex:"Incline Curl",sets:3},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
+    "Pazartesi":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr 500g + chia + keten","1 muz","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş + zeytinyağı","15:30 💧 2 bardak","14:00 Pirinç + tavuk/kebap + salata","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Yoğurt + muz","21:30 💧 2 bardak","🏋️ GÖĞÜS + TRİCEPS",{ex:"Dumbbell Bench Press",sets:4,link:""},{ex:"Incline Dumbbell Press",sets:4,link:""},{ex:"Dumbbell Fly",sets:3,link:""},{ex:"Cable Crossover",sets:3,link:""},{ex:"Rope Pushdown",sets:4,link:""},{ex:"Overhead DB Extension",sets:3,link:""},{ex:"Dips",sets:3,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
+    "Salı":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + muz + chia","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + tavuk","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Skyr + meyve","21:30 💧 2 bardak","🏋️ SIRT + BİCEPS",{ex:"Lat Pulldown",sets:4,link:""},{ex:"Seated Row",sets:4,link:""},{ex:"Dumbbell Row",sets:3,link:""},{ex:"Straight Arm Pulldown",sets:3,link:""},{ex:"Face Pull",sets:3,link:""},{ex:"DB Curl",sets:4,link:""},{ex:"Hammer Curl",sets:3,link:""},{ex:"Incline Curl",sets:3,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
     "Çarşamba":["07:30 Skyr + keten + muz","09:30 💧 2 bardak","09:30 Yoğurt + meyve","11:30 💧 2 bardak","12:30 Ton balığı + lavaş","13:30 💧 2 bardak","14:00 Tavuk + az pirinç","15:30 💧 2 bardak","18:00 Skyr","17:30 💧 2 bardak","20:00 Et + salata + zeytinyağı","19:30 💧 2 bardak","22:30 Skyr","21:30 💧 2 bardak"],
-    "Perşembe":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + muz","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + tavuk","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Yoğurt + muz","21:30 💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Squat",sets:3},{ex:"Leg Curl",sets:3},{ex:"Leg Extension",sets:3},{ex:"Calf Raise",sets:4},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
-    "Cuma":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + chia","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + kebap","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Skyr + muz","21:30 💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},{ex:"Rear Delt Fly",sets:3},{ex:"Upright Row",sets:3},{ex:"Pushdown",sets:3},{ex:"Dips",sets:2},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
+    "Perşembe":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + muz","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + tavuk","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Yoğurt + muz","21:30 💧 2 bardak","🏋️ BACAK",{ex:"Leg Press",sets:4,link:""},{ex:"Squat",sets:3,link:""},{ex:"Leg Curl",sets:3,link:""},{ex:"Leg Extension",sets:3,link:""},{ex:"Calf Raise",sets:4,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
+    "Cuma":["07:00 Kahve + Omega-3","09:30 💧 2 bardak","07:30 Skyr + chia","11:30 💧 2 bardak","09:30 Yoğurt","13:30 💧 2 bardak","12:30 Ton balığı + lavaş","15:30 💧 2 bardak","14:00 Pirinç + kebap","17:30 💧 2 bardak","14:45 Whey","15:30 Kahve + EAA","19:30 💧 2 bardak","18:00 Skyr + muz","21:30 💧 2 bardak","🏋️ OMUZ + TRİCEPS",{ex:"Shoulder Press",sets:4,link:""},{ex:"Lateral Raise",sets:4,link:""},{ex:"Rear Delt Fly",sets:3,link:""},{ex:"Upright Row",sets:3,link:""},{ex:"Pushdown",sets:3,link:""},{ex:"Dips",sets:2,link:""},"23:30 💧 2 bardak","21:00 Whey + skyr + yulaf","01:30 💧 2 bardak","22:30 Skyr","03:30 💧 2 bardak"],
     "Cumartesi":["07:30 Skyr + muz","09:30 💧 2 bardak","09:30 Yoğurt","11:30 💧 2 bardak","12:30 Ton balığı + lavaş","13:30 💧 2 bardak","14:00 Tavuk + pirinç","15:30 💧 2 bardak","18:00 Skyr","17:30 💧 2 bardak","20:00 Et + salata","19:30 💧 2 bardak","22:30 Skyr","21:30 💧 2 bardak"],
     "Pazar":["08:00 Kahve + Omega-3","09:30 💧 2 bardak","08:30 Skyr + muz","11:30 💧 2 bardak","11:00 Yoğurt + meyve","13:30 💧 2 bardak","14:00 Tavuk + az pirinç","15:30 💧 2 bardak","18:00 Skyr","17:30 💧 2 bardak","20:00 Et + salata","19:30 💧 2 bardak","22:30 Skyr","21:30 💧 2 bardak","🧘 AKTİF DİNLENME"]
 };
@@ -753,14 +737,36 @@ let currentChartType = 'daily';
 
 // ==================== BİLDİRİM İZİN ====================
 function requestNotificationPermission() {
-    if ('Notification' in window) {
-        Notification.requestPermission();
-    }
+    if ('Notification' in window) Notification.requestPermission();
 }
 
 function sendNotification(title, body) {
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification(title, { body: body });
+    }
+}
+
+// ==================== VİDEO LİNK YÖNETİMİ ====================
+function setVideoLink(exerciseName, day, idx) {
+    const link = prompt(`${exerciseName} için YouTube linkini girin:`, data[day][idx].link || "");
+    if(link !== null) {
+        data[day][idx].link = link;
+        saveDataToLocal();
+        if(currentDayOpen === day) renderDayItems(day);
+        showToast("✅ Video linki kaydedildi!");
+    }
+}
+
+function openExerciseVideo(exerciseName, link, day, idx) {
+    if(link && link.trim() !== "") {
+        window.open(link, '_blank');
+        showToast(`📹 ${exerciseName} videosu açılıyor...`);
+    } else {
+        showToast("⚠️ Bu hareket için henüz video linki eklenmemiş! Ayarlardan ekleyebilirsin.");
+        // Link ekleme seçeneği sun
+        if(confirm("Bu hareket için video linki eklemek ister misiniz?")) {
+            setVideoLink(exerciseName, day, idx);
+        }
     }
 }
 
@@ -844,11 +850,21 @@ function updateWaterChart() {
     }
 }
 
-// ==================== VİDEO BUTONU ====================
-function openExerciseVideo(exerciseName) {
-    const searchQuery = encodeURIComponent(`${exerciseName} egzersizi nasıl yapılır`);
-    window.open(`https://www.youtube.com/results?search_query=${searchQuery}`, '_blank');
-    showToast(`📹 ${exerciseName} videosu açılıyor...`);
+// ==================== HAFTALIK SET GRAFİĞİ ====================
+function updateWeeklyChart() {
+    const container = document.getElementById("weeklyChartContainer");
+    if(!container) return;
+    const days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    container.innerHTML = "<h4 style='font-size:0.8rem;'>📈 Haftalık Set Tamamlama</h4>";
+    days.forEach(day => {
+        let setsDone = 0;
+        Object.keys(doneState).forEach(key => {
+            if(key.includes(day) && key.includes("set")) setsDone++;
+        });
+        const maxSets = 20;
+        const width = Math.min((setsDone / maxSets) * 100, 100);
+        container.innerHTML += `<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${width}%">${setsDone}</div></div></div>`;
+    });
 }
 
 // ==================== ÇOKLU BİP ====================
@@ -904,6 +920,7 @@ function simpleRestore() {
                 updateAllStats();
                 updateSupplementsDisplay();
                 updateWaterChart();
+                updateWeeklyChart();
                 showToast("✅ Yedek geri yüklendi!");
             } catch(err) { showToast("❌ Hatalı dosya!"); }
         };
@@ -979,6 +996,7 @@ function login() {
         loadWorkoutReminder();
         requestNotificationPermission();
         updateWaterChart();
+        updateWeeklyChart();
         showToast(`Hoş geldin ${username}! 💪`);
     } else {
         document.getElementById("loginError").innerText = "Kullanıcı adı ve şifre girin!";
@@ -1010,6 +1028,7 @@ function resetWeek() {
         buildHome();
         updateAllStats();
         updateWaterChart();
+        updateWeeklyChart();
         showToast("✅ Tüm hafta sıfırlandı!");
     }
 }
@@ -1154,6 +1173,7 @@ function renderDayItems(day) {
                         const waterKey = `${day}_water`;
                         waterIntake[waterKey] = (waterIntake[waterKey] || 0) + 2;
                         updateWaterChart();
+                        updateWeeklyChart();
                         showToast("💧 +2 bardak su!");
                     } else { showToast("✅ Tamamlandı!"); }
                 }
@@ -1166,7 +1186,11 @@ function renderDayItems(day) {
         } else if(item && typeof item === "object" && item.ex) {
             const titleDiv = document.createElement("div");
             titleDiv.className = "ex-title";
-            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><button class="video-btn" onclick="openExerciseVideo('${item.ex}')">📹 Video</button>`;
+            titleDiv.innerHTML = `<span>💪 ${item.ex}</span>
+                <div style="display:flex; gap:8px;">
+                    <button class="video-btn" onclick="openExerciseVideo('${item.ex}', '${item.link || ""}', '${day}', ${idx})">📹 Video</button>
+                    <button class="link-btn" onclick="setVideoLink('${item.ex}', '${day}', ${idx})">🔗 Link Ekle</button>
+                </div>`;
             container.appendChild(titleDiv);
             for(let s = 1; s <= item.sets; s++) {
                 const setDiv = document.createElement("div");
@@ -1212,6 +1236,8 @@ function openSettings() {
     refreshMealList();
     refreshExerciseList();
     updateSupplementsDisplay();
+    updateWaterChart();
+    updateWeeklyChart();
 }
 function closeSettings() {
     document.getElementById("settingsView").classList.add("hidden");
@@ -1285,10 +1311,25 @@ function refreshExerciseList() {
             div.style.alignItems = "center";
             div.style.padding = "8px";
             div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
-            div.innerHTML = `<span>💪 ${item.ex} (${item.sets} set)</span><button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>`;
+            div.innerHTML = `<span>💪 ${item.ex} (${item.sets} set)</span>
+                <div style="display:flex; gap:5px;">
+                    <button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>
+                    <button class="delete-btn" style="background:#4ecdc4;" onclick="setVideoLinkFromSettings('${day}', ${idx})">🔗 Link</button>
+                </div>`;
             container.appendChild(div);
         }
     });
+}
+function setVideoLinkFromSettings(day, idx) {
+    const exerciseName = data[day][idx].ex;
+    const link = prompt(`${exerciseName} için YouTube linkini girin:`, data[day][idx].link || "");
+    if(link !== null) {
+        data[day][idx].link = link;
+        saveDataToLocal();
+        refreshExerciseList();
+        if(currentDayOpen === day) renderDayItems(day);
+        showToast("✅ Video linki kaydedildi!");
+    }
 }
 function deleteExercise(day, idx) {
     if(confirm("Bu hareketi silmek istediğinize emin misiniz?")) {
@@ -1305,7 +1346,7 @@ function addExerciseToDay() {
     const name = document.getElementById("newExerciseName").value;
     const sets = parseInt(document.getElementById("newExerciseSets").value);
     if(!day || !name || !sets) { showToast("Gün, hareket adı ve set sayısı girin!"); return; }
-    data[day].push({ex: name, sets: sets});
+    data[day].push({ex: name, sets: sets, link: ""});
     saveDataToLocal();
     document.getElementById("newExerciseName").value = "";
     document.getElementById("newExerciseSets").value = "";
@@ -1398,18 +1439,6 @@ function updateAllStats() {
     if(totalSetCount >= 100) badges.push("👑 Efsane Rozeti");
     if(badges.length === 0) badges.push("🔒 20 set yaparak ilk rozeti kazan!");
     badgesDiv.innerHTML = badges.map(b => `<div class="badge">${b}</div>`).join('');
-    const chartDiv = document.getElementById("weeklyChart");
-    chartDiv.innerHTML = "<h4>📈 Haftalık Set Grafiği</h4>";
-    Object.keys(data).forEach(day => {
-        let setsDone = 0;
-        Object.keys(doneState).forEach(key => {
-            if(key.includes(day) && key.includes("set")) setsDone++;
-        });
-        const maxSets = 25;
-        const width = Math.min((setsDone / maxSets) * 100, 100);
-        chartDiv.innerHTML += `<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${width}%">${setsDone}</div></div></div>`;
-    });
-    updateWaterChart();
 }
 
 // ==================== DİĞER ====================
@@ -1441,7 +1470,7 @@ function addItemToCurrentDay() {
     } else {
         const sets = parseInt(document.getElementById("itemSetsInput").value);
         if(!sets) { showToast("Set sayısı girin!"); return; }
-        data[currentDayOpen].push({ex: name, sets: sets});
+        data[currentDayOpen].push({ex: name, sets: sets, link: ""});
         showToast(`✅ "${name}" (${sets} set) eklendi!`);
     }
     saveDataToLocal();
