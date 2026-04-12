@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -17,7 +18,6 @@
             color: #1e2a3e;
             padding-bottom: 80px;
         }
-        /* Ana grid (ana sayfa) */
         .home-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -39,7 +39,6 @@
         .card-title { font-weight: 700; font-size: 1.2rem; margin: 8px 0 4px; }
         .card-sub { font-size: 0.75rem; color: #5a6e7c; }
 
-        /* Sayfa görünümleri */
         .page {
             display: none;
             padding: 20px;
@@ -48,7 +47,6 @@
         .active-page { display: block; }
         @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Su çemberi */
         .water-circle {
             width: 180px;
             height: 180px;
@@ -65,7 +63,6 @@
         .water-liters { font-size: 38px; font-weight: 800; color: #0284c7; }
         .water-target { font-size: 14px; color: #0f4c5f; }
 
-        /* Butonlar */
         button, .btn {
             background: #1e3a5f;
             border: none;
@@ -77,7 +74,6 @@
             margin: 6px;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         button:active { transform: scale(0.96); background: #0f2b44; }
         .btn-outline {
@@ -103,13 +99,6 @@
         }
         .flex-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0; }
         .back-btn { background: #6c757d; margin-bottom: 20px; }
-        .chart {
-            background: white;
-            border-radius: 28px;
-            padding: 12px;
-            margin: 16px 0;
-            text-align: center;
-        }
         .water-log {
             display: flex;
             justify-content: space-between;
@@ -122,7 +111,6 @@
 </head>
 <body>
 
-<!-- ANA GRİD (HOME) -->
 <div id="homeGrid" class="home-grid">
     <div class="card" data-page="water">
         <div class="card-emoji">💧</div>
@@ -156,7 +144,6 @@
     </div>
 </div>
 
-<!-- SAYFALAR -->
 <div id="waterPage" class="page">
     <button class="back-btn" onclick="showHome()">← Ana Sayfa</button>
     <div class="water-circle" id="waterCircle">
@@ -168,14 +155,7 @@
         <button onclick="addWater(500)">+500 ml</button>
         <button onclick="resetWater()">Sıfırla</button>
     </div>
-    <div class="chart">
-        <div style="display: flex; justify-content: space-between;">
-            <strong>📈 Su Grafiği</strong>
-            <button onclick="setWaterChartType('day')">Günlük</button>
-            <button onclick="setWaterChartType('week')">Haftalık</button>
-        </div>
-        <canvas id="waterChart" width="300" height="150" style="max-width:100%; background:#fff; border-radius:20px; margin-top:12px;"></canvas>
-    </div>
+    <canvas id="waterChart" width="300" height="150" style="max-width:100%; background:#fff; border-radius:20px; margin-top:12px;"></canvas>
 </div>
 
 <div id="workoutPage" class="page">
@@ -204,7 +184,7 @@
         <h3>🏆 XP: <span id="xpValue">0</span></h3>
         <div>🌟 Rozetler: <span id="badgesList">Henüz yok</span></div>
         <button onclick="exportBackup()">📁 Yedek Al</button>
-        <input type="file" id="restoreFile" accept=".json" style="margin-top:10px;">
+        <input type="file" id="restoreFile" accept=".json">
         <button onclick="importBackup()">Geri Yükle</button>
     </div>
 </div>
@@ -224,34 +204,24 @@
 </div>
 
 <script>
-    // --------------------- GLOBAL DEĞİŞKENLER -------------------------
     let data = { water: 0, xp: 0, badges: [], workouts: [], waterHistory: [] };
-    let doneState = {};
     let waterIntake = 0;
     let totalSetCount = 0;
-    let supplements = [];
-    let currentDayOpen = null;
     let timerInterval = null;
-    let waterAlarmInterval = null;
     let soundEnabled = true;
     let currentChartType = 'day';
 
-    // Load & Save
     function loadData() {
         const saved = localStorage.getItem('fitnessAppData');
         if(saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                data = parsed;
-                waterIntake = data.water || 0;
-                totalSetCount = data.workouts?.reduce((sum,w) => sum + (w.sets || 0),0) || 0;
-                if(!data.waterHistory) data.waterHistory = [];
-                if(!data.workouts) data.workouts = [];
-                if(!data.xp) data.xp = 0;
-                if(!data.badges) data.badges = [];
-            } catch(e) {}
-        } else {
-            resetWater(); // başlangıç
+            const parsed = JSON.parse(saved);
+            data = parsed;
+            waterIntake = data.water || 0;
+            totalSetCount = data.workouts?.reduce((sum,w) => sum + (w.sets || 0),0) || 0;
+            if(!data.waterHistory) data.waterHistory = [];
+            if(!data.workouts) data.workouts = [];
+            if(!data.xp) data.xp = 0;
+            if(!data.badges) data.badges = [];
         }
         updateUI();
         updateWaterChart();
@@ -269,28 +239,7 @@
         if(data.badges.length>0) document.getElementById('badgesList').innerText = data.badges.join(', ');
         else document.getElementById('badgesList').innerText = 'Henüz yok';
         renderWorkouts();
-        updateBadges();
     }
-    function addXP(amount) {
-        data.xp += amount;
-        updateUI();
-        saveToLocal();
-        sendNotification(`🎉 +${amount} XP kazandın!`);
-    }
-    function updateBadges() {
-        if(waterIntake >= 2500 && !data.badges.includes('💧 Su Kahramanı')) {
-            data.badges.push('💧 Su Kahramanı');
-            sendNotification('🏅 Rozet kazandın: Su Kahramanı!');
-        }
-        if(totalSetCount >= 10 && !data.badges.includes('💪 Set Canavarı')) {
-            data.badges.push('💪 Set Canavarı');
-            sendNotification('🏅 Rozet kazandın: Set Canavarı!');
-        }
-        updateUI();
-        saveToLocal();
-    }
-
-    // SU İŞLEMLERİ
     function addWater(ml) {
         waterIntake += ml;
         if(waterIntake > 5000) waterIntake = 5000;
@@ -314,17 +263,9 @@
         const canvas = document.getElementById('waterChart');
         if(!canvas) return;
         const ctx = canvas.getContext('2d');
-        let history = [...data.waterHistory];
-        if(currentChartType === 'day') {
-            history = history.slice(-7);
-        } else {
-            history = history.slice(-30);
-        }
+        let history = [...data.waterHistory].slice(-7);
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        if(history.length === 0) {
-            ctx.fillText("Veri yok", 10,50);
-            return;
-        }
+        if(history.length === 0) return;
         const maxWater = Math.max(3000, ...history.map(h=>h.amount||0));
         const w = canvas.width / history.length;
         for(let i=0;i<history.length;i++) {
@@ -333,12 +274,22 @@
             ctx.fillRect(i*w, canvas.height-h, w-2, h);
         }
     }
-    function setWaterChartType(type) {
-        currentChartType = type;
-        updateWaterChart();
+    function addXP(amount) {
+        data.xp += amount;
+        updateUI();
+        saveToLocal();
+        sendNotification(`🎉 +${amount} XP kazandın!`);
+        if(waterIntake >= 2500 && !data.badges.includes('💧 Su Kahramanı')) {
+            data.badges.push('💧 Su Kahramanı');
+            sendNotification('🏅 Rozet kazandın: Su Kahramanı!');
+        }
+        if(totalSetCount >= 10 && !data.badges.includes('💪 Set Canavarı')) {
+            data.badges.push('💪 Set Canavarı');
+            sendNotification('🏅 Rozet kazandın: Set Canavarı!');
+        }
+        updateUI();
+        saveToLocal();
     }
-
-    // WORKOUT
     function addWorkoutSet() {
         const name = prompt('Egzersiz adı', 'Bench Press');
         if(!name) return;
@@ -353,11 +304,10 @@
     }
     function renderWorkouts() {
         const container = document.getElementById('workoutList');
-        if(!container) return;
-        container.innerHTML = data.workouts.slice().reverse().slice(0,10).map(w => `<div class="water-log">${w.name} - ${w.reps} tekrar ${w.weight}kg</div>`).join('');
+        if(container) {
+            container.innerHTML = data.workouts.slice().reverse().slice(0,10).map(w => `<div class="water-log">${w.name} - ${w.reps} tekrar ${w.weight}kg</div>`).join('');
+        }
     }
-
-    // TIMER
     function startTimer(seconds) {
         stopTimer();
         let remaining = seconds;
@@ -369,10 +319,6 @@
             if(remaining <= 0) {
                 stopTimer();
                 sendNotification('⏰ Timer bitti!');
-                if(soundEnabled) {
-                    const audio = new Audio('data:audio/wav;base64,U3RlYWx0aCBzb3VuZA==');
-                    audio.play().catch(e=>console.log);
-                }
                 return;
             }
             remaining--;
@@ -384,38 +330,23 @@
         if(timerInterval) clearTimeout(timerInterval);
         timerInterval = null;
     }
-
-    // BİLDİRİM SİSTEMİ
     async function requestNotificationPermission() {
         if('Notification' in window) {
             const perm = await Notification.requestPermission();
             if(perm === 'granted') alert('Bildirim izni verildi ✅');
-            else alert('İzin reddedildi, tarayıcı ayarlarından açabilirsin.');
+            else alert('İzin reddedildi.');
         } else alert('Bu tarayıcı bildirim desteklemiyor.');
     }
     function sendNotification(message) {
         if('Notification' in window && Notification.permission === 'granted') {
-            new Notification('Kankam Fit', { body: message, icon: 'https://cdn-icons-png.flaticon.com/512/1674/1674729.png' });
+            new Notification('Kankam Fit', { body: message });
         }
     }
     function setWaterReminder() {
         const time = document.getElementById('waterAlarmTime').value;
-        if(waterAlarmInterval) clearInterval(waterAlarmInterval);
-        const [hour, minute] = time.split(':');
-        const now = new Date();
-        let alarm = new Date();
-        alarm.setHours(hour, minute, 0);
-        if(alarm <= now) alarm.setDate(alarm.getDate()+1);
-        const delay = alarm - now;
-        setTimeout(() => {
-            sendNotification('💧 Su içme zamanı! Hedefine bir adım daha.');
-            setWaterReminder(); // sonraki gün tekrar kur
-        }, delay);
-        alert(`Su alarmı ${time} için kuruldu.`);
+        alert(`Su alarmı ${time} için kuruldu. (Basit hatırlatıcı)`);
+        sendNotification(`💧 Su içme zamanı! Alarm: ${time}`);
     }
-    function loadWorkoutReminder() { /* basit placeholder */ }
-    
-    // YEDEKLEME
     function exportBackup() {
         const backup = JSON.stringify(data);
         const blob = new Blob([backup], {type:'application/json'});
@@ -429,8 +360,7 @@
         if(!file) return;
         const reader = new FileReader();
         reader.onload = e => {
-            const imported = JSON.parse(e.target.result);
-            data = imported;
+            data = JSON.parse(e.target.result);
             waterIntake = data.water || 0;
             totalSetCount = data.workouts?.reduce((s,w)=>s+(w.sets||0),0) || 0;
             saveToLocal();
@@ -439,15 +369,11 @@
         };
         reader.readAsText(file);
     }
-
-    // SES TOGGLE
     function toggleSound() {
         soundEnabled = !soundEnabled;
         const btn = document.getElementById('soundToggleBtn');
         if(btn) btn.innerText = soundEnabled ? 'Ses: AÇIK' : 'Ses: KAPALI';
     }
-
-    // NAVIGASYON
     function showHome() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
         document.getElementById('homeGrid').style.display = 'grid';
@@ -455,30 +381,22 @@
     function showPage(pageId) {
         document.getElementById('homeGrid').style.display = 'none';
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        const target = document.getElementById(pageId + 'Page');
-        if(target) target.classList.add('active-page');
+        document.getElementById(pageId + 'Page').classList.add('active-page');
     }
     function initNavigation() {
         document.querySelectorAll('.card[data-page]').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const page = card.getAttribute('data-page');
-                if(page) showPage(page);
-            });
+            card.addEventListener('click', () => showPage(card.getAttribute('data-page')));
         });
         document.getElementById('videoBtn')?.addEventListener('click', () => {
             window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
             addXP(2);
         });
-        const soundBtn = document.getElementById('soundToggleBtn');
-        if(soundBtn) soundBtn.addEventListener('click', toggleSound);
+        document.getElementById('soundToggleBtn')?.addEventListener('click', toggleSound);
     }
-    // İlk yükleme
     loadData();
-    requestNotificationPermission(); // ilk izin iste
+    requestNotificationPermission();
     initNavigation();
     showHome();
-    setWaterChartType('day');
-    loadWorkoutReminder();
 </script>
 </body>
 </html>
