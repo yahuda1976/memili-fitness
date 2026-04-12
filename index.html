@@ -1,130 +1,164 @@
-/* ===================== PRO FITNESS UI UPGRADE ===================== */
+/* ===================== FITNESS PRO APP V2 REBUILD ===================== */
 
-body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(160deg, #0f0c29, #302b63, #24243e);
+body.app {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI;
+    background: radial-gradient(circle at top, #2b2b4f, #0f0c29);
     color: #fff;
     min-height: 100vh;
-    padding-bottom: 160px;
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* LOGIN */
-.login-box {
-    border-radius: 28px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    overflow-x: hidden;
 }
 
 /* HEADER */
 .app-header {
     position: sticky;
     top: 0;
-    z-index: 50;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    z-index: 100;
+    padding: 14px;
+    background: rgba(20,20,40,0.6);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 16px;
-    max-width: 520px;
-    margin: 0 auto;
-}
-
-/* CARD */
-.card {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(12px);
-    border-radius: 26px;
-    padding: 18px;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    transition: 0.25s ease;
-}
-
-.card:hover {
-    transform: scale(1.02);
-    background: rgba(255,255,255,0.12);
-}
-
-.card h3 {
+/* TITLE */
+.app-header h1 {
     font-size: 1.2rem;
+    text-align: center;
+}
+
+/* GRID → APP LIST */
+.grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* DAY CARD (FULL WIDTH APP STYLE) */
+.card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+}
+
+.card:active {
+    transform: scale(0.98);
+}
+
+/* DAY TITLE BIGGER */
+.card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+    height: 6px;
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #feca57);
 }
 
 /* SETTINGS CARD */
 .settings-card {
     background: linear-gradient(135deg, rgba(255,107,107,0.2), rgba(254,202,87,0.15));
-    border: 1px solid rgba(254,202,87,0.3);
 }
 
-/* STATS */
+/* STATS PANEL */
 .stats-panel {
-    margin: 10px 14px;
-    border-radius: 26px;
-    background: rgba(255,255,255,0.06);
+    margin: 10px;
+    padding: 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.04);
     backdrop-filter: blur(10px);
 }
 
-/* STAT */
+/* STAT GRID */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* STAT CARD */
 .stat-card {
-    border-radius: 18px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 10px;
+    text-align: center;
 }
 
 /* DAY VIEW */
 .day-view {
-    background: linear-gradient(160deg, #0f0c29, #24243e);
+    position: fixed;
+    inset: 0;
+    background: #0f0c29;
+    overflow-y: auto;
+    padding-bottom: 120px;
 }
 
-/* ITEM */
+/* ITEM LIST (APPLE STYLE) */
 .item, .set {
-    border-radius: 18px;
-    padding: 16px;
     margin: 10px;
+    padding: 16px;
+    border-radius: 16px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.08);
 }
 
-.item:active, .set:active {
-    transform: scale(0.97);
-}
-
+/* DONE */
 .item.done, .set.done {
-    background: linear-gradient(135deg, rgba(0,184,148,0.3), rgba(0,206,201,0.2));
+    background: rgba(0,200,150,0.25);
 }
 
 /* EX TITLE */
 .ex-title {
-    margin: 18px 12px 8px;
-    font-size: 1.05rem;
+    padding: 10px;
+    font-weight: 700;
+    color: #feca57;
 }
 
 /* BOTTOM PANEL */
 .bottom-quest {
-    backdrop-filter: blur(18px);
-    background: rgba(0,0,0,0.65);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10,10,20,0.85);
+    backdrop-filter: blur(15px);
 }
 
 /* TIMER */
 .timer-box {
-    border-radius: 22px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
-/* MODAL */
-.modal-content {
-    border-radius: 26px;
+/* BUTTONS */
+button {
+    border-radius: 12px;
 }
 
-/* BUTTON */
+/* TAP EFFECT */
 button:active {
     transform: scale(0.96);
 }
 
-/* SCROLL */
+/* CLEAN SCROLL */
 ::-webkit-scrollbar {
     display: none;
 }
