@@ -141,12 +141,12 @@ small {
 .item, .set {
     background: #e8e6e1;
     margin: 10px 16px;
-    padding: 16px;
+    padding: 12px;
     border-radius: 20px;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 12px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border: 1px solid #d9d7d1;
 }
@@ -162,6 +162,26 @@ small {
 .item span, .set span {
     font-weight: 900;
     color: #ff3b30;
+    flex: 1;
+}
+.move-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.move-btn {
+    background: rgba(0,0,0,0.1);
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 12px;
+    color: #555;
+    transition: 0.1s;
+}
+.move-btn:active {
+    background: rgba(0,0,0,0.2);
+    transform: scale(0.9);
 }
 .ex-title {
     font-size: 1.2rem;
@@ -460,19 +480,6 @@ small {
     background: #ff3b30;
     color: white;
 }
-.delete-btn, .move-btn {
-    background: #ff3b30;
-    color: white;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-weight: 700;
-    cursor: pointer;
-}
-.move-btn {
-    background: #007aff;
-    margin: 0 4px;
-}
 .toast {
     position: fixed;
     bottom: 30%;
@@ -729,7 +736,7 @@ let currentChartType = 'daily';
 let currentSound = null;
 let soundStopFlag = false;
 
-// ==================== 10 SANİYE BOYUNCA BİP BİP BİP (SET SONU) ====================
+// ==================== 10 SANİYE BİP (SES BİRAZ KISILDI) ====================
 function playLongBeep() {
     if (soundStopFlag) return;
     try {
@@ -748,7 +755,7 @@ function playLongBeep() {
         const gain = audioCtx.createGain();
         osc.type = "square";
         osc.frequency.value = 880;
-        gain.gain.value = 0.25;
+        gain.gain.value = 0.18; // ses biraz kısıldı
         
         osc.connect(gain);
         gain.connect(audioCtx.destination);
@@ -757,7 +764,7 @@ function playLongBeep() {
         
         for (let i = 0; i < duration / beepInterval; i++) {
             let t = startTime + i * beepInterval;
-            gain.gain.setValueAtTime(0.25, t);
+            gain.gain.setValueAtTime(0.18, t);
             gain.gain.setValueAtTime(0.00001, t + 0.15);
         }
         
@@ -782,48 +789,24 @@ function stopSound() {
     setTimeout(() => { soundStopFlag = false; }, 500);
 }
 
-// ==================== SIRALAMA FONKSİYONLARI ====================
-function moveMealUp(day, idx) {
+// ==================== SIRALAMA FONKSİYONLARI (YEMEK ve HAREKET) ====================
+function moveItemUp(day, idx) {
     if (idx > 0) {
         [data[day][idx], data[day][idx-1]] = [data[day][idx-1], data[day][idx]];
         saveDataToLocal();
-        refreshMealList();
         if (currentDayOpen === day) renderDayItems(day);
         buildHome();
-        showToast("✅ Yemek yukarı taşındı");
+        showToast("⬆️ Yukarı taşındı");
     }
 }
 
-function moveMealDown(day, idx) {
+function moveItemDown(day, idx) {
     if (idx < data[day].length - 1) {
         [data[day][idx], data[day][idx+1]] = [data[day][idx+1], data[day][idx]];
         saveDataToLocal();
-        refreshMealList();
         if (currentDayOpen === day) renderDayItems(day);
         buildHome();
-        showToast("✅ Yemek aşağı taşındı");
-    }
-}
-
-function moveExerciseUp(day, idx) {
-    if (idx > 0) {
-        [data[day][idx], data[day][idx-1]] = [data[day][idx-1], data[day][idx]];
-        saveDataToLocal();
-        refreshExerciseList();
-        if (currentDayOpen === day) renderDayItems(day);
-        buildHome();
-        showToast("✅ Hareket yukarı taşındı");
-    }
-}
-
-function moveExerciseDown(day, idx) {
-    if (idx < data[day].length - 1) {
-        [data[day][idx], data[day][idx+1]] = [data[day][idx+1], data[day][idx]];
-        saveDataToLocal();
-        refreshExerciseList();
-        if (currentDayOpen === day) renderDayItems(day);
-        buildHome();
-        showToast("✅ Hareket aşağı taşındı");
+        showToast("⬇️ Aşağı taşındı");
     }
 }
 
@@ -953,10 +936,17 @@ function renderDayItems(day) {
         if (typeof item === "string") {
             let div = document.createElement("div");
             div.className = "item";
-            div.innerHTML = `<span>${item}</span>`;
+            div.innerHTML = `
+                <div class="move-buttons">
+                    <button class="move-btn" onclick="moveItemUp('${day}', ${idx})">⬆️</button>
+                    <button class="move-btn" onclick="moveItemDown('${day}', ${idx})">⬇️</button>
+                </div>
+                <span>${item}</span>
+            `;
             let key = `${day}|meal|${idx}`;
             if (doneState[key]) div.classList.add("done");
-            div.onclick = () => {
+            div.onclick = (e) => {
+                if (e.target.classList.contains('move-btn')) return;
                 if (doneState[key]) {
                     delete doneState[key];
                     div.classList.remove("done");
@@ -983,16 +973,23 @@ function renderDayItems(day) {
         } else if (item && typeof item === "object" && item.ex) {
             let titleDiv = document.createElement("div");
             titleDiv.className = "ex-title";
-            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button><button onclick="deleteExerciseFromDay('${day}',${idx})" style="background:#ff3b30; border:none; padding:6px 12px; border-radius:30px; color:white; font-weight:700;">🗑️ Sil</button></div>`;
+            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button></div>`;
             cont.appendChild(titleDiv);
             for (let s = 1; s <= item.sets; s++) {
                 let setDiv = document.createElement("div");
                 setDiv.className = "set";
-                setDiv.innerHTML = `<span>Set ${s}</span><span>⏱️ Dinlenme</span>`;
+                setDiv.innerHTML = `
+                    <div class="move-buttons">
+                        <button class="move-btn" onclick="moveItemUp('${day}', ${idx})">⬆️</button>
+                        <button class="move-btn" onclick="moveItemDown('${day}', ${idx})">⬇️</button>
+                    </div>
+                    <span>Set ${s}</span><span>⏱️ Dinlenme</span>
+                `;
                 let setKey = `${day}|set|${item.ex}|${s}`;
                 if (doneState[setKey]) setDiv.classList.add("done");
-                setDiv.onclick = (function(snum, skey) {
-                    return function() {
+                setDiv.onclick = (function(snum, skey, e) {
+                    return function(ev) {
+                        if (ev.target.classList.contains('move-btn')) return;
                         if (doneState[skey]) {
                             delete doneState[skey];
                             setDiv.classList.remove("done");
@@ -1035,16 +1032,6 @@ function openExerciseVideo(ex, link, day, idx) {
     } else {
         showToast("⚠️ Link yok, ayarlardan ekleyin.");
         if (confirm("Link eklemek ister misiniz?")) setVideoLink(ex, day, idx);
-    }
-}
-
-function deleteExerciseFromDay(day, idx) {
-    if (confirm("Bu hareketi silmek istediğinize emin misiniz?")) {
-        data[day].splice(idx, 1);
-        saveDataToLocal();
-        if (currentDayOpen === day) renderDayItems(day);
-        buildHome();
-        showToast("✅ Hareket silindi");
     }
 }
 
@@ -1099,8 +1086,8 @@ function refreshMealList() {
             div.innerHTML = `
                 <span style="flex:1; color:#1c1c1e;">${it}</span>
                 <div>
-                    <button class="move-btn" onclick="moveMealUp('${day}', ${idx})">⬆️</button>
-                    <button class="move-btn" onclick="moveMealDown('${day}', ${idx})">⬇️</button>
+                    <button class="move-btn" onclick="moveItemUp('${day}', ${idx})">⬆️</button>
+                    <button class="move-btn" onclick="moveItemDown('${day}', ${idx})">⬇️</button>
                     <button class="delete-btn" onclick="deleteMeal('${day}', ${idx})">Sil</button>
                 </div>
             `;
@@ -1149,8 +1136,8 @@ function refreshExerciseList() {
             div.innerHTML = `
                 <span style="flex:1; color:#1c1c1e;">💪 ${it.ex} (${it.sets} set)</span>
                 <div>
-                    <button class="move-btn" onclick="moveExerciseUp('${day}', ${idx})">⬆️</button>
-                    <button class="move-btn" onclick="moveExerciseDown('${day}', ${idx})">⬇️</button>
+                    <button class="move-btn" onclick="moveItemUp('${day}', ${idx})">⬆️</button>
+                    <button class="move-btn" onclick="moveItemDown('${day}', ${idx})">⬇️</button>
                     <button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>
                     <button class="delete-btn" style="background:#34c759;" onclick="setVideoLinkFromSettings('${day}', ${idx})">🔗</button>
                 </div>
@@ -1371,7 +1358,6 @@ updateSupplementsDisplay();
 updateWaterChart();
 updateWeeklyChart();
 
-// Timer butonlarını bağla
 document.getElementById("timerCloseBtn").onclick = stopTimer;
 document.getElementById("timerCustomBtn").onclick = customTimer;
 document.getElementById("stopSoundBtn").onclick = stopSound;
