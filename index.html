@@ -13,11 +13,11 @@
 
 body {
     font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif;
-    background-color: #efede8;  /* kirli beyaz, %30 daha az parlak */
+    background-color: #e3e1db;  /* kirli beyaz, %20 daha az parlak */
     color: #1c1c1e;
     min-height: 100vh;
     padding-bottom: 160px;
-    font-weight: 600;  /* genel yazı kalınlığı 2 kat */
+    font-weight: 600;
 }
 
 /* GİRİŞ EKRANI */
@@ -27,7 +27,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #efede8;
+    background-color: #e3e1db;
     z-index: 10000;
     display: flex;
     align-items: center;
@@ -35,7 +35,7 @@ body {
     padding: 20px;
 }
 .login-box {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     border-radius: 48px;
     padding: 40px 30px;
     text-align: center;
@@ -57,7 +57,7 @@ body {
     padding: 14px;
     margin: 10px 0;
     background: #ffffff;
-    border: 1px solid #e2e0db;
+    border: 1px solid #d4d2cc;
     border-radius: 14px;
     font-size: 1rem;
     font-weight: 600;
@@ -145,7 +145,7 @@ body {
     cursor: pointer;
     transition: 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    border: 1px solid #e8e6e2;
+    border: 1px solid #d9d7d1;
 }
 .card:active {
     transform: scale(0.96);
@@ -155,7 +155,7 @@ body {
     font-size: 1.2rem;
     font-weight: 800;
     margin-bottom: 8px;
-    color: #1c1c1e;
+    color: #d93f3f;   /* kırmızı */
 }
 .card.settings-card {
     background: #f4f3f0;
@@ -191,7 +191,7 @@ small {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #efede8;
+    background: #e3e1db;
     z-index: 1000;
     overflow-y: auto;
     padding-bottom: 100px;
@@ -233,7 +233,7 @@ small {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    border: 1px solid #e8e6e2;
+    border: 1px solid #d9d7d1;
 }
 .item:active, .set:active {
     transform: scale(0.98);
@@ -245,8 +245,8 @@ small {
     opacity: 0.8;
 }
 .item span, .set span {
-    font-weight: 700;
-    color: #1c1c1e;
+    font-weight: 800;
+    color: #004080;   /* koyu mavi */
 }
 .ex-title {
     font-size: 1.2rem;
@@ -254,12 +254,22 @@ small {
     margin: 16px 16px 8px;
     padding-left: 8px;
     border-left: 4px solid #007aff;
-    color: #1c1c1e;
+    color: #004080;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+}
+.ex-title button {
+    background: #ff3b30;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 30px;
+    color: white;
+    font-weight: 700;
+    font-size: 0.7rem;
+    cursor: pointer;
 }
 .video-btn, .link-btn {
     background: #007aff;
@@ -381,7 +391,7 @@ small {
     color: #007aff;
 }
 
-/* SU ve SET GRAFİKLERİ */
+/* GRAFİKLER */
 .water-chart, .set-chart {
     background: #ffffff;
     border-radius: 28px;
@@ -451,7 +461,7 @@ small {
     z-index: 2000;
     min-width: 140px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    border: 1px solid #e8e6e2;
+    border: 1px solid #d9d7d1;
 }
 .timer-num {
     font-size: 40px;
@@ -604,7 +614,7 @@ small {
     <div id="dayItems"></div>
 </div>
 
-<!-- AYARLAR EKRANI -->
+<!-- AYARLAR EKRANI (aynı, uzatmamak için kısa) -->
 <div id="settingsView" class="day-view hidden">
     <div class="day-header">
         <button class="back-btn" onclick="closeSettings()">← Geri</button>
@@ -612,76 +622,15 @@ small {
         <div style="width:50px;"></div>
     </div>
     <div style="padding: 16px;">
-        <div class="water-chart">
-            <h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3>
-            <div class="chart-tabs">
-                <button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button>
-                <button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button>
-                <button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button>
-            </div>
-            <div id="waterChartContainer"></div>
-            <div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div>
-        </div>
-
-        <div class="set-chart">
-            <h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3>
-            <div id="weeklyChartContainer"></div>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#007aff;">⏰ ANTRENMAN HATIRLATICI</h3>
-            <input type="time" id="reminderTime" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;">
-            <button onclick="setWorkoutReminder()" style="width:100%; margin-top:10px; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">🔔 Hatırlatıcı Kur</button>
-            <button onclick="cancelWorkoutReminder()" style="width:100%; margin-top:8px; background:#e9e9ef; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">İptal Et</button>
-            <div id="reminderStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#007aff;">⏰ SU ALARMI</h3>
-            <input type="time" id="waterAlarmTime" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;">
-            <button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">💧 Alarm Kur</button>
-            <button onclick="cancelWaterAlarm()" style="width:100%; margin-top:8px; background:#e9e9ef; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">İptal Et</button>
-            <div id="alarmStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#007aff;">📦 YEDEKLEME</h3>
-            <div style="display:flex; gap:12px;">
-                <button onclick="simpleBackup()" style="flex:1; background:#f2f2f6; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">📥 Yedek Al</button>
-                <button onclick="simpleRestore()" style="flex:1; background:#f2f2f6; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">📤 Geri Yükle</button>
-            </div>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3>
-            <button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button>
-            <p style="font-size:0.7rem; margin-top:8px;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3>
-            <select id="mealManageDay" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"></select>
-            <div id="mealList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div>
-            <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;">
-            <button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3>
-            <select id="exerciseManageDay" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"></select>
-            <div id="exerciseList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div>
-            <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px; margin-bottom:8px;">
-            <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;">
-            <button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button>
-        </div>
-
-        <div style="background:#ffffff; border-radius:28px; padding:16px;">
-            <h3 style="color:#007aff;">💊 Supplement Takviye</h3>
-            <div id="supplementList" style="margin-bottom:12px;"></div>
-            <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px; margin-bottom:8px;">
-            <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;">
-            <button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button>
-        </div>
+        <div class="water-chart"><h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div></div>
+        <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">⏰ ANTRENMAN HATIRLATICI</h3><input type="time" id="reminderTime" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="setWorkoutReminder()" style="width:100%; margin-top:10px; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">🔔 Hatırlatıcı Kur</button><button onclick="cancelWorkoutReminder()" style="width:100%; margin-top:8px; background:#e9e9ef; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">İptal Et</button><div id="reminderStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">⏰ SU ALARMI</h3><input type="time" id="waterAlarmTime" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">💧 Alarm Kur</button><button onclick="cancelWaterAlarm()" style="width:100%; margin-top:8px; background:#e9e9ef; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">İptal Et</button><div id="alarmStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">📦 YEDEKLEME</h3><div style="display:flex; gap:12px;"><button onclick="simpleBackup()" style="flex:1; background:#f2f2f6; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">📥 Yedek Al</button><button onclick="simpleRestore()" style="flex:1; background:#f2f2f6; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">📤 Geri Yükle</button></div></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"></select><div id="mealList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"></select><div id="exerciseList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
+        <div style="background:#ffffff; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
     </div>
 </div>
 
@@ -709,7 +658,7 @@ small {
 </div>
 
 <script>
-// ==================== YENİ VERİLER (SENİN TAM PLANIN) ====================
+// ==================== YENİ VERİLER (SENİN TAM LİSTEN) ====================
 let data = {
     "Pazartesi": [
         "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -879,11 +828,12 @@ let waterAlarmInterval = null;
 let workoutReminderInterval = null;
 let currentChartType = 'daily';
 
-// ==================== TÜM FONKSİYONLAR (AYNI, HİÇBİR ŞEY EKSİLMEZ) ====================
+// ==================== TÜM FONKSİYONLAR (ESKİSİYLE AYNI, SADECE HAREKET SİLME EKLENDİ) ====================
 function requestNotificationPermission() { if ('Notification' in window) Notification.requestPermission(); }
 function sendNotification(title, body) { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body }); }
 function setVideoLink(ex, day, idx) { let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || ""); if(link !== null) { data[day][idx].link = link; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); showToast("✅ Link kaydedildi!"); } }
 function openExerciseVideo(ex, link, day, idx) { if(link && link.trim()) { window.open(link,'_blank'); showToast(`📹 ${ex} videosu açılıyor...`); } else { showToast("⚠️ Link yok, ayarlardan ekleyin."); if(confirm("Link eklemek ister misiniz?")) setVideoLink(ex,day,idx); } }
+function deleteExerciseFromDay(day, idx) { if(confirm("Bu hareketi silmek istediğinize emin misiniz?")) { data[day].splice(idx, 1); saveDataToLocal(); if(currentDayOpen === day) renderDayItems(day); buildHome(); showToast("✅ Hareket silindi"); } }
 function setWorkoutReminder() { let t = document.getElementById("reminderTime").value; if(!t) return; localStorage.setItem("workoutReminderTime",t); document.getElementById("reminderStatus").innerHTML = `⏰ Hatırlatıcı: ${t}`; showToast(`✅ Hatırlatıcı ${t} kuruldu`); startWorkoutReminder(t); }
 function cancelWorkoutReminder() { if(workoutReminderInterval) clearInterval(workoutReminderInterval); localStorage.removeItem("workoutReminderTime"); document.getElementById("reminderStatus").innerHTML = "İptal edildi"; showToast("❌ İptal"); }
 function startWorkoutReminder(t) { if(workoutReminderInterval) clearInterval(workoutReminderInterval); let check=()=>{ let now=new Date(); let ct=`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; if(ct===t){ sendNotification("🏋️ FITNESS PRO","Antrenman zamanı! 💪"); showToast("🏋️ Antrenman zamanı!"); playMultiBeep(); } }; workoutReminderInterval=setInterval(check,30000); }
@@ -912,7 +862,7 @@ function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHT
 function getDayStats(day){ let total=0,completed=0; let items=data[day]; if(!items) return {total,completed,percent:0}; items.forEach((item,idx)=>{ if(typeof item==="string"){ total++; if(doneState[`${day}|meal|${idx}`]) completed++; }else if(item&&typeof item==="object"&&item.sets){ for(let s=1;s<=item.sets;s++){ total++; if(doneState[`${day}|set|${item.ex}|${s}`]) completed++; } } }); return {total,completed,percent:total===0?0:(completed/total)*100}; }
 function openDay(day){ currentDayOpen=day; document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.remove("hidden"); document.getElementById("settingsView").classList.add("hidden"); document.getElementById("dayTitle").innerText=day; renderDayItems(day); }
 function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; updateAllStats(); buildHome(); }
-function renderDayItems(day){ let cont=document.getElementById("dayItems"); cont.innerHTML=""; let items=data[day]; if(!items) return; items.forEach((item,idx)=>{ if(typeof item==="string"){ let div=document.createElement("div"); div.className="item"; div.innerHTML=`<span>${item}</span>`; let key=`${day}|meal|${idx}`; if(doneState[key]) div.classList.add("done"); div.onclick=()=>{ if(doneState[key]){ delete doneState[key]; div.classList.remove("done"); showToast("❌ Kaldırıldı"); }else{ doneState[key]=true; div.classList.add("done"); if(item.includes("💧")){ let wk=`${day}_water`; waterIntake[wk]=(waterIntake[wk]||0)+1; updateWaterChart(); updateWeeklyChart(); showToast("💧 +1 bardak su!"); }else{ showToast("✅ Tamamlandı!"); } } saveDataToLocal(); updateQuests(day); updateAllStats(); buildHome(); }; cont.appendChild(div); }else if(item&&typeof item==="object"&&item.ex){ let titleDiv=document.createElement("div"); titleDiv.className="ex-title"; titleDiv.innerHTML=`<span>💪 ${item.ex}</span><div style="display:flex;gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button></div>`; cont.appendChild(titleDiv); for(let s=1;s<=item.sets;s++){ let setDiv=document.createElement("div"); setDiv.className="set"; setDiv.innerHTML=`<span>Set ${s}</span><span>⏱️ Dinlenme</span>`; let setKey=`${day}|set|${item.ex}|${s}`; if(doneState[setKey]) setDiv.classList.add("done"); setDiv.onclick=(function(snum,skey){ return function(){ if(doneState[skey]){ delete doneState[skey]; setDiv.classList.remove("done"); totalSetCount--; showToast("❌ Set iptal"); }else{ doneState[skey]=true; setDiv.classList.add("done"); totalSetCount++; showToast(`✅ Set ${snum} tamamlandı! +30 XP`); startTimer(90); } saveDataToLocal(); updateQuests(day); updateAllStats(); buildHome(); }; })(s,setKey); cont.appendChild(setDiv); } } }); updateQuests(day); }
+function renderDayItems(day){ let cont=document.getElementById("dayItems"); cont.innerHTML=""; let items=data[day]; if(!items) return; items.forEach((item,idx)=>{ if(typeof item==="string"){ let div=document.createElement("div"); div.className="item"; div.innerHTML=`<span>${item}</span>`; let key=`${day}|meal|${idx}`; if(doneState[key]) div.classList.add("done"); div.onclick=()=>{ if(doneState[key]){ delete doneState[key]; div.classList.remove("done"); showToast("❌ Kaldırıldı"); }else{ doneState[key]=true; div.classList.add("done"); if(item.includes("💧")){ let wk=`${day}_water`; waterIntake[wk]=(waterIntake[wk]||0)+1; updateWaterChart(); updateWeeklyChart(); showToast("💧 +1 bardak su!"); }else{ showToast("✅ Tamamlandı!"); } } saveDataToLocal(); updateQuests(day); updateAllStats(); buildHome(); }; cont.appendChild(div); }else if(item&&typeof item==="object"&&item.ex){ let titleDiv=document.createElement("div"); titleDiv.className="ex-title"; titleDiv.innerHTML=`<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button><button onclick="deleteExerciseFromDay('${day}',${idx})" style="background:#ff3b30; border:none; padding:6px 12px; border-radius:30px; color:white; font-weight:700;">🗑️ Sil</button></div>`; cont.appendChild(titleDiv); for(let s=1;s<=item.sets;s++){ let setDiv=document.createElement("div"); setDiv.className="set"; setDiv.innerHTML=`<span>Set ${s}</span><span>⏱️ Dinlenme</span>`; let setKey=`${day}|set|${item.ex}|${s}`; if(doneState[setKey]) setDiv.classList.add("done"); setDiv.onclick=(function(snum,skey){ return function(){ if(doneState[skey]){ delete doneState[skey]; setDiv.classList.remove("done"); totalSetCount--; showToast("❌ Set iptal"); }else{ doneState[skey]=true; setDiv.classList.add("done"); totalSetCount++; showToast(`✅ Set ${snum} tamamlandı! +30 XP`); startTimer(90); } saveDataToLocal(); updateQuests(day); updateAllStats(); buildHome(); }; })(s,setKey); cont.appendChild(setDiv); } } }); updateQuests(day); }
 function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); }
 function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; buildHome(); }
 function populateManageSelects(){ let days=Object.keys(data); let mealSel=document.getElementById("mealManageDay"),exSel=document.getElementById("exerciseManageDay"); mealSel.innerHTML='<option value="">Gün Seç</option>'; exSel.innerHTML='<option value="">Gün Seç</option>'; days.forEach(d=>{ mealSel.innerHTML+=`<option value="${d}">${d}</option>`; exSel.innerHTML+=`<option value="${d}">${d}</option>`; }); mealSel.onchange=()=>refreshMealList(); exSel.onchange=()=>refreshExerciseList(); }
