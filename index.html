@@ -13,7 +13,7 @@
 
 body {
     font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif;
-    background-color: #e3e1db;  /* kirli beyaz, %20 daha az parlak */
+    background-color: #e3e1db;
     color: #1c1c1e;
     min-height: 100vh;
     padding-bottom: 160px;
@@ -128,7 +128,6 @@ body {
     cursor: pointer;
 }
 
-/* 8'li GRİD */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -155,7 +154,7 @@ body {
     font-size: 1.2rem;
     font-weight: 800;
     margin-bottom: 8px;
-    color: #d93f3f;   /* kırmızı */
+    color: #d93f3f;
 }
 .card.settings-card {
     background: #f4f3f0;
@@ -184,7 +183,6 @@ small {
     margin-top: 6px;
 }
 
-/* GÜN GÖRÜNÜMÜ */
 .day-view {
     position: fixed;
     top: 0;
@@ -246,7 +244,7 @@ small {
 }
 .item span, .set span {
     font-weight: 800;
-    color: #004080;   /* koyu mavi */
+    color: #004080;
 }
 .ex-title {
     font-size: 1.2rem;
@@ -285,7 +283,6 @@ small {
     background: #34c759;
 }
 
-/* ALT GÖREV ÇUBUĞU */
 .bottom-quest {
     position: fixed;
     bottom: 0;
@@ -341,7 +338,6 @@ small {
     background: #007aff;
 }
 
-/* İSTATİSTİK PANELİ */
 .stats-panel {
     background: #ffffff;
     margin: 16px;
@@ -391,7 +387,6 @@ small {
     color: #007aff;
 }
 
-/* GRAFİKLER */
 .water-chart, .set-chart {
     background: #ffffff;
     border-radius: 28px;
@@ -568,7 +563,6 @@ small {
 </head>
 <body>
 
-<!-- GİRİŞ EKRANI -->
 <div id="loginScreen" class="login-container">
     <div class="login-box">
         <h2>🔥 FITNESS PRO</h2>
@@ -585,7 +579,6 @@ small {
     </div>
 </div>
 
-<!-- ANA UYGULAMA -->
 <div id="appContent" style="display:none;">
 <div class="app-header">
     <h1>🔥 FITNESS PRO ULTIMATE</h1>
@@ -614,7 +607,6 @@ small {
     <div id="dayItems"></div>
 </div>
 
-<!-- AYARLAR EKRANI (aynı, uzatmamak için kısa) -->
 <div id="settingsView" class="day-view hidden">
     <div class="day-header">
         <button class="back-btn" onclick="closeSettings()">← Geri</button>
@@ -658,152 +650,147 @@ small {
 </div>
 
 <script>
-// ==================== YENİ VERİLER (SENİN TAM LİSTEN) ====================
+// ==================== SON LISTE (BİREBİR) ====================
 let data = {
     "Pazartesi": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr + chia", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + pirinç + salata - EAA", "💧 1 bardak",
+        "14:00 Tavuk + pirinç + salata - EAA (4 tablet)", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
         "17:00 Tavuk + kinoa", "💧 1 bardak",
         "17:30 💧 1 bardak",
-        "18:15 Pre-workout - Muz - EAA", "💧 1 bardak",
+        "18:15 Pre-workout - Muz - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ GÖĞÜS + TRİCEPS",
-        {ex:"Dumbbell Bench Press", sets:4, link:""},
-        {ex:"Incline Dumbbell Press", sets:4, link:""},
-        {ex:"Dumbbell Fly", sets:3, link:""},
-        {ex:"Cable Crossover", sets:3, link:""},
-        {ex:"Rope Pushdown", sets:4, link:""},
-        {ex:"Overhead DB Extension", sets:3, link:""},
+        "🏋️ GÖĞÜS (GÜÇ)",
+        {ex:"Dumbbell bench press", sets:4, link:""},
+        {ex:"Incline press", sets:4, link:""},
+        {ex:"Chest press", sets:3, link:""},
         {ex:"Dips", sets:3, link:""},
-        "20:15 Whey #2 + kreatin", "💧 1 bardak",
+        "💧 4 bardak",
+        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
         "21:00 Kıyma + patates", "💧 1 bardak",
         "21:30 💧 1 bardak",
         "23:00 Skyr", "💧 1 bardak"
     ],
     "Salı": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr + meyve", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Kıyma + pirinç + salata - EAA", "💧 1 bardak",
+        "14:00 Kıyma + pirinç + salata - EAA (4 tablet)", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
         "17:00 Ton balığı + lavaş", "💧 1 bardak",
         "17:30 💧 1 bardak",
-        "18:15 Pre-workout - EAA", "💧 1 bardak",
+        "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ SIRT + BİCEPS",
-        {ex:"Lat Pulldown", sets:4, link:""},
-        {ex:"Seated Row", sets:4, link:""},
-        {ex:"Dumbbell Row", sets:3, link:""},
-        {ex:"Straight Arm Pulldown", sets:3, link:""},
-        {ex:"Face Pull", sets:3, link:""},
-        {ex:"DB Curl", sets:4, link:""},
-        {ex:"Hammer Curl", sets:3, link:""},
-        {ex:"Incline Curl", sets:3, link:""},
-        "20:15 Whey #2 + kreatin", "💧 1 bardak",
+        "🏋️ SIRT",
+        {ex:"Lat pulldown", sets:4, link:""},
+        {ex:"Barbell row", sets:4, link:""},
+        {ex:"Seated row", sets:3, link:""},
+        {ex:"Dumbbell row", sets:3, link:""},
+        {ex:"Face pull", sets:3, link:""},
+        "💧 4 bardak",
+        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
-        "21:00 Tavuk + kinoa + salata", "💧 1 bardak",
+        "21:00 Tavuk + kinoa", "💧 1 bardak",
         "21:30 💧 1 bardak",
         "23:00 Skyr", "💧 1 bardak"
     ],
     "Çarşamba": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr + meyve", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + kinoa + salata - EAA", "💧 1 bardak",
+        "14:00 Tavuk + kinoa - EAA (4 tablet)", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
         "17:00 Quark + meyve", "💧 1 bardak",
         "17:30 💧 1 bardak",
-        "18:15 Pre-workout - EAA", "💧 1 bardak",
+        "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ OMUZ + BİCEPS",
-        {ex:"Shoulder Press", sets:4, link:""},
-        {ex:"Lateral Raise", sets:4, link:""},
-        {ex:"Rear Delt Fly", sets:3, link:""},
-        {ex:"Upright Row", sets:3, link:""},
-        {ex:"DB Curl", sets:4, link:""},
-        {ex:"Hammer Curl", sets:3, link:""},
-        {ex:"Incline Curl", sets:3, link:""},
-        "20:15 Whey #2 + kreatin", "💧 1 bardak",
+        {ex:"Shoulder press", sets:4, link:""},
+        {ex:"Lateral raise", sets:4, link:""},
+        {ex:"Rear delt", sets:3, link:""},
+        {ex:"Biceps curl", sets:3, link:""},
+        {ex:"Hammer curl", sets:3, link:""},
+        "💧 4 bardak",
+        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
         "21:00 Tavuk + pirinç", "💧 1 bardak",
         "21:30 💧 1 bardak",
         "23:00 Skyr", "💧 1 bardak"
     ],
     "Perşembe": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr + chia", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + pirinç - EAA", "💧 1 bardak",
+        "14:00 Tavuk + pirinç - EAA (4 tablet)", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
         "17:00 Tavuk + kinoa", "💧 1 bardak",
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - Muz", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ GÖĞÜS (HACİM)",
-        {ex:"Dumbbell Bench Press", sets:4, link:""},
-        {ex:"Incline Dumbbell Press", sets:4, link:""},
-        {ex:"Dumbbell Fly", sets:3, link:""},
-        {ex:"Cable Crossover", sets:3, link:""},
-        {ex:"Rope Pushdown", sets:4, link:""},
-        {ex:"Overhead DB Extension", sets:3, link:""},
-        "20:15 Whey #2 + kreatin", "💧 1 bardak",
+        {ex:"Incline machine", sets:3, link:""},
+        {ex:"Cable fly", sets:4, link:""},
+        {ex:"Pullover", sets:3, link:""},
+        {ex:"Butterfly", sets:3, link:""},
+        "💧 4 bardak",
+        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
         "21:00 Kıyma + patates", "💧 1 bardak",
         "21:30 💧 1 bardak",
         "23:00 Skyr", "💧 1 bardak"
     ],
     "Cuma": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + pirinç - EAA", "💧 1 bardak",
+        "14:00 Tavuk + pirinç - EAA (4 tablet)", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
         "17:00 Kıyma + kinoa", "💧 1 bardak",
         "17:30 💧 1 bardak",
-        "18:15 Pre-workout - EAA", "💧 1 bardak",
+        "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ BACAK",
-        {ex:"Leg Press", sets:4, link:""},
-        {ex:"Squat", sets:3, link:""},
-        {ex:"Leg Curl", sets:3, link:""},
-        {ex:"Leg Extension", sets:3, link:""},
-        {ex:"Calf Raise", sets:4, link:""},
-        "20:15 Whey #2 + kreatin", "💧 1 bardak",
+        {ex:"Leg press", sets:4, link:""},
+        {ex:"Squat", sets:4, link:""},
+        {ex:"Leg extension", sets:3, link:""},
+        {ex:"Leg curl", sets:3, link:""},
+        {ex:"Calf raise", sets:4, link:""},
+        "💧 4 bardak",
+        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
         "21:00 Tavuk + pilav", "💧 1 bardak",
         "21:30 💧 1 bardak",
         "23:00 Skyr", "💧 1 bardak"
     ],
     "Cumartesi": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr + meyve", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + kinoa + salata", "💧 1 bardak",
+        "14:00 Tavuk + kinoa", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Quark + meyve - Whey #2", "💧 1 bardak",
+        "17:00 Quark + meyve - Whey (1 ölçek)", "💧 1 bardak",
         "17:30 💧 1 bardak", "18:30 💧 1 bardak",
-        "20:00 Ton balığı + lavaş + salata", "💧 1 bardak",
+        "20:00 Ton balığı + lavaş", "💧 1 bardak",
         "20:30 💧 1 bardak", "21:30 💧 1 bardak",
         "23:00 Skyr", "💧 1 bardak"
     ],
     "Pazar": [
-        "07:00 Yulaf + süt + kahve - Whey #1 - Omega 3 + çörek otu yağı", "💧 1 bardak",
+        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
         "07:30 💧 1 bardak", "08:00 💧 1 bardak",
         "09:00 Skyr", "💧 1 bardak",
         "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + kinoa + salata", "💧 1 bardak",
+        "14:00 Tavuk + kinoa", "💧 1 bardak",
         "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Quark + meyve - Whey #2", "💧 1 bardak",
+        "17:00 Quark + meyve - Whey (1 ölçek)", "💧 1 bardak",
         "17:30 💧 1 bardak", "18:30 💧 1 bardak",
         "20:00 Ton balığı + salata + lavaş", "💧 1 bardak",
         "20:30 💧 1 bardak", "21:30 💧 1 bardak",
@@ -812,10 +799,10 @@ let data = {
 };
 
 let supplements = [
-    {name: "Omega-3 + Çörek Otu Yağı", time: "Sabah"},
+    {name: "Omega 3 + Çörek Otu Yağı", time: "Sabah"},
     {name: "Whey Protein", time: "Sabah & Antrenman sonrası"},
-    {name: "EAA", time: "Antrenman öncesi ve gün içi"},
-    {name: "Kreatin", time: "Antrenman sonrası"}
+    {name: "EAA", time: "Öğle (4 tablet) + Antrenman öncesi (2 tablet)"},
+    {name: "Kreatin", time: "Antrenman sonrası (5g)"}
 ];
 
 let doneState = {};
@@ -828,7 +815,7 @@ let waterAlarmInterval = null;
 let workoutReminderInterval = null;
 let currentChartType = 'daily';
 
-// ==================== TÜM FONKSİYONLAR (ESKİSİYLE AYNI, SADECE HAREKET SİLME EKLENDİ) ====================
+// ==================== TÜM FONKSİYONLAR (SİLME EKLİ) ====================
 function requestNotificationPermission() { if ('Notification' in window) Notification.requestPermission(); }
 function sendNotification(title, body) { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body }); }
 function setVideoLink(ex, day, idx) { let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || ""); if(link !== null) { data[day][idx].link = link; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); showToast("✅ Link kaydedildi!"); } }
