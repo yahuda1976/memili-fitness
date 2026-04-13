@@ -13,7 +13,7 @@
 
 body {
     font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif;
-    background-color: #000000;
+    background-color: #000000; /* Siyah arka plan */
     color: #ffffff;
     min-height: 100vh;
     padding-bottom: 160px;
@@ -49,27 +49,27 @@ body {
     margin: 0 auto;
 }
 .card {
-    background: #1c1c1e;
+    background: #e8e6e1; /* Kirli beyaz */
     border-radius: 28px;
     padding: 20px 12px;
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
 }
 .card:active {
     transform: scale(0.96);
-    background: #2c2c2e;
+    background: #d9d7d1;
 }
 .card h3 {
     font-size: 1.2rem;
     font-weight: 900;
     margin-bottom: 8px;
-    color: #ff6b6b;
+    color: #d93f3f;
 }
 .card.settings-card {
-    background: #1c1c1e;
+    background: #e8e6e1;
 }
 .card.settings-card h3 {
     color: #007aff;
@@ -77,7 +77,7 @@ body {
 .progress-bar {
     width: 100%;
     height: 6px;
-    background: #3a3a3c;
+    background: #c0bcb4;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 10px;
@@ -90,7 +90,7 @@ body {
 small {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #8e8e93;
+    color: #5a5a5c;
     display: block;
     margin-top: 6px;
 }
@@ -101,7 +101,7 @@ small {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #000000;
+    background: #000000; /* Siyah arka plan */
     z-index: 1000;
     overflow-y: auto;
     padding-bottom: 100px;
@@ -139,7 +139,7 @@ small {
     color: #ffffff;
 }
 .item, .set {
-    background: #1c1c1e;
+    background: #e8e6e1; /* Kirli beyaz */
     margin: 10px 16px;
     padding: 16px;
     border-radius: 20px;
@@ -147,21 +147,21 @@ small {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #d9d7d1;
 }
 .item:active, .set:active {
     transform: scale(0.98);
-    background: #2c2c2e;
+    background: #d9d7d1;
 }
 .item.done, .set.done {
-    background: #2a6b3c;
+    background: #a8d5a8;
     text-decoration: line-through;
     opacity: 0.8;
 }
 .item span, .set span {
     font-weight: 900;
-    color: #004080;
+    color: #ff3b30; /* Kırmızı yazı */
 }
 .ex-title {
     font-size: 1.2rem;
@@ -169,7 +169,7 @@ small {
     margin: 16px 16px 8px;
     padding-left: 8px;
     border-left: 4px solid #007aff;
-    color: #004080;
+    color: #ff3b30;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -205,8 +205,8 @@ small {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #1c1c1e;
-    border-top: 0.5px solid rgba(255,255,255,0.1);
+    background: #e8e6e1; /* Kirli beyaz */
+    border-top: 0.5px solid rgba(0,0,0,0.1);
     padding: 12px 20px;
     z-index: 100;
 }
@@ -224,7 +224,7 @@ small {
 }
 .quest-item {
     text-align: center;
-    background: #2c2c2e;
+    background: #d9d7d1;
     padding: 8px;
     border-radius: 20px;
 }
@@ -234,18 +234,18 @@ small {
 .quest-progress {
     font-size: 0.8rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #1c1c1e;
 }
 .daily-score {
     text-align: center;
     font-size: 0.8rem;
     font-weight: 600;
-    color: #8e8e93;
+    color: #5a5a5c;
 }
 .score-bar {
     width: 100%;
     height: 6px;
-    background: #3a3a3c;
+    background: #c0bcb4;
     border-radius: 10px;
     margin-top: 6px;
     overflow: hidden;
@@ -256,16 +256,16 @@ small {
 }
 
 .stats-panel {
-    background: #1c1c1e;
+    background: #e8e6e1; /* Kirli beyaz */
     margin: 16px;
     padding: 20px;
     border-radius: 32px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 }
 .stats-panel h3 {
     font-size: 1.1rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #1c1c1e;
 }
 .stats-grid {
     display: grid;
@@ -275,7 +275,7 @@ small {
 }
 .stat-card {
     text-align: center;
-    background: #2c2c2e;
+    background: #d9d7d1;
     padding: 14px;
     border-radius: 24px;
     font-size: 0.85rem;
@@ -286,7 +286,7 @@ small {
     display: block;
     font-size: 1.4rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #1c1c1e;
     margin-top: 4px;
 }
 .badges {
@@ -296,7 +296,7 @@ small {
     margin-top: 16px;
 }
 .badge {
-    background: #2c2c2e;
+    background: #d9d7d1;
     padding: 6px 14px;
     border-radius: 40px;
     font-size: 0.7rem;
@@ -305,7 +305,7 @@ small {
 }
 
 .water-chart, .set-chart {
-    background: #1c1c1e;
+    background: #e8e6e1;
     border-radius: 28px;
     padding: 16px;
     margin-bottom: 20px;
@@ -317,7 +317,7 @@ small {
 }
 .chart-tab {
     flex: 1;
-    background: #2c2c2e;
+    background: #d9d7d1;
     border: none;
     padding: 10px;
     border-radius: 32px;
@@ -339,12 +339,12 @@ small {
     width: 45px;
     font-size: 0.75rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #1c1c1e;
 }
 .bar-fill {
     flex: 1;
     height: 28px;
-    background: #3a3a3c;
+    background: #c0bcb4;
     border-radius: 14px;
     overflow: hidden;
 }
@@ -423,7 +423,7 @@ small {
     padding: 20px;
 }
 .modal-content {
-    background: #1c1c1e;
+    background: #e8e6e1;
     border-radius: 40px;
     padding: 24px;
     max-width: 350px;
@@ -433,11 +433,11 @@ small {
     width: 100%;
     padding: 14px;
     margin: 8px 0;
-    background: #2c2c2e;
+    background: #d9d7d1;
     border: none;
     border-radius: 16px;
     font-weight: 600;
-    color: white;
+    color: #1c1c1e;
 }
 .modal-buttons {
     display: flex;
@@ -528,10 +528,10 @@ small {
     <div style="padding: 16px;">
         <div class="water-chart"><h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div></div>
         <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
-        <div style="background:#1c1c1e; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#8e8e93;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
-        <div style="background:#1c1c1e; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white;"></select><div id="mealList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
-        <div style="background:#1c1c1e; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white;"></select><div id="exerciseList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
-        <div style="background:#1c1c1e; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2c2c2e; border:none; border-radius:16px; color:white;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#5a5a5c;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="mealList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="exerciseList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
     </div>
 </div>
 
@@ -725,7 +725,7 @@ let waterCheckInterval = null;
 let currentSound = null;
 let soundStopFlag = false;
 
-// ==================== CANLI, YÜKSEK VE 10 SANİYE SES ====================
+// ==================== 10 SANİYE BOYUNCA BİP BİP BİP (ARKAYA AZALMAYAN) ====================
 function playLongBeep() {
     if (soundStopFlag) return;
     try {
@@ -737,36 +737,32 @@ function playLongBeep() {
         currentSound = audioCtx;
         
         const duration = 10; // 10 saniye
-        const startTime = audioCtx.currentTime;
+        const beepInterval = 0.4; // 0.4 saniyede bir bip
+        let startTime = audioCtx.currentTime;
         
-        // Daha canlı ve yüksek bir ses için birden fazla osilatör
-        const osc1 = audioCtx.createOscillator();
-        const osc2 = audioCtx.createOscillator();
+        const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
+        osc.type = "square";
+        osc.frequency.value = 880;
+        gain.gain.value = 0.25; // yeterli ses seviyesi
         
-        osc1.type = "sine";
-        osc1.frequency.value = 880;
-        osc2.type = "square";
-        osc2.frequency.value = 440;
-        
-        gain.gain.value = 0.35; // yeterince yüksek, rahatsız etmeyen
-        
-        osc1.connect(gain);
-        osc2.connect(gain);
+        osc.connect(gain);
         gain.connect(audioCtx.destination);
         
-        osc1.start();
-        osc2.start();
+        osc.start();
         
-        // 10 saniye boyunca çal, sonra yavaşça kıs
-        gain.gain.exponentialRampToValueAtTime(0.00001, startTime + duration);
-        osc1.stop(startTime + duration);
-        osc2.stop(startTime + duration);
+        // 10 saniye boyunca her 0.4 saniyede bir bip (sesi aç/kapa)
+        for (let i = 0; i < duration / beepInterval; i++) {
+            let t = startTime + i * beepInterval;
+            gain.gain.setValueAtTime(0.25, t);
+            gain.gain.setValueAtTime(0.00001, t + 0.15);
+        }
+        
+        osc.stop(startTime + duration);
         
         currentSound = { close: () => {
             try {
-                osc1.stop();
-                osc2.stop();
+                osc.stop();
                 audioCtx.close();
             } catch(e) {}
         }};
@@ -1090,7 +1086,7 @@ function refreshMealList() {
             div.style.display = "flex";
             div.style.justifyContent = "space-between";
             div.style.padding = "8px";
-            div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+            div.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
             div.innerHTML = `<span>${it}</span><button class="delete-btn" onclick="deleteMeal('${day}',${idx})">Sil</button>`;
             cont.appendChild(div);
         }
@@ -1130,7 +1126,7 @@ function refreshExerciseList() {
             div.style.display = "flex";
             div.style.justifyContent = "space-between";
             div.style.padding = "8px";
-            div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+            div.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
             div.innerHTML = `<span>💪 ${it.ex} (${it.sets} set)</span><div><button class="delete-btn" onclick="deleteExercise('${day}',${idx})">Sil</button><button class="delete-btn" style="background:#34c759; margin-left:8px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗 Link</button></div>`;
             cont.appendChild(div);
         }
@@ -1182,7 +1178,7 @@ function updateSupplementsDisplay() {
         div.style.display = "flex";
         div.style.justifyContent = "space-between";
         div.style.padding = "8px";
-        div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+        div.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
         div.innerHTML = `<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})">Sil</button>`;
         cont.appendChild(div);
     });
