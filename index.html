@@ -13,7 +13,7 @@
 
 body {
     font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif;
-    background-color: #000000; /* Siyah arka plan */
+    background-color: #000000;
     color: #ffffff;
     min-height: 100vh;
     padding-bottom: 160px;
@@ -49,7 +49,7 @@ body {
     margin: 0 auto;
 }
 .card {
-    background: #e8e6e1; /* Kirli beyaz */
+    background: #e8e6e1;
     border-radius: 28px;
     padding: 20px 12px;
     text-align: center;
@@ -101,7 +101,7 @@ small {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #000000; /* Siyah arka plan */
+    background: #000000;
     z-index: 1000;
     overflow-y: auto;
     padding-bottom: 100px;
@@ -139,7 +139,7 @@ small {
     color: #ffffff;
 }
 .item, .set {
-    background: #e8e6e1; /* Kirli beyaz */
+    background: #e8e6e1;
     margin: 10px 16px;
     padding: 16px;
     border-radius: 20px;
@@ -161,7 +161,7 @@ small {
 }
 .item span, .set span {
     font-weight: 900;
-    color: #ff3b30; /* Kırmızı yazı */
+    color: #ff3b30;
 }
 .ex-title {
     font-size: 1.2rem;
@@ -205,7 +205,7 @@ small {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #e8e6e1; /* Kirli beyaz */
+    background: #e8e6e1;
     border-top: 0.5px solid rgba(0,0,0,0.1);
     padding: 12px 20px;
     z-index: 100;
@@ -256,7 +256,7 @@ small {
 }
 
 .stats-panel {
-    background: #e8e6e1; /* Kirli beyaz */
+    background: #e8e6e1;
     margin: 16px;
     padding: 20px;
     border-radius: 32px;
@@ -460,13 +460,18 @@ small {
     background: #ff3b30;
     color: white;
 }
-.delete-btn {
+.delete-btn, .move-btn {
     background: #ff3b30;
     color: white;
     border: none;
     padding: 6px 14px;
     border-radius: 30px;
     font-weight: 700;
+    cursor: pointer;
+}
+.move-btn {
+    background: #007aff;
+    margin: 0 4px;
 }
 .toast {
     position: fixed;
@@ -529,8 +534,8 @@ small {
         <div class="water-chart"><h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div></div>
         <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#5a5a5c;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="mealList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="exerciseList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
     </div>
 </div>
@@ -560,7 +565,7 @@ small {
 </div>
 
 <script>
-// ==================== TÜM VERİLER (BÜYÜK HARF, TÜRKÇE KARAKTER YOK) ====================
+// ==================== TÜM VERİLER ====================
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -721,11 +726,10 @@ let totalSetCount = 0;
 let timerInterval = null;
 let currentDayOpen = null;
 let currentChartType = 'daily';
-let waterCheckInterval = null;
 let currentSound = null;
 let soundStopFlag = false;
 
-// ==================== 10 SANİYE BOYUNCA BİP BİP BİP (ARKAYA AZALMAYAN) ====================
+// ==================== 10 SANİYE BOYUNCA BİP BİP BİP (SET SONU) ====================
 function playLongBeep() {
     if (soundStopFlag) return;
     try {
@@ -736,22 +740,21 @@ function playLongBeep() {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         currentSound = audioCtx;
         
-        const duration = 10; // 10 saniye
-        const beepInterval = 0.4; // 0.4 saniyede bir bip
+        const duration = 10;
+        const beepInterval = 0.4;
         let startTime = audioCtx.currentTime;
         
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = "square";
         osc.frequency.value = 880;
-        gain.gain.value = 0.25; // yeterli ses seviyesi
+        gain.gain.value = 0.25;
         
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         
         osc.start();
         
-        // 10 saniye boyunca her 0.4 saniyede bir bip (sesi aç/kapa)
         for (let i = 0; i < duration / beepInterval; i++) {
             let t = startTime + i * beepInterval;
             gain.gain.setValueAtTime(0.25, t);
@@ -779,32 +782,49 @@ function stopSound() {
     setTimeout(() => { soundStopFlag = false; }, 500);
 }
 
-// ==================== OTOMATİK SU ALARM ====================
-function startWaterAlarmChecker() {
-    if (waterCheckInterval) clearInterval(waterCheckInterval);
-    
-    waterCheckInterval = setInterval(() => {
-        let now = new Date();
-        let currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-        
-        let allWaterTimes = [];
-        for (let day in data) {
-            for (let item of data[day]) {
-                if (typeof item === "string" && item.includes("💧") && item.match(/\d{2}:\d{2}/)) {
-                    let timeMatch = item.match(/(\d{2}:\d{2})/);
-                    if (timeMatch) allWaterTimes.push(timeMatch[1]);
-                }
-            }
-        }
-        
-        if (allWaterTimes.includes(currentTime)) {
-            playLongBeep();
-            showToast("💧💧💧 SU İÇME ZAMANI! 💧💧💧");
-            if (Notification.permission === "granted") {
-                new Notification("💧 SU ALARMI", { body: "Su içmeyi unutma! Sağlıklı kal." });
-            }
-        }
-    }, 15000);
+// ==================== SIRALAMA FONKSİYONLARI ====================
+function moveMealUp(day, idx) {
+    if (idx > 0) {
+        [data[day][idx], data[day][idx-1]] = [data[day][idx-1], data[day][idx]];
+        saveDataToLocal();
+        refreshMealList();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Yemek yukarı taşındı");
+    }
+}
+
+function moveMealDown(day, idx) {
+    if (idx < data[day].length - 1) {
+        [data[day][idx], data[day][idx+1]] = [data[day][idx+1], data[day][idx]];
+        saveDataToLocal();
+        refreshMealList();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Yemek aşağı taşındı");
+    }
+}
+
+function moveExerciseUp(day, idx) {
+    if (idx > 0) {
+        [data[day][idx], data[day][idx-1]] = [data[day][idx-1], data[day][idx]];
+        saveDataToLocal();
+        refreshExerciseList();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Hareket yukarı taşındı");
+    }
+}
+
+function moveExerciseDown(day, idx) {
+    if (idx < data[day].length - 1) {
+        [data[day][idx], data[day][idx+1]] = [data[day][idx+1], data[day][idx]];
+        saveDataToLocal();
+        refreshExerciseList();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Hareket aşağı taşındı");
+    }
 }
 
 function showToast(msg) {
@@ -813,53 +833,6 @@ function showToast(msg) {
     toast.innerText = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 1600);
-}
-
-// ==================== DİĞER FONKSİYONLAR (TIMER, SET, GRAFİK, EKLE/SİL) ====================
-function requestNotificationPermission() {
-    if (Notification && Notification.permission !== "denied") {
-        Notification.requestPermission();
-    }
-}
-
-function stopTimer() {
-    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-    let tb = document.getElementById("timerBox");
-    if (tb) tb.style.display = "none";
-    stopSound();
-}
-
-function startTimer(sec) {
-    stopTimer();
-    let remaining = sec;
-    let tb = document.getElementById("timerBox"), tn = document.getElementById("timerNum");
-    if (!tb || !tn) return;
-    tb.style.display = "block";
-    tn.innerText = remaining;
-    timerInterval = setInterval(() => {
-        if (remaining <= 1) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            tb.style.display = "none";
-            playLongBeep();
-            showToast("🔔 Dinlenme bitti!");
-        } else {
-            remaining--;
-            tn.innerText = remaining;
-        }
-    }, 1000);
-}
-
-function customTimer() {
-    let s = prompt("Dinlenme süresi (saniye):", "90");
-    if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
-}
-
-function setupTimerButtons() {
-    let cb = document.getElementById("timerCloseBtn"), cub = document.getElementById("timerCustomBtn"), ssb = document.getElementById("stopSoundBtn");
-    if (cb) cb.onclick = stopTimer;
-    if (cub) cub.onclick = customTimer;
-    if (ssb) ssb.onclick = stopSound;
 }
 
 function saveDataToLocal() {
@@ -938,6 +911,39 @@ function closeDay() {
     buildHome();
 }
 
+function stopTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    let tb = document.getElementById("timerBox");
+    if (tb) tb.style.display = "none";
+    stopSound();
+}
+
+function startTimer(sec) {
+    stopTimer();
+    let remaining = sec;
+    let tb = document.getElementById("timerBox"), tn = document.getElementById("timerNum");
+    if (!tb || !tn) return;
+    tb.style.display = "block";
+    tn.innerText = remaining;
+    timerInterval = setInterval(() => {
+        if (remaining <= 1) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            tb.style.display = "none";
+            playLongBeep();
+            showToast("🔔 Dinlenme bitti!");
+        } else {
+            remaining--;
+            tn.innerText = remaining;
+        }
+    }, 1000);
+}
+
+function customTimer() {
+    let s = prompt("Dinlenme süresi (saniye):", "90");
+    if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
+}
+
 function renderDayItems(day) {
     let cont = document.getElementById("dayItems");
     cont.innerHTML = "";
@@ -996,7 +1002,7 @@ function renderDayItems(day) {
                             doneState[skey] = true;
                             setDiv.classList.add("done");
                             totalSetCount++;
-                            showToast(`✅ Set ${snum} tamamlandı! +30 XP`);
+                            showToast(`✅ Set ${snum} tamamlandı! +30 XP 🔥`);
                             startTimer(90);
                         }
                         saveDataToLocal();
@@ -1085,9 +1091,19 @@ function refreshMealList() {
             let div = document.createElement("div");
             div.style.display = "flex";
             div.style.justifyContent = "space-between";
-            div.style.padding = "8px";
-            div.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
-            div.innerHTML = `<span>${it}</span><button class="delete-btn" onclick="deleteMeal('${day}',${idx})">Sil</button>`;
+            div.style.alignItems = "center";
+            div.style.padding = "10px";
+            div.style.margin = "5px 0";
+            div.style.background = "#d9d7d1";
+            div.style.borderRadius = "16px";
+            div.innerHTML = `
+                <span style="flex:1; color:#1c1c1e;">${it}</span>
+                <div>
+                    <button class="move-btn" onclick="moveMealUp('${day}', ${idx})">⬆️</button>
+                    <button class="move-btn" onclick="moveMealDown('${day}', ${idx})">⬇️</button>
+                    <button class="delete-btn" onclick="deleteMeal('${day}', ${idx})">Sil</button>
+                </div>
+            `;
             cont.appendChild(div);
         }
     });
@@ -1125,9 +1141,20 @@ function refreshExerciseList() {
             let div = document.createElement("div");
             div.style.display = "flex";
             div.style.justifyContent = "space-between";
-            div.style.padding = "8px";
-            div.style.borderBottom = "1px solid rgba(0,0,0,0.1)";
-            div.innerHTML = `<span>💪 ${it.ex} (${it.sets} set)</span><div><button class="delete-btn" onclick="deleteExercise('${day}',${idx})">Sil</button><button class="delete-btn" style="background:#34c759; margin-left:8px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗 Link</button></div>`;
+            div.style.alignItems = "center";
+            div.style.padding = "10px";
+            div.style.margin = "5px 0";
+            div.style.background = "#d9d7d1";
+            div.style.borderRadius = "16px";
+            div.innerHTML = `
+                <span style="flex:1; color:#1c1c1e;">💪 ${it.ex} (${it.sets} set)</span>
+                <div>
+                    <button class="move-btn" onclick="moveExerciseUp('${day}', ${idx})">⬆️</button>
+                    <button class="move-btn" onclick="moveExerciseDown('${day}', ${idx})">⬇️</button>
+                    <button class="delete-btn" onclick="deleteExercise('${day}', ${idx})">Sil</button>
+                    <button class="delete-btn" style="background:#34c759;" onclick="setVideoLinkFromSettings('${day}', ${idx})">🔗</button>
+                </div>
+            `;
             cont.appendChild(div);
         }
     });
@@ -1341,11 +1368,13 @@ loadDataFromLocal();
 buildHome();
 updateAllStats();
 updateSupplementsDisplay();
-setupTimerButtons();
-requestNotificationPermission();
 updateWaterChart();
 updateWeeklyChart();
-startWaterAlarmChecker();
+
+// Timer butonlarını bağla
+document.getElementById("timerCloseBtn").onclick = stopTimer;
+document.getElementById("timerCustomBtn").onclick = customTimer;
+document.getElementById("stopSoundBtn").onclick = stopSound;
 </script>
 </body>
 </html>
