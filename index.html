@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Fitness Pro Ultimate 🔥</title>
+<title>Fitness Pro 🔥</title>
 <style>
 * {
     margin: 0;
@@ -18,80 +18,6 @@ body {
     min-height: 100vh;
     padding-bottom: 160px;
     font-weight: 600;
-}
-
-/* GİRİŞ EKRANI */
-.login-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #e3e1db;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.login-box {
-    background: rgba(255,255,255,0.95);
-    border-radius: 48px;
-    padding: 40px 30px;
-    text-align: center;
-    max-width: 350px;
-    width: 100%;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.05);
-}
-.login-box h2 {
-    background: linear-gradient(135deg, #007aff, #5856d6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 10px;
-    font-size: 1.8rem;
-    font-weight: 800;
-}
-.login-box input {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    background: #ffffff;
-    border: 1px solid #d4d2cc;
-    border-radius: 14px;
-    font-size: 1rem;
-    font-weight: 600;
-}
-.remember-me {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-}
-.remember-me input {
-    width: 20px;
-    height: 20px;
-}
-.remember-me label {
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-.login-box button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 15px;
-    background: #007aff;
-    border: none;
-    border-radius: 32px;
-    color: white;
-    font-weight: 800;
-    font-size: 1rem;
-    cursor: pointer;
-}
-.login-error {
-    color: #ff3b30;
-    margin-top: 10px;
-    font-size: 0.8rem;
 }
 
 .app-header {
@@ -113,8 +39,6 @@ body {
     color: transparent;
     letter-spacing: -0.3px;
 }
-
-/* Ses butonu yok - kaldırıldı */
 
 .grid {
     display: grid;
@@ -140,7 +64,7 @@ body {
 }
 .card h3 {
     font-size: 1.2rem;
-    font-weight: 900;  /* 2 kat kalın */
+    font-weight: 900;
     margin-bottom: 8px;
     color: #d93f3f;
 }
@@ -195,9 +119,9 @@ small {
     border-bottom: 0.5px solid rgba(0,0,0,0.05);
 }
 .back-btn, .add-item-btn {
-    background: #ff3b30;   /* kırmızı */
+    background: #ff3b30;
     border: none;
-    padding: 12px 24px;    /* daha büyük */
+    padding: 12px 24px;
     border-radius: 40px;
     font-weight: 800;
     font-size: 1rem;
@@ -556,26 +480,9 @@ small {
 </head>
 <body>
 
-<div id="loginScreen" class="login-container">
-    <div class="login-box">
-        <h2>🔥 FITNESS PRO</h2>
-        <p style="margin-bottom: 20px;">Giriş Yap</p>
-        <input type="text" id="loginUsername" placeholder="Kullanıcı Adı">
-        <input type="password" id="loginPassword" placeholder="Şifre">
-        <div class="remember-me">
-            <input type="checkbox" id="rememberCheckbox">
-            <label for="rememberCheckbox">Beni Hatırla</label>
-        </div>
-        <button onclick="login()">Giriş Yap</button>
-        <div id="loginError" class="login-error"></div>
-        <p style="margin-top: 15px; font-size: 0.7rem;">Demo: demo / demo</p>
-    </div>
-</div>
-
-<div id="appContent" style="display:none;">
+<div id="appContent">
 <div class="app-header">
-    <h1>🔥 FITNESS PRO ULTIMATE</h1>
-    <!-- Ses butonu yok -->
+    <h1>🔥 FITNESS PRO</h1>
 </div>
 
 <div id="homeGrid" class="grid"></div>
@@ -610,7 +517,6 @@ small {
         <div class="water-chart"><h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div></div>
         <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
         <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">⏰ ANTRENMAN HATIRLATICI</h3><input type="time" id="reminderTime" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="setWorkoutReminder()" style="width:100%; margin-top:10px; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">🔔 Hatırlatıcı Kur</button><button onclick="cancelWorkoutReminder()" style="width:100%; margin-top:8px; background:#e9e9ef; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">İptal Et</button><div id="reminderStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div></div>
-        <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">⏰ SU ALARMI</h3><input type="time" id="waterAlarmTime" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="setWaterAlarm()" style="width:100%; margin-top:10px; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">💧 Alarm Kur</button><button onclick="cancelWaterAlarm()" style="width:100%; margin-top:8px; background:#e9e9ef; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">İptal Et</button><div id="alarmStatus" style="margin-top:8px; font-size:0.7rem; text-align:center;"></div></div>
         <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">📦 YEDEKLEME</h3><div style="display:flex; gap:12px;"><button onclick="simpleBackup()" style="flex:1; background:#f2f2f6; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">📥 Yedek Al</button><button onclick="simpleRestore()" style="flex:1; background:#f2f2f6; border:none; padding:12px; border-radius:32px; color:#007aff; font-weight:700;">📤 Geri Yükle</button></div></div>
         <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
         <div style="background:#ffffff; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"></select><div id="mealList" style="max-height:200px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#f2f2f6; border:none; border-radius:16px;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
@@ -643,7 +549,7 @@ small {
 </div>
 
 <script>
-// ==================== SON LISTE (BİREBİR) ====================
+// ==================== TÜM VERİLER (SON LİSTE) ====================
 let data = {
     "Pazartesi": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -801,68 +707,662 @@ let supplements = [
 let doneState = {};
 let waterIntake = {};
 let totalSetCount = 0;
-let soundEnabled = true; // varsayılan ses açık, buton yok ama sesli olacak
+let soundEnabled = true;
 let timerInterval = null;
 let currentDayOpen = null;
-let waterAlarmInterval = null;
 let workoutReminderInterval = null;
 let currentChartType = 'daily';
+let waterCheckInterval = null;
 
-// ==================== TÜM FONKSİYONLAR (SİLME EKLİ, SES BUTONSUZ) ====================
-function requestNotificationPermission() { if ('Notification' in window) Notification.requestPermission(); }
-function sendNotification(title, body) { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body }); }
-function setVideoLink(ex, day, idx) { let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || ""); if(link !== null) { data[day][idx].link = link; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); showToast("✅ Link kaydedildi!"); } }
-function openExerciseVideo(ex, link, day, idx) { if(link && link.trim()) { window.open(link,'_blank'); showToast(`📹 ${ex} videosu açılıyor...`); } else { showToast("⚠️ Link yok, ayarlardan ekleyin."); if(confirm("Link eklemek ister misiniz?")) setVideoLink(ex,day,idx); } }
-function deleteExerciseFromDay(day, idx) { if(confirm("Bu hareketi silmek istediğinize emin misiniz?")) { data[day].splice(idx, 1); saveDataToLocal(); if(currentDayOpen === day) renderDayItems(day); buildHome(); showToast("✅ Hareket silindi"); } }
-function setWorkoutReminder() { let t = document.getElementById("reminderTime").value; if(!t) return; localStorage.setItem("workoutReminderTime",t); document.getElementById("reminderStatus").innerHTML = `⏰ Hatırlatıcı: ${t}`; showToast(`✅ Hatırlatıcı ${t} kuruldu`); startWorkoutReminder(t); }
-function cancelWorkoutReminder() { if(workoutReminderInterval) clearInterval(workoutReminderInterval); localStorage.removeItem("workoutReminderTime"); document.getElementById("reminderStatus").innerHTML = "İptal edildi"; showToast("❌ İptal"); }
-function startWorkoutReminder(t) { if(workoutReminderInterval) clearInterval(workoutReminderInterval); let check=()=>{ let now=new Date(); let ct=`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; if(ct===t){ sendNotification("🏋️ FITNESS PRO","Antrenman zamanı! 💪"); showToast("🏋️ Antrenman zamanı!"); playMultiBeep(); } }; workoutReminderInterval=setInterval(check,30000); }
-function loadWorkoutReminder() { let s=localStorage.getItem("workoutReminderTime"); if(s){ document.getElementById("reminderTime").value=s; document.getElementById("reminderStatus").innerHTML=`⏰ Hatırlatıcı: ${s}`; startWorkoutReminder(s); } }
-function getWaterData() { let days=["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"]; return days.map(d=>({day:d.substring(0,3), amount:waterIntake[`${d}_water`]||0})); }
-function setWaterChartType(t){ currentChartType=t; document.querySelectorAll('.chart-tab').forEach(tab=>tab.classList.remove('active')); if(event&&event.target) event.target.classList.add('active'); updateWaterChart(); }
-function updateWaterChart(){ let cont=document.getElementById("waterChartContainer"),msg=document.getElementById("waterChartMessage"); if(!cont) return; if(currentChartType==='daily'){ let wd=getWaterData(),maxW=Math.max(...wd.map(d=>d.amount),1); cont.innerHTML='<h4 style="font-size:0.8rem;">📊 Günlük Su (bardak)</h4>'; wd.forEach(d=>{let p=(d.amount/maxW)*100; cont.innerHTML+=`<div class="chart-bar-item"><div class="bar-label">${d.day}</div><div class="bar-fill"><div class="bar" style="width:${p}%">${d.amount}</div></div></div>`;}); msg.innerHTML=`💧 Toplam: ${wd.reduce((a,b)=>a+b.amount,0)} bardak`; } else if(currentChartType==='weekly'){ let tot=Object.values(waterIntake).reduce((a,b)=>a+b,0); cont.innerHTML='<h4>📆 Haftalık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Hafta</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/100)*100,100)}%">${tot}</div></div></div>'; msg.innerHTML=`💧 Bu hafta: ${tot} bardak`; } else{ let tot=Object.values(waterIntake).reduce((a,b)=>a+b,0); cont.innerHTML='<h4>📊 Aylık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Ay</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/200)*100,100)}%">${tot}</div></div></div>'; msg.innerHTML=`💧 Bu ay: ${tot} bardak`; } }
-function updateWeeklyChart(){ let cont=document.getElementById("weeklyChartContainer"); if(!cont) return; let days=["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"]; cont.innerHTML="<h4>📈 Haftalık Set Grafiği</h4>"; days.forEach(day=>{ let setsDone=0; Object.keys(doneState).forEach(k=>{if(k.includes(day)&&k.includes("set")) setsDone++;}); let maxS=20, w=Math.min((setsDone/maxS)*100,100); cont.innerHTML+=`<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${w}%">${setsDone}</div></div></div>`;}); }
-function playMultiBeep(){ if(!soundEnabled) return; for(let i=0;i<3;i++){ setTimeout(()=>{ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let osc=ctx.createOscillator(); osc.type="sine"; osc.frequency.value=880; osc.connect(ctx.destination); osc.start(); setTimeout(()=>{osc.stop(); ctx.close();},150); }catch(e){} },i*300); } }
-function simpleBackup(){ let exp={data,doneState,waterIntake,totalSetCount,supplements}; let str=JSON.stringify(exp,null,2); let blob=new Blob([str],{type:"application/json"}); let a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`fitness_backup_${new Date().toISOString().slice(0,19)}.json`; a.click(); URL.revokeObjectURL(blob); showToast("✅ Yedek alındı"); }
-function simpleRestore(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.data) data=imp.data; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.supplements) supplements=imp.supplements; saveDataToLocal(); buildHome(); if(currentDayOpen) renderDayItems(currentDayOpen); updateAllStats(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); showToast("✅ Geri yüklendi"); }catch(err){ showToast("❌ Hatalı dosya"); } }; reader.readAsText(file); }; inp.click(); }
-function setWaterAlarm(){ let t=document.getElementById("waterAlarmTime").value; if(!t) return; localStorage.setItem("waterAlarmTime",t); document.getElementById("alarmStatus").innerHTML=`⏰ Alarm: ${t}`; showToast(`✅ Su alarmı ${t} kuruldu`); startWaterAlarmCheck(t); }
-function cancelWaterAlarm(){ if(waterAlarmInterval) clearInterval(waterAlarmInterval); localStorage.removeItem("waterAlarmTime"); document.getElementById("alarmStatus").innerHTML="İptal edildi"; showToast("❌ İptal"); }
-function startWaterAlarmCheck(t){ if(waterAlarmInterval) clearInterval(waterAlarmInterval); let check=()=>{ let now=new Date(); let ct=`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; if(ct===t){ sendNotification("💧 SU","Su içme zamanı!"); showToast("💧 SU İÇME ZAMANI!"); playMultiBeep(); } }; waterAlarmInterval=setInterval(check,30000); }
-function loadWaterAlarm(){ let s=localStorage.getItem("waterAlarmTime"); if(s){ document.getElementById("waterAlarmTime").value=s; document.getElementById("alarmStatus").innerHTML=`⏰ Alarm: ${s}`; startWaterAlarmCheck(s); } }
-function login(){ let u=document.getElementById("loginUsername").value,p=document.getElementById("loginPassword").value,rem=document.getElementById("rememberCheckbox").checked; if(u&&p){ if(rem){ localStorage.setItem("savedUsername",u); localStorage.setItem("savedPassword",p); localStorage.setItem("rememberMe","true"); }else{ localStorage.removeItem("savedUsername"); localStorage.removeItem("savedPassword"); localStorage.setItem("rememberMe","false"); } document.getElementById("loginScreen").style.display="none"; document.getElementById("appContent").style.display="block"; loadDataFromLocal(); buildHome(); updateAllStats(); updateSupplementsDisplay(); setupTimerButtons(); loadWaterAlarm(); loadWorkoutReminder(); requestNotificationPermission(); updateWaterChart(); updateWeeklyChart(); showToast(`Hoş geldin ${u}! 💪`); }else{ document.getElementById("loginError").innerText="Kullanıcı adı/şifre girin"; } }
-function checkSavedLogin(){ if(localStorage.getItem("rememberMe")==="true"){ let u=localStorage.getItem("savedUsername"),p=localStorage.getItem("savedPassword"); if(u&&p){ document.getElementById("loginUsername").value=u; document.getElementById("loginPassword").value=p; document.getElementById("rememberCheckbox").checked=true; setTimeout(()=>login(),100); } } }
-function resetWeek(){ if(confirm("⚠️ Tüm haftayı sıfırla? İşaretler gider, içerikler kalır.")){ doneState={}; waterIntake={}; totalSetCount=0; saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); updateAllStats(); updateWaterChart(); updateWeeklyChart(); showToast("✅ Hafta sıfırlandı"); } }
-function stopTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; }
-function startTimer(sec){ stopTimer(); let remaining=sec; let tb=document.getElementById("timerBox"),tn=document.getElementById("timerNum"); if(!tb||!tn) return; tb.style.display="block"; tn.innerText=remaining; timerInterval=setInterval(()=>{ if(remaining<=1){ clearInterval(timerInterval); timerInterval=null; tb.style.display="none"; playMultiBeep(); showToast("🔔 Dinlenme bitti!"); }else{ remaining--; tn.innerText=remaining; } },1000); }
-function customTimer(){ let s=prompt("Dinlenme süresi (saniye):","90"); if(s&&!isNaN(parseInt(s))&&parseInt(s)>0) startTimer(parseInt(s)); }
-function setupTimerButtons(){ let cb=document.getElementById("timerCloseBtn"),cub=document.getElementById("timerCustomBtn"); if(cb) cb.onclick=stopTimer; if(cub) cub.onclick=customTimer; }
-function saveDataToLocal(){ localStorage.setItem("fitnessDataUltimate",JSON.stringify(data)); localStorage.setItem("fitnessDoneUltimate",JSON.stringify(doneState)); localStorage.setItem("fitnessWaterUltimate",JSON.stringify(waterIntake)); localStorage.setItem("fitnessSetsUltimate",JSON.stringify(totalSetCount)); localStorage.setItem("fitnessSupplements",JSON.stringify(supplements)); }
-function loadDataFromLocal(){ let sd=localStorage.getItem("fitnessDataUltimate"); if(sd) data=JSON.parse(sd); let s=localStorage.getItem("fitnessDoneUltimate"); if(s) doneState=JSON.parse(s); let sw=localStorage.getItem("fitnessWaterUltimate"); if(sw) waterIntake=JSON.parse(sw); let ss=localStorage.getItem("fitnessSetsUltimate"); if(ss) totalSetCount=JSON.parse(ss); let sup=localStorage.getItem("fitnessSupplements"); if(sup) supplements=JSON.parse(sup); }
-function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHTML=""; Object.keys(data).forEach(day=>{ let stats=getDayStats(day); let card=document.createElement("div"); card.className="card"; card.innerHTML=`<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`; card.onclick=()=>openDay(day); grid.appendChild(card); }); let setCard=document.createElement("div"); setCard.className="card settings-card"; setCard.innerHTML=`<h3>AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`; setCard.onclick=()=>openSettings(); grid.appendChild(setCard); }
-function getDayStats(day){ let total=0,completed=0; let items=data[day]; if(!items) return {total,completed,percent:0}; items.forEach((item,idx)=>{ if(typeof item==="string"){ total++; if(doneState[`${day}|meal|${idx}`]) completed++; }else if(item&&typeof item==="object"&&item.sets){ for(let s=1;s<=item.sets;s++){ total++; if(doneState[`${day}|set|${item.ex}|${s}`]) completed++; } } }); return {total,completed,percent:total===0?0:(completed/total)*100}; }
-function openDay(day){ currentDayOpen=day; document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.remove("hidden"); document.getElementById("settingsView").classList.add("hidden"); document.getElementById("dayTitle").innerText=day; renderDayItems(day); }
-function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; updateAllStats(); buildHome(); }
-function renderDayItems(day){ let cont=document.getElementById("dayItems"); cont.innerHTML=""; let items=data[day]; if(!items) return; items.forEach((item,idx)=>{ if(typeof item==="string"){ let div=document.createElement("div"); div.className="item"; div.innerHTML=`<span>${item}</span>`; let key=`${day}|meal|${idx}`; if(doneState[key]) div.classList.add("done"); div.onclick=()=>{ if(doneState[key]){ delete doneState[key]; div.classList.remove("done"); showToast("❌ Kaldırıldı"); }else{ doneState[key]=true; div.classList.add("done"); if(item.includes("💧")){ let wk=`${day}_water`; waterIntake[wk]=(waterIntake[wk]||0)+1; updateWaterChart(); updateWeeklyChart(); showToast("💧 +1 bardak su!"); }else{ showToast("✅ Tamamlandı!"); } } saveDataToLocal(); updateQuests(day); updateAllStats(); buildHome(); }; cont.appendChild(div); }else if(item&&typeof item==="object"&&item.ex){ let titleDiv=document.createElement("div"); titleDiv.className="ex-title"; titleDiv.innerHTML=`<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button><button onclick="deleteExerciseFromDay('${day}',${idx})" style="background:#ff3b30; border:none; padding:6px 12px; border-radius:30px; color:white; font-weight:700;">🗑️ Sil</button></div>`; cont.appendChild(titleDiv); for(let s=1;s<=item.sets;s++){ let setDiv=document.createElement("div"); setDiv.className="set"; setDiv.innerHTML=`<span>Set ${s}</span><span>⏱️ Dinlenme</span>`; let setKey=`${day}|set|${item.ex}|${s}`; if(doneState[setKey]) setDiv.classList.add("done"); setDiv.onclick=(function(snum,skey){ return function(){ if(doneState[skey]){ delete doneState[skey]; setDiv.classList.remove("done"); totalSetCount--; showToast("❌ Set iptal"); }else{ doneState[skey]=true; setDiv.classList.add("done"); totalSetCount++; showToast(`✅ Set ${snum} tamamlandı! +30 XP`); startTimer(90); } saveDataToLocal(); updateQuests(day); updateAllStats(); buildHome(); }; })(s,setKey); cont.appendChild(setDiv); } } }); updateQuests(day); }
-function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); }
-function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; buildHome(); }
-function populateManageSelects(){ let days=Object.keys(data); let mealSel=document.getElementById("mealManageDay"),exSel=document.getElementById("exerciseManageDay"); mealSel.innerHTML='<option value="">Gün Seç</option>'; exSel.innerHTML='<option value="">Gün Seç</option>'; days.forEach(d=>{ mealSel.innerHTML+=`<option value="${d}">${d}</option>`; exSel.innerHTML+=`<option value="${d}">${d}</option>`; }); mealSel.onchange=()=>refreshMealList(); exSel.onchange=()=>refreshExerciseList(); }
-function refreshMealList(){ let day=document.getElementById("mealManageDay").value,cont=document.getElementById("mealList"); if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string"&&!it.includes("🏋️")&&!it.includes("🧘")){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid #e9e9ef"; div.innerHTML=`<span>${it}</span><button class="delete-btn" onclick="deleteMeal('${day}',${idx})">Sil</button>`; cont.appendChild(div); } }); }
-function deleteMeal(day,idx){ if(confirm("Sil?")){ data[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("✅ Silindi"); } }
-function addMealToDay(){ let day=document.getElementById("mealManageDay").value,name=document.getElementById("newMealName").value; if(!day||!name){ showToast("Gün ve ad girin"); return; } data[day].push(name); saveDataToLocal(); document.getElementById("newMealName").value=""; refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
-function refreshExerciseList(){ let day=document.getElementById("exerciseManageDay").value,cont=document.getElementById("exerciseList"); if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(it&&typeof it==="object"&&it.ex){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid #e9e9ef"; div.innerHTML=`<span>💪 ${it.ex} (${it.sets} set)</span><div><button class="delete-btn" onclick="deleteExercise('${day}',${idx})">Sil</button><button class="delete-btn" style="background:#34c759; margin-left:8px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗 Link</button></div>`; cont.appendChild(div); } }); }
-function setVideoLinkFromSettings(day,idx){ let ex=data[day][idx].ex; let link=prompt(`${ex} için YouTube linki:`, data[day][idx].link||""); if(link!==null){ data[day][idx].link=link; saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); showToast("✅ Link kaydedildi"); } }
-function deleteExercise(day,idx){ if(confirm("Bu hareket silinsin mi?")){ data[day].splice(idx,1); saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("✅ Silindi"); } }
-function addExerciseToDay(){ let day=document.getElementById("exerciseManageDay").value,name=document.getElementById("newExerciseName").value,sets=parseInt(document.getElementById("newExerciseSets").value); if(!day||!name||!sets){ showToast("Gün, hareket ve set sayısı girin"); return; } data[day].push({ex:name,sets:sets,link:""}); saveDataToLocal(); document.getElementById("newExerciseName").value=""; document.getElementById("newExerciseSets").value=""; refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" (${sets} set) eklendi`); }
-function updateSupplementsDisplay(){ let cont=document.getElementById("supplementList"); if(!cont) return; cont.innerHTML=""; supplements.forEach((sup,idx)=>{ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid #e9e9ef"; div.innerHTML=`<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})">Sil</button>`; cont.appendChild(div); }); }
-function deleteSupplement(idx){ if(confirm("Takviye silinsin mi?")){ supplements.splice(idx,1); saveDataToLocal(); updateSupplementsDisplay(); showToast("✅ Silindi"); } }
-function addSupplement(){ let name=document.getElementById("newSupplementName").value,time=document.getElementById("newSupplementTime").value; if(!name||!time){ showToast("Ad ve zaman girin"); return; } supplements.push({name,time}); saveDataToLocal(); document.getElementById("newSupplementName").value=""; document.getElementById("newSupplementTime").value=""; updateSupplementsDisplay(); showToast(`✅ "${name}" eklendi`); }
-function updateQuests(day){ let water=0,meals=0,sets=0; Object.keys(doneState).forEach(k=>{ if(k.includes(day)){ if(k.includes("meal")){ meals++; let idx=parseInt(k.split("|")[2]); let txt=data[day]?.[idx]; if(typeof txt==="string"&&txt.includes("💧")) water+=1; } if(k.includes("set")) sets++; } }); let wk=`${day}_water`; let totalWater=(waterIntake[wk]||0)+water; document.getElementById("questWater").innerHTML=`${Math.min(totalWater,8)}/8`; document.getElementById("questMeal").innerHTML=`${Math.min(meals,12)}/12`; document.getElementById("questSet").innerHTML=`${Math.min(sets,20)}/20`; let score=Math.min(totalWater*5+meals*3+sets*2,100); document.getElementById("dailyScoreText").innerText=score; document.getElementById("scoreFill").style.width=score+"%"; document.getElementById("questScore").innerHTML=`${score}/100`; }
-function updateAllStats(){ let totalWater=0; Object.values(waterIntake).forEach(v=>totalWater+=v); let bestDayScore=0,bestDayName=""; Object.keys(data).forEach(day=>{ let ds=0; Object.keys(doneState).forEach(k=>{if(k.includes(day)){ if(k.includes("set")) ds+=2; if(k.includes("meal")) ds+=1; }}); if(ds>bestDayScore){bestDayScore=ds; bestDayName=day;} }); document.getElementById("totalSets").innerText=totalSetCount; document.getElementById("totalWater").innerText=totalWater; document.getElementById("bestDay").innerText=bestDayName||"-"; document.getElementById("totalXP").innerText=totalSetCount*30; let badgesDiv=document.getElementById("badgesContainer"); let badges=[]; if(totalSetCount>=20) badges.push("🔥 Alev Rozeti"); if(totalSetCount>=50) badges.push("💪 Demir Rozet"); if(totalSetCount>=100) badges.push("👑 Efsane Rozeti"); if(badges.length===0) badges.push("🔒 20 set yaparak ilk rozeti kazan!"); badgesDiv.innerHTML=badges.map(b=>`<div class="badge">${b}</div>`).join(''); }
-function showAddItemToDay(){ if(!currentDayOpen) return; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>➕ ${currentDayOpen}</h3><select id="itemTypeSelect"><option value="meal">🍽️ Yemek</option><option value="exercise">💪 Hareket</option></select><input id="itemNameInput" placeholder="Ad"><div id="setsContainer" style="display:none"><input id="itemSetsInput" type="number" placeholder="Set sayısı"></div><div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); let typeSel=document.getElementById("itemTypeSelect"),setsCont=document.getElementById("setsContainer"); typeSel.onchange=()=>{setsCont.style.display=typeSel.value==="exercise"?"block":"none";}; }
-function addItemToCurrentDay(){ let type=document.getElementById("itemTypeSelect").value,name=document.getElementById("itemNameInput").value; if(!name){ showToast("Ad girin"); return; } if(type==="meal"){ data[currentDayOpen].push(name); showToast(`✅ "${name}" eklendi`); }else{ let sets=parseInt(document.getElementById("itemSetsInput").value); if(!sets){ showToast("Set sayısı girin"); return; } data[currentDayOpen].push({ex:name,sets:sets,link:""}); showToast(`✅ "${name}" (${sets} set) eklendi`); } saveDataToLocal(); renderDayItems(currentDayOpen); buildHome(); document.querySelector(".modal").remove(); }
-function showToast(msg){ let toast=document.createElement("div"); toast.className="toast"; toast.innerText=msg; document.body.appendChild(toast); setTimeout(()=>toast.remove(),1600); }
+// ==================== OTOMATİK SU ALARM (GÜN İÇİNDEKİ SAATLERDE) ====================
+function startWaterAlarmChecker() {
+    if (waterCheckInterval) clearInterval(waterCheckInterval);
+    
+    waterCheckInterval = setInterval(() => {
+        let now = new Date();
+        let currentTime = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        
+        // Tüm günlerdeki tüm su saatlerini kontrol et
+        let allWaterTimes = [];
+        for (let day in data) {
+            for (let item of data[day]) {
+                if (typeof item === "string" && item.includes("💧") && item.match(/\d{2}:\d{2}/)) {
+                    let timeMatch = item.match(/(\d{2}:\d{2})/);
+                    if (timeMatch) allWaterTimes.push(timeMatch[1]);
+                }
+            }
+        }
+        
+        if (allWaterTimes.includes(currentTime)) {
+            playMultiBeep();
+            showToast("💧💧💧 SU İÇME ZAMANI! 💧💧💧");
+            if (Notification.permission === "granted") {
+                new Notification("💧 SU ALARMI", { body: "Su içmeyi unutma! Sağlıklı kal." });
+            }
+        }
+    }, 15000); // 15 saniyede bir kontrol
+}
 
-window.onload=()=>{ checkSavedLogin(); setWaterChartType('daily'); };
+// ==================== DİĞER FONKSİYONLAR ====================
+function requestNotificationPermission() {
+    if (Notification && Notification.permission !== "denied") {
+        Notification.requestPermission();
+    }
+}
+
+function playMultiBeep() {
+    if (!soundEnabled) return;
+    for (let i = 0; i < 4; i++) {
+        setTimeout(() => {
+            try {
+                let ctx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = ctx.createOscillator();
+                osc.type = "sine";
+                osc.frequency.value = 880;
+                osc.connect(ctx.destination);
+                osc.start();
+                setTimeout(() => { osc.stop(); ctx.close(); }, 200);
+            } catch(e) {}
+        }, i * 300);
+    }
+}
+
+function showToast(msg) {
+    let toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1600);
+}
+
+// Yedekleme (çökmeyen manuel)
+function simpleBackup() {
+    let backupData = { data, doneState, waterIntake, totalSetCount, supplements };
+    let jsonStr = JSON.stringify(backupData, null, 2);
+    let blob = new Blob([jsonStr], {type: "application/json"});
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = `fitness_backup_${new Date().toISOString().slice(0,19)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("✅ Yedek alındı (Dosya indiriliyor)");
+}
+
+function simpleRestore() {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.onchange = (e) => {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                let imported = JSON.parse(ev.target.result);
+                if (imported.data) data = imported.data;
+                if (imported.doneState) doneState = imported.doneState;
+                if (imported.waterIntake) waterIntake = imported.waterIntake;
+                if (imported.totalSetCount !== undefined) totalSetCount = imported.totalSetCount;
+                if (imported.supplements) supplements = imported.supplements;
+                saveDataToLocal();
+                buildHome();
+                if (currentDayOpen) renderDayItems(currentDayOpen);
+                updateAllStats();
+                updateSupplementsDisplay();
+                updateWaterChart();
+                updateWeeklyChart();
+                showToast("✅ Geri yüklendi!");
+            } catch(err) { showToast("❌ Hatalı dosya"); }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+
+// Timer fonksiyonları (aynı)
+function stopTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    let tb = document.getElementById("timerBox");
+    if (tb) tb.style.display = "none";
+}
+
+function startTimer(sec) {
+    stopTimer();
+    let remaining = sec;
+    let tb = document.getElementById("timerBox"), tn = document.getElementById("timerNum");
+    if (!tb || !tn) return;
+    tb.style.display = "block";
+    tn.innerText = remaining;
+    timerInterval = setInterval(() => {
+        if (remaining <= 1) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            tb.style.display = "none";
+            playMultiBeep();
+            showToast("🔔 Dinlenme bitti!");
+        } else {
+            remaining--;
+            tn.innerText = remaining;
+        }
+    }, 1000);
+}
+
+function customTimer() {
+    let s = prompt("Dinlenme süresi (saniye):", "90");
+    if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
+}
+
+function setupTimerButtons() {
+    let cb = document.getElementById("timerCloseBtn"), cub = document.getElementById("timerCustomBtn");
+    if (cb) cb.onclick = stopTimer;
+    if (cub) cub.onclick = customTimer;
+}
+
+// LocalStorage işlemleri
+function saveDataToLocal() {
+    localStorage.setItem("fitnessDataUltimate", JSON.stringify(data));
+    localStorage.setItem("fitnessDoneUltimate", JSON.stringify(doneState));
+    localStorage.setItem("fitnessWaterUltimate", JSON.stringify(waterIntake));
+    localStorage.setItem("fitnessSetsUltimate", JSON.stringify(totalSetCount));
+    localStorage.setItem("fitnessSupplements", JSON.stringify(supplements));
+}
+function loadDataFromLocal() {
+    let sd = localStorage.getItem("fitnessDataUltimate");
+    if (sd) data = JSON.parse(sd);
+    let s = localStorage.getItem("fitnessDoneUltimate");
+    if (s) doneState = JSON.parse(s);
+    let sw = localStorage.getItem("fitnessWaterUltimate");
+    if (sw) waterIntake = JSON.parse(sw);
+    let ss = localStorage.getItem("fitnessSetsUltimate");
+    if (ss) totalSetCount = JSON.parse(ss);
+    let sup = localStorage.getItem("fitnessSupplements");
+    if (sup) supplements = JSON.parse(sup);
+}
+
+// ANA EKRAN ve GÜN GÖSTERİMİ (kısa halleriyle)
+function buildHome() {
+    let grid = document.getElementById("homeGrid");
+    grid.innerHTML = "";
+    Object.keys(data).forEach(day => {
+        let stats = getDayStats(day);
+        let card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`;
+        card.onclick = () => openDay(day);
+        grid.appendChild(card);
+    });
+    let setCard = document.createElement("div");
+    setCard.className = "card settings-card";
+    setCard.innerHTML = `<h3>AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`;
+    setCard.onclick = () => openSettings();
+    grid.appendChild(setCard);
+}
+
+function getDayStats(day) {
+    let total = 0, completed = 0;
+    let items = data[day];
+    if (!items) return { total, completed, percent: 0 };
+    items.forEach((item, idx) => {
+        if (typeof item === "string") {
+            total++;
+            if (doneState[`${day}|meal|${idx}`]) completed++;
+        } else if (item && typeof item === "object" && item.sets) {
+            for (let s = 1; s <= item.sets; s++) {
+                total++;
+                if (doneState[`${day}|set|${item.ex}|${s}`]) completed++;
+            }
+        }
+    });
+    return { total, completed, percent: total === 0 ? 0 : (completed / total) * 100 };
+}
+
+function openDay(day) {
+    currentDayOpen = day;
+    document.getElementById("homeGrid").style.display = "none";
+    document.getElementById("statsPanel").style.display = "none";
+    document.getElementById("dayView").classList.remove("hidden");
+    document.getElementById("settingsView").classList.add("hidden");
+    document.getElementById("dayTitle").innerText = day;
+    renderDayItems(day);
+}
+
+function closeDay() {
+    stopTimer();
+    document.getElementById("dayView").classList.add("hidden");
+    document.getElementById("homeGrid").style.display = "grid";
+    document.getElementById("statsPanel").style.display = "block";
+    updateAllStats();
+    buildHome();
+}
+
+function renderDayItems(day) {
+    let cont = document.getElementById("dayItems");
+    cont.innerHTML = "";
+    let items = data[day];
+    if (!items) return;
+    items.forEach((item, idx) => {
+        if (typeof item === "string") {
+            let div = document.createElement("div");
+            div.className = "item";
+            div.innerHTML = `<span>${item}</span>`;
+            let key = `${day}|meal|${idx}`;
+            if (doneState[key]) div.classList.add("done");
+            div.onclick = () => {
+                if (doneState[key]) {
+                    delete doneState[key];
+                    div.classList.remove("done");
+                    showToast("❌ Kaldırıldı");
+                } else {
+                    doneState[key] = true;
+                    div.classList.add("done");
+                    if (item.includes("💧")) {
+                        let wk = `${day}_water`;
+                        waterIntake[wk] = (waterIntake[wk] || 0) + 1;
+                        updateWaterChart();
+                        updateWeeklyChart();
+                        showToast("💧 +1 bardak su!");
+                    } else {
+                        showToast("✅ Tamamlandı!");
+                    }
+                }
+                saveDataToLocal();
+                updateQuests(day);
+                updateAllStats();
+                buildHome();
+            };
+            cont.appendChild(div);
+        } else if (item && typeof item === "object" && item.ex) {
+            let titleDiv = document.createElement("div");
+            titleDiv.className = "ex-title";
+            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button><button onclick="deleteExerciseFromDay('${day}',${idx})" style="background:#ff3b30; border:none; padding:6px 12px; border-radius:30px; color:white; font-weight:700;">🗑️ Sil</button></div>`;
+            cont.appendChild(titleDiv);
+            for (let s = 1; s <= item.sets; s++) {
+                let setDiv = document.createElement("div");
+                setDiv.className = "set";
+                setDiv.innerHTML = `<span>Set ${s}</span><span>⏱️ Dinlenme</span>`;
+                let setKey = `${day}|set|${item.ex}|${s}`;
+                if (doneState[setKey]) setDiv.classList.add("done");
+                setDiv.onclick = (function(snum, skey) {
+                    return function() {
+                        if (doneState[skey]) {
+                            delete doneState[skey];
+                            setDiv.classList.remove("done");
+                            totalSetCount--;
+                            showToast("❌ Set iptal");
+                        } else {
+                            doneState[skey] = true;
+                            setDiv.classList.add("done");
+                            totalSetCount++;
+                            showToast(`✅ Set ${snum} tamamlandı! +30 XP`);
+                            startTimer(90);
+                        }
+                        saveDataToLocal();
+                        updateQuests(day);
+                        updateAllStats();
+                        buildHome();
+                    };
+                })(s, setKey);
+                cont.appendChild(setDiv);
+            }
+        }
+    });
+    updateQuests(day);
+}
+
+// Video ve silme fonksiyonları
+function setVideoLink(ex, day, idx) {
+    let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
+    if (link !== null) {
+        data[day][idx].link = link;
+        saveDataToLocal();
+        if (currentDayOpen === day) renderDayItems(day);
+        showToast("✅ Link kaydedildi!");
+    }
+}
+function openExerciseVideo(ex, link, day, idx) {
+    if (link && link.trim()) {
+        window.open(link, '_blank');
+        showToast(`📹 ${ex} videosu açılıyor...`);
+    } else {
+        showToast("⚠️ Link yok, ayarlardan ekleyin.");
+        if (confirm("Link eklemek ister misiniz?")) setVideoLink(ex, day, idx);
+    }
+}
+function deleteExerciseFromDay(day, idx) {
+    if (confirm("Bu hareketi silmek istediğinize emin misiniz?")) {
+        data[day].splice(idx, 1);
+        saveDataToLocal();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Hareket silindi");
+    }
+}
+
+// Ayarlar sayfası (kısa)
+function openSettings() {
+    stopTimer();
+    document.getElementById("homeGrid").style.display = "none";
+    document.getElementById("statsPanel").style.display = "none";
+    document.getElementById("dayView").classList.add("hidden");
+    document.getElementById("settingsView").classList.remove("hidden");
+    populateManageSelects();
+    refreshMealList();
+    refreshExerciseList();
+    updateSupplementsDisplay();
+    updateWaterChart();
+    updateWeeklyChart();
+}
+function closeSettings() {
+    document.getElementById("settingsView").classList.add("hidden");
+    document.getElementById("homeGrid").style.display = "grid";
+    document.getElementById("statsPanel").style.display = "block";
+    buildHome();
+}
+function populateManageSelects() {
+    let days = Object.keys(data);
+    let mealSel = document.getElementById("mealManageDay"), exSel = document.getElementById("exerciseManageDay");
+    mealSel.innerHTML = '<option value="">Gün Seç</option>';
+    exSel.innerHTML = '<option value="">Gün Seç</option>';
+    days.forEach(d => {
+        mealSel.innerHTML += `<option value="${d}">${d}</option>`;
+        exSel.innerHTML += `<option value="${d}">${d}</option>`;
+    });
+    mealSel.onchange = () => refreshMealList();
+    exSel.onchange = () => refreshExerciseList();
+}
+function refreshMealList() {
+    let day = document.getElementById("mealManageDay").value, cont = document.getElementById("mealList");
+    if (!day || !data[day]) { cont.innerHTML = "<i>Gün seçin</i>"; return; }
+    cont.innerHTML = "";
+    data[day].forEach((it, idx) => {
+        if (typeof it === "string" && !it.includes("🏋️") && !it.includes("🧘")) {
+            let div = document.createElement("div");
+            div.style.display = "flex";
+            div.style.justifyContent = "space-between";
+            div.style.padding = "8px";
+            div.style.borderBottom = "1px solid #e9e9ef";
+            div.innerHTML = `<span>${it}</span><button class="delete-btn" onclick="deleteMeal('${day}',${idx})">Sil</button>`;
+            cont.appendChild(div);
+        }
+    });
+}
+function deleteMeal(day, idx) {
+    if (confirm("Sil?")) {
+        data[day].splice(idx, 1);
+        saveDataToLocal();
+        refreshMealList();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Silindi");
+    }
+}
+function addMealToDay() {
+    let day = document.getElementById("mealManageDay").value, name = document.getElementById("newMealName").value;
+    if (!day || !name) { showToast("Gün ve ad girin"); return; }
+    data[day].push(name);
+    saveDataToLocal();
+    document.getElementById("newMealName").value = "";
+    refreshMealList();
+    if (currentDayOpen === day) renderDayItems(day);
+    buildHome();
+    showToast(`✅ "${name}" eklendi`);
+}
+function refreshExerciseList() {
+    let day = document.getElementById("exerciseManageDay").value, cont = document.getElementById("exerciseList");
+    if (!day || !data[day]) { cont.innerHTML = "<i>Gün seçin</i>"; return; }
+    cont.innerHTML = "";
+    data[day].forEach((it, idx) => {
+        if (it && typeof it === "object" && it.ex) {
+            let div = document.createElement("div");
+            div.style.display = "flex";
+            div.style.justifyContent = "space-between";
+            div.style.padding = "8px";
+            div.style.borderBottom = "1px solid #e9e9ef";
+            div.innerHTML = `<span>💪 ${it.ex} (${it.sets} set)</span><div><button class="delete-btn" onclick="deleteExercise('${day}',${idx})">Sil</button><button class="delete-btn" style="background:#34c759; margin-left:8px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗 Link</button></div>`;
+            cont.appendChild(div);
+        }
+    });
+}
+function setVideoLinkFromSettings(day, idx) {
+    let ex = data[day][idx].ex;
+    let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
+    if (link !== null) {
+        data[day][idx].link = link;
+        saveDataToLocal();
+        refreshExerciseList();
+        if (currentDayOpen === day) renderDayItems(day);
+        showToast("✅ Link kaydedildi");
+    }
+}
+function deleteExercise(day, idx) {
+    if (confirm("Bu hareket silinsin mi?")) {
+        data[day].splice(idx, 1);
+        saveDataToLocal();
+        refreshExerciseList();
+        if (currentDayOpen === day) renderDayItems(day);
+        buildHome();
+        showToast("✅ Silindi");
+    }
+}
+function addExerciseToDay() {
+    let day = document.getElementById("exerciseManageDay").value, name = document.getElementById("newExerciseName").value, sets = parseInt(document.getElementById("newExerciseSets").value);
+    if (!day || !name || !sets) { showToast("Gün, hareket ve set sayısı girin"); return; }
+    data[day].push({ ex: name, sets: sets, link: "" });
+    saveDataToLocal();
+    document.getElementById("newExerciseName").value = "";
+    document.getElementById("newExerciseSets").value = "";
+    refreshExerciseList();
+    if (currentDayOpen === day) renderDayItems(day);
+    buildHome();
+    showToast(`✅ "${name}" (${sets} set) eklendi`);
+}
+function updateSupplementsDisplay() {
+    let cont = document.getElementById("supplementList");
+    if (!cont) return;
+    cont.innerHTML = "";
+    supplements.forEach((sup, idx) => {
+        let div = document.createElement("div");
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.padding = "8px";
+        div.style.borderBottom = "1px solid #e9e9ef";
+        div.innerHTML = `<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})">Sil</button>`;
+        cont.appendChild(div);
+    });
+}
+function deleteSupplement(idx) {
+    if (confirm("Takviye silinsin mi?")) {
+        supplements.splice(idx, 1);
+        saveDataToLocal();
+        updateSupplementsDisplay();
+        showToast("✅ Silindi");
+    }
+}
+function addSupplement() {
+    let name = document.getElementById("newSupplementName").value, time = document.getElementById("newSupplementTime").value;
+    if (!name || !time) { showToast("Ad ve zaman girin"); return; }
+    supplements.push({ name, time });
+    saveDataToLocal();
+    document.getElementById("newSupplementName").value = "";
+    document.getElementById("newSupplementTime").value = "";
+    updateSupplementsDisplay();
+    showToast(`✅ "${name}" eklendi`);
+}
+
+// Hatırlatıcı
+function setWorkoutReminder() {
+    let t = document.getElementById("reminderTime").value;
+    if (!t) return;
+    localStorage.setItem("workoutReminderTime", t);
+    document.getElementById("reminderStatus").innerHTML = `⏰ Hatırlatıcı: ${t}`;
+    showToast(`✅ Hatırlatıcı ${t} kuruldu`);
+    startWorkoutReminder(t);
+}
+function cancelWorkoutReminder() {
+    if (workoutReminderInterval) clearInterval(workoutReminderInterval);
+    localStorage.removeItem("workoutReminderTime");
+    document.getElementById("reminderStatus").innerHTML = "İptal edildi";
+    showToast("❌ İptal");
+}
+function startWorkoutReminder(t) {
+    if (workoutReminderInterval) clearInterval(workoutReminderInterval);
+    let check = () => {
+        let now = new Date();
+        let ct = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        if (ct === t) {
+            playMultiBeep();
+            showToast("🏋️ Antrenman zamanı! 💪");
+        }
+    };
+    workoutReminderInterval = setInterval(check, 30000);
+}
+function loadWorkoutReminder() {
+    let s = localStorage.getItem("workoutReminderTime");
+    if (s) {
+        document.getElementById("reminderTime").value = s;
+        document.getElementById("reminderStatus").innerHTML = `⏰ Hatırlatıcı: ${s}`;
+        startWorkoutReminder(s);
+    }
+}
+
+// Grafikler
+function getWaterData() {
+    let days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    return days.map(d => ({ day: d.substring(0, 3), amount: waterIntake[`${d}_water`] || 0 }));
+}
+function setWaterChartType(t) {
+    currentChartType = t;
+    document.querySelectorAll('.chart-tab').forEach(tab => tab.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
+    updateWaterChart();
+}
+function updateWaterChart() {
+    let cont = document.getElementById("waterChartContainer"), msg = document.getElementById("waterChartMessage");
+    if (!cont) return;
+    if (currentChartType === 'daily') {
+        let wd = getWaterData(), maxW = Math.max(...wd.map(d => d.amount), 1);
+        cont.innerHTML = '<h4 style="font-size:0.8rem;">📊 Günlük Su (bardak)</h4>';
+        wd.forEach(d => { let p = (d.amount / maxW) * 100; cont.innerHTML += `<div class="chart-bar-item"><div class="bar-label">${d.day}</div><div class="bar-fill"><div class="bar" style="width:${p}%">${d.amount}</div></div></div>`; });
+        msg.innerHTML = `💧 Toplam: ${wd.reduce((a, b) => a + b.amount, 0)} bardak`;
+    } else if (currentChartType === 'weekly') {
+        let tot = Object.values(waterIntake).reduce((a, b) => a + b, 0);
+        cont.innerHTML = '<h4>📆 Haftalık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Hafta</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/100)*100,100)}%">${tot}</div></div></div>';
+        msg.innerHTML = `💧 Bu hafta: ${tot} bardak`;
+    } else {
+        let tot = Object.values(waterIntake).reduce((a, b) => a + b, 0);
+        cont.innerHTML = '<h4>📊 Aylık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Ay</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/200)*100,100)}%">${tot}</div></div></div>';
+        msg.innerHTML = `💧 Bu ay: ${tot} bardak`;
+    }
+}
+function updateWeeklyChart() {
+    let cont = document.getElementById("weeklyChartContainer");
+    if (!cont) return;
+    let days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    cont.innerHTML = "<h4>📈 Haftalık Set Grafiği</h4>";
+    days.forEach(day => {
+        let setsDone = 0;
+        Object.keys(doneState).forEach(k => { if (k.includes(day) && k.includes("set")) setsDone++; });
+        let maxS = 20, w = Math.min((setsDone / maxS) * 100, 100);
+        cont.innerHTML += `<div class="chart-bar-item"><div class="bar-label">${day.substring(0, 3)}</div><div class="bar-fill"><div class="bar" style="width:${w}%">${setsDone}</div></div></div>`;
+    });
+}
+
+function updateQuests(day) {
+    let water = 0, meals = 0, sets = 0;
+    Object.keys(doneState).forEach(k => {
+        if (k.includes(day)) {
+            if (k.includes("meal")) {
+                meals++;
+                let idx = parseInt(k.split("|")[2]);
+                let txt = data[day]?.[idx];
+                if (typeof txt === "string" && txt.includes("💧")) water += 1;
+            }
+            if (k.includes("set")) sets++;
+        }
+    });
+    let wk = `${day}_water`;
+    let totalWater = (waterIntake[wk] || 0) + water;
+    document.getElementById("questWater").innerHTML = `${Math.min(totalWater, 8)}/8`;
+    document.getElementById("questMeal").innerHTML = `${Math.min(meals, 12)}/12`;
+    document.getElementById("questSet").innerHTML = `${Math.min(sets, 20)}/20`;
+    let score = Math.min(totalWater * 5 + meals * 3 + sets * 2, 100);
+    document.getElementById("dailyScoreText").innerText = score;
+    document.getElementById("scoreFill").style.width = score + "%";
+    document.getElementById("questScore").innerHTML = `${score}/100`;
+}
+function updateAllStats() {
+    let totalWater = 0;
+    Object.values(waterIntake).forEach(v => totalWater += v);
+    let bestDayScore = 0, bestDayName = "";
+    Object.keys(data).forEach(day => {
+        let ds = 0;
+        Object.keys(doneState).forEach(k => { if (k.includes(day)) { if (k.includes("set")) ds += 2; if (k.includes("meal")) ds += 1; } });
+        if (ds > bestDayScore) { bestDayScore = ds; bestDayName = day; }
+    });
+    document.getElementById("totalSets").innerText = totalSetCount;
+    document.getElementById("totalWater").innerText = totalWater;
+    document.getElementById("bestDay").innerText = bestDayName || "-";
+    document.getElementById("totalXP").innerText = totalSetCount * 30;
+    let badgesDiv = document.getElementById("badgesContainer");
+    let badges = [];
+    if (totalSetCount >= 20) badges.push("🔥 Alev Rozeti");
+    if (totalSetCount >= 50) badges.push("💪 Demir Rozet");
+    if (totalSetCount >= 100) badges.push("👑 Efsane Rozeti");
+    if (badges.length === 0) badges.push("🔒 20 set yaparak ilk rozeti kazan!");
+    badgesDiv.innerHTML = badges.map(b => `<div class="badge">${b}</div>`).join('');
+}
+function resetWeek() {
+    if (confirm("⚠️ Tüm haftayı sıfırla? İşaretler gider, içerikler kalır.")) {
+        doneState = {};
+        waterIntake = {};
+        totalSetCount = 0;
+        saveDataToLocal();
+        if (currentDayOpen) renderDayItems(currentDayOpen);
+        buildHome();
+        updateAllStats();
+        updateWaterChart();
+        updateWeeklyChart();
+        showToast("✅ Hafta sıfırlandı");
+    }
+}
+function showAddItemToDay() {
+    if (!currentDayOpen) return;
+    let modal = document.createElement("div");
+    modal.className = "modal";
+    modal.innerHTML = `<div class="modal-content"><h3>➕ ${currentDayOpen}</h3><select id="itemTypeSelect"><option value="meal">🍽️ Yemek</option><option value="exercise">💪 Hareket</option></select><input id="itemNameInput" placeholder="Ad"><div id="setsContainer" style="display:none"><input id="itemSetsInput" type="number" placeholder="Set sayısı"></div><div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
+    document.body.appendChild(modal);
+    let typeSel = document.getElementById("itemTypeSelect"), setsCont = document.getElementById("setsContainer");
+    typeSel.onchange = () => { setsCont.style.display = typeSel.value === "exercise" ? "block" : "none"; };
+}
+function addItemToCurrentDay() {
+    let type = document.getElementById("itemTypeSelect").value, name = document.getElementById("itemNameInput").value;
+    if (!name) { showToast("Ad girin"); return; }
+    if (type === "meal") {
+        data[currentDayOpen].push(name);
+        showToast(`✅ "${name}" eklendi`);
+    } else {
+        let sets = parseInt(document.getElementById("itemSetsInput").value);
+        if (!sets) { showToast("Set sayısı girin"); return; }
+        data[currentDayOpen].push({ ex: name, sets: sets, link: "" });
+        showToast(`✅ "${name}" (${sets} set) eklendi`);
+    }
+    saveDataToLocal();
+    renderDayItems(currentDayOpen);
+    buildHome();
+    document.querySelector(".modal").remove();
+}
+
+// Başlangıç
+loadDataFromLocal();
+buildHome();
+updateAllStats();
+updateSupplementsDisplay();
+setupTimerButtons();
+loadWorkoutReminder();
+requestNotificationPermission();
+updateWaterChart();
+updateWeeklyChart();
+startWaterAlarmChecker();  // OTOMATİK SU ALARMINI BAŞLAT
 </script>
 </body>
 </html>
