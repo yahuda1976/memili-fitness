@@ -40,6 +40,7 @@ body {
     letter-spacing: -0.3px;
 }
 
+/* Ana grid */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -127,7 +128,6 @@ small {
     font-size: 1rem;
     color: white;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 .back-btn:active, .add-item-btn:active {
     transform: scale(0.96);
@@ -138,6 +138,8 @@ small {
     font-weight: 800;
     color: #ffffff;
 }
+
+/* Yemek ve set kartları */
 .item, .set {
     background: #e8e6e1;
     margin: 10px 16px;
@@ -177,12 +179,33 @@ small {
     padding: 4px 6px;
     border-radius: 12px;
     color: #555;
-    transition: 0.1s;
 }
 .move-btn:active {
     background: rgba(0,0,0,0.2);
-    transform: scale(0.9);
 }
+.note-btn {
+    background: #34c759;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 8px;
+}
+.oneRM-btn {
+    background: #007aff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
 .ex-title {
     font-size: 1.2rem;
     font-weight: 900;
@@ -220,6 +243,7 @@ small {
     background: #34c759;
 }
 
+/* Alt görev çubuğu */
 .bottom-quest {
     position: fixed;
     bottom: 0;
@@ -275,6 +299,7 @@ small {
     background: #007aff;
 }
 
+/* İstatistik paneli */
 .stats-panel {
     background: #e8e6e1;
     margin: 16px;
@@ -324,6 +349,7 @@ small {
     color: #007aff;
 }
 
+/* Grafikler (ayarlar içinde) */
 .water-chart, .set-chart {
     background: #e8e6e1;
     border-radius: 28px;
@@ -381,6 +407,7 @@ small {
     font-size: 0.7rem;
 }
 
+/* Timer kutusu */
 .timer-box {
     position: fixed;
     bottom: 180px;
@@ -428,6 +455,7 @@ small {
     margin-top: 8px;
 }
 
+/* Modal */
 .modal {
     position: fixed;
     top: 0;
@@ -449,7 +477,7 @@ small {
     max-width: 350px;
     width: 100%;
 }
-.modal-content input, .modal-content select {
+.modal-content input, .modal-content select, .modal-content textarea {
     width: 100%;
     padding: 14px;
     margin: 8px 0;
@@ -458,6 +486,7 @@ small {
     border-radius: 16px;
     font-weight: 600;
     color: #1c1c1e;
+    font-family: inherit;
 }
 .modal-buttons {
     display: flex;
@@ -540,10 +569,12 @@ small {
     <div style="padding: 16px;">
         <div class="water-chart"><h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div></div>
         <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">📝 GÜNLÜK NOTLARIM</h3><textarea id="dailyNote" rows="4" placeholder="Bugün antrenman nasıldı? Not al..."></textarea><button onclick="saveDailyNote()" style="margin-top:8px; background:#34c759; border:none; padding:10px; border-radius:32px; color:white; font-weight:700;">💾 Notu Kaydet</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🏋️ 1RM HESAPLAYICI</h3><select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"></select><input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px;"><input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px;"><button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">📊 1RM Hesapla ve Kaydet</button><div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div><canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#5a5a5c;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; color:#1c1c1e;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
     </div>
 </div>
 
@@ -572,7 +603,7 @@ small {
 </div>
 
 <script>
-// ==================== TÜM VERİLER ====================
+// ==================== TÜM VERİLER (ÖNCEKİ GİBİ) ====================
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -586,10 +617,10 @@ let data = {
         "18:15 Pre-workout - Muz - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ GÖĞÜS (GÜÇ)",
-        {ex:"Dumbbell bench press", sets:4, link:""},
-        {ex:"Incline press", sets:4, link:""},
-        {ex:"Chest press", sets:3, link:""},
-        {ex:"Dips", sets:3, link:""},
+        {ex:"Dumbbell bench press", sets:4, link:"", notes:""},
+        {ex:"Incline press", sets:4, link:"", notes:""},
+        {ex:"Chest press", sets:3, link:"", notes:""},
+        {ex:"Dips", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -609,11 +640,11 @@ let data = {
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ SIRT",
-        {ex:"Lat pulldown", sets:4, link:""},
-        {ex:"Barbell row", sets:4, link:""},
-        {ex:"Seated row", sets:3, link:""},
-        {ex:"Dumbbell row", sets:3, link:""},
-        {ex:"Face pull", sets:3, link:""},
+        {ex:"Lat pulldown", sets:4, link:"", notes:""},
+        {ex:"Barbell row", sets:4, link:"", notes:""},
+        {ex:"Seated row", sets:3, link:"", notes:""},
+        {ex:"Dumbbell row", sets:3, link:"", notes:""},
+        {ex:"Face pull", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -633,11 +664,11 @@ let data = {
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ OMUZ + BİCEPS",
-        {ex:"Shoulder press", sets:4, link:""},
-        {ex:"Lateral raise", sets:4, link:""},
-        {ex:"Rear delt", sets:3, link:""},
-        {ex:"Biceps curl", sets:3, link:""},
-        {ex:"Hammer curl", sets:3, link:""},
+        {ex:"Shoulder press", sets:4, link:"", notes:""},
+        {ex:"Lateral raise", sets:4, link:"", notes:""},
+        {ex:"Rear delt", sets:3, link:"", notes:""},
+        {ex:"Biceps curl", sets:3, link:"", notes:""},
+        {ex:"Hammer curl", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -657,10 +688,10 @@ let data = {
         "18:15 Pre-workout - Muz", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ GÖĞÜS (HACİM)",
-        {ex:"Incline machine", sets:3, link:""},
-        {ex:"Cable fly", sets:4, link:""},
-        {ex:"Pullover", sets:3, link:""},
-        {ex:"Butterfly", sets:3, link:""},
+        {ex:"Incline machine", sets:3, link:"", notes:""},
+        {ex:"Cable fly", sets:4, link:"", notes:""},
+        {ex:"Pullover", sets:3, link:"", notes:""},
+        {ex:"Butterfly", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -680,11 +711,11 @@ let data = {
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ BACAK",
-        {ex:"Leg press", sets:4, link:""},
-        {ex:"Squat", sets:4, link:""},
-        {ex:"Leg extension", sets:3, link:""},
-        {ex:"Leg curl", sets:3, link:""},
-        {ex:"Calf raise", sets:4, link:""},
+        {ex:"Leg press", sets:4, link:"", notes:""},
+        {ex:"Squat", sets:4, link:"", notes:""},
+        {ex:"Leg extension", sets:3, link:"", notes:""},
+        {ex:"Leg curl", sets:3, link:"", notes:""},
+        {ex:"Calf raise", sets:4, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -735,61 +766,158 @@ let currentDayOpen = null;
 let currentChartType = 'daily';
 let currentSound = null;
 let soundStopFlag = false;
+let dailyNotes = {};      // { "PAZARTESI": "not", ... }
+let oneRMHistory = {};    // { "hareket adı": [{date, weight, reps, oneRM}] }
+let exerciseNotes = {};    // { "hareket adı": "not" }
 
-// ==================== 10 SANİYE BİP (SES BİRAZ KISILDI) ====================
-function playLongBeep() {
+// ==================== SESLİ GERİ BİLDİRİM (Text-to-Speech) ====================
+function speak(text) {
     if (soundStopFlag) return;
     try {
-        if (currentSound) {
-            currentSound.close();
-            currentSound = null;
-        }
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        currentSound = audioCtx;
-        
-        const duration = 10;
-        const beepInterval = 0.4;
-        let startTime = audioCtx.currentTime;
-        
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = "square";
-        osc.frequency.value = 880;
-        gain.gain.value = 0.18; // ses biraz kısıldı
-        
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        
-        osc.start();
-        
-        for (let i = 0; i < duration / beepInterval; i++) {
-            let t = startTime + i * beepInterval;
-            gain.gain.setValueAtTime(0.18, t);
-            gain.gain.setValueAtTime(0.00001, t + 0.15);
-        }
-        
-        osc.stop(startTime + duration);
-        
-        currentSound = { close: () => {
-            try {
-                osc.stop();
-                audioCtx.close();
-            } catch(e) {}
-        }};
-        
-    } catch(e) { console.log("ses hatası", e); }
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'tr-TR';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    } catch(e) { console.log("ses sentezi hatası", e); }
 }
 
-function stopSound() {
-    soundStopFlag = true;
-    if (currentSound) {
-        currentSound.close();
-        currentSound = null;
+// ==================== 1RM HESAPLAMA ====================
+function calculate1RM(weight, reps) {
+    // Brzycki formülü: 1RM = weight * (36 / (37 - reps))
+    if (reps <= 0 || reps >= 37) return weight;
+    return Math.round(weight * (36 / (37 - reps)));
+}
+
+function calculateAndSaveOneRM() {
+    const exSelect = document.getElementById("oneRMExerciseSelect");
+    const exercise = exSelect.value;
+    const weight = parseFloat(document.getElementById("oneRMWeight").value);
+    const reps = parseInt(document.getElementById("oneRMReps").value);
+    if (!exercise || isNaN(weight) || isNaN(reps) || reps < 1 || reps > 36) {
+        showToast("Geçerli ağırlık ve tekrar (1-36) girin!");
+        return;
     }
-    setTimeout(() => { soundStopFlag = false; }, 500);
+    const oneRM = calculate1RM(weight, reps);
+    document.getElementById("oneRMResult").innerHTML = `🏆 1RM: ${oneRM} kg`;
+    
+    if (!oneRMHistory[exercise]) oneRMHistory[exercise] = [];
+    oneRMHistory[exercise].push({
+        date: new Date().toISOString(),
+        weight: weight,
+        reps: reps,
+        oneRM: oneRM
+    });
+    saveDataToLocal();
+    updateOneRMChart(exercise);
+    showToast(`✅ ${exercise} için 1RM kaydedildi: ${oneRM} kg`);
 }
 
-// ==================== SIRALAMA FONKSİYONLARI (YEMEK ve HAREKET) ====================
+function updateOneRMChart(exercise) {
+    const canvas = document.getElementById("oneRMChart");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const history = oneRMHistory[exercise] || [];
+    if (history.length === 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#555";
+        ctx.font = "12px sans-serif";
+        ctx.fillText("Henüz veri yok", 10, 50);
+        return;
+    }
+    const last5 = history.slice(-5);
+    const values = last5.map(h => h.oneRM);
+    const maxVal = Math.max(...values, 1);
+    const width = canvas.width;
+    const height = canvas.height;
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "#007aff";
+    const barWidth = (width - 50) / last5.length - 5;
+    for (let i = 0; i < last5.length; i++) {
+        const barHeight = (last5[i].oneRM / maxVal) * (height - 40);
+        ctx.fillRect(50 + i * (barWidth + 5), height - barHeight - 20, barWidth, barHeight);
+        ctx.fillStyle = "#1c1c1e";
+        ctx.font = "10px sans-serif";
+        ctx.fillText(last5[i].oneRM, 50 + i * (barWidth + 5), height - barHeight - 25);
+        ctx.fillStyle = "#007aff";
+    }
+    ctx.fillStyle = "#1c1c1e";
+    ctx.font = "12px sans-serif";
+    ctx.fillText("Son 5 kayıt", 10, 20);
+}
+
+function populateOneRMSelect() {
+    const select = document.getElementById("oneRMExerciseSelect");
+    if (!select) return;
+    select.innerHTML = "";
+    const exercisesSet = new Set();
+    for (let day in data) {
+        for (let item of data[day]) {
+            if (item && typeof item === "object" && item.ex) {
+                exercisesSet.add(item.ex);
+            }
+        }
+    }
+    exercisesSet.forEach(ex => {
+        const option = document.createElement("option");
+        option.value = ex;
+        option.textContent = ex;
+        select.appendChild(option);
+    });
+    if (select.options.length > 0) {
+        select.onchange = () => updateOneRMChart(select.value);
+        updateOneRMChart(select.value);
+    }
+}
+
+// ==================== GÜNLÜK NOTLAR ====================
+function saveDailyNote() {
+    const note = document.getElementById("dailyNote").value;
+    if (currentDayOpen) {
+        dailyNotes[currentDayOpen] = note;
+        saveDataToLocal();
+        showToast("✅ Günlük not kaydedildi");
+    } else {
+        showToast("Önce bir gün açın");
+    }
+}
+
+function loadDailyNote() {
+    if (currentDayOpen && dailyNotes[currentDayOpen]) {
+        document.getElementById("dailyNote").value = dailyNotes[currentDayOpen];
+    } else {
+        document.getElementById("dailyNote").value = "";
+    }
+}
+
+// ==================== HAREKET NOTLARI ====================
+function showExerciseNote(ex, day, idx) {
+    const currentNote = data[day][idx].notes || "";
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>📝 ${ex} - Notlar</h3>
+            <textarea id="exerciseNoteText" rows="6" placeholder="Bu hareketle ilgili ipuçlarını, form notlarını yaz...">${currentNote}</textarea>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" onclick="saveExerciseNote('${day}', ${idx}, '${ex}')">Kaydet</button>
+                <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function saveExerciseNote(day, idx, ex) {
+    const note = document.getElementById("exerciseNoteText").value;
+    data[day][idx].notes = note;
+    saveDataToLocal();
+    document.querySelector(".modal").remove();
+    showToast(`✅ ${ex} notu kaydedildi`);
+}
+
+// ==================== DİĞER FONKSİYONLAR (SIRALAMA, TİMER, VS.) ====================
 function moveItemUp(day, idx) {
     if (idx > 0) {
         [data[day][idx], data[day][idx-1]] = [data[day][idx-1], data[day][idx]];
@@ -824,6 +952,8 @@ function saveDataToLocal() {
     localStorage.setItem("fitnessWaterUltimate", JSON.stringify(waterIntake));
     localStorage.setItem("fitnessSetsUltimate", JSON.stringify(totalSetCount));
     localStorage.setItem("fitnessSupplements", JSON.stringify(supplements));
+    localStorage.setItem("fitnessDailyNotes", JSON.stringify(dailyNotes));
+    localStorage.setItem("fitnessOneRMHistory", JSON.stringify(oneRMHistory));
 }
 
 function loadDataFromLocal() {
@@ -837,6 +967,10 @@ function loadDataFromLocal() {
     if (ss) totalSetCount = JSON.parse(ss);
     let sup = localStorage.getItem("fitnessSupplements");
     if (sup) supplements = JSON.parse(sup);
+    let dn = localStorage.getItem("fitnessDailyNotes");
+    if (dn) dailyNotes = JSON.parse(dn);
+    let orm = localStorage.getItem("fitnessOneRMHistory");
+    if (orm) oneRMHistory = JSON.parse(orm);
 }
 
 function buildHome() {
@@ -883,6 +1017,7 @@ function openDay(day) {
     document.getElementById("settingsView").classList.add("hidden");
     document.getElementById("dayTitle").innerText = day;
     renderDayItems(day);
+    loadDailyNote();
 }
 
 function closeDay() {
@@ -901,7 +1036,7 @@ function stopTimer() {
     stopSound();
 }
 
-function startTimer(sec) {
+function startTimer(sec, setNum, totalSets) {
     stopTimer();
     let remaining = sec;
     let tb = document.getElementById("timerBox"), tn = document.getElementById("timerNum");
@@ -915,9 +1050,11 @@ function startTimer(sec) {
             tb.style.display = "none";
             playLongBeep();
             showToast("🔔 Dinlenme bitti!");
+            speak("Dinlenme bitti, devam et");
         } else {
             remaining--;
             tn.innerText = remaining;
+            if (remaining === 30) speak("30 saniye kaldı");
         }
     }, 1000);
 }
@@ -927,11 +1064,47 @@ function customTimer() {
     if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
 }
 
+function playLongBeep() {
+    if (soundStopFlag) return;
+    try {
+        if (currentSound) { currentSound.close(); currentSound = null; }
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        currentSound = audioCtx;
+        const duration = 10;
+        const beepInterval = 0.4;
+        let startTime = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "square";
+        osc.frequency.value = 880;
+        gain.gain.value = 0.18;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        for (let i = 0; i < duration / beepInterval; i++) {
+            let t = startTime + i * beepInterval;
+            gain.gain.setValueAtTime(0.18, t);
+            gain.gain.setValueAtTime(0.00001, t + 0.15);
+        }
+        osc.stop(startTime + duration);
+        currentSound = { close: () => { try { osc.stop(); audioCtx.close(); } catch(e) {} } };
+    } catch(e) { console.log("ses hatası", e); }
+}
+
+function stopSound() {
+    soundStopFlag = true;
+    if (currentSound) { currentSound.close(); currentSound = null; }
+    setTimeout(() => { soundStopFlag = false; }, 500);
+}
+
 function renderDayItems(day) {
     let cont = document.getElementById("dayItems");
     cont.innerHTML = "";
     let items = data[day];
     if (!items) return;
+    let totalSetsInDay = 0;
+    items.forEach(item => { if (item && typeof item === "object" && item.sets) totalSetsInDay += item.sets; });
+    let setCounter = 0;
     items.forEach((item, idx) => {
         if (typeof item === "string") {
             let div = document.createElement("div");
@@ -973,9 +1146,16 @@ function renderDayItems(day) {
         } else if (item && typeof item === "object" && item.ex) {
             let titleDiv = document.createElement("div");
             titleDiv.className = "ex-title";
-            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;"><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link Ekle</button></div>`;
+            titleDiv.innerHTML = `<span>💪 ${item.ex}</span>
+                <div style="display:flex; gap:8px;">
+                    <button class="note-btn" onclick="showExerciseNote('${item.ex}', '${day}', ${idx})">📝 Not</button>
+                    <button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">🏋️ 1RM</button>
+                    <button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button>
+                    <button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button>
+                </div>`;
             cont.appendChild(titleDiv);
             for (let s = 1; s <= item.sets; s++) {
+                setCounter++;
                 let setDiv = document.createElement("div");
                 setDiv.className = "set";
                 setDiv.innerHTML = `
@@ -987,7 +1167,7 @@ function renderDayItems(day) {
                 `;
                 let setKey = `${day}|set|${item.ex}|${s}`;
                 if (doneState[setKey]) setDiv.classList.add("done");
-                setDiv.onclick = (function(snum, skey, e) {
+                setDiv.onclick = (function(snum, skey, remainingSets) {
                     return function(ev) {
                         if (ev.target.classList.contains('move-btn')) return;
                         if (doneState[skey]) {
@@ -1000,19 +1180,30 @@ function renderDayItems(day) {
                             setDiv.classList.add("done");
                             totalSetCount++;
                             showToast(`✅ Set ${snum} tamamlandı! +30 XP 🔥`);
-                            startTimer(90);
+                            speak(`Set ${snum} tamamlandı, kaldı ${remainingSets - 1} set`);
+                            startTimer(90, snum, remainingSets);
                         }
                         saveDataToLocal();
                         updateQuests(day);
                         updateAllStats();
                         buildHome();
                     };
-                })(s, setKey);
+                })(s, setKey, item.sets);
                 cont.appendChild(setDiv);
             }
         }
     });
     updateQuests(day);
+}
+
+function showOneRMForExercise(ex) {
+    const history = oneRMHistory[ex] || [];
+    if (history.length === 0) {
+        showToast(`⚠️ ${ex} için henüz 1RM kaydı yok. Ayarlardan ekleyin.`);
+    } else {
+        const last = history[history.length-1];
+        showToast(`🏆 ${ex} son 1RM: ${last.oneRM} kg (${last.weight}kg x ${last.reps} tekrar)`);
+    }
 }
 
 function setVideoLink(ex, day, idx) {
@@ -1047,6 +1238,7 @@ function openSettings() {
     updateSupplementsDisplay();
     updateWaterChart();
     updateWeeklyChart();
+    populateOneRMSelect();
 }
 
 function closeSettings() {
@@ -1173,7 +1365,7 @@ function deleteExercise(day, idx) {
 function addExerciseToDay() {
     let day = document.getElementById("exerciseManageDay").value, name = document.getElementById("newExerciseName").value, sets = parseInt(document.getElementById("newExerciseSets").value);
     if (!day || !name || !sets) { showToast("Gün, hareket ve set sayısı girin"); return; }
-    data[day].push({ ex: name, sets: sets, link: "" });
+    data[day].push({ ex: name, sets: sets, link: "", notes: "" });
     saveDataToLocal();
     document.getElementById("newExerciseName").value = "";
     document.getElementById("newExerciseSets").value = "";
@@ -1342,7 +1534,7 @@ function addItemToCurrentDay() {
     } else {
         let sets = parseInt(document.getElementById("itemSetsInput").value);
         if (!sets) { showToast("Set sayısı girin"); return; }
-        data[currentDayOpen].push({ ex: name, sets: sets, link: "" });
+        data[currentDayOpen].push({ ex: name, sets: sets, link: "", notes: "" });
         showToast(`✅ "${name}" (${sets} set) eklendi`);
     }
     saveDataToLocal();
@@ -1357,6 +1549,7 @@ updateAllStats();
 updateSupplementsDisplay();
 updateWaterChart();
 updateWeeklyChart();
+populateOneRMSelect();
 
 document.getElementById("timerCloseBtn").onclick = stopTimer;
 document.getElementById("timerCustomBtn").onclick = customTimer;
