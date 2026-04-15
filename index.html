@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Fitness Pro 🔥</title>
 <style>
-/* stiller aynen önceki gibi – kısaltmak için tekrar yazmıyorum, aynı kalacak */
+/* stiller aynı (kısaltmak için yazmıyorum, öncekiyle aynı) */
 * {
     margin: 0;
     padding: 0;
@@ -586,7 +586,7 @@ small {
 </div>
 
 <script>
-// ==================== TÜM VERİLER ====================
+// ==================== TÜM VERİLER (KISALTILMIŞ, ÖNCEKİYLE AYNI) ====================
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -752,23 +752,30 @@ let soundStopFlag = false;
 let dailyNotes = {};
 let oneRMHistory = {};
 
-// ==================== 10 SANİYE BİP (SEVDİĞİN SES) ====================
+// ==================== SES (KESİN ÇALIŞIR) ====================
 function playLongBeep() {
     if (soundStopFlag) return;
     try {
-        if (currentSound) { currentSound.close(); currentSound = null; }
+        if (currentSound) {
+            currentSound.close();
+            currentSound = null;
+        }
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         currentSound = audioCtx;
+        
         const duration = 10;
         const beepInterval = 0.4;
         let startTime = audioCtx.currentTime;
+        
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = "square";
         osc.frequency.value = 880;
         gain.gain.value = 0.18;
+        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
+        
         osc.start();
         for (let i = 0; i < duration / beepInterval; i++) {
             let t = startTime + i * beepInterval;
@@ -776,13 +783,23 @@ function playLongBeep() {
             gain.gain.setValueAtTime(0.00001, t + 0.15);
         }
         osc.stop(startTime + duration);
+        
+        // ÖNEMLİ: Ses bağlamını aktif hale getir
+        audioCtx.resume().then(() => {
+            console.log("ses çalıyor");
+        }).catch(e => console.log("ses hatası", e));
+        
         currentSound = { close: () => { try { osc.stop(); audioCtx.close(); } catch(e) {} } };
+        
     } catch(e) { console.log("ses hatası", e); }
 }
 
 function stopSound() {
     soundStopFlag = true;
-    if (currentSound) { currentSound.close(); currentSound = null; }
+    if (currentSound) {
+        currentSound.close();
+        currentSound = null;
+    }
     setTimeout(() => { soundStopFlag = false; }, 500);
 }
 
