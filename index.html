@@ -2,114 +2,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memili Fitness PRO 🔥</title><style>
+<title>Memili Fitness Pro</title><style>
 body {
-    font-family: Arial;
-    background:#000;
-    color:#fff;
-    margin:0;
+  font-family: Arial;
+  background: #111;
+  color: white;
 }
 
-.header {
-    text-align:center;
-    padding:15px;
-    font-weight:bold;
-    font-size:22px;
+h1 {
+  text-align: center;
 }
 
-.card {
-    background:#e8e6e1;
-    color:#000;
-    margin:10px;
-    padding:15px;
-    border-radius:20px;
+.day {
+  background: #eee;
+  color: black;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 15px;
 }
 
-.item {
-    padding:12px;
-    margin:6px 0;
-    border-radius:12px;
-    background:#ddd;
-    cursor:pointer;
+.task {
+  background: #ddd;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .done {
-    background:#a8d5a8;
-    text-decoration:line-through;
+  text-decoration: line-through;
+  opacity: 0.5;
 }
-</style></head><body><div class="header">🔥 MEMİLİ FITNESS PRO</div><div id="app"></div><script>
+</style></head><body><h1>🔥 MEMİLİ FITNESS PRO</h1><div id="app"></div><script>
 
-// ===== SENİN DATA (AYNEN KORUNDU) =====
-let data = {
-"PAZARTESI":[
-"07:00 Yulaf + whey",
-"💧 Su",
-"🏋️ Dumbbell bench press (4 set)",
-"💧 Su"
-],
-"SALI":[
-"Ton balığı",
-"💧 Su",
-"🏋️ Sırt",
-"💧 Su"
-]
-};
+const days = [
+  {
+    name: "Pazartesi",
+    tasks: ["Yulaf + whey", "2L Su", "Göğüs Antrenmanı", "Whey"]
+  },
+  {
+    name: "Salı",
+    tasks: ["Ton balığı", "2L Su", "Sırt Antrenmanı", "Whey"]
+  },
+  {
+    name: "Çarşamba",
+    tasks: ["Yumurta + Peynir", "2L Su", "Omuz + Biceps", "Whey"]
+  },
+  {
+    name: "Perşembe",
+    tasks: ["Tavuk + Pilav", "2L Su", "Dinlenme", "Yürüyüş"]
+  },
+  {
+    name: "Cuma",
+    tasks: ["Yulaf + whey", "2L Su", "Göğüs + Triceps", "Whey"]
+  },
+  {
+    name: "Cumartesi",
+    tasks: ["Ton balığı", "2L Su", "Sırt", "Whey"]
+  },
+  {
+    name: "Pazar",
+    tasks: ["Serbest Gün", "Hafif yürüyüş", "Esneme"]
+  }
+];
 
-// ===== STORAGE =====
-let done = JSON.parse(localStorage.getItem("memili_done") || "{}");
+const app = document.getElementById("app");
 
-// ===== SES (APK UYUMLU) =====
-function beep(){
-    try{
-        let a = new Audio("beep.mp3");
-        a.play();
-    }catch(e){}
-}
+days.forEach((day, dIndex) => {
+  const dayDiv = document.createElement("div");
+  dayDiv.className = "day";
 
-// ===== KAYDET =====
-function save(){
-    localStorage.setItem("memili_done", JSON.stringify(done));
-}
+  const title = document.createElement("h2");
+  title.innerText = day.name;
+  dayDiv.appendChild(title);
 
-// ===== RENDER =====
-function render(){
-    let app = document.getElementById("app");
-    app.innerHTML="";
+  day.tasks.forEach((task, tIndex) => {
+    const taskDiv = document.createElement("div");
+    taskDiv.className = "task";
 
-    Object.keys(data).forEach(day=>{
-        let card = document.createElement("div");
-        card.className="card";
-        card.innerHTML="<h3>"+day+"</h3>";
+    const span = document.createElement("span");
+    span.innerText = task;
 
-        data[day].forEach((item,i)=>{
-            let div = document.createElement("div");
-            div.className="item";
+    const btn = document.createElement("button");
+    btn.innerText = "✔";
 
-            let key = day+"_"+i;
+    // kayıt sistemi
+    const key = dIndex + "-" + tIndex;
+    if (localStorage.getItem(key) === "done") {
+      span.classList.add("done");
+    }
 
-            if(done[key]) div.classList.add("done");
+    btn.onclick = () => {
+      span.classList.toggle("done");
 
-            div.innerText=item;
+      if (span.classList.contains("done")) {
+        localStorage.setItem(key, "done");
+      } else {
+        localStorage.removeItem(key);
+      }
+    };
 
-            div.onclick=()=>{
-                done[key]=!done[key];
+    taskDiv.appendChild(span);
+    taskDiv.appendChild(btn);
 
-                if(done[key]){
-                    beep();
-                }
+    dayDiv.appendChild(taskDiv);
+  });
 
-                save();
-                render();
-            };
-
-            card.appendChild(div);
-        });
-
-        app.appendChild(card);
-    });
-}
-
-render();
+  app.appendChild(dayDiv);
+});
 
 </script></body>
 </html>
