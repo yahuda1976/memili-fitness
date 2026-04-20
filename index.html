@@ -1,60 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>Fitness Pro 🔥</title>
+<style>
+/* === ORİJİNAL CSS'İN TAMAMINI BURAYA YAPIŞTIR === */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif; background-color: #000000; color: #ffffff; min-height: 100vh; padding-bottom: 160px; font-weight: 600; }
+/* ... Buraya orijinal kodundaki TÜM <style> içindeki CSS'i olduğu gibi yapıştır ... */
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="appContent">
+  <!-- ORİJİNAL HTML İÇERİĞİNİN TAMAMINI BURAYA YAPIŞTIR (app-header, homeGrid, dayView, settingsView, bottom-quest, timerBox vs.) -->
+  <!-- Kısaca: orijinal dosyanın <body> içindeki her şeyi buraya koy -->
+</div>
+
+<script>
+// ====================== YENİ VERİ MODELİ (v2) ======================
 let appData = {
-  routines: {                    // Haftalık program (değişmez şablon)
-    "PAZARTESI": {
-      name: "PAZARTESI",
-      meals: [                    // String array (yemek + su + supplement notları)
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı",
-        "💧 1 bardak",
-        // ... diğer yemekler
-      ],
-      exercises: [                // Object array – her hareket ayrı
-        {
-          id: "ex_1745160000000_1",   // unique timestamp + counter
-          name: "Incline Dumbbell Press",
-          sets: 4,
-          link: "",
-          notes: "",
-          muscleGroup: "Göğüs"        // ileride kullanışlı olur
-        },
-        // diğer hareketler...
-      ]
-    },
-    // SALI, CARSAMBA ... aynı yapı
-  },
-
-  progress: {                    // Gerçek tamamlanan veriler (tarih bazlı)
-    "2026-04-20": {              // YYYY-MM-DD formatı (çok önemli!)
-      dayName: "PAZARTESI",
-      completedMeals: ["07:00 Yulaf...", "💧 1 bardak", ...], // veya index'ler
-      completedSets: [           // Detaylı set takibi için
-        {
-          exerciseId: "ex_1745160000000_1",
-          setNumber: 1,
-          weight: 80,
-          reps: 10,
-          completedAt: "2026-04-20T18:45:00"
-        }
-        // ...
-      ],
-      waterCount: 12,
-      note: "Bugün göğüs çok iyiydi...",
-      score: 92
-    }
-    // diğer günler...
-  },
-
+  routines: {},
+  progress: {},
   globalStats: {
-    totalSetsCompleted: 245,
-    totalWater: 1342,
-    oneRMHistory: { ... },          // mevcut oneRMHistory
-    badges: [...],
-    streak: 14
+    totalSetsCompleted: 0,
+    totalWater: 0,
+    streak: 0,
+    lastTrainingDate: null,
+    oneRMHistory: {}
   },
-
-  supplements: [ ... ],             // mevcut supplements array
+  supplements: [],
   settings: {
-    waterGoal: 12,
-    setGoal: 20,
+    waterGoalPerDay: 12,
+    dailySetGoal: 20,
     theme: "dark"
   }
 };
+
+// ====================== GÜVENLİ MIGRATION ======================
+function migrateOldDataToV2() {
+  try {
+    const oldDataStr = localStorage.getItem("fitnessDataUltimate");
+    if (!oldDataStr) return false;
+
+    const oldRoutines = JSON.parse(oldDataStr);
+    const oldDone = JSON.parse(localStorage.getItem("fitnessDoneUltimate") || "{}");
+    const oldWater = JSON.parse(localStorage.getItem("fitnessWaterUltimate") || "{}");
+    const oldOneRM = JSON.parse(localStorage.getItem("fitnessOneRMHistory") || "{}");
+
+    appData.routines = {};
+    Object.keys(oldRoutines).forEach(day => {
+      appData.routines[day] = {
+        name: day,
+        meals: [],
+        exercises: []
+      };
+
+      oldRoutines[day].forEach((item, idx) => {
+        if (typeof item === "string") {
+          appData.routines[day].meals.push(item);
+        } else if (item && typeof item === "object" && item.ex) {
+          appData.routines[day].exercises.push({
+            id: `ex_\( {Date.now()}_ \){Math.random().toString(36).substr(2, 5)}`,
+            name: item.ex,
+            sets: item.sets || 3,
+            link: item.link || "",
+            notes: item.notes || "",
+            muscleGroup: "Genel"
+          });
+        }
+      });
+    });
+
+    // Basit progress oluştur
+    const today = new Date().toISOString().split('T')[0];
+    appData.progress[today] = {
+      dayName: "PAZARTESI",
+      completedMeals: [],
+      completedSets: [],
+      waterCount: Object.values(oldWater).reduce((a, b) => a + b, 0),
+      note: "",
+      score: 0
+    };
+
+    appData.globalStats.oneRMHistory = oldOneRM;
+    appData.supplements = JSON.parse(localStorage.getItem("fitnessSupplements") || "[]");
+
+    console.log("%c✅ Eski veri başarıyla v2'ye taşındı!", "color:lime;font-weight:bold");
+    return true;
+  } catch(e) {
+    console.error("Migration hatası:", e);
+    return false;
+  }
+}
+
+// ====================== KAYDET / YÜKLE ======================
+function saveAppData() {
+  localStorage.setItem("fitnessAppData_v2", JSON.stringify(appData));
+}
+
+function loadAppData() {
+  const saved = localStorage.getItem("fitnessAppData_v2");
+  if (saved) {
+    appData = JSON.parse(saved);
+    console.log("%c📂 v2 veri yüklendi", "color:cyan");
+  } else {
+    const migrated = migrateOldDataToV2();
+    if (!migrated) {
+      console.log("%c🆕 Yeni başlangıç", "color:orange");
+    }
+    saveAppData();
+  }
+}
+
+// ====================== BAŞLANGIÇ ======================
+loadAppData();
+
+// Geçici test mesajı (sayfanın açıldığını görmek için)
+console.log("%c🚀 Fitness Pro v2 Yüklendi! Veri yapısı hazır.", "color:#007aff; font-size:15px; font-weight:800");
+
+// TODO: Buraya buildHome(), renderDayItems() gibi fonksiyonları yeni yapıya göre yeniden yazacağız.
+// Şimdilik sadece veri modeli düzgün çalışıyor mu diye bakıyoruz.
+
+</script>
+</body>
+</html>
