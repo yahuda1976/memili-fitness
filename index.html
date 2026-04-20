@@ -556,7 +556,7 @@ small {
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#5a5a5c;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
     </div>
 </div>
 
@@ -585,7 +585,7 @@ small {
 </div>
 
 <script>
-// ==================== TÜM VERİLER ====================
+// ==================== GÜNCELLENMİŞ ANTREMAN LİSTESİ ====================
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -598,11 +598,13 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - Muz - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ GÖĞÜS (GÜÇ)",
-        {ex:"Dumbbell bench press", sets:4, link:"", notes:""},
-        {ex:"Incline press", sets:4, link:"", notes:""},
-        {ex:"Chest press", sets:3, link:"", notes:""},
+        "🏋️ GÖĞÜS + TRICEPS (HEAVY)",
+        {ex:"Incline Dumbbell Press", sets:4, link:"", notes:""},
+        {ex:"Dumbbell Bench Press", sets:4, link:"", notes:""},
         {ex:"Dips", sets:3, link:"", notes:""},
+        {ex:"Incline Cable Fly", sets:3, link:"", notes:""},
+        {ex:"Triceps Pushdown", sets:3, link:"", notes:""},
+        {ex:"Overhead Triceps Extension", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -621,12 +623,13 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ SIRT",
-        {ex:"Lat pulldown", sets:4, link:"", notes:""},
-        {ex:"Barbell row", sets:4, link:"", notes:""},
-        {ex:"Seated row", sets:3, link:"", notes:""},
-        {ex:"Dumbbell row", sets:3, link:"", notes:""},
-        {ex:"Face pull", sets:3, link:"", notes:""},
+        "🏋️ SIRT (HEAVY) + BICEPS",
+        {ex:"Lat Pulldown", sets:4, link:"", notes:""},
+        {ex:"Seated Cable Row", sets:4, link:"", notes:""},
+        {ex:"One Arm Dumbbell Row", sets:3, link:"", notes:""},
+        {ex:"Face Pull", sets:3, link:"", notes:""},
+        {ex:"Dumbbell Curl", sets:3, link:"", notes:""},
+        {ex:"Hammer Curl", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -645,12 +648,11 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ OMUZ + BİCEPS",
-        {ex:"Shoulder press", sets:4, link:"", notes:""},
-        {ex:"Lateral raise", sets:4, link:"", notes:""},
-        {ex:"Rear delt", sets:3, link:"", notes:""},
-        {ex:"Biceps curl", sets:3, link:"", notes:""},
-        {ex:"Hammer curl", sets:3, link:"", notes:""},
+        "🏋️ BACAK",
+        {ex:"Leg Press", sets:4, link:"", notes:""},
+        {ex:"Leg Extension", sets:3, link:"", notes:""},
+        {ex:"Leg Curl", sets:3, link:"", notes:""},
+        {ex:"Calf Raise", sets:4, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -669,11 +671,11 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - Muz", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ GÖĞÜS (HACİM)",
-        {ex:"Incline machine", sets:3, link:"", notes:""},
-        {ex:"Cable fly", sets:4, link:"", notes:""},
-        {ex:"Pullover", sets:3, link:"", notes:""},
-        {ex:"Butterfly", sets:3, link:"", notes:""},
+        "🏋️ OMUZ",
+        {ex:"Shoulder Press", sets:4, link:"", notes:""},
+        {ex:"Lateral Raise", sets:4, link:"", notes:""},
+        {ex:"Rear Delt Fly Machine", sets:3, link:"", notes:""},
+        {ex:"Arnold Press", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -692,12 +694,12 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ BACAK",
-        {ex:"Leg press", sets:4, link:"", notes:""},
-        {ex:"Squat", sets:4, link:"", notes:""},
-        {ex:"Leg extension", sets:3, link:"", notes:""},
-        {ex:"Leg curl", sets:3, link:"", notes:""},
-        {ex:"Calf raise", sets:4, link:"", notes:""},
+        "🏋️ GÖĞÜS (PUMP) + KOL",
+        {ex:"Incline Cable Fly", sets:4, link:"", notes:""},
+        {ex:"Machine Chest Press", sets:3, link:"", notes:""},
+        {ex:"Push-up", sets:2, link:"", notes:"3×failure"},
+        {ex:"Triceps Pushdown", sets:3, link:"", notes:""},
+        {ex:"Cable Curl", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -1063,7 +1065,6 @@ function customTimer() {
     if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
 }
 
-// ========== DÜZELTİLMİŞ VİDEO FONKSİYONU (DOĞRUDAN YOUTUBE ARAMA) ==========
 function openExerciseVideo(ex, link, day, idx) {
     if (link && link.trim() !== "") {
         window.open(link, '_blank');
@@ -1074,7 +1075,6 @@ function openExerciseVideo(ex, link, day, idx) {
         showToast(`🔍 YouTube'da "${ex}" aranıyor...`);
     }
 }
-// ======================================================================
 
 function setVideoLink(ex, day, idx) {
     let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
