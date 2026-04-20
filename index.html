@@ -785,8 +785,9 @@ let soundStopFlag = false;
 let dailyNotes = {};
 let oneRMHistory = {};
 
-// ==================== VİDEO MODAL (UYGULAMA İÇİ) ====================
+// ==================== VİDEO MODAL (YouTube Shorts hatasını aşmak için) ====================
 function openVideoModal(videoUrl) {
+    // Önce iframe'li modal oluştur
     let modalDiv = document.createElement("div");
     modalDiv.className = "video-modal";
     modalDiv.innerHTML = `
@@ -794,24 +795,47 @@ function openVideoModal(videoUrl) {
         <button onclick="this.parentElement.remove()">✖ Kapat</button>
     `;
     document.body.appendChild(modalDiv);
+    
+    // Eğer iframe yüklenmezse (hata olursa) kullanıcıya alternatif sun
+    let iframe = modalDiv.querySelector("iframe");
+    iframe.onerror = function() {
+        alert("Video bu şekilde açılamadı. 'Tamam' deyip tarayıcıda açmayı deneyin.");
+        // Kullanıcıya seçenek sun
+        let confirmOpen = confirm("Video açılamadı. Tarayıcıda açmak ister misiniz?");
+        if (confirmOpen) {
+            window.open(videoUrl, '_blank');
+        }
+        modalDiv.remove();
+    };
+    // Ayrıca 5 saniye sonra hala yüklenmediyse de uyar
+    setTimeout(() => {
+        if (modalDiv.parentElement) {
+            let iframeStill = modalDiv.querySelector("iframe");
+            if (iframeStill && !iframeStill.src) {
+                alert("Video yüklenemedi. Lütfen bağlantınızı kontrol edin veya farklı bir video linki deneyin.");
+            }
+        }
+    }, 5000);
 }
 
-// YouTube aramasından embed link oluşturma
-function getYouTubeEmbedUrl(query) {
-    // Sadece video ID'si veya direkt embed link kullanılabilir.
-    // Basitçe arama yapmak yerine, direkt olarak kullanıcının girdiği linki kullan.
-    // Eğer link boşsa, arama yap
-    if (query.startsWith("http")) {
-        // Eğer youtube.com/watch?v=... ise embed'e çevir
-        let url = new URL(query);
+function getYouTubeEmbedUrlFromLink(link) {
+    // Linkten embed URL oluştur
+    if (!link) return "";
+    try {
+        let url = new URL(link);
         if (url.hostname.includes("youtube.com") && url.searchParams.has("v")) {
             return `https://www.youtube.com/embed/${url.searchParams.get("v")}`;
+        } else if (url.hostname.includes("youtu.be")) {
+            let videoId = url.pathname.substring(1);
+            return `https://www.youtube.com/embed/${videoId}`;
+        } else if (url.hostname.includes("youtube.com") && url.pathname.includes("/shorts/")) {
+            let videoId = url.pathname.split("/shorts/")[1];
+            return `https://www.youtube.com/embed/${videoId}`;
+        } else if (url.href.includes("embed")) {
+            return url.href;
         }
-        return query; // direkt embed olabilir
-    } else {
-        // Arama sonucu linki oluştur (direkt embed olmaz, youtube arama sayfası açar ama bu da iş görür)
-        return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-    }
+    } catch(e) {}
+    return link;
 }
 
 // ==================== SES ====================
@@ -1126,24 +1150,13 @@ function customTimer() {
     if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
 }
 
-// Yeni video açma fonksiyonu (modal ile)
+// Yeni video açma fonksiyonu (modal ile, Shorts hatasını yönetir)
 function openExerciseVideo(ex, link, day, idx) {
     let videoUrl = "";
     if (link && link.trim() !== "") {
-        // Link varsa, embed'e çevirmeye çalış
-        if (link.includes("youtube.com/watch")) {
-            let urlParams = new URL(link);
-            videoUrl = `https://www.youtube.com/embed/${urlParams.searchParams.get("v")}`;
-        } else if (link.includes("youtu.be")) {
-            let videoId = link.split("/").pop();
-            videoUrl = `https://www.youtube.com/embed/${videoId}`;
-        } else if (link.includes("embed")) {
-            videoUrl = link;
-        } else {
-            videoUrl = link; // diğer durumlar
-        }
+        videoUrl = getYouTubeEmbedUrlFromLink(link);
+        if (!videoUrl) videoUrl = link;
     } else {
-        // Link yoksa, hareket adıyla YouTube arama sonuçlarını göster (embed değil, normal youtube arama)
         videoUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
     }
     openVideoModal(videoUrl);
