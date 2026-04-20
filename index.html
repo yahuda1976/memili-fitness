@@ -511,38 +511,6 @@ small {
     100% { opacity: 0; bottom: 40%; display: none; }
 }
 .hidden { display: none; }
-
-/* Video Modal (uygulama içi) */
-.video-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    z-index: 4000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.video-modal iframe {
-    width: 95%;
-    height: 70%;
-    border-radius: 32px;
-    border: none;
-}
-.video-modal button {
-    margin-top: 20px;
-    background: #ff3b30;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 40px;
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-}
 </style>
 </head>
 <body>
@@ -785,60 +753,29 @@ let soundStopFlag = false;
 let dailyNotes = {};
 let oneRMHistory = {};
 
-// ==================== VİDEO MODAL (YouTube Shorts hatasını aşmak için) ====================
-function openVideoModal(videoUrl) {
-    // Önce iframe'li modal oluştur
-    let modalDiv = document.createElement("div");
-    modalDiv.className = "video-modal";
-    modalDiv.innerHTML = `
-        <iframe src="${videoUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <button onclick="this.parentElement.remove()">✖ Kapat</button>
-    `;
-    document.body.appendChild(modalDiv);
-    
-    // Eğer iframe yüklenmezse (hata olursa) kullanıcıya alternatif sun
-    let iframe = modalDiv.querySelector("iframe");
-    iframe.onerror = function() {
-        alert("Video bu şekilde açılamadı. 'Tamam' deyip tarayıcıda açmayı deneyin.");
-        // Kullanıcıya seçenek sun
-        let confirmOpen = confirm("Video açılamadı. Tarayıcıda açmak ister misiniz?");
-        if (confirmOpen) {
-            window.open(videoUrl, '_blank');
-        }
-        modalDiv.remove();
-    };
-    // Ayrıca 5 saniye sonra hala yüklenmediyse de uyar
-    setTimeout(() => {
-        if (modalDiv.parentElement) {
-            let iframeStill = modalDiv.querySelector("iframe");
-            if (iframeStill && !iframeStill.src) {
-                alert("Video yüklenemedi. Lütfen bağlantınızı kontrol edin veya farklı bir video linki deneyin.");
-            }
-        }
-    }, 5000);
+// ==================== VİDEO AÇMA (YENİ SEKMEDE, UYGULAMADAN ÇIKMAZ) ====================
+function openExerciseVideo(ex, link, day, idx) {
+    let videoUrl = "";
+    if (link && link.trim() !== "") {
+        videoUrl = link;
+    } else {
+        videoUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
+    }
+    window.open(videoUrl, '_blank');
+    showToast(`📹 ${ex} videosu açılıyor...`);
 }
 
-function getYouTubeEmbedUrlFromLink(link) {
-    // Linkten embed URL oluştur
-    if (!link) return "";
-    try {
-        let url = new URL(link);
-        if (url.hostname.includes("youtube.com") && url.searchParams.has("v")) {
-            return `https://www.youtube.com/embed/${url.searchParams.get("v")}`;
-        } else if (url.hostname.includes("youtu.be")) {
-            let videoId = url.pathname.substring(1);
-            return `https://www.youtube.com/embed/${videoId}`;
-        } else if (url.hostname.includes("youtube.com") && url.pathname.includes("/shorts/")) {
-            let videoId = url.pathname.split("/shorts/")[1];
-            return `https://www.youtube.com/embed/${videoId}`;
-        } else if (url.href.includes("embed")) {
-            return url.href;
-        }
-    } catch(e) {}
-    return link;
+function setVideoLink(ex, day, idx) {
+    let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
+    if (link !== null) {
+        data[day][idx].link = link;
+        saveDataToLocal();
+        if (currentDayOpen === day) renderDayItems(day);
+        showToast("✅ Link kaydedildi!");
+    }
 }
 
-// ==================== SES ====================
+// ==================== DİĞER FONKSİYONLAR (AYNI) ====================
 function playLongBeep() {
     if (soundStopFlag) return;
     try {
@@ -873,7 +810,6 @@ function stopSound() {
     setTimeout(() => { soundStopFlag = false; }, 500);
 }
 
-// ==================== 1RM HESAPLAMA ====================
 function calculate1RM(weight, reps) {
     if (reps <= 0 || reps >= 37) return weight;
     return Math.round(weight * (36 / (37 - reps)));
@@ -959,7 +895,6 @@ function populateOneRMSelect() {
     }
 }
 
-// ==================== GÜNLÜK NOTLAR ====================
 function saveDailyNote() {
     const note = document.getElementById("dailyNote").value;
     if (currentDayOpen) {
@@ -979,7 +914,6 @@ function loadDailyNote() {
     }
 }
 
-// ==================== HAREKET NOTLARI ====================
 function showExerciseNote(ex, day, idx) {
     const currentNote = data[day][idx].notes || "";
     const modal = document.createElement("div");
@@ -1005,7 +939,6 @@ function saveExerciseNote(day, idx, ex) {
     showToast(`✅ ${ex} notu kaydedildi`);
 }
 
-// ==================== DİĞER FONKSİYONLAR ====================
 function moveItemUp(day, idx) {
     if (idx > 0) {
         [data[day][idx], data[day][idx-1]] = [data[day][idx-1], data[day][idx]];
@@ -1148,28 +1081,6 @@ function startTimer(sec) {
 function customTimer() {
     let s = prompt("Dinlenme süresi (saniye):", "90");
     if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
-}
-
-// Yeni video açma fonksiyonu (modal ile, Shorts hatasını yönetir)
-function openExerciseVideo(ex, link, day, idx) {
-    let videoUrl = "";
-    if (link && link.trim() !== "") {
-        videoUrl = getYouTubeEmbedUrlFromLink(link);
-        if (!videoUrl) videoUrl = link;
-    } else {
-        videoUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
-    }
-    openVideoModal(videoUrl);
-}
-
-function setVideoLink(ex, day, idx) {
-    let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
-    if (link !== null) {
-        data[day][idx].link = link;
-        saveDataToLocal();
-        if (currentDayOpen === day) renderDayItems(day);
-        showToast("✅ Link kaydedildi!");
-    }
 }
 
 function renderDayItems(day) {
