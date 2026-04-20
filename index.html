@@ -5,156 +5,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Fitness Pro 🔥</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif; background-color: #000000; color: #ffffff; min-height: 100vh; padding-bottom: 160px; font-weight: 600; }
-.app-header { background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); padding: 12px 16px; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
-.app-header h1 { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, #007aff, #5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.3px; }
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 20px; max-width: 500px; margin: 0 auto; }
-.card { background: #e8e6e1; border-radius: 28px; padding: 20px 12px; text-align: center; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3); border: 1px solid rgba(0,0,0,0.1); }
-.card:active { transform: scale(0.96); background: #d9d7d1; }
-.card h3 { font-size: 1.2rem; font-weight: 900; margin-bottom: 8px; color: #d93f3f; }
-.card.settings-card h3 { color: #007aff; }
-.progress-bar { width: 100%; height: 6px; background: #c0bcb4; border-radius: 10px; overflow: hidden; margin-top: 10px; }
-.progress-fill { height: 100%; background: #007aff; transition: width 0.3s; }
-small { font-size: 0.7rem; font-weight: 700; color: #5a5a5c; display: block; margin-top: 6px; }
-.day-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000000; z-index: 1000; overflow-y: auto; padding-bottom: 100px; }
-.day-header { background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
-.back-btn, .add-item-btn { background: #ff3b30; border: none; padding: 12px 24px; border-radius: 40px; font-weight: 800; font-size: 1rem; color: white; cursor: pointer; }
-.back-btn:active, .add-item-btn:active { transform: scale(0.96); background: #d32f2f; }
-.day-title { font-size: 1.4rem; font-weight: 800; color: #ffffff; }
-.item, .set { background: #e8e6e1; margin: 10px 16px; padding: 12px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #d9d7d1; }
-.item:active, .set:active { transform: scale(0.98); background: #d9d7d1; }
-.item.done, .set.done { background: #a8d5a8; text-decoration: line-through; opacity: 0.8; }
-.item span, .set span { font-weight: 900; color: #ff3b30; flex: 1; }
-.bottom-quest { position: fixed; bottom: 0; left: 0; right: 0; background: #e8e6e1; border-top: 0.5px solid rgba(0,0,0,0.1); padding: 12px 20px; z-index: 100; }
-.quest-title { font-size: 0.9rem; font-weight: 800; text-align: center; color: #007aff; }
-.quest-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 10px 0; }
-.quest-item { text-align: center; background: #d9d7d1; padding: 8px; border-radius: 20px; }
-.quest-icon { font-size: 1.3rem; }
-.quest-progress { font-size: 0.8rem; font-weight: 800; color: #1c1c1e; }
-.daily-score { text-align: center; font-size: 0.8rem; font-weight: 600; color: #5a5a5c; }
-.score-bar { width: 100%; height: 6px; background: #c0bcb4; border-radius: 10px; margin-top: 6px; overflow: hidden; }
-.score-fill { height: 100%; background: #007aff; }
-.stats-panel { background: #e8e6e1; margin: 16px; padding: 20px; border-radius: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-.stats-panel h3 { font-size: 1.1rem; font-weight: 800; color: #1c1c1e; }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
-.stat-card { text-align: center; background: #d9d7d1; padding: 14px; border-radius: 24px; font-size: 0.85rem; font-weight: 700; color: #007aff; }
-.stat-card span { display: block; font-size: 1.4rem; font-weight: 800; color: #1c1c1e; margin-top: 4px; }
-.badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-.badge { background: #d9d7d1; padding: 6px 14px; border-radius: 40px; font-size: 0.7rem; font-weight: 700; color: #007aff; }
-.toast { position: fixed; bottom: 30%; left: 50%; transform: translateX(-50%); background: #1c1c1e; color: white; padding: 12px 24px; border-radius: 60px; font-weight: 700; z-index: 2000; animation: fadeOut 1.5s forwards; font-size: 0.85rem; }
-@keyframes fadeOut { 0% { opacity: 1; bottom: 30%; } 100% { opacity: 0; bottom: 40%; display: none; } }
-.hidden { display: none; }
+* {margin:0;padding:0;box-sizing:border-box}
+body {font-family:-apple-system,'SF Pro Text','Segoe UI',system-ui,Helvetica,Arial,sans-serif;background:#000;color:#fff;min-height:100vh;padding-bottom:160px;font-weight:600}
+.app-header {background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);padding:12px 16px;text-align:center;position:sticky;top:0;z-index:100;border-bottom:0.5px solid rgba(255,255,255,0.1)}
+.app-header h1 {font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#007aff,#5856d6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grid {display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:20px;max-width:500px;margin:0 auto}
+.card {background:#e8e6e1;border-radius:28px;padding:20px 12px;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.card:active {transform:scale(0.96);background:#d9d7d1}
+.card h3 {font-size:1.2rem;font-weight:900;margin-bottom:8px;color:#d93f3f}
+.card.settings-card h3 {color:#007aff}
+.progress-bar {width:100%;height:6px;background:#c0bcb4;border-radius:10px;overflow:hidden;margin-top:10px}
+.progress-fill {height:100%;background:#007aff;transition:width .3s}
+small {font-size:0.7rem;font-weight:700;color:#5a5a5c;display:block;margin-top:6px}
+.day-view {position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:1000;overflow-y:auto;padding-bottom:100px}
+.day-header {background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-bottom:0.5px solid rgba(255,255,255,0.1)}
+.back-btn,.add-item-btn {background:#ff3b30;border:none;padding:12px 24px;border-radius:40px;font-weight:800;font-size:1rem;color:#fff;cursor:pointer}
+.back-btn:active,.add-item-btn:active {transform:scale(0.96);background:#d32f2f}
+.day-title {font-size:1.4rem;font-weight:800;color:#fff}
+.item,.set {background:#e8e6e1;margin:10px 16px;padding:12px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.item:active,.set:active {transform:scale(0.98);background:#d9d7d1}
+.item.done,.set.done {background:#a8d5a8;text-decoration:line-through;opacity:0.8}
+.item span,.set span {font-weight:900;color:#ff3b30;flex:1}
+.bottom-quest {position:fixed;bottom:0;left:0;right:0;background:#e8e6e1;border-top:0.5px solid rgba(0,0,0,0.1);padding:12px 20px;z-index:100}
+.quest-title {font-size:0.9rem;font-weight:800;text-align:center;color:#007aff}
+.quest-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:10px 0}
+.quest-item {text-align:center;background:#d9d7d1;padding:8px;border-radius:20px}
+.quest-icon {font-size:1.3rem}
+.quest-progress {font-size:0.8rem;font-weight:800;color:#1c1c1e}
+.daily-score {text-align:center;font-size:0.8rem;font-weight:600;color:#5a5a5c}
+.score-bar {width:100%;height:6px;background:#c0bcb4;border-radius:10px;margin-top:6px;overflow:hidden}
+.score-fill {height:100%;background:#007aff}
+.stats-panel {background:#e8e6e1;margin:16px;padding:20px;border-radius:32px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.toast {position:fixed;bottom:30%;left:50%;transform:translateX(-50%);background:#1c1c1e;color:#fff;padding:12px 24px;border-radius:60px;font-weight:700;z-index:2000;animation:fadeOut 1.5s forwards}
+@keyframes fadeOut {0%{opacity:1}100%{opacity:0;display:none}}
+.hidden {display:none}
 </style>
 </head>
 <body>
 
 <div id="appContent">
-  <div class="app-header"><h1>🔥 FITNESS PRO v2</h1></div>
-  <div id="homeGrid" class="grid"></div>
+<div class="app-header"><h1>🔥 FITNESS PRO v2</h1></div>
+<div id="homeGrid" class="grid"></div>
 
-  <div style="text-align:center; padding:10px;">
-    <button onclick="exportData()" style="background:#34c759;color:white;border:none;padding:12px 24px;border-radius:30px;margin:5px;font-weight:700;">📤 Export (Yedek İndir)</button>
-    <button onclick="importData()" style="background:#007aff;color:white;border:none;padding:12px 24px;border-radius:30px;margin:5px;font-weight:700;">📥 Import (Yedek Yükle)</button>
-  </div>
+<div style="text-align:center;padding:10px">
+  <button onclick="exportData()" style="background:#34c759;color:white;border:none;padding:12px 24px;border-radius:30px;margin:5px;font-weight:700">📤 Export Yedek İndir</button>
+  <button onclick="importData()" style="background:#007aff;color:white;border:none;padding:12px 24px;border-radius:30px;margin:5px;font-weight:700">📥 Import Yedek Yükle</button>
+</div>
 
-  <div id="statsPanel" class="stats-panel">
-    <h3>🏆 BAŞARILARIM</h3>
-    <div class="stats-grid">
-      <div class="stat-card">🏋️ Toplam Set<br><span id="totalSets">0</span></div>
-      <div class="stat-card">💧 Toplam Su<br><span id="totalWater">0</span></div>
-      <div class="stat-card">⭐ En İyi Gün<br><span id="bestDay">-</span></div>
-      <div class="stat-card">🔥 Toplam XP<br><span id="totalXP">0</span></div>
-    </div>
-    <div id="badgesContainer" class="badges"></div>
-  </div>
-
-  <div id="dayView" class="day-view hidden">
-    <div class="day-header">
-      <button class="back-btn" onclick="closeDay()">← Geri</button>
-      <div class="day-title" id="dayTitle"></div>
-      <button class="add-item-btn" onclick="showAddItemToDay()">+ Ekle</button>
-    </div>
-    <div id="dayItems"></div>
+<div id="statsPanel" class="stats-panel">
+  <h3>🏆 BAŞARILARIM</h3>
+  <div class="stats-grid">
+    <div class="stat-card">🏋️ Toplam Set<br><span id="totalSets">0</span></div>
+    <div class="stat-card">💧 Toplam Su<br><span id="totalWater">0</span></div>
+    <div class="stat-card">⭐ En İyi Gün<br><span id="bestDay">-</span></div>
+    <div class="stat-card">🔥 Toplam XP<br><span id="totalXP">0</span></div>
   </div>
 </div>
 
+<div id="dayView" class="day-view hidden">
+  <div class="day-header">
+    <button class="back-btn" onclick="closeDay()">← Geri</button>
+    <div class="day-title" id="dayTitle"></div>
+    <button class="add-item-btn" onclick="showAddItemToDay()">+ Ekle</button>
+  </div>
+  <div id="dayItems"></div>
+</div>
+
+<div class="bottom-quest">
+  <div class="quest-title">✨ GÜNLÜK GÖREVLER ✨</div>
+  <div class="quest-grid">
+    <div class="quest-item"><div class="quest-icon">💧</div><div class="quest-progress" id="questWater">0/8</div></div>
+    <div class="quest-item"><div class="quest-icon">🍽️</div><div class="quest-progress" id="questMeal">0/12</div></div>
+    <div class="quest-item"><div class="quest-icon">🏋️</div><div class="quest-progress" id="questSet">0/20</div></div>
+    <div class="quest-item"><div class="quest-icon">⭐</div><div class="quest-progress" id="questScore">0/100</div></div>
+  </div>
+  <div class="daily-score">🎯 Günlük Puan: <span id="dailyScoreText">0</span>/100
+    <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+  </div>
+</div>
+</div>
+
 <script>
-// ====================== TAM VERİ + YENİ MODEL ======================
-let appData = {
-  routines: {},
-  progress: {},
-  globalStats: { totalSetsCompleted: 0, totalWater: 0, streak: 0, oneRMHistory: {} },
-  supplements: [],
-  version: "2.0"
+// ==================== ORİJİNAL VERİLER ====================
+let data = {
+"PAZARTESI": ["07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı","💧 1 bardak","07:30 💧 1 bardak","08:00 💧 1 bardak","09:00 Skyr + chia","💧 1 bardak","🏋️ GÖĞÜS + TRICEPS (HEAVY)",{ex:"Incline Dumbbell Press",sets:4},{ex:"Dumbbell Bench Press",sets:4},{ex:"Dips",sets:3},{ex:"Triceps Pushdown",sets:3},"💧 4 bardak","20:15 Whey (1 ölçek) - Kreatin (5g)"],
+"SALI": ["07:00 Yulaf + süt + kahve - Whey","💧 1 bardak","🏋️ SIRT (HEAVY) + BICEPS",{ex:"Lat Pulldown",sets:4},{ex:"Seated Cable Row",sets:4},{ex:"Dumbbell Curl",sets:3},"💧 4 bardak"],
+"CARSAMBA": ["07:00 Yulaf","🏋️ BACAK",{ex:"Leg Press",sets:4},{ex:"Leg Extension",sets:3},{ex:"Calf Raise",sets:4},"💧 4 bardak"],
+"PERSEMBE": ["07:00 Yulaf","🏋️ OMUZ",{ex:"Shoulder Press",sets:4},{ex:"Lateral Raise",sets:4},"💧 4 bardak"],
+"CUMA": ["07:00 Yulaf","🏋️ GÖĞÜS (PUMP) + KOL",{ex:"Machine Chest Press",sets:3},{ex:"Triceps Pushdown",sets:3},"💧 4 bardak"],
+"CUMARTESI": ["Rest Day - Aktif dinlenme"],
+"PAZAR": ["Rest Day"]
 };
 
-let doneState = {};
-let waterIntake = {};
+let doneState = {}; 
+let waterIntake = {}; 
 let totalSetCount = 0;
 let currentDayOpen = null;
 
-// Orijinal verilerin (kısaltılmış hali - tam hali aşağıda)
-let data = {
-  "PAZARTESI": ["07:00 Yulaf + süt + kahve - Whey", "💧 1 bardak", "🏋️ GÖĞÜS + TRICEPS", {ex:"Incline Dumbbell Press", sets:4}, {ex:"Dumbbell Bench Press", sets:4}],
-  "SALI": ["07:00 Yulaf", "🏋️ SIRT + BICEPS", {ex:"Lat Pulldown", sets:4}],
-  "CARSAMBA": ["07:00 Yulaf", "🏋️ BACAK", {ex:"Leg Press", sets:4}],
-  "PERSEMBE": ["07:00 Yulaf", "🏋️ OMUZ", {ex:"Shoulder Press", sets:4}],
-  "CUMA": ["07:00 Yulaf", "🏋️ GÖĞÜS + KOL", {ex:"Machine Chest Press", sets:3}],
-  "CUMARTESI": ["Rest Day"],
-  "PAZAR": ["Rest Day"]
-};
-
 // ====================== EXPORT / IMPORT ======================
 function exportData() {
-  const backup = { appData, doneState, waterIntake, totalSetCount };
-  const blob = new Blob([JSON.stringify(backup, null, 2)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
+  const backup = {data, doneState, waterIntake, totalSetCount};
+  const blob = new Blob([JSON.stringify(backup,null,2)], {type:"application/json"});
   const a = document.createElement("a");
-  a.href = url; a.download = "fitness-pro-yedek.json"; a.click();
-  URL.revokeObjectURL(url);
+  a.href = URL.createObjectURL(blob);
+  a.download = "fitness-pro-yedek.json";
+  a.click();
   showToast("📤 Yedek indirildi!");
 }
 
 function importData() {
   const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".json";
+  input.type = "file"; input.accept = ".json";
   input.onchange = e => {
     const reader = new FileReader();
     reader.onload = ev => {
       try {
-        const imported = JSON.parse(ev.target.result);
-        if (imported.appData) appData = imported.appData;
-        if (imported.doneState) doneState = imported.doneState;
-        if (imported.waterIntake) waterIntake = imported.waterIntake;
-        if (imported.totalSetCount) totalSetCount = imported.totalSetCount;
-        saveDataToLocal();
-        showToast("✅ Yedek yüklendi! Sayfa yenileniyor...");
-        setTimeout(() => location.reload(), 800);
-      } catch(err) { showToast("❌ Yedek hatalı!"); }
+        const imp = JSON.parse(ev.target.result);
+        if(imp.data) data = imp.data;
+        if(imp.doneState) doneState = imp.doneState;
+        if(imp.waterIntake) waterIntake = imp.waterIntake;
+        if(imp.totalSetCount) totalSetCount = imp.totalSetCount;
+        showToast("✅ Yedek yüklendi!");
+        location.reload();
+      } catch(err){ showToast("❌ Hatalı dosya"); }
     };
     reader.readAsText(e.target.files[0]);
   };
   input.click();
 }
 
-// ====================== YARDIMCI FONKSİYONLAR ======================
 function showToast(msg) {
-  let toast = document.createElement("div");
-  toast.className = "toast";
-  toast.innerText = msg;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 1800);
-}
-
-function saveDataToLocal() {
-  localStorage.setItem("fitnessAppData_v2", JSON.stringify(appData));
-}
-
-function loadDataFromLocal() {
-  const saved = localStorage.getItem("fitnessAppData_v2");
-  if (saved) appData = JSON.parse(saved);
+  let t = document.createElement("div");
+  t.className = "toast";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),1600);
 }
 
 // ====================== ANA FONKSİYONLAR ======================
@@ -168,18 +153,11 @@ function buildHome() {
     card.onclick = () => openDay(day);
     grid.appendChild(card);
   });
-  
-  let settingsCard = document.createElement("div");
-  settingsCard.className = "card settings-card";
-  settingsCard.innerHTML = `<h3>AYARLAR</h3><small>Yedekleme & Yönetim</small>`;
-  settingsCard.onclick = () => showToast("Ayarlar yakında geliyor...");
-  grid.appendChild(settingsCard);
 }
 
 function openDay(day) {
   currentDayOpen = day;
   document.getElementById("homeGrid").style.display = "none";
-  document.getElementById("statsPanel").style.display = "none";
   document.getElementById("dayView").classList.remove("hidden");
   document.getElementById("dayTitle").innerText = day;
   renderDayItems(day);
@@ -188,21 +166,61 @@ function openDay(day) {
 function closeDay() {
   document.getElementById("dayView").classList.add("hidden");
   document.getElementById("homeGrid").style.display = "grid";
-  document.getElementById("statsPanel").style.display = "block";
 }
 
 function renderDayItems(day) {
   let cont = document.getElementById("dayItems");
-  cont.innerHTML = `<div style="padding:20px;color:#007aff;text-align:center;">${day} antrenmanı yükleniyor...<br><small>Export/Import çalışıyor</small></div>`;
-  // Gerçek render fonksiyonu sonraki adımda gelecek
+  cont.innerHTML = "";
+  let items = data[day] || [];
+  items.forEach((item, idx) => {
+    if (typeof item === "string") {
+      let div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `<span>${item}</span>`;
+      let key = `\( {day}|meal| \){idx}`;
+      if (doneState[key]) div.classList.add("done");
+      div.onclick = () => {
+        if (doneState[key]) delete doneState[key];
+        else doneState[key] = true;
+        renderDayItems(day);
+        showToast("✅ Tamamlandı");
+      };
+      cont.appendChild(div);
+    } else if (item && item.ex) {
+      let title = document.createElement("div");
+      title.style = "padding:16px 16px 8px;font-weight:900;color:#ff3b30";
+      title.textContent = "💪 " + item.ex + " (" + item.sets + " set)";
+      cont.appendChild(title);
+      for(let s=1; s<=item.sets; s++) {
+        let setDiv = document.createElement("div");
+        setDiv.className = "set";
+        setDiv.innerHTML = `<span>Set ${s}</span>`;
+        let setKey = `\( {day}|set| \){item.ex}|${s}`;
+        if (doneState[setKey]) setDiv.classList.add("done");
+        setDiv.onclick = () => {
+          if (doneState[setKey]) {
+            delete doneState[setKey];
+            totalSetCount--;
+          } else {
+            doneState[setKey] = true;
+            totalSetCount++;
+            showToast(`✅ Set ${s} tamamlandı!`);
+          }
+          renderDayItems(day);
+        };
+        cont.appendChild(setDiv);
+      }
+    }
+  });
 }
 
-// ====================== BAŞLANGIÇ ======================
-loadDataFromLocal();
-buildHome();
-showToast("🚀 Fitness Pro v2 Başarıyla Yüklendi!");
+function showAddItemToDay() {
+  showToast("Yeni ekleme yakında geliyor...");
+}
 
-console.log("%c✅ Fitness Pro v2 aktif - Export/Import hazır", "color:#007aff;font-size:16px");
+// Başlangıç
+buildHome();
+showToast("🚀 Fitness Pro v2 Hazır!");
 </script>
 </body>
 </html>
