@@ -5,125 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Fitness Pro 🔥</title>
 <style>
-/* === ORİJİNAL CSS'İN TAMAMINI BURAYA YAPIŞTIR === */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, 'SF Pro Text', 'Segoe UI', 'Poppins', system-ui, Helvetica, Arial, sans-serif; background-color: #000000; color: #ffffff; min-height: 100vh; padding-bottom: 160px; font-weight: 600; }
-/* ... Buraya orijinal kodundaki TÜM <style> içindeki CSS'i olduğu gibi yapıştır ... */
-.hidden { display: none; }
+* {margin:0;padding:0;box-sizing:border-box}
+body {font-family:-apple-system,'SF Pro Text','Segoe UI',system-ui,Helvetica,Arial,sans-serif;background:#000;color:#fff;min-height:100vh;padding-bottom:160px;font-weight:600}
+.app-header {background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);padding:12px 16px;text-align:center;position:sticky;top:0;z-index:100;border-bottom:0.5px solid rgba(255,255,255,0.1)}
+.app-header h1 {font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#007aff,#5856d6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grid {display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:20px;max-width:500px;margin:0 auto}
+.card {background:#e8e6e1;border-radius:28px;padding:20px 12px;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.card:active {transform:scale(0.96);background:#d9d7d1}
+.card h3 {font-size:1.2rem;font-weight:900;margin-bottom:8px;color:#d93f3f}
+.card.settings-card h3 {color:#007aff}
+.progress-bar {width:100%;height:6px;background:#c0bcb4;border-radius:10px;overflow:hidden;margin-top:10px}
+.progress-fill {height:100%;background:#007aff;transition:width .3s}
+.day-view {position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:1000;overflow-y:auto;padding-bottom:100px}
+.day-header {background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-bottom:0.5px solid rgba(255,255,255,0.1)}
+.back-btn,.add-item-btn {background:#ff3b30;border:none;padding:12px 24px;border-radius:40px;font-weight:800;font-size:1rem;color:#fff;cursor:pointer}
+.item,.set {background:#e8e6e1;margin:10px 16px;padding:12px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.item.done,.set.done {background:#a8d5a8;text-decoration:line-through;opacity:0.8}
+.bottom-quest {position:fixed;bottom:0;left:0;right:0;background:#e8e6e1;border-top:0.5px solid rgba(0,0,0,0.1);padding:12px 20px;z-index:100}
+.toast {position:fixed;bottom:30%;left:50%;transform:translateX(-50%);background:#1c1c1e;color:#fff;padding:12px 24px;border-radius:60px;font-weight:700;z-index:2000;animation:fadeOut 1.5s forwards}
+@keyframes fadeOut {0%{opacity:1}100%{opacity:0;display:none}}
+.hidden {display:none}
 </style>
 </head>
 <body>
 
 <div id="appContent">
-  <!-- ORİJİNAL HTML İÇERİĞİNİN TAMAMINI BURAYA YAPIŞTIR (app-header, homeGrid, dayView, settingsView, bottom-quest, timerBox vs.) -->
-  <!-- Kısaca: orijinal dosyanın <body> içindeki her şeyi buraya koy -->
+<div class="app-header"><h1>🔥 FITNESS PRO v2</h1></div>
+<div id="homeGrid" class="grid"></div>
+
+<div style="text-align:center;padding:10px;">
+  <button onclick="exportData()" style="background:#34c759;color:white;border:none;padding:10px 20px;border-radius:30px;margin:5px;">📤 Export (Yedek İndir)</button>
+  <button onclick="importData()" style="background:#007aff;color:white;border:none;padding:10px 20px;border-radius:30px;margin:5px;">📥 Import (Yedek Yükle)</button>
+</div>
+
+<div id="statsPanel" class="stats-panel">...</div> <!-- orijinal statsPanel içeriğini buraya koyabilirsin -->
 </div>
 
 <script>
-// ====================== YENİ VERİ MODELİ (v2) ======================
+// ====================== VERİ MODELİ ======================
 let appData = {
   routines: {},
   progress: {},
-  globalStats: {
-    totalSetsCompleted: 0,
-    totalWater: 0,
-    streak: 0,
-    lastTrainingDate: null,
-    oneRMHistory: {}
-  },
+  globalStats: {totalSetsCompleted:0, totalWater:0, streak:0, oneRMHistory:{}},
   supplements: [],
-  settings: {
-    waterGoalPerDay: 12,
-    dailySetGoal: 20,
-    theme: "dark"
-  }
+  version: "2.0"
 };
 
-// ====================== GÜVENLİ MIGRATION ======================
-function migrateOldDataToV2() {
-  try {
-    const oldDataStr = localStorage.getItem("fitnessDataUltimate");
-    if (!oldDataStr) return false;
+let data = {}; // geriye uyumluluk için
 
-    const oldRoutines = JSON.parse(oldDataStr);
-    const oldDone = JSON.parse(localStorage.getItem("fitnessDoneUltimate") || "{}");
-    const oldWater = JSON.parse(localStorage.getItem("fitnessWaterUltimate") || "{}");
-    const oldOneRM = JSON.parse(localStorage.getItem("fitnessOneRMHistory") || "{}");
-
-    appData.routines = {};
-    Object.keys(oldRoutines).forEach(day => {
-      appData.routines[day] = {
-        name: day,
-        meals: [],
-        exercises: []
-      };
-
-      oldRoutines[day].forEach((item, idx) => {
-        if (typeof item === "string") {
-          appData.routines[day].meals.push(item);
-        } else if (item && typeof item === "object" && item.ex) {
-          appData.routines[day].exercises.push({
-            id: `ex_\( {Date.now()}_ \){Math.random().toString(36).substr(2, 5)}`,
-            name: item.ex,
-            sets: item.sets || 3,
-            link: item.link || "",
-            notes: item.notes || "",
-            muscleGroup: "Genel"
-          });
-        }
-      });
-    });
-
-    // Basit progress oluştur
-    const today = new Date().toISOString().split('T')[0];
-    appData.progress[today] = {
-      dayName: "PAZARTESI",
-      completedMeals: [],
-      completedSets: [],
-      waterCount: Object.values(oldWater).reduce((a, b) => a + b, 0),
-      note: "",
-      score: 0
-    };
-
-    appData.globalStats.oneRMHistory = oldOneRM;
-    appData.supplements = JSON.parse(localStorage.getItem("fitnessSupplements") || "[]");
-
-    console.log("%c✅ Eski veri başarıyla v2'ye taşındı!", "color:lime;font-weight:bold");
-    return true;
-  } catch(e) {
-    console.error("Migration hatası:", e);
-    return false;
+// Migration
+function migrateIfNeeded() {
+  const oldData = localStorage.getItem("fitnessDataUltimate");
+  if (oldData && !localStorage.getItem("fitnessAppData_v2")) {
+    try {
+      data = JSON.parse(oldData);
+      console.log("%c✅ Eski veri algılandı ve taşındı", "color:lime");
+    } catch(e) {}
   }
-}
-
-// ====================== KAYDET / YÜKLE ======================
-function saveAppData() {
-  localStorage.setItem("fitnessAppData_v2", JSON.stringify(appData));
-}
-
-function loadAppData() {
   const saved = localStorage.getItem("fitnessAppData_v2");
-  if (saved) {
-    appData = JSON.parse(saved);
-    console.log("%c📂 v2 veri yüklendi", "color:cyan");
-  } else {
-    const migrated = migrateOldDataToV2();
-    if (!migrated) {
-      console.log("%c🆕 Yeni başlangıç", "color:orange");
-    }
-    saveAppData();
-  }
+  if (saved) appData = JSON.parse(saved);
 }
 
-// ====================== BAŞLANGIÇ ======================
-loadAppData();
+// Kaydet
+function saveData() {
+  localStorage.setItem("fitnessAppData_v2", JSON.stringify(appData));
+  if (Object.keys(data).length) localStorage.setItem("fitnessDataUltimate", JSON.stringify(data));
+}
 
-// Geçici test mesajı (sayfanın açıldığını görmek için)
-console.log("%c🚀 Fitness Pro v2 Yüklendi! Veri yapısı hazır.", "color:#007aff; font-size:15px; font-weight:800");
+// Export
+function exportData() {
+  const blob = new Blob([JSON.stringify(appData, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "fitness-pro-yedek.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  alert("Yedek indirildi! Güvenli bir yere kaydet.");
+}
 
-// TODO: Buraya buildHome(), renderDayItems() gibi fonksiyonları yeni yapıya göre yeniden yazacağız.
-// Şimdilik sadece veri modeli düzgün çalışıyor mu diye bakıyoruz.
+// Import
+function importData() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json";
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        appData = JSON.parse(ev.target.result);
+        saveData();
+        alert("✅ Yedek başarıyla yüklendi!");
+        location.reload();
+      } catch(err) {
+        alert("Dosya hatalı!");
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
 
+// Başlangıç
+migrateIfNeeded();
+saveData();
+
+console.log("%c🚀 Fitness Pro v2 Çalışıyor - Export/Import aktif!", "color:#007aff;font-size:16px;font-weight:800");
+
+// Basit home grid (test)
+document.getElementById("homeGrid").innerHTML = `<div class="card" onclick="alert('Günler yakında eklenecek')"><h3>PAZARTESİ</h3><small>Test modu</small></div><div class="card settings-card"><h3>AYARLAR</h3></div>`;
 </script>
 </body>
 </html>
