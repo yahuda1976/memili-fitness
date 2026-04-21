@@ -138,23 +138,34 @@ small {
     margin: 10px 16px;
     padding: 12px;
     border-radius: 20px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 12px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border: 1px solid #d9d7d1;
 }
-.item:active, .set:active {
-    transform: scale(0.98);
-    background: #d9d7d1;
+.set {
+    cursor: pointer;
 }
-.item.done, .set.done {
+.set.done {
     background: #a8d5a8;
     text-decoration: line-through;
     opacity: 0.8;
 }
-.item span, .set span {
+.set span {
+    font-weight: 900;
+    color: #ff3b30;
+    flex: 1;
+}
+.item {
+    cursor: pointer;
+}
+.item.done {
+    background: #a8d5a8;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+.item span {
     font-weight: 900;
     color: #ff3b30;
     flex: 1;
@@ -511,6 +522,36 @@ small {
     100% { opacity: 0; bottom: 40%; display: none; }
 }
 .hidden { display: none; }
+/* Ağırlık girişi için özel stiller */
+.weight-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+.weight-picker button {
+    background: #007aff;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+.weight-picker span {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1c1c1e;
+    min-width: 60px;
+    text-align: center;
+}
+.set-info {
+    font-size: 0.7rem;
+    color: #555;
+    margin-left: 8px;
+}
 </style>
 </head>
 <body>
@@ -553,6 +594,7 @@ small {
         <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">📝 GÜNLÜK NOTLARIM</h3><textarea id="dailyNote" rows="4" placeholder="Bugün antrenman nasıldı? Not al..."></textarea><button onclick="saveDailyNote()" style="margin-top:8px; background:#34c759; border:none; padding:10px; border-radius:32px; color:white; font-weight:700;">💾 Notu Kaydet</button></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🏋️ 1RM HESAPLAYICI</h3><select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"></select><input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px;"><input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px;"><button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">📊 1RM Hesapla ve Kaydet</button><div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div><canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas></div>
+        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">📊 AĞIRLIK TAKİBİ</h3><div id="weightTrackingList"></div></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#5a5a5c;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
         <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
@@ -585,10 +627,7 @@ small {
 </div>
 
 <script>
-// ==================== YENİ ANTREMAN LİSTESİ (BİREBİR SENİN VERDİĞİN) ====================
-// Yemekler ve su aynı kalacak, sadece hareketler değişti.
-// Boş günler (Çarşamba ve Pazar) sadece yemek/su içerir.
-
+// ==================== TÜM VERİLER ====================
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -602,7 +641,7 @@ let data = {
         "18:15 Pre-workout - Muz - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
         "🏋️ GÖĞÜS (AĞIR) + TRICEPS",
-        {ex:"Incline Dumbbell Press Bench (30–45°)", sets:4, link:"", notes:""},
+        {ex:"Incline Dumbbell Press (30–45°)", sets:4, link:"", notes:""},
         {ex:"Dumbbell Bench Press", sets:3, link:"", notes:""},
         {ex:"Chest Dip (Paralel bar)", sets:3, link:"", notes:""},
         {ex:"Cable Fly", sets:3, link:"", notes:""},
@@ -761,30 +800,93 @@ let currentSound = null;
 let soundStopFlag = false;
 let dailyNotes = {};
 let oneRMHistory = {};
+let setLogs = {}; // Yapı: setLogs[day][ex][setNo] = { weight, reps }
 
-// ==================== VİDEO AÇMA (YENİ SEKMEDE) ====================
-function openExerciseVideo(ex, link, day, idx) {
-    let videoUrl = "";
-    if (link && link.trim() !== "") {
-        videoUrl = link;
-    } else {
-        videoUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
-    }
-    window.open(videoUrl, '_blank');
-    showToast(`📹 ${ex} videosu açılıyor...`);
+// ==================== YENİ: AĞIRLIK VE TEKRAR KAYIT ====================
+function getSetLogKey(day, ex, setNo) {
+    return `${day}|${ex}|${setNo}`;
 }
 
-function setVideoLink(ex, day, idx) {
-    let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
-    if (link !== null) {
-        data[day][idx].link = link;
-        saveDataToLocal();
-        if (currentDayOpen === day) renderDayItems(day);
-        showToast("✅ Link kaydedildi!");
-    }
+function saveSetLog(day, ex, setNo, weight, reps) {
+    if (!setLogs[day]) setLogs[day] = {};
+    if (!setLogs[day][ex]) setLogs[day][ex] = {};
+    setLogs[day][ex][setNo] = { weight, reps };
+    localStorage.setItem("fitnessSetLogs", JSON.stringify(setLogs));
 }
 
-// ==================== DİĞER FONKSİYONLAR (AYNI) ====================
+function getSetLog(day, ex, setNo) {
+    return setLogs[day]?.[ex]?.[setNo] || null;
+}
+
+function loadSetLogs() {
+    let logs = localStorage.getItem("fitnessSetLogs");
+    if (logs) setLogs = JSON.parse(logs);
+    else setLogs = {};
+}
+
+// Ağırlık giriş modalı
+function promptWeightAndReps(day, ex, setNo, defaultWeight, defaultReps, onSave) {
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>⚡ ${ex} - Set ${setNo}</h3>
+            <div class="weight-picker">
+                <button id="decWeight">-</button>
+                <span id="weightValue">${defaultWeight || 0}</span>
+                <button id="incWeight">+</button>
+            </div>
+            <div class="weight-picker">
+                <button id="decReps">-</button>
+                <span id="repsValue">${defaultReps || 8}</span>
+                <button id="incReps">+</button>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="saveWeightBtn">Kaydet</button>
+                <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    let weightSpan = modal.querySelector("#weightValue");
+    let repsSpan = modal.querySelector("#repsValue");
+    let decWeight = modal.querySelector("#decWeight");
+    let incWeight = modal.querySelector("#incWeight");
+    let decReps = modal.querySelector("#decReps");
+    let incReps = modal.querySelector("#incReps");
+    let saveBtn = modal.querySelector("#saveWeightBtn");
+    let currentWeight = defaultWeight || 0;
+    let currentReps = defaultReps || 8;
+    weightSpan.innerText = currentWeight;
+    repsSpan.innerText = currentReps;
+    decWeight.onclick = () => { if (currentWeight > 0) currentWeight--; weightSpan.innerText = currentWeight; };
+    incWeight.onclick = () => { currentWeight++; weightSpan.innerText = currentWeight; };
+    decReps.onclick = () => { if (currentReps > 1) currentReps--; repsSpan.innerText = currentReps; };
+    incReps.onclick = () => { currentReps++; repsSpan.innerText = currentReps; };
+    saveBtn.onclick = () => {
+        saveSetLog(day, ex, setNo, currentWeight, currentReps);
+        modal.remove();
+        if (onSave) onSave(currentWeight, currentReps);
+        showToast(`✅ Set ${setNo}: ${currentWeight} kg x ${currentReps} tekrar kaydedildi`);
+        // Seti tamamlandı olarak işaretle
+        let setKey = `${day}|set|${ex}|${setNo}`;
+        if (!doneState[setKey]) {
+            doneState[setKey] = true;
+            totalSetCount++;
+            saveDataToLocal();
+            updateAllStats();
+            if (currentDayOpen === day) renderDayItems(day);
+            buildHome();
+            startTimer(90);
+            showToast(`✅ Set ${setNo} tamamlandı! +30 XP 🔥`);
+        } else {
+            saveDataToLocal();
+            if (currentDayOpen === day) renderDayItems(day);
+        }
+    };
+}
+
+// ==================== DİĞER FONKSİYONLAR ====================
 function playLongBeep() {
     if (soundStopFlag) return;
     try {
@@ -984,6 +1086,7 @@ function saveDataToLocal() {
     localStorage.setItem("fitnessSupplements", JSON.stringify(supplements));
     localStorage.setItem("fitnessDailyNotes", JSON.stringify(dailyNotes));
     localStorage.setItem("fitnessOneRMHistory", JSON.stringify(oneRMHistory));
+    localStorage.setItem("fitnessSetLogs", JSON.stringify(setLogs));
 }
 
 function loadDataFromLocal() {
@@ -1001,6 +1104,9 @@ function loadDataFromLocal() {
     if (dn) dailyNotes = JSON.parse(dn);
     let orm = localStorage.getItem("fitnessOneRMHistory");
     if (orm) oneRMHistory = JSON.parse(orm);
+    let logs = localStorage.getItem("fitnessSetLogs");
+    if (logs) setLogs = JSON.parse(logs);
+    else setLogs = {};
 }
 
 function buildHome() {
@@ -1092,6 +1198,27 @@ function customTimer() {
     if (s && !isNaN(parseInt(s)) && parseInt(s) > 0) startTimer(parseInt(s));
 }
 
+function openExerciseVideo(ex, link, day, idx) {
+    let videoUrl = "";
+    if (link && link.trim() !== "") {
+        videoUrl = link;
+    } else {
+        videoUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
+    }
+    window.open(videoUrl, '_blank');
+    showToast(`📹 ${ex} videosu açılıyor...`);
+}
+
+function setVideoLink(ex, day, idx) {
+    let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || "");
+    if (link !== null) {
+        data[day][idx].link = link;
+        saveDataToLocal();
+        if (currentDayOpen === day) renderDayItems(day);
+        showToast("✅ Link kaydedildi!");
+    }
+}
+
 function renderDayItems(day) {
     let cont = document.getElementById("dayItems");
     cont.innerHTML = "";
@@ -1149,36 +1276,32 @@ function renderDayItems(day) {
             for (let s = 1; s <= item.sets; s++) {
                 let setDiv = document.createElement("div");
                 setDiv.className = "set";
+                let log = getSetLog(day, item.ex, s);
+                let weightInfo = log ? `${log.weight}kg x ${log.reps}` : "Ağırlık gir";
                 setDiv.innerHTML = `
                     <div class="move-buttons">
                         <button class="move-btn" onclick="moveItemUp('${day}', ${idx})">⬆️</button>
                         <button class="move-btn" onclick="moveItemDown('${day}', ${idx})">⬇️</button>
                     </div>
-                    <span>Set ${s}</span><span>⏱️ Dinlenme</span>
+                    <span>Set ${s}</span>
+                    <span class="set-info">${weightInfo}</span>
+                    <span>⏱️ Dinlenme</span>
                 `;
                 let setKey = `${day}|set|${item.ex}|${s}`;
                 if (doneState[setKey]) setDiv.classList.add("done");
-                setDiv.onclick = (function(snum, skey) {
+                setDiv.onclick = (function(snum, exName) {
                     return function(ev) {
                         if (ev.target.classList.contains('move-btn')) return;
-                        if (doneState[skey]) {
-                            delete doneState[skey];
-                            setDiv.classList.remove("done");
-                            totalSetCount--;
-                            showToast("❌ Set iptal");
-                        } else {
-                            doneState[skey] = true;
-                            setDiv.classList.add("done");
-                            totalSetCount++;
-                            showToast(`✅ Set ${snum} tamamlandı! +30 XP 🔥`);
-                            startTimer(90);
-                        }
-                        saveDataToLocal();
-                        updateQuests(day);
-                        updateAllStats();
-                        buildHome();
+                        // Ağırlık girişi modalını aç
+                        let existingLog = getSetLog(day, exName, snum);
+                        promptWeightAndReps(day, exName, snum, existingLog?.weight, existingLog?.reps || 8, () => {
+                            // Kaydedince set tamamlandı sayılacak, render güncellenecek
+                            renderDayItems(day);
+                            updateAllStats();
+                            buildHome();
+                        });
                     };
-                })(s, setKey);
+                })(s, item.ex);
                 cont.appendChild(setDiv);
             }
         }
@@ -1209,6 +1332,7 @@ function openSettings() {
     updateWaterChart();
     updateWeeklyChart();
     populateOneRMSelect();
+    updateWeightTrackingDisplay();
 }
 
 function closeSettings() {
@@ -1216,6 +1340,24 @@ function closeSettings() {
     document.getElementById("homeGrid").style.display = "grid";
     document.getElementById("statsPanel").style.display = "block";
     buildHome();
+}
+
+function updateWeightTrackingDisplay() {
+    let container = document.getElementById("weightTrackingList");
+    if (!container) return;
+    let html = "";
+    for (let day in setLogs) {
+        for (let ex in setLogs[day]) {
+            let sets = setLogs[day][ex];
+            let setEntries = Object.entries(sets).map(([setNo, log]) => `Set ${setNo}: ${log.weight}kg x ${log.reps}`);
+            html += `<div style="background:#d9d7d1; border-radius:20px; padding:10px; margin-bottom:10px;">
+                        <strong>${day} - ${ex}</strong><br>
+                        ${setEntries.join(" | ")}
+                     </div>`;
+        }
+    }
+    if (html === "") html = "<div>Henüz ağırlık kaydı yok</div>";
+    container.innerHTML = html;
 }
 
 function populateManageSelects() {
@@ -1520,6 +1662,7 @@ updateSupplementsDisplay();
 updateWaterChart();
 updateWeeklyChart();
 populateOneRMSelect();
+updateWeightTrackingDisplay();
 
 document.getElementById("timerCloseBtn").onclick = stopTimer;
 document.getElementById("timerCustomBtn").onclick = customTimer;
