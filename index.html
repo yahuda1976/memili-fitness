@@ -585,7 +585,10 @@ small {
 </div>
 
 <script>
-// ==================== GÜNCELLENMİŞ ANTREMAN LİSTESİ ====================
+// ==================== GÜNCELLENMİŞ ANTREMAN LİSTESİ (YENİ) ====================
+// Yemekler ve su aynı kalacak, sadece hareketler değişti.
+// Boş günler (Çarşamba ve Pazar) sadece yemek/su içerir.
+
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -598,13 +601,13 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - Muz - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ GÖĞÜS + TRICEPS (HEAVY)",
-        {ex:"Incline Dumbbell Press", sets:4, link:"", notes:""},
-        {ex:"Dumbbell Bench Press", sets:4, link:"", notes:""},
-        {ex:"Dips", sets:3, link:"", notes:""},
-        {ex:"Incline Cable Fly", sets:3, link:"", notes:""},
-        {ex:"Triceps Pushdown", sets:3, link:"", notes:""},
-        {ex:"Overhead Triceps Extension", sets:3, link:"", notes:""},
+        "🏋️ GÖĞÜS (AĞIR) + TRICEPS",
+        {ex:"Incline Dumbbell Press (30–45°)", sets:4, link:"", notes:""},
+        {ex:"Dumbbell Bench Press", sets:3, link:"", notes:""},
+        {ex:"Chest Dip (Paralel bar)", sets:3, link:"", notes:""},
+        {ex:"Cable Fly", sets:3, link:"", notes:""},
+        {ex:"Triceps Pushdown (Halat/rope)", sets:3, link:"", notes:""},
+        {ex:"Overhead Triceps Extension (Dumbbell/cable)", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -623,13 +626,14 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ SIRT (HEAVY) + BICEPS",
+        "🏋️ SIRT",
         {ex:"Lat Pulldown", sets:4, link:"", notes:""},
-        {ex:"Seated Cable Row", sets:4, link:"", notes:""},
-        {ex:"One Arm Dumbbell Row", sets:3, link:"", notes:""},
+        {ex:"Barbell Row", sets:3, link:"", notes:""},
+        {ex:"Single Arm Dumbbell Row", sets:3, link:"", notes:""},
+        {ex:"Seated Cable Row", sets:3, link:"", notes:""},
+        {ex:"Straight Arm Pulldown (Cable)", sets:3, link:"", notes:""},
+        {ex:"Hyperextension (Bench)", sets:3, link:"", notes:""},
         {ex:"Face Pull", sets:3, link:"", notes:""},
-        {ex:"Dumbbell Curl", sets:3, link:"", notes:""},
-        {ex:"Hammer Curl", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -648,11 +652,7 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ BACAK",
-        {ex:"Leg Press", sets:4, link:"", notes:""},
-        {ex:"Leg Extension", sets:3, link:"", notes:""},
-        {ex:"Leg Curl", sets:3, link:"", notes:""},
-        {ex:"Calf Raise", sets:4, link:"", notes:""},
+        "🏋️ OFF (DİNLENME)",
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -671,11 +671,13 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - Muz", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ OMUZ",
-        {ex:"Shoulder Press", sets:4, link:"", notes:""},
+        "🏋️ OMUZ + BICEPS",
+        {ex:"Dumbbell Shoulder Press", sets:4, link:"", notes:""},
         {ex:"Lateral Raise", sets:4, link:"", notes:""},
-        {ex:"Rear Delt Fly Machine", sets:3, link:"", notes:""},
-        {ex:"Arnold Press", sets:3, link:"", notes:""},
+        {ex:"Reverse Pec Deck", sets:3, link:"", notes:""},
+        {ex:"Cable Lateral Raise", sets:3, link:"", notes:""},
+        {ex:"Barbell Curl", sets:3, link:"", notes:""},
+        {ex:"Hammer Curl", sets:3, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -694,12 +696,13 @@ let data = {
         "17:30 💧 1 bardak",
         "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
         "18:40 💧 1 bardak",
-        "🏋️ GÖĞÜS (PUMP) + KOL",
-        {ex:"Incline Cable Fly", sets:4, link:"", notes:""},
-        {ex:"Machine Chest Press", sets:3, link:"", notes:""},
-        {ex:"Push-up", sets:2, link:"", notes:"3×failure"},
-        {ex:"Triceps Pushdown", sets:3, link:"", notes:""},
-        {ex:"Cable Curl", sets:3, link:"", notes:""},
+        "🏋️ BACAK",
+        {ex:"Seated Leg Curl", sets:3, link:"", notes:""},
+        {ex:"Squat", sets:4, link:"", notes:""},
+        {ex:"Leg Extension", sets:3, link:"", notes:""},
+        {ex:"Romanian Deadlift", sets:3, link:"", notes:""},
+        {ex:"Walking Lunge", sets:3, link:"", notes:"her bacak"},
+        {ex:"Calf Raise", sets:4, link:"", notes:""},
         "💧 4 bardak",
         "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
         "20:45 💧 1 bardak",
@@ -718,7 +721,12 @@ let data = {
         "17:30 💧 1 bardak", "18:30 💧 1 bardak",
         "20:00 Ton balığı + lavaş", "💧 1 bardak",
         "20:30 💧 1 bardak", "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
+        "23:00 Skyr", "💧 1 bardak",
+        "🏋️ GÖĞÜS (PUMP)",
+        {ex:"Incline Machine Press", sets:3, link:"", notes:""},
+        {ex:"Low to High Cable Fly", sets:3, link:"", notes:""},
+        {ex:"Pec Deck", sets:3, link:"", notes:""},
+        {ex:"Push-Up", sets:2, link:"", notes:"failure"}
     ],
     "PAZAR": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -731,7 +739,8 @@ let data = {
         "17:30 💧 1 bardak", "18:30 💧 1 bardak",
         "20:00 Ton balığı + salata + lavaş", "💧 1 bardak",
         "20:30 💧 1 bardak", "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
+        "23:00 Skyr", "💧 1 bardak",
+        "🏋️ OFF (DİNLENME)"
     ]
 };
 
@@ -753,7 +762,7 @@ let soundStopFlag = false;
 let dailyNotes = {};
 let oneRMHistory = {};
 
-// ==================== VİDEO AÇMA (YENİ SEKMEDE, UYGULAMADAN ÇIKMAZ) ====================
+// ==================== VİDEO AÇMA (YENİ SEKMEDE) ====================
 function openExerciseVideo(ex, link, day, idx) {
     let videoUrl = "";
     if (link && link.trim() !== "") {
