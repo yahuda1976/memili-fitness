@@ -44,6 +44,7 @@ body {
     padding: 20px;
     max-width: 550px;
     margin: 0 auto;
+    justify-content: center;
 }
 .card {
     background: #e8e6e1;
@@ -137,7 +138,7 @@ small {
 .set {
     cursor: pointer;
 }
-.set.done {
+.set.done, .item.done {
     background: #a8d5a8;
     text-decoration: line-through;
     opacity: 0.8;
@@ -304,10 +305,11 @@ small {
     color: #007aff;
 }
 .water-chart, .set-chart {
-    background: #e8e6e1;
+    background: #1e1e2a;
     border-radius: 28px;
     padding: 16px;
     margin-bottom: 20px;
+    color: #fff;
 }
 .chart-tabs {
     display: flex;
@@ -316,12 +318,12 @@ small {
 }
 .chart-tab {
     flex: 1;
-    background: #d9d7d1;
+    background: #3a3a4a;
     border: none;
     padding: 10px;
     border-radius: 32px;
     font-weight: 700;
-    color: #007aff;
+    color: #ffaa88;
     cursor: pointer;
 }
 .chart-tab.active {
@@ -338,12 +340,12 @@ small {
     width: 45px;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #1c1c1e;
+    color: #ffcc88;
 }
 .bar-fill {
     flex: 1;
     height: 28px;
-    background: #c0bcb4;
+    background: #3a3a4a;
     border-radius: 14px;
     overflow: hidden;
 }
@@ -420,21 +422,22 @@ small {
     padding: 20px;
 }
 .modal-content {
-    background: #e8e6e1;
+    background: #2a2a2a;
     border-radius: 40px;
     padding: 24px;
     max-width: 350px;
     width: 100%;
+    color: white;
 }
 .modal-content input, .modal-content select, .modal-content textarea {
     width: 100%;
     padding: 14px;
     margin: 8px 0;
-    background: #d9d7d1;
+    background: #555;
     border: none;
     border-radius: 16px;
     font-weight: 600;
-    color: #1c1c1e;
+    color: white;
     font-family: inherit;
 }
 .modal-buttons {
@@ -498,7 +501,7 @@ small {
 .weight-picker span {
     font-size: 2rem;
     font-weight: 800;
-    color: #1c1c1e;
+    color: #ffaa88;
     min-width: 60px;
     text-align: center;
 }
@@ -550,20 +553,20 @@ small {
     </div>
     <div style="padding: 16px;">
         <!-- YEDEKLEME BUTONLARI -->
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:#007aff;">💾 VERİ YEDEKLEME</h3>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#ffaa44;">💾 VERİ YEDEKLEME</h3>
             <button onclick="backupData()" style="width:100%; background:#007aff; border:none; padding:14px; border-radius:32px; color:white; font-weight:700; margin-bottom:8px;">💾 YEDEK AL</button>
             <button onclick="restoreData()" style="width:100%; background:#34c759; border:none; padding:14px; border-radius:32px; color:white; font-weight:700;">📂 GERİ YÜKLE</button>
         </div>
-        <div class="water-chart"><h3 style="color:#007aff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#007aff;"></div></div>
-        <div class="set-chart"><h3 style="color:#007aff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">📝 GÜNLÜK NOTLARIM</h3><textarea id="dailyNote" rows="4" placeholder="Bugün antrenman nasıldı? Not al..."></textarea><button onclick="saveDailyNote()" style="margin-top:8px; background:#34c759; border:none; padding:10px; border-radius:32px; color:white; font-weight:700;">💾 Notu Kaydet</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🏋️ 1RM HESAPLAYICI</h3><select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"></select><input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px;"><input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px;"><button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">📊 1RM Hesapla ve Kaydet</button><div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div><canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas></div>
-        <div style="background:#2a2a2a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ffaa88;">📊 AĞIRLIK TAKİBİ</h3><div id="weightTrackingList" style="color:#fff;"></div></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff3b30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#5a5a5c;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
-        <div style="background:#e8e6e1; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#007aff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#d9d7d1; border:none; border-radius:16px;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
+        <div class="water-chart"><h3 style="color:#44aaff;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#44aaff;"></div></div>
+        <div class="set-chart"><h3 style="color:#44aaff;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#44aaff;">📝 GÜNLÜK NOTLARIM</h3><textarea id="dailyNote" rows="4" placeholder="Bugün antrenman nasıldı? Not al..."></textarea><button onclick="saveDailyNote()" style="margin-top:8px; background:#34c759; border:none; padding:10px; border-radius:32px; color:white; font-weight:700;">💾 Notu Kaydet</button></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#44aaff;">🏋️ 1RM HESAPLAYICI</h3><select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#555; border:none; border-radius:16px; margin-bottom:8px; color:white;"></select><input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px; background:#555; color:white;"><input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px; background:#555; color:white;"><button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007aff; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">📊 1RM Hesapla ve Kaydet</button><div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div><canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ffaa44;">📊 AĞIRLIK TAKİBİ</h3><div id="weightTrackingList" style="color:#ddd;"></div></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#ff5555;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#ff3b30; border:none; padding:14px; border-radius:32px; color:white; font-weight:800;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#aaa;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#44aaff;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Yemek Ekle</button></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#44aaff;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Hareket Ekle</button></div>
+        <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;"><h3 style="color:#44aaff;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#555; border:none; border-radius:16px; color:white;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34c759; border:none; padding:12px; border-radius:32px; color:white; font-weight:700;">+ Takviye Ekle</button></div>
     </div>
 </div>
 
@@ -1028,7 +1031,7 @@ function updateWeightTrackingDisplay() {
         for (let ex in setLogs[day]) {
             let sets = setLogs[day][ex];
             let setEntries = Object.entries(sets).map(([setNo, log]) => `Set ${setNo}: ${log.weight}kg x ${log.reps}`);
-            html += `<div style="background:#3a3a3a; border-radius:20px; padding:12px; margin-bottom:12px; color:#ffaa88;"><strong>${day} - ${ex}</strong><br>${setEntries.join(" | ")}</div>`;
+            html += `<div style="background:#3a3a4a; border-radius:20px; padding:12px; margin-bottom:12px; color:#ffcc88;"><strong>${day} - ${ex}</strong><br>${setEntries.join(" | ")}</div>`;
         }
     }
     if (html === "") html = "<div style='color:#aaa;'>Henüz ağırlık kaydı yok</div>";
