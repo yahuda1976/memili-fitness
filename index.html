@@ -484,26 +484,31 @@ small {
 .weight-picker {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 15px;
+    justify-content: space-between;
+    gap: 10px;
     margin: 15px 0;
 }
 .weight-picker button {
     background: #007aff;
     border: none;
     border-radius: 40px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 1.2rem;
     font-weight: bold;
     color: white;
     cursor: pointer;
+    width: 50px;
 }
-.weight-picker span {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #ffaa88;
-    min-width: 60px;
+.weight-picker input {
+    width: 80px;
     text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: #555;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 10px;
 }
 .set-info {
     font-size: 0.9rem;
@@ -552,7 +557,6 @@ small {
         <div style="width:50px;"></div>
     </div>
     <div style="padding: 16px;">
-        <!-- YEDEKLEME BUTONLARI -->
         <div style="background:#2a2a3a; border-radius:28px; padding:16px; margin-bottom:16px;">
             <h3 style="color:#ffaa44;">💾 VERİ YEDEKLEME</h3>
             <button onclick="backupData()" style="width:100%; background:#007aff; border:none; padding:14px; border-radius:32px; color:white; font-weight:700; margin-bottom:8px;">💾 YEDEK AL</button>
@@ -780,30 +784,46 @@ function saveSetLog(day, ex, setNo, weight, reps) {
 function getSetLog(day, ex, setNo) { return setLogs[day]?.[ex]?.[setNo] || null; }
 function loadSetLogs() { let logs = localStorage.getItem("fitnessSetLogs"); if (logs) setLogs = JSON.parse(logs); else setLogs = {}; }
 
-// DÜZELTİLMİŞ MODAL: Önce tekrar (reps), sonra kilo (weight)
+// GELİŞMİŞ MODAL: input number ile doğrudan değer girme
 function promptWeightAndReps(day, ex, setNo, defaultWeight, defaultReps, onSave) {
     const modal = document.createElement("div");
     modal.className = "modal";
     modal.innerHTML = `
         <div class="modal-content">
             <h3>⚡ ${ex} - Set ${setNo}</h3>
-            <div class="weight-picker"><button id="decReps">-</button><span id="repsValue">${defaultReps || 8}</span><button id="incReps">+</button></div>
-            <div class="weight-picker"><button id="decWeight">-</button><span id="weightValue">${defaultWeight || 0}</span><button id="incWeight">+</button></div>
-            <div class="modal-buttons"><button class="modal-btn confirm" id="saveWeightBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div>
+            <div class="weight-picker">
+                <button id="decReps">-</button>
+                <input type="number" id="repsInput" value="${defaultReps || 8}" step="1" min="1">
+                <button id="incReps">+</button>
+            </div>
+            <div class="weight-picker">
+                <button id="decWeight">-</button>
+                <input type="number" id="weightInput" value="${defaultWeight || 0}" step="1" min="0">
+                <button id="incWeight">+</button>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="saveWeightBtn">Kaydet</button>
+                <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button>
+            </div>
         </div>
     `;
     document.body.appendChild(modal);
-    let weightSpan = modal.querySelector("#weightValue"), repsSpan = modal.querySelector("#repsValue");
-    let decWeight = modal.querySelector("#decWeight"), incWeight = modal.querySelector("#incWeight");
-    let decReps = modal.querySelector("#decReps"), incReps = modal.querySelector("#incReps");
+    let weightInput = modal.querySelector("#weightInput");
+    let repsInput = modal.querySelector("#repsInput");
+    let decWeight = modal.querySelector("#decWeight");
+    let incWeight = modal.querySelector("#incWeight");
+    let decReps = modal.querySelector("#decReps");
+    let incReps = modal.querySelector("#incReps");
     let saveBtn = modal.querySelector("#saveWeightBtn");
-    let currentWeight = defaultWeight || 0, currentReps = defaultReps || 8;
-    weightSpan.innerText = currentWeight; repsSpan.innerText = currentReps;
-    decReps.onclick = () => { if (currentReps > 1) currentReps--; repsSpan.innerText = currentReps; };
-    incReps.onclick = () => { currentReps++; repsSpan.innerText = currentReps; };
-    decWeight.onclick = () => { if (currentWeight > 0) currentWeight--; weightSpan.innerText = currentWeight; };
-    incWeight.onclick = () => { currentWeight++; weightSpan.innerText = currentWeight; };
+    
+    decReps.onclick = () => { let v = parseInt(repsInput.value) || 1; if (v > 1) repsInput.value = v - 1; };
+    incReps.onclick = () => { let v = parseInt(repsInput.value) || 1; repsInput.value = v + 1; };
+    decWeight.onclick = () => { let v = parseInt(weightInput.value) || 0; if (v > 0) weightInput.value = v - 1; };
+    incWeight.onclick = () => { let v = parseInt(weightInput.value) || 0; weightInput.value = v + 1; };
+    
     saveBtn.onclick = () => {
+        let currentWeight = parseInt(weightInput.value) || 0;
+        let currentReps = parseInt(repsInput.value) || 1;
         saveSetLog(day, ex, setNo, currentWeight, currentReps);
         modal.remove();
         if (onSave) onSave(currentWeight, currentReps);
@@ -1011,6 +1031,19 @@ function renderDayItems(day) {
                 setDiv.onclick = (function(snum, exName) {
                     return function(ev) {
                         if (ev.target.classList.contains('move-btn')) return;
+                        // Eğer set zaten tamamlanmışsa, geri almak için sor
+                        if (doneState[setKey]) {
+                            if (confirm("Bu seti tamamlanmamış saymak istiyor musunuz?")) {
+                                delete doneState[setKey];
+                                totalSetCount--;
+                                saveDataToLocal();
+                                updateAllStats();
+                                renderDayItems(day);
+                                buildHome();
+                                showToast("❌ Set iptal edildi");
+                            }
+                            return;
+                        }
                         let existingLog = getSetLog(day, exName, snum);
                         promptWeightAndReps(day, exName, snum, existingLog?.weight, existingLog?.reps || 8, () => { renderDayItems(day); updateAllStats(); buildHome(); });
                     };
