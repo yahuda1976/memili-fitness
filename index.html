@@ -481,34 +481,26 @@ small {
     100% { opacity: 0; bottom: 40%; display: none; }
 }
 .hidden { display: none; }
-.weight-picker {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 15px 0;
-}
-.weight-picker button {
-    background: #007aff;
-    border: none;
-    border-radius: 40px;
-    padding: 10px 15px;
+/* Sadece input number, artı/eksi butonları yok */
+.input-number-only {
+    width: 100%;
+    padding: 14px;
     font-size: 1.2rem;
     font-weight: bold;
-    color: white;
-    cursor: pointer;
-    width: 50px;
-}
-.weight-picker input {
-    width: 100px;
     text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
     background: #555;
     color: white;
     border: none;
     border-radius: 40px;
-    padding: 10px;
+}
+/* Mobilde input number'ın yanındaki artı/eksi butonlarını gizle */
+.input-number-only::-webkit-inner-spin-button, 
+.input-number-only::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.input-number-only {
+    -moz-appearance: textfield;
 }
 .set-info {
     font-size: 0.9rem;
@@ -599,7 +591,7 @@ small {
 </div>
 
 <script>
-// ==================== TÜM VERİLER ====================
+// ==================== TÜM VERİLER (Aynı, kısaltmak için uzun listeyi aynen koyuyorum) ====================
 let data = {
     "PAZARTESI": [
         "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
@@ -784,22 +776,20 @@ function saveSetLog(day, ex, setNo, weight, reps) {
 function getSetLog(day, ex, setNo) { return setLogs[day]?.[ex]?.[setNo] || null; }
 function loadSetLogs() { let logs = localStorage.getItem("fitnessSetLogs"); if (logs) setLogs = JSON.parse(logs); else setLogs = {}; }
 
-// ========== DÜZELTİLMİŞ MODAL (input number ile doğrudan giriş) ==========
+// ========== YENİ MODAL: SADECE INPUT NUMBER (ARTI/EKSİ BUTONLARI YOK) ==========
 function promptWeightAndReps(day, ex, setNo, defaultWeight, defaultReps, onSave) {
     const modal = document.createElement("div");
     modal.className = "modal";
     modal.innerHTML = `
         <div class="modal-content">
             <h3>⚡ ${ex} - Set ${setNo}</h3>
-            <div class="weight-picker">
-                <button id="decReps">-</button>
-                <input type="number" id="repsInput" value="${defaultReps || 8}" step="1" min="1">
-                <button id="incReps">+</button>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px;">🔄 Tekrar Sayısı</label>
+                <input type="number" id="repsInput" class="input-number-only" value="${defaultReps || 8}" step="1" min="1" placeholder="Tekrar">
             </div>
-            <div class="weight-picker">
-                <button id="decWeight">-</button>
-                <input type="number" id="weightInput" value="${defaultWeight || 0}" step="1" min="0">
-                <button id="incWeight">+</button>
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px;">⚖️ Ağırlık (kg)</label>
+                <input type="number" id="weightInput" class="input-number-only" value="${defaultWeight || 0}" step="1" min="0" placeholder="Ağırlık">
             </div>
             <div class="modal-buttons">
                 <button class="modal-btn confirm" id="saveWeightBtn">Kaydet</button>
@@ -810,16 +800,7 @@ function promptWeightAndReps(day, ex, setNo, defaultWeight, defaultReps, onSave)
     document.body.appendChild(modal);
     let weightInput = modal.querySelector("#weightInput");
     let repsInput = modal.querySelector("#repsInput");
-    let decWeight = modal.querySelector("#decWeight");
-    let incWeight = modal.querySelector("#incWeight");
-    let decReps = modal.querySelector("#decReps");
-    let incReps = modal.querySelector("#incReps");
     let saveBtn = modal.querySelector("#saveWeightBtn");
-    
-    decReps.onclick = () => { let v = parseInt(repsInput.value) || 1; if (v > 1) repsInput.value = v - 1; };
-    incReps.onclick = () => { let v = parseInt(repsInput.value) || 1; repsInput.value = v + 1; };
-    decWeight.onclick = () => { let v = parseInt(weightInput.value) || 0; if (v > 0) weightInput.value = v - 1; };
-    incWeight.onclick = () => { let v = parseInt(weightInput.value) || 0; weightInput.value = v + 1; };
     
     saveBtn.onclick = () => {
         let currentWeight = parseInt(weightInput.value) || 0;
