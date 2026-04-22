@@ -500,7 +500,7 @@ small {
     width: 50px;
 }
 .weight-picker input {
-    width: 80px;
+    width: 100px;
     text-align: center;
     font-size: 1.2rem;
     font-weight: bold;
@@ -784,7 +784,7 @@ function saveSetLog(day, ex, setNo, weight, reps) {
 function getSetLog(day, ex, setNo) { return setLogs[day]?.[ex]?.[setNo] || null; }
 function loadSetLogs() { let logs = localStorage.getItem("fitnessSetLogs"); if (logs) setLogs = JSON.parse(logs); else setLogs = {}; }
 
-// GELİŞMİŞ MODAL: input number ile doğrudan değer girme
+// ========== DÜZELTİLMİŞ MODAL (input number ile doğrudan giriş) ==========
 function promptWeightAndReps(day, ex, setNo, defaultWeight, defaultReps, onSave) {
     const modal = document.createElement("div");
     modal.className = "modal";
