@@ -1031,7 +1031,6 @@ function renderDayItems(day) {
                 setDiv.onclick = (function(snum, exName) {
                     return function(ev) {
                         if (ev.target.classList.contains('move-btn')) return;
-                        // Eğer set zaten tamamlanmışsa, geri almak için sor
                         if (doneState[setKey]) {
                             if (confirm("Bu seti tamamlanmamış saymak istiyor musunuz?")) {
                                 delete doneState[setKey];
