@@ -2,26 +2,25 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>💪 Günlük Antrenman | 90 Saniye Dinlenme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Demir Günlüğü | 90sn Dinlenme</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: #0b0f1a;
-      font-family: system-ui, 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-      color: #edf2ff;
+      background: #0a0f1a;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      color: #f0f3fa;
       padding: 1rem 0.8rem 5rem;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 700px;
       margin: 0 auto;
     }
 
@@ -31,31 +30,29 @@
       margin-bottom: 1.5rem;
     }
     .baslik h1 {
-      font-size: 1.9rem;
+      font-size: 1.8rem;
       font-weight: 800;
       background: linear-gradient(135deg, #facc15, #ef4444);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.5px;
     }
     .baslik p {
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-top: 5px;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 4px;
     }
 
-    /* gün sekmeleri */
-    .gun-tabs {
+    /* gün butonları */
+    .gunler {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       justify-content: center;
-      background: #0f1422cc;
-      backdrop-filter: blur(4px);
+      margin-bottom: 1.8rem;
+      background: #111827;
       padding: 0.6rem;
       border-radius: 60px;
-      margin-bottom: 1.5rem;
     }
     .gun-btn {
       background: #1e293b;
@@ -63,7 +60,7 @@
       color: #cbd5e6;
       font-weight: 700;
       font-size: 0.85rem;
-      padding: 0.45rem 1rem;
+      padding: 0.4rem 1rem;
       border-radius: 40px;
       cursor: pointer;
       transition: 0.2s;
@@ -71,36 +68,31 @@
     .gun-btn.active {
       background: #dc2626;
       color: white;
-      box-shadow: 0 2px 10px rgba(220,38,38,0.3);
     }
-    .gun-btn.rest {
+    .gun-btn.dinlenme {
       background: #2d3a4e;
-      color: #a0b3d9;
+      color: #9ca3af;
     }
 
-    /* kartlar */
-    .kart {
+    /* yemek kartı - eski usül düz liste */
+    .yemek-kutu {
       background: #111827;
-      border-radius: 32px;
+      border-radius: 24px;
+      padding: 1rem;
       margin-bottom: 1.8rem;
-      border: 1px solid #283044;
-      overflow: hidden;
+      border: 1px solid #2d3748;
     }
-    .kart-baslik {
-      background: #0e1622;
-      padding: 0.7rem 1rem;
+    .yemek-baslik {
       font-weight: 700;
-      font-size: 1.1rem;
-      border-bottom: 1px solid #2d3a5a;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      border-left: 4px solid #facc15;
+      padding-left: 0.6rem;
     }
     .yemek-listesi {
-      padding: 0.8rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
     .yemek-satir {
       display: flex;
@@ -114,69 +106,79 @@
     .yemek-saat {
       font-weight: 700;
       background: #1e293b;
-      padding: 0.2rem 0.7rem;
+      padding: 0.1rem 0.7rem;
       border-radius: 30px;
-      min-width: 60px;
+      min-width: 65px;
       text-align: center;
       color: #facc15;
+      font-size: 0.8rem;
     }
-    .yemek-aciklama {
+    .yemek-metin {
       flex: 1;
-      color: #cbd5f0;
+      color: #e2e8f0;
     }
-    .su {
+    .su-miktar {
       color: #7aa2f7;
       font-weight: 500;
     }
 
-    /* egzersiz */
+    /* egzersizler */
     .egzersiz {
-      margin-bottom: 1.2rem;
-      border-bottom: 1px solid #1f2a44;
-      padding-bottom: 0.5rem;
+      background: #111827;
+      border-radius: 24px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #2d3748;
+      overflow: hidden;
     }
-    .egzersiz-header {
-      padding: 0.8rem 1rem 0.2rem;
+    .egz-header {
+      background: #0f172a;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid #2d3a5a;
     }
-    .egzersiz-isim {
-      font-size: 1.2rem;
+    .egz-isim {
       font-weight: 700;
+      font-size: 1.1rem;
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      align-items: baseline;
       gap: 0.5rem;
+      align-items: baseline;
     }
-    .rep-etiket {
+    .tekrar {
       background: #ef444430;
       padding: 0.2rem 0.7rem;
-      border-radius: 30px;
+      border-radius: 40px;
       font-size: 0.7rem;
       font-weight: 500;
       color: #facc15;
     }
-    .action-butonlar {
+    .egz-butonlar {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin: 0.5rem 0 0.2rem;
+      margin-top: 0.5rem;
     }
-    .action-btn {
+    .egz-buton {
       background: #1f2a44;
       border: none;
       font-size: 0.7rem;
       color: #cad2ff;
-      padding: 0.2rem 0.8rem;
+      padding: 0.2rem 0.7rem;
       border-radius: 40px;
       cursor: pointer;
     }
+    .not-extra {
+      font-size: 0.7rem;
+      margin-top: 0.4rem;
+      color: #b9c8ff;
+    }
     .set-list {
-      padding: 0.2rem 1rem 1rem;
+      padding: 0.8rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.7rem;
     }
-    .set-row {
+    .set-satir {
       background: #0f172f;
       border-radius: 28px;
       padding: 0.5rem 0.9rem;
@@ -187,55 +189,55 @@
       gap: 0.6rem;
       border: 1px solid #26304a;
     }
-    .set-numarasi {
+    .set-num {
       font-weight: 700;
-      min-width: 60px;
       font-size: 0.85rem;
+      min-width: 55px;
     }
     .weight-input {
       background: #010514;
       border: 1px solid #3b4870;
-      padding: 0.45rem 0.7rem;
+      padding: 0.4rem 0.7rem;
       border-radius: 36px;
-      width: 105px;
+      width: 110px;
       color: white;
       text-align: center;
       font-size: 0.85rem;
     }
-    .rest-btn {
+    .dinlen-buton {
       background: #2a3655;
       border: none;
-      padding: 0.4rem 1.1rem;
+      padding: 0.4rem 1rem;
       border-radius: 40px;
       font-weight: 600;
       color: white;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
-    .rest-btn:active {
+    .dinlen-buton:active {
       background: #dc2626;
       transform: scale(0.96);
     }
 
-    /* boş gün */
-    .rest-mesaj {
+    /* boş gün mesajı */
+    .dinlenme-mesaj {
       background: #0f172a;
       text-align: center;
-      padding: 2rem;
-      border-radius: 48px;
-      color: #cbd5e1;
-      border: 1px dashed #facc1555;
+      padding: 1.8rem;
+      border-radius: 32px;
+      margin: 1rem 0;
+      border: 1px dashed #facc1566;
     }
 
-    /* timer sabit altta */
-    .timer-global {
+    /* timer altta sabit */
+    .timer-panel {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #030614dd;
+      background: #020617ee;
       backdrop-filter: blur(12px);
-      border-top: 1px solid #ef444466;
+      border-top: 1px solid #ef4444aa;
       padding: 0.6rem 1rem;
       display: flex;
       align-items: center;
@@ -249,7 +251,7 @@
       font-size: 0.8rem;
     }
     .timer-sayi {
-      font-size: 1.9rem;
+      font-size: 1.8rem;
       font-weight: 800;
       font-family: monospace;
       letter-spacing: 3px;
@@ -266,8 +268,8 @@
       border-radius: 40px;
       cursor: pointer;
       font-weight: 500;
+      font-size: 0.8rem;
     }
-
     footer {
       font-size: 0.7rem;
       text-align: center;
@@ -275,12 +277,12 @@
       margin-top: 1rem;
     }
     @media (max-width: 550px) {
-      .set-row {
+      .set-satir {
         flex-direction: column;
         align-items: stretch;
       }
       .timer-sayi {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -288,30 +290,29 @@
 <body>
 <div class="container">
   <div class="baslik">
-    <h1>🔥 DEMİR GÜNLÜĞÜ</h1>
+    <h1>🏋️ DEMİR GÜNLÜĞÜ</h1>
     <p>set arası 90 saniye • her set sonrası "DİNLENME" butonu</p>
   </div>
 
-  <div class="gun-tabs" id="gunTabs"></div>
+  <div class="gunler" id="gunTabs"></div>
   <div id="gunIcerik"></div>
-  <footer>📝 Not / 1RM / Video / Link / Alternatif butonları çalışır. Ağırlık gir ve dinlenme butonuna tıkla.</footer>
+  <footer>📝 Not / 1RM / Video / Link / Alternatif butonları çalışır. Ağırlık gir, set bitince dinlenme butonuna tıkla.</footer>
 </div>
 
-<div class="timer-global">
+<div class="timer-panel">
   <div class="timer-label">⏱️ DİNLENME SÜRESİ</div>
   <div class="timer-sayi" id="timerDisplay">01:30</div>
   <div>
-    <button class="timer-btn" id="stopTimerBtn">Durdur</button>
-    <button class="timer-btn" id="resetTimerBtn">Sıfırla</button>
+    <button class="timer-btn" id="stopTimer">Durdur</button>
+    <button class="timer-btn" id="resetTimer">Sıfırla</button>
   </div>
 </div>
 
 <script>
-  // ----------------------------- TÜM VERİ (GÜN + YEMEKLER + HAREKETLER) ---------------------------------
-  // Yemek verileri (her gün)
+  // ---------- TÜM VERİ (YEMEKLER + HAREKETLER) GÜNCEL ----------
   const yemekler = {
     pazartesi: [
-      { saat: "07:45", metin: "Overnight oats (yulaf + süt + Skyr + muz) + Omega-3", su: "500 ml" },
+      { saat: "07:45", metin: "Overnight oats (yulaf + süt + Skyr + muz) + Omega-3 (2 kapsül)", su: "500 ml" },
       { saat: "09:30", metin: "Ekmek + peynir", su: "400 ml" },
       { saat: "12:30", metin: "Su", su: "500 ml" },
       { saat: "14:00", metin: "Tavuk + pilav + yoğurt", su: "400 ml" },
@@ -373,7 +374,6 @@
     ]
   };
 
-  // HAREKETLER (güncel liste, aynen son verdiğin gibi)
   const hareketler = {
     pazartesi: [
       { ad: "🏋️ Incline Dumbbell Press (30-45°)", set: 4, tekrar: "6-8", not: "3 sn indir" },
@@ -421,144 +421,110 @@
   };
 
   const gunSirasi = ["pazartesi", "sali", "carsamba", "persembe", "cuma", "cumartesi", "pazar"];
-  const gunAdlari = { pazartesi:"PZT", sali:"SAL", carsamba:"ÇAR", persembe:"PER", cuma:"CUM", cumartesi:"CMT", pazar:"PAZ" };
+  const gunKisa = { pazartesi:"PZT", sali:"SAL", carsamba:"ÇAR", persembe:"PER", cuma:"CUM", cumartesi:"CMT", pazar:"PAZ" };
   let aktifGun = "pazartesi";
 
-  // timer değişkenleri
+  // timer
   let timerInterval = null;
-  let kalanSaniye = 90;
+  let kalan = 90;
   const timerSpan = document.getElementById("timerDisplay");
-
-  function timerGuncelle() {
-    const dak = Math.floor(kalanSaniye / 60);
-    const sn = kalanSaniye % 60;
-    timerSpan.textContent = `${dak.toString().padStart(2,'0')}:${sn.toString().padStart(2,'0')}`;
+  function guncelleTimer() {
+    const dk = Math.floor(kalan / 60);
+    const sn = kalan % 60;
+    timerSpan.textContent = `${dk.toString().padStart(2,'0')}:${sn.toString().padStart(2,'0')}`;
   }
-
   function durdurTimer() {
-    if (timerInterval) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
   }
-
-  function baslatTimer(saniye = 90) {
+  function baslatTimer(sn = 90) {
     durdurTimer();
-    kalanSaniye = saniye;
-    timerGuncelle();
+    kalan = sn;
+    guncelleTimer();
     timerInterval = setInterval(() => {
-      if (kalanSaniye <= 1) {
+      if (kalan <= 1) {
         durdurTimer();
-        kalanSaniye = 0;
-        timerGuncelle();
+        kalan = 0;
+        guncelleTimer();
       } else {
-        kalanSaniye--;
-        timerGuncelle();
+        kalan--;
+        guncelleTimer();
       }
     }, 1000);
   }
+  function sifirlaTimer() { durdurTimer(); kalan = 90; guncelleTimer(); }
 
-  function sifirlaTimer() {
-    durdurTimer();
-    kalanSaniye = 90;
-    timerGuncelle();
-  }
-
-  // yemek HTML
-  function yemekHtml(gunKey) {
-    const liste = yemekler[gunKey] || [];
-    if (liste.length === 0) return '<div class="kart"><div class="kart-baslik">🍽️ Beslenme</div><div class="yemek-listesi">Bugün için plan yok</div></div>';
-    let html = `<div class="kart"><div class="kart-baslik">🍱 GÜNLÜK BESLENME & SU</div><div class="yemek-listesi">`;
+  // yemekleri bas
+  function yemekHtml(gun) {
+    const liste = yemekler[gun] || [];
+    let html = `<div class="yemek-kutu"><div class="yemek-baslik">🍱 GÜNLÜK BESLENME & SU</div><div class="yemek-listesi">`;
     for (let o of liste) {
-      const suMetin = o.su ? `<span class="su">💧 ${o.su}</span>` : '';
-      html += `<div class="yemek-satir"><span class="yemek-saat">${o.saat}</span><span class="yemek-aciklama">${o.metin} ${suMetin ? ` ${suMetin}` : ''}</span></div>`;
+      const suText = o.su ? `<span class="su-miktar">💧 ${o.su}</span>` : '';
+      html += `<div class="yemek-satir"><span class="yemek-saat">${o.saat}</span><span class="yemek-metin">${o.metin} ${suText ? ` ${suText}` : ''}</span></div>`;
     }
     html += `</div></div>`;
     return html;
   }
 
-  // hareketler HTML
-  function hareketHtml(gunKey) {
-    const hareketDizi = hareketler[gunKey] || [];
+  // hareketleri bas
+  function hareketHtml(gun) {
+    const hareketDizi = hareketler[gun] || [];
     if (hareketDizi.length === 0) {
-      return `<div class="rest-mesaj">🧘‍♂️ AKTİF DİNLENME GÜNÜ<br>Yürüyüş / esneme | Standart beslenme uygulanır</div>`;
+      return `<div class="dinlenme-mesaj">🧘‍♂️ AKTİF DİNLENME GÜNÜ<br>Yürüyüş / esneme | Standart beslenme planı</div>`;
     }
-    let html = `<div class="kart"><div class="kart-baslik">🏋️ ANTRENMAN</div>`;
-    for (let exIdx = 0; exIdx < hareketDizi.length; exIdx++) {
-      const ex = hareketDizi[exIdx];
-      const repText = ex.tekrar === "failure" ? "failure" : `${ex.tekrar} tekrar`;
-      html += `
-        <div class="egzersiz" data-exidx="${exIdx}">
-          <div class="egzersiz-header">
-            <div class="egzersiz-isim">
-              <span>${ex.ad}</span>
-              <span class="rep-etiket">🎯 ${repText}</span>
-            </div>
-            <div class="action-butonlar">
-              <button class="action-btn" data-action="not" data-name="${ex.ad}">📝 Not</button>
-              <button class="action-btn" data-action="1rm" data-name="${ex.ad}">📊 1RM</button>
-              <button class="action-btn" data-action="video" data-name="${ex.ad}">🎥 Video</button>
-              <button class="action-btn" data-action="link" data-name="${ex.ad}">🔗 Link</button>
-              <button class="action-btn" data-action="alternatif" data-name="${ex.ad}">🔄 Alternatif</button>
-            </div>
-            ${ex.not ? `<div style="font-size:0.7rem; margin-top:4px; color:#b9c8ff;">💡 ${ex.not}</div>` : ''}
+    let html = ``;
+    for (let idx = 0; idx < hareketDizi.length; idx++) {
+      const ex = hareketDizi[idx];
+      const repGoster = ex.tekrar === "failure" ? "failure" : `${ex.tekrar} tekrar`;
+      html += `<div class="egzersiz">
+        <div class="egz-header">
+          <div class="egz-isim"><span>${ex.ad}</span><span class="tekrar">🎯 ${repGoster}</span></div>
+          <div class="egz-butonlar">
+            <button class="egz-buton" data-action="not" data-name="${ex.ad}">📝 Not</button>
+            <button class="egz-buton" data-action="1rm" data-name="${ex.ad}">📊 1RM</button>
+            <button class="egz-buton" data-action="video" data-name="${ex.ad}">🎥 Video</button>
+            <button class="egz-buton" data-action="link" data-name="${ex.ad}">🔗 Link</button>
+            <button class="egz-buton" data-action="alternatif" data-name="${ex.ad}">🔄 Alternatif</button>
           </div>
-          <div class="set-list" id="setler-${gunKey}-${exIdx}">
-      `;
+          ${ex.not ? `<div class="not-extra">💡 ${ex.not}</div>` : ''}
+        </div>
+        <div class="set-list" data-gun="${gun}" data-exidx="${idx}">`;
       for (let s = 1; s <= ex.set; s++) {
-        html += `
-          <div class="set-row">
-            <div class="set-numarasi">Set ${s}</div>
-            <input type="text" class="weight-input" placeholder="Ağırlık (kg)" autocomplete="off">
-            <button class="rest-btn" data-gun="${gunKey}" data-ex="${ex.ad}" data-setno="${s}">⏱️ 90sn Dinlen</button>
-          </div>
-        `;
+        html += `<div class="set-satir">
+          <div class="set-num">Set ${s}</div>
+          <input type="text" class="weight-input" placeholder="Ağırlık (kg)" autocomplete="off">
+          <button class="dinlen-buton" data-gun="${gun}" data-exad="${ex.ad}" data-set="${s}">⏱️ 90sn Dinlen</button>
+        </div>`;
       }
       html += `</div></div>`;
     }
-    html += `</div>`;
     return html;
   }
 
-  function tumGunuOlustur(gunKey) {
-    return `<div id="panel-${gunKey}" class="gun-paneli">${yemekHtml(gunKey)}${hareketHtml(gunKey)}</div>`;
+  function gunPanel(gun) {
+    return `<div id="panel-${gun}" class="gun-paneli" style="${gun === aktifGun ? 'display:block' : 'display:none'}">${yemekHtml(gun)}${hareketHtml(gun)}</div>`;
   }
 
-  // tüm panelleri oluştur
-  function renderTumGunler() {
-    const container = document.getElementById("gunIcerik");
-    let allPanels = '';
-    for (let g of gunSirasi) {
-      allPanels += tumGunuOlustur(g);
-    }
-    container.innerHTML = allPanels;
-    // aktif paneli göster
-    for (let g of gunSirasi) {
-      const panel = document.getElementById(`panel-${g}`);
-      if (panel) {
-        if (g === aktifGun) panel.style.display = "block";
-        else panel.style.display = "none";
-      }
-    }
-    attachDinlenmeEventleri();
-    attachActionEventleri();
+  function tumGunleriGoster() {
+    let all = '';
+    for (let g of gunSirasi) all += gunPanel(g);
+    document.getElementById("gunIcerik").innerHTML = all;
+    attachDinlenmeButonlari();
+    attachActionButonlari();
   }
 
-  // dinlenme butonlarına event
-  function attachDinlenmeEventleri() {
-    document.querySelectorAll('.rest-btn').forEach(btn => {
-      btn.removeEventListener('click', restHandler);
-      btn.addEventListener('click', restHandler);
+  function attachDinlenmeButonlari() {
+    document.querySelectorAll('.dinlen-buton').forEach(btn => {
+      btn.removeEventListener('click', dinlenmeHandler);
+      btn.addEventListener('click', dinlenmeHandler);
     });
   }
-  function restHandler(e) {
+  function dinlenmeHandler(e) {
     e.stopPropagation();
     baslatTimer(90);
   }
 
-  // action butonları
-  function attachActionEventleri() {
-    document.querySelectorAll('.action-btn').forEach(btn => {
+  function attachActionButonlari() {
+    document.querySelectorAll('.egz-buton').forEach(btn => {
       btn.removeEventListener('click', actionHandler);
       btn.addEventListener('click', actionHandler);
     });
@@ -567,30 +533,29 @@
     const act = e.currentTarget.getAttribute('data-action');
     const exName = e.currentTarget.getAttribute('data-name');
     if (act === 'not') {
-      const notMetin = prompt(`📝 "${exName}" için not ekle:`, "Örn: 3 saniye iniş");
-      if (notMetin) alert(`Not: ${notMetin}`);
+      const notu = prompt(`📝 "${exName}" için not:`, "Örn: 3 sn iniş");
+      if (notu) alert(`Not kaydedildi: ${notu}`);
     } else if (act === '1rm') {
-      let kg = prompt(`🏋️ "${exName}" için tahmini 1RM ağırlık (kg):`, "100");
-      if (kg) alert(`1RM tahmini: ${kg} kg`);
+      let kg = prompt(`🏋️ "${exName}" tahmini 1RM (kg):`, "100");
+      if (kg) alert(`1RM: ${kg} kg`);
     } else if (act === 'video') {
-      alert(`🎥 "${exName}" için video önerisi: YouTube'da “${exName} form” ara.`);
+      alert(`🎥 "${exName}" için YouTube'da araştır.`);
     } else if (act === 'link') {
-      alert(`🔗 "${exName}" için örnek link: https://exrx.net/search`);
+      alert(`🔗 "${exName}" için exrx.net adresini ziyaret edebilirsin.`);
     } else if (act === 'alternatif') {
-      alert(`🔄 "${exName}" alternatif hareket: Dumbell / kablo / makine varyasyonu deneyebilirsin.`);
+      alert(`🔄 "${exName}" alternatifi: dumbell / kablo / makine varyasyonu.`);
     }
   }
 
-  // tab butonlarını oluştur
   function tablariOlustur() {
-    const tabContainer = document.getElementById("gunTabs");
-    tabContainer.innerHTML = '';
+    const tabDiv = document.getElementById("gunTabs");
+    tabDiv.innerHTML = '';
     for (let g of gunSirasi) {
-      const isRest = (hareketler[g] && hareketler[g].length === 0);
+      const bosGun = (hareketler[g] && hareketler[g].length === 0);
       const btn = document.createElement("button");
-      btn.textContent = gunAdlari[g];
+      btn.textContent = gunKisa[g];
       btn.classList.add("gun-btn");
-      if (isRest) btn.classList.add("rest");
+      if (bosGun) btn.classList.add("dinlenme");
       if (g === aktifGun) btn.classList.add("active");
       btn.addEventListener("click", () => {
         aktifGun = g;
@@ -598,23 +563,20 @@
         btn.classList.add('active');
         document.querySelectorAll('.gun-paneli').forEach(panel => panel.style.display = 'none');
         const aktifPanel = document.getElementById(`panel-${g}`);
-        if (aktifPanel) aktifPanel.style.display = "block";
+        if (aktifPanel) aktifPanel.style.display = 'block';
         durdurTimer();
         sifirlaTimer();
       });
-      tabContainer.appendChild(btn);
+      tabDiv.appendChild(btn);
     }
   }
 
   // timer düğmeleri
-  document.getElementById("stopTimerBtn").addEventListener("click", () => durdurTimer());
-  document.getElementById("resetTimerBtn").addEventListener("click", () => {
-    durdurTimer();
-    sifirlaTimer();
-  });
+  document.getElementById("stopTimer").addEventListener("click", () => durdurTimer());
+  document.getElementById("resetTimer").addEventListener("click", () => { durdurTimer(); sifirlaTimer(); });
 
-  // BAŞLAT
-  renderTumGunler();
+  // Başlat
+  tumGunleriGoster();
   tablariOlustur();
   sifirlaTimer();
 </script>
