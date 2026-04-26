@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Fitness Pro 🔥</title>
 <style>
+/* ---------------- TÜM STILLER AYNEN (SIYAH ARKA PLAN, BEYAZ YAZI, 5'LI BUTONLAR) ---------------- */
 * {
     margin: 0;
     padding: 0;
@@ -860,14 +861,12 @@ const muscleGroupMap = {
 };
 
 const exerciseAlternatives = {
-    // PAZARTESİ göğüs+triceps
     "Incline Dumbbell Press": ["Incline Barbell Press", "Smith Machine Incline Press", "Incline Chest Press Machine"],
     "Dumbbell Bench Press": ["Barbell Bench Press", "Chest Press Machine", "Smith Machine Flat Press"],
     "Chest Dip": ["Assisted Dip Machine", "Decline Bench Press", "Bench Dip"],
     "Cable Fly": ["Pec Deck Machine", "Dumbbell Fly", "Resistance Band Fly"],
     "Rope Pushdown": ["Straight Bar Pushdown", "V-Bar Pushdown", "Resistance Band Pushdown"],
     "Overhead Extension": ["Dumbbell Overhead Extension", "Cable Overhead Extension", "EZ Bar Skullcrusher"],
-    // SALI sırt+biceps
     "Lat Pulldown": ["Pull-Up", "Assisted Pull-Up Machine", "Wide Grip Lat Pulldown"],
     "Barbell Row": ["T-Bar Row", "Dumbbell Row", "Chest Supported Row Machine"],
     "Seated Cable Row": ["Machine Row", "Dumbbell Row", "Pendlay Row"],
@@ -875,20 +874,17 @@ const exerciseAlternatives = {
     "Face Pull": ["Reverse Pec Deck", "Dumbbell Rear Delt Raise", "Cable Rear Delt Fly"],
     "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl", "Cable Curl"],
     "Hammer Curl": ["Rope Hammer Curl", "Cross Body Dumbbell Curl", "Reverse EZ Curl"],
-    // PERŞEMBE omuz+biceps
     "Dumbbell Shoulder Press": ["Barbell Shoulder Press", "Machine Shoulder Press", "Smith Machine Shoulder Press"],
     "Lateral Raise": ["Cable Lateral Raise", "Machine Lateral Raise", "Incline Dumbbell Lateral Raise"],
     "Reverse Pec Deck": ["Cable Rear Delt Fly", "Dumbbell Rear Delt Raise", "Face Pull"],
     "Cable Lateral Raise": ["Dumbbell Lateral Raise", "Machine Lateral Raise", "Leaning Cable Raise"],
     "Cable Curl": ["Dumbbell Curl", "EZ Bar Curl", "Resistance Band Curl"],
-    // CUMA bacak
     "Squat": ["Hack Squat Machine", "Leg Press Machine", "Smith Machine Squat"],
     "Leg Curl": ["Lying Leg Curl", "Seated Leg Curl", "Stability Ball Leg Curl"],
     "Leg Extension": ["Sissy Squat", "Hack Squat (dar stance)", "Step Up"],
     "Romanian Deadlift": ["Dumbbell Romanian Deadlift", "Cable Pull Through", "Hip Thrust"],
     "Walking Lunge": ["Static Lunge", "Bulgarian Split Squat", "Reverse Lunge"],
     "Calf Raise": ["Seated Calf Raise", "Leg Press Calf Raise", "Smith Standing Calf Raise"],
-    // CUMARTESİ pump
     "Incline Machine Chest Press": ["Incline Dumbbell Press", "Smith Machine Incline Press", "Barbell Incline Press"],
     "Low to High Cable Fly": ["Incline Dumbbell Fly", "Pec Deck Machine", "Dumbbell Fly"],
     "Pec Deck Machine": ["Cable Fly", "Dumbbell Fly", "Resistance Band Fly"],
@@ -932,7 +928,7 @@ function showAlternatives(exerciseName) {
     document.body.appendChild(modal);
 }
 
-// ==================== VERİLER (SON TAM LİSTE) ====================
+// ==================== DATA (SON VE EKSİKSİZ LİSTE) ====================
 let data = {
     "PAZARTESI": [
         "07:45 Yulaf ezmesi + süt + Skyr + muz - Omega-3 (2 kapsül)", "💧 1 bardak su",
