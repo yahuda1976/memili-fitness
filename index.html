@@ -2,232 +2,180 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>Power Program | 90 saniye dinlenme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>💪 Günlük Antrenman | 90 Saniye Dinlenme</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       background: #0b0f1a;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      font-family: system-ui, 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
       color: #edf2ff;
-      padding: 1rem 0.8rem 2rem;
+      padding: 1rem 0.8rem 5rem;
       line-height: 1.4;
     }
 
     .container {
-      max-width: 850px;
+      max-width: 800px;
       margin: 0 auto;
     }
 
-    /* header & tabs */
-    .app-header {
+    /* başlık */
+    .baslik {
       text-align: center;
       margin-bottom: 1.5rem;
     }
-
-    .app-header h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
+    .baslik h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
       background: linear-gradient(135deg, #facc15, #ef4444);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
+    }
+    .baslik p {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 5px;
     }
 
-    .app-header p {
-      color: #94a3b8;
-      font-size: 0.85rem;
-      margin-top: 6px;
-      display: flex;
-      justify-content: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
-    .day-tabs {
+    /* gün sekmeleri */
+    .gun-tabs {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 1.8rem;
       justify-content: center;
-      background: #0f1422;
-      padding: 0.6rem 0.8rem;
+      background: #0f1422cc;
+      backdrop-filter: blur(4px);
+      padding: 0.6rem;
       border-radius: 60px;
-      backdrop-filter: blur(2px);
+      margin-bottom: 1.5rem;
     }
-
-    .day-btn {
+    .gun-btn {
       background: #1e293b;
       border: none;
-      color: #b9c7dd;
-      font-weight: 600;
+      color: #cbd5e6;
+      font-weight: 700;
       font-size: 0.85rem;
       padding: 0.45rem 1rem;
       border-radius: 40px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: inherit;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      transition: 0.2s;
     }
-
-    .day-btn.active {
+    .gun-btn.active {
       background: #dc2626;
       color: white;
-      box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+      box-shadow: 0 2px 10px rgba(220,38,38,0.3);
     }
-
-    .day-btn.rest-badge {
+    .gun-btn.rest {
       background: #2d3a4e;
       color: #a0b3d9;
     }
 
-    /* gün içerik wrapper */
-    .day-panel {
-      display: none;
-      animation: fade 0.2s ease;
-    }
-
-    .day-panel.active-panel {
-      display: block;
-    }
-
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(6px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-
-    /* Yemek & su kartı */
-    .meal-card {
-      background: #0f172ad9;
-      backdrop-filter: blur(4px);
-      border-radius: 28px;
-      padding: 1rem 1rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid #2d3a5e;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-
-    .meal-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      border-left: 4px solid #facc15;
-      padding-left: 0.7rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .meal-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .meal-item {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      border-bottom: 1px dashed #2d3a60;
-      padding-bottom: 0.5rem;
-    }
-
-    .meal-time {
-      font-weight: 700;
-      background: #1e293b;
-      padding: 0.2rem 0.6rem;
-      border-radius: 30px;
-      min-width: 65px;
-      text-align: center;
-      color: #facc15;
-    }
-
-    .meal-desc {
-      flex: 1;
-      color: #cbd5f0;
-    }
-
-    .water {
-      color: #7aa2f7;
-      font-weight: 500;
-    }
-
-    /* egzersiz kartları */
-    .exercise-card {
-      background: #111927;
+    /* kartlar */
+    .kart {
+      background: #111827;
       border-radius: 32px;
       margin-bottom: 1.8rem;
       border: 1px solid #283044;
       overflow: hidden;
-      transition: all 0.1s;
     }
-
-    .exercise-header {
-      padding: 0.9rem 1rem 0.5rem;
+    .kart-baslik {
       background: #0e1622;
-      border-bottom: 1px solid #273043;
+      padding: 0.7rem 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #2d3a5a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .yemek-listesi {
+      padding: 0.8rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .yemek-satir {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      border-bottom: 1px dashed #2d3a60;
+      padding-bottom: 0.4rem;
+    }
+    .yemek-saat {
+      font-weight: 700;
+      background: #1e293b;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      min-width: 60px;
+      text-align: center;
+      color: #facc15;
+    }
+    .yemek-aciklama {
+      flex: 1;
+      color: #cbd5f0;
+    }
+    .su {
+      color: #7aa2f7;
+      font-weight: 500;
     }
 
-    .exercise-name {
-      font-size: 1.35rem;
+    /* egzersiz */
+    .egzersiz {
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid #1f2a44;
+      padding-bottom: 0.5rem;
+    }
+    .egzersiz-header {
+      padding: 0.8rem 1rem 0.2rem;
+    }
+    .egzersiz-isim {
+      font-size: 1.2rem;
       font-weight: 700;
       display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.6rem;
       justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.5rem;
     }
-
-    .rep-badge {
+    .rep-etiket {
       background: #ef444430;
-      padding: 0.2rem 0.8rem;
-      border-radius: 50px;
-      font-size: 0.75rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
       font-weight: 500;
       color: #facc15;
-      font-family: monospace;
     }
-
-    .action-row {
+    .action-butonlar {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 0.6rem;
-      margin-bottom: 0.2rem;
+      gap: 0.5rem;
+      margin: 0.5rem 0 0.2rem;
     }
-
     .action-btn {
       background: #1f2a44;
       border: none;
       font-size: 0.7rem;
       color: #cad2ff;
-      padding: 0.25rem 0.8rem;
+      padding: 0.2rem 0.8rem;
       border-radius: 40px;
       cursor: pointer;
-      transition: 0.1s;
-      font-weight: 500;
     }
-
-    .action-btn:active {
-      background: #ef4444;
-      color: white;
-    }
-
-    /* set listesi */
     .set-list {
-      padding: 0.7rem 1rem 1rem;
+      padding: 0.2rem 1rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.7rem;
+      gap: 0.6rem;
     }
-
     .set-row {
       background: #0f172f;
       border-radius: 28px;
@@ -239,17 +187,11 @@
       gap: 0.6rem;
       border: 1px solid #26304a;
     }
-
-    .set-number {
+    .set-numarasi {
       font-weight: 700;
-      min-width: 55px;
-      background: #00000044;
-      padding: 0.2rem 0.5rem;
-      border-radius: 40px;
-      text-align: center;
+      min-width: 60px;
       font-size: 0.85rem;
     }
-
     .weight-input {
       background: #010514;
       border: 1px solid #3b4870;
@@ -257,96 +199,73 @@
       border-radius: 36px;
       width: 105px;
       color: white;
-      font-weight: 500;
       text-align: center;
       font-size: 0.85rem;
     }
-
-    .weight-input:focus {
-      outline: none;
-      border-color: #facc15;
-    }
-
-    .rest-set-btn {
+    .rest-btn {
       background: #2a3655;
       border: none;
-      padding: 0.4rem 1rem;
+      padding: 0.4rem 1.1rem;
       border-radius: 40px;
       font-weight: 600;
       color: white;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
       font-size: 0.8rem;
-      transition: 0.1s;
     }
-
-    .rest-set-btn:active {
+    .rest-btn:active {
       background: #dc2626;
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
-    .rep-text {
-      font-size: 0.75rem;
-      color: #9eb0e0;
-      background: #010a1a;
-      padding: 0.2rem 0.6rem;
-      border-radius: 30px;
+    /* boş gün */
+    .rest-mesaj {
+      background: #0f172a;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 48px;
+      color: #cbd5e1;
+      border: 1px dashed #facc1555;
     }
 
-    /* Timer panel */
+    /* timer sabit altta */
     .timer-global {
-      position: sticky;
-      bottom: 0.8rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: #030614dd;
       backdrop-filter: blur(12px);
-      border-radius: 60px;
-      margin-top: 1.2rem;
+      border-top: 1px solid #ef444466;
       padding: 0.6rem 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.8rem;
-      border: 1px solid #ef444455;
-      z-index: 20;
+      gap: 0.6rem;
+      z-index: 100;
     }
-
     .timer-label {
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
-
-    .timer-digits {
-      font-size: 2rem;
+    .timer-sayi {
+      font-size: 1.9rem;
       font-weight: 800;
       font-family: monospace;
       letter-spacing: 3px;
       background: #000000aa;
       padding: 0 0.8rem;
-      border-radius: 48px;
+      border-radius: 60px;
       color: #facc15;
     }
-
-    .timer-actions button {
-      background: #2c385c;
+    .timer-btn {
+      background: #334155;
       border: none;
       color: white;
       padding: 0.4rem 1rem;
       border-radius: 40px;
-      margin: 0 0.2rem;
-      font-weight: 500;
       cursor: pointer;
-    }
-
-    .rest-day-message {
-      background: #0f172a;
-      border-radius: 40px;
-      text-align: center;
-      padding: 2rem 1rem;
-      margin: 1rem 0;
-      border: 1px dashed #facc1555;
+      font-weight: 500;
     }
 
     footer {
@@ -355,19 +274,12 @@
       color: #4b5679;
       margin-top: 1rem;
     }
-
     @media (max-width: 550px) {
       .set-row {
         flex-direction: column;
         align-items: stretch;
       }
-      .weight-input {
-        width: 100%;
-      }
-      .rest-set-btn {
-        justify-content: center;
-      }
-      .timer-digits {
+      .timer-sayi {
         font-size: 1.5rem;
       }
     }
@@ -375,370 +287,336 @@
 </head>
 <body>
 <div class="container">
-  <div class="app-header">
-    <h1>⚡ IRON PACT</h1>
-    <p>✅ 90 saniye dinlenme | Her set sonrası "Dinlenme" butonu</p>
+  <div class="baslik">
+    <h1>🔥 DEMİR GÜNLÜĞÜ</h1>
+    <p>set arası 90 saniye • her set sonrası "DİNLENME" butonu</p>
   </div>
 
-  <div class="day-tabs" id="dayTabs"></div>
+  <div class="gun-tabs" id="gunTabs"></div>
+  <div id="gunIcerik"></div>
+  <footer>📝 Not / 1RM / Video / Link / Alternatif butonları çalışır. Ağırlık gir ve dinlenme butonuna tıkla.</footer>
+</div>
 
-  <!-- Tüm günlerin paneli dinamik olarak doldurulacak -->
-  <div id="daysContainer"></div>
-
-  <!-- Global timer -->
-  <div class="timer-global" id="globalTimerPanel">
-    <div class="timer-label">⏱️ SET ARASI DİNLENME</div>
-    <div class="timer-digits" id="timerDisplay">01:30</div>
-    <div class="timer-actions">
-      <button id="stopTimerBtn">⏹️ Durdur</button>
-      <button id="resetTimerBtn" class="reset-timer">⟳ Sıfırla</button>
-    </div>
+<div class="timer-global">
+  <div class="timer-label">⏱️ DİNLENME SÜRESİ</div>
+  <div class="timer-sayi" id="timerDisplay">01:30</div>
+  <div>
+    <button class="timer-btn" id="stopTimerBtn">Durdur</button>
+    <button class="timer-btn" id="resetTimerBtn">Sıfırla</button>
   </div>
-  <footer>📝 Not / 1RM / Video / Link / Alternatif butonları egzersiz başlığında | Ağırlık girin, dinlenme butonu 90sn geri sayım başlatır</footer>
 </div>
 
 <script>
-  // ----------------------------- TÜM GÜNCEL ANTRENMAN + YEMEK ZAMANLARI ---------------------------------
-  // Meal data (her gün için saat bazlı)
-  const mealsData = {
+  // ----------------------------- TÜM VERİ (GÜN + YEMEKLER + HAREKETLER) ---------------------------------
+  // Yemek verileri (her gün)
+  const yemekler = {
     pazartesi: [
-      { time: "07:45", text: "Overnight oats (yulaf + süt + Skyr + muz) + Omega-3 (2 kapsül)", water: "500 ml" },
-      { time: "09:30", text: "Ekmek + peynir", water: "400 ml" },
-      { time: "12:30", text: "🔹 Su", water: "500 ml" },
-      { time: "14:00", text: "Tavuk + pilav + yoğurt", water: "400 ml" },
-      { time: "16:30", text: "💧 Su", water: "400 ml" },
-      { time: "18:00", text: "Whey + Kreatin (5g)", water: "300 ml" },
-      { time: "19:00", text: "🏋️ ANTRENMAN" },
-      { time: "20:30", text: "Whey", water: "300 ml" },
-      { time: "21:00", text: "Tavuk + patates + salata + Skyr", water: "400 ml" }
+      { saat: "07:45", metin: "Overnight oats (yulaf + süt + Skyr + muz) + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Ekmek + peynir", su: "400 ml" },
+      { saat: "12:30", metin: "Su", su: "500 ml" },
+      { saat: "14:00", metin: "Tavuk + pilav + yoğurt", su: "400 ml" },
+      { saat: "16:30", metin: "Su", su: "400 ml" },
+      { saat: "18:00", metin: "Whey + Kreatin (5g)", su: "300 ml" },
+      { saat: "19:00", metin: "🏋️ ANTRENMAN" },
+      { saat: "20:30", metin: "Whey", su: "300 ml" },
+      { saat: "21:00", metin: "Tavuk + patates + salata + Skyr", su: "400 ml" }
     ],
     sali: [
-      { time: "07:45", text: "Oats + Omega-3", water: "500 ml" },
-      { time: "09:30", text: "Ton balığı + ekmek", water: "400 ml" },
-      { time: "14:00", text: "Et döner + pilav", water: "500 ml" },
-      { time: "18:00", text: "Whey + Kreatin", water: "300 ml" },
-      { time: "19:00", text: "🏋️ ANTRENMAN" },
-      { time: "20:30", text: "Whey" },
-      { time: "21:00", text: "Yumurta + ekmek + Skyr", water: "400 ml" }
+      { saat: "07:45", metin: "Oats + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Ton balığı + ekmek", su: "400 ml" },
+      { saat: "14:00", metin: "Et döner + pilav", su: "500 ml" },
+      { saat: "18:00", metin: "Whey + Kreatin", su: "300 ml" },
+      { saat: "19:00", metin: "🏋️ ANTRENMAN" },
+      { saat: "20:30", metin: "Whey" },
+      { saat: "21:00", metin: "Yumurta + ekmek + Skyr", su: "400 ml" }
     ],
     carsamba: [
-      { time: "07:45", text: "Hafif oats + Omega-3", water: "500 ml" },
-      { time: "09:30", text: "Meyve + kuruyemiş", water: "—" },
-      { time: "14:00", text: "Ton balığı + salata", water: "—" },
-      { time: "18:00", text: "Su", water: "500 ml" },
-      { time: "20:30", text: "Yumurta + yoğurt", water: "—" },
-      { time: "22:00", text: "20-30 dk yürüyüş", water: "" }
+      { saat: "07:45", metin: "Hafif oats + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Meyve + kuruyemiş", su: "" },
+      { saat: "14:00", metin: "Ton balığı + salata", su: "" },
+      { saat: "18:00", metin: "Su", su: "500 ml" },
+      { saat: "20:30", metin: "Yumurta + yoğurt", su: "" },
+      { saat: "22:00", metin: "20-30 dk yürüyüş", su: "" }
     ],
     persembe: [
-      { time: "07:45", text: "Oats + Omega-3", water: "500 ml" },
-      { time: "09:30", text: "Ekmek + peynir", water: "—" },
-      { time: "14:00", text: "Tavuk + pilav", water: "—" },
-      { time: "18:00", text: "Whey + Kreatin", water: "300 ml" },
-      { time: "19:00", text: "🏋️ ANTRENMAN" },
-      { time: "20:30", text: "Whey" },
-      { time: "21:00", text: "Köfte + patates + Skyr", water: "400 ml" }
+      { saat: "07:45", metin: "Oats + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Ekmek + peynir", su: "" },
+      { saat: "14:00", metin: "Tavuk + pilav", su: "" },
+      { saat: "18:00", metin: "Whey + Kreatin", su: "300 ml" },
+      { saat: "19:00", metin: "🏋️ ANTRENMAN" },
+      { saat: "20:30", metin: "Whey" },
+      { saat: "21:00", metin: "Köfte + patates + Skyr", su: "400 ml" }
     ],
     cuma: [
-      { time: "07:45", text: "Enerji oats + Omega-3", water: "500 ml" },
-      { time: "09:30", text: "Peynir + ekmek", water: "—" },
-      { time: "14:00", text: "Et + pilav", water: "—" },
-      { time: "18:00", text: "Whey + Kreatin", water: "300 ml" },
-      { time: "19:00", text: "🏋️ ANTRENMAN" },
-      { time: "20:30", text: "Whey" },
-      { time: "21:00", text: "Tavuk + patates + yoğurt", water: "400 ml" }
+      { saat: "07:45", metin: "Enerji oats + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Peynir + ekmek", su: "" },
+      { saat: "14:00", metin: "Et + pilav", su: "" },
+      { saat: "18:00", metin: "Whey + Kreatin", su: "300 ml" },
+      { saat: "19:00", metin: "🏋️ ANTRENMAN" },
+      { saat: "20:30", metin: "Whey" },
+      { saat: "21:00", metin: "Tavuk + patates + yoğurt", su: "400 ml" }
     ],
     cumartesi: [
-      { time: "07:45", text: "Oats + Omega-3", water: "500 ml" },
-      { time: "09:30", text: "Ton balığı + ekmek", water: "400 ml" },
-      { time: "14:00", text: "Tavuk + pilav", water: "—" },
-      { time: "18:00", text: "Whey + Kreatin", water: "300 ml" },
-      { time: "19:00", text: "🏋️ ANTRENMAN" },
-      { time: "20:30", text: "Whey" },
-      { time: "21:00", text: "Yumurta + peynir + Skyr", water: "400 ml" }
+      { saat: "07:45", metin: "Oats + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Ton balığı + ekmek", su: "400 ml" },
+      { saat: "14:00", metin: "Tavuk + pilav", su: "" },
+      { saat: "18:00", metin: "Whey + Kreatin", su: "300 ml" },
+      { saat: "19:00", metin: "🏋️ ANTRENMAN" },
+      { saat: "20:30", metin: "Whey" },
+      { saat: "21:00", metin: "Yumurta + peynir + Skyr", su: "400 ml" }
     ],
     pazar: [
-      { time: "07:45", text: "Hafif oats + Omega-3", water: "500 ml" },
-      { time: "09:30", text: "Meyve", water: "—" },
-      { time: "14:00", text: "Tavuk + salata", water: "—" },
-      { time: "20:30", text: "Yumurta + yoğurt", water: "—" }
+      { saat: "07:45", metin: "Hafif oats + Omega-3", su: "500 ml" },
+      { saat: "09:30", metin: "Meyve", su: "" },
+      { saat: "14:00", metin: "Tavuk + salata", su: "" },
+      { saat: "20:30", metin: "Yumurta + yoğurt", su: "" }
     ]
   };
 
-  // Egzersiz verisi (gün bazlı)
-  const exercisesMap = {
-    pazartesi: {
-      name: "PAZARTESİ",
-      isRest: false,
-      exercises: [
-        { name: "🏋️ Incline Dumbbell Press (30-45°)", sets: 4, rep: "6-8", noteExtra: "3 sn indir" },
-        { name: "🏋️ Dumbbell Bench Press", sets: 3, rep: "6-10", noteExtra: "Kürek kemikleri sık" },
-        { name: "🔻 Chest Dip (öne eğilerek)", sets: 3, rep: "8-12", noteExtra: "Alt göğüs odak" },
-        { name: "🎯 Cable Chest Fly", sets: 3, rep: "12-15", noteExtra: "Sıkıştır" },
-        { name: "🔥 Triceps Pushdown (Rope)", sets: 3, rep: "10-12", noteExtra: "Dirsek sabit" },
-        { name: "💪 Overhead Triceps Extension", sets: 3, rep: "10-12", noteExtra: "Gerilimi hisset" }
-      ]
-    },
-    sali: {
-      name: "SALI",
-      isRest: false,
-      exercises: [
-        { name: "🔵 Lat Pulldown (göğse)", sets: 4, rep: "8-12", noteExtra: "Arkaya çekme" },
-        { name: "🔵 Barbell Row", sets: 3, rep: "6-10", noteExtra: "Bel sabit" },
-        { name: "🔵 Seated Cable Row", sets: 3, rep: "10-12", noteExtra: "Kürek sık" },
-        { name: "📌 Straight Arm Cable Pulldown", sets: 3, rep: "12-15", noteExtra: "Lat odak" },
-        { name: "🎯 Face Pull", sets: 3, rep: "12-15", noteExtra: "Arka omuz" },
-        { name: "💪 Barbell Curl", sets: 3, rep: "8-12", noteExtra: "Sallama yok" },
-        { name: "💪 Hammer Curl", sets: 3, rep: "10-12", noteExtra: "Kontrol" }
-      ]
-    },
-    carsamba: { name: "ÇARŞAMBA", isRest: true, exercises: [] },
-    persembe: {
-      name: "PERŞEMBE",
-      isRest: false,
-      exercises: [
-        { name: "🎯 Dumbbell Shoulder Press", sets: 4, rep: "6-10", noteExtra: "Bel boşluk verme" },
-        { name: "🎯 Dumbbell Lateral Raise", sets: 4, rep: "12-15", noteExtra: "Omuz hizası" },
-        { name: "🎯 Reverse Pec Deck", sets: 3, rep: "12-15", noteExtra: "Arka omuz" },
-        { name: "🎯 Cable Lateral Raise", sets: 3, rep: "12-15", noteExtra: "Sabit" },
-        { name: "💪 Cable Curl (pump)", sets: 2, rep: "12-15", noteExtra: "Yavaş" },
-        { name: "💪 Hammer Curl (pump)", sets: 2, rep: "12-15", noteExtra: "Kontrol" }
-      ]
-    },
-    cuma: {
-      name: "CUMA",
-      isRest: false,
-      exercises: [
-        { name: "🏋️ Barbell Back Squat", sets: 4, rep: "6-8", noteExtra: "Derin squat" },
-        { name: "🦵 Seated Leg Curl", sets: 3, rep: "12-15", noteExtra: "" },
-        { name: "🦵 Leg Extension", sets: 3, rep: "12-15", noteExtra: "" },
-        { name: "🏋️ Romanian Deadlift", sets: 3, rep: "8-12", noteExtra: "Kalçadan kır" },
-        { name: "🏃 Walking Lunge", sets: 3, rep: "10-12 (her bacak)", noteExtra: "" },
-        { name: "🦵 Standing Calf Raise", sets: 4, rep: "15-20", noteExtra: "" }
-      ]
-    },
-    cumartesi: {
-      name: "CUMARTESİ",
-      isRest: false,
-      exercises: [
-        { name: "📌 Incline Chest Press Machine", sets: 3, rep: "10-12", noteExtra: "" },
-        { name: "🎯 Low to High Cable Fly", sets: 3, rep: "12-15", noteExtra: "" },
-        { name: "🦾 Pec Deck Machine", sets: 3, rep: "12-15", noteExtra: "" },
-        { name: "💪 Push-Up", sets: 2, rep: "failure", noteExtra: "son sete kadar" },
-        { name: "🔥 Triceps Pushdown (Rope)", sets: 2, rep: "12-15", noteExtra: "" },
-        { name: "🔥 Cable Overhead Triceps Extension", sets: 2, rep: "12-15", noteExtra: "" }
-      ]
-    },
-    pazar: { name: "PAZAR", isRest: true, exercises: [] }
+  // HAREKETLER (güncel liste, aynen son verdiğin gibi)
+  const hareketler = {
+    pazartesi: [
+      { ad: "🏋️ Incline Dumbbell Press (30-45°)", set: 4, tekrar: "6-8", not: "3 sn indir" },
+      { ad: "🏋️ Dumbbell Bench Press", set: 3, tekrar: "6-10", not: "Kürek kemikleri sık" },
+      { ad: "🔻 Chest Dip (öne eğilerek)", set: 3, tekrar: "8-12", not: "Alt göğüs odak" },
+      { ad: "🎯 Cable Chest Fly", set: 3, tekrar: "12-15", not: "Sıkıştır" },
+      { ad: "🔥 Triceps Pushdown (Rope)", set: 3, tekrar: "10-12", not: "Dirsek sabit" },
+      { ad: "💪 Overhead Triceps Extension", set: 3, tekrar: "10-12", not: "Gerilimi hisset" }
+    ],
+    sali: [
+      { ad: "🔵 Lat Pulldown (göğse)", set: 4, tekrar: "8-12", not: "Arkaya çekme" },
+      { ad: "🔵 Barbell Row", set: 3, tekrar: "6-10", not: "Bel sabit" },
+      { ad: "🔵 Seated Cable Row", set: 3, tekrar: "10-12", not: "Kürek sık" },
+      { ad: "📌 Straight Arm Cable Pulldown", set: 3, tekrar: "12-15", not: "Lat odak" },
+      { ad: "🎯 Face Pull", set: 3, tekrar: "12-15", not: "Arka omuz" },
+      { ad: "💪 Barbell Curl", set: 3, tekrar: "8-12", not: "Sallama yok" },
+      { ad: "💪 Hammer Curl", set: 3, tekrar: "10-12", not: "Kontrol" }
+    ],
+    carsamba: [],
+    persembe: [
+      { ad: "🎯 Dumbbell Shoulder Press", set: 4, tekrar: "6-10", not: "Bel boşluk verme" },
+      { ad: "🎯 Dumbbell Lateral Raise", set: 4, tekrar: "12-15", not: "Omuz hizası" },
+      { ad: "🎯 Reverse Pec Deck", set: 3, tekrar: "12-15", not: "Arka omuz" },
+      { ad: "🎯 Cable Lateral Raise", set: 3, tekrar: "12-15", not: "Sabit" },
+      { ad: "💪 Cable Curl (pump)", set: 2, tekrar: "12-15", not: "Yavaş" },
+      { ad: "💪 Hammer Curl (pump)", set: 2, tekrar: "12-15", not: "Kontrol" }
+    ],
+    cuma: [
+      { ad: "🏋️ Barbell Back Squat", set: 4, tekrar: "6-8", not: "Derin squat" },
+      { ad: "🦵 Seated Leg Curl", set: 3, tekrar: "12-15", not: "" },
+      { ad: "🦵 Leg Extension", set: 3, tekrar: "12-15", not: "" },
+      { ad: "🏋️ Romanian Deadlift", set: 3, tekrar: "8-12", not: "Kalçadan kır" },
+      { ad: "🏃 Walking Lunge", set: 3, tekrar: "10-12 (her bacak)", not: "" },
+      { ad: "🦵 Standing Calf Raise", set: 4, tekrar: "15-20", not: "" }
+    ],
+    cumartesi: [
+      { ad: "📌 Incline Chest Press Machine", set: 3, tekrar: "10-12", not: "" },
+      { ad: "🎯 Low to High Cable Fly", set: 3, tekrar: "12-15", not: "" },
+      { ad: "🦾 Pec Deck Machine", set: 3, tekrar: "12-15", not: "" },
+      { ad: "💪 Push-Up", set: 2, tekrar: "failure", not: "son sete kadar" },
+      { ad: "🔥 Triceps Pushdown (Rope)", set: 2, tekrar: "12-15", not: "" },
+      { ad: "🔥 Cable Overhead Triceps Extension", set: 2, tekrar: "12-15", not: "" }
+    ],
+    pazar: []
   };
 
-  const daysOrder = ["pazartesi", "sali", "carsamba", "persembe", "cuma", "cumartesi", "pazar"];
-  const dayDisplayNames = { pazartesi:"PZT", sali:"SAL", carsamba:"ÇAR", persembe:"PER", cuma:"CUM", cumartesi:"CMT", pazar:"PAZ" };
+  const gunSirasi = ["pazartesi", "sali", "carsamba", "persembe", "cuma", "cumartesi", "pazar"];
+  const gunAdlari = { pazartesi:"PZT", sali:"SAL", carsamba:"ÇAR", persembe:"PER", cuma:"CUM", cumartesi:"CMT", pazar:"PAZ" };
+  let aktifGun = "pazartesi";
 
-  let activeDayKey = "pazartesi";
+  // timer değişkenleri
   let timerInterval = null;
-  let remainingSeconds = 90;
-  const timerDisplayElem = document.getElementById("timerDisplay");
+  let kalanSaniye = 90;
+  const timerSpan = document.getElementById("timerDisplay");
 
-  function updateTimerUI() {
-    const mins = Math.floor(remainingSeconds / 60);
-    const secs = remainingSeconds % 60;
-    timerDisplayElem.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  function timerGuncelle() {
+    const dak = Math.floor(kalanSaniye / 60);
+    const sn = kalanSaniye % 60;
+    timerSpan.textContent = `${dak.toString().padStart(2,'0')}:${sn.toString().padStart(2,'0')}`;
   }
 
-  function stopTimer() {
+  function durdurTimer() {
     if (timerInterval) {
       clearInterval(timerInterval);
       timerInterval = null;
     }
   }
 
-  function startTimer(seconds = 90) {
-    stopTimer();
-    remainingSeconds = seconds;
-    updateTimerUI();
+  function baslatTimer(saniye = 90) {
+    durdurTimer();
+    kalanSaniye = saniye;
+    timerGuncelle();
     timerInterval = setInterval(() => {
-      if (remainingSeconds <= 1) {
-        stopTimer();
-        remainingSeconds = 0;
-        updateTimerUI();
-        // optional ses? sessiz
+      if (kalanSaniye <= 1) {
+        durdurTimer();
+        kalanSaniye = 0;
+        timerGuncelle();
       } else {
-        remainingSeconds--;
-        updateTimerUI();
+        kalanSaniye--;
+        timerGuncelle();
       }
     }, 1000);
   }
 
-  function resetTimerToDefault() {
-    stopTimer();
-    remainingSeconds = 90;
-    updateTimerUI();
+  function sifirlaTimer() {
+    durdurTimer();
+    kalanSaniye = 90;
+    timerGuncelle();
   }
 
-  // Egzersiz kartlarını oluştur (setler + weight input + dinlenme butonu)
-  function renderWorkoutPanel(dayKey) {
-    const dayData = exercisesMap[dayKey];
-    if (!dayData) return `<div class="rest-day-message">❓ Gün bulunamadı</div>`;
-    if (dayData.isRest) {
-      return `<div class="rest-day-message">🧘‍♂️ AKTİF DİNLENME GÜNÜ<br>Yürüyüş / esneme | Standart beslenme planı uygulanır 💧</div>`;
+  // yemek HTML
+  function yemekHtml(gunKey) {
+    const liste = yemekler[gunKey] || [];
+    if (liste.length === 0) return '<div class="kart"><div class="kart-baslik">🍽️ Beslenme</div><div class="yemek-listesi">Bugün için plan yok</div></div>';
+    let html = `<div class="kart"><div class="kart-baslik">🍱 GÜNLÜK BESLENME & SU</div><div class="yemek-listesi">`;
+    for (let o of liste) {
+      const suMetin = o.su ? `<span class="su">💧 ${o.su}</span>` : '';
+      html += `<div class="yemek-satir"><span class="yemek-saat">${o.saat}</span><span class="yemek-aciklama">${o.metin} ${suMetin ? ` ${suMetin}` : ''}</span></div>`;
     }
-    let html = '';
-    for (let exIdx = 0; exIdx < dayData.exercises.length; exIdx++) {
-      const ex = dayData.exercises[exIdx];
-      const repTarget = ex.rep === "failure" ? "failure" : `${ex.rep} tekrar`;
+    html += `</div></div>`;
+    return html;
+  }
+
+  // hareketler HTML
+  function hareketHtml(gunKey) {
+    const hareketDizi = hareketler[gunKey] || [];
+    if (hareketDizi.length === 0) {
+      return `<div class="rest-mesaj">🧘‍♂️ AKTİF DİNLENME GÜNÜ<br>Yürüyüş / esneme | Standart beslenme uygulanır</div>`;
+    }
+    let html = `<div class="kart"><div class="kart-baslik">🏋️ ANTRENMAN</div>`;
+    for (let exIdx = 0; exIdx < hareketDizi.length; exIdx++) {
+      const ex = hareketDizi[exIdx];
+      const repText = ex.tekrar === "failure" ? "failure" : `${ex.tekrar} tekrar`;
       html += `
-        <div class="exercise-card" data-ex="${exIdx}">
-          <div class="exercise-header">
-            <div class="exercise-name">
-              <span>${ex.name}</span>
-              <span class="rep-badge">🎯 ${repTarget}</span>
+        <div class="egzersiz" data-exidx="${exIdx}">
+          <div class="egzersiz-header">
+            <div class="egzersiz-isim">
+              <span>${ex.ad}</span>
+              <span class="rep-etiket">🎯 ${repText}</span>
             </div>
-            <div class="action-row">
-              <button class="action-btn" data-action="not" data-exname="${ex.name}">📝 Not</button>
-              <button class="action-btn" data-action="1rm" data-exname="${ex.name}">📊 1RM</button>
-              <button class="action-btn" data-action="video" data-exname="${ex.name}">🎥 Video</button>
-              <button class="action-btn" data-action="link" data-exname="${ex.name}">🔗 Link</button>
-              <button class="action-btn" data-action="alternatif" data-exname="${ex.name}">🔄 Alternatif</button>
+            <div class="action-butonlar">
+              <button class="action-btn" data-action="not" data-name="${ex.ad}">📝 Not</button>
+              <button class="action-btn" data-action="1rm" data-name="${ex.ad}">📊 1RM</button>
+              <button class="action-btn" data-action="video" data-name="${ex.ad}">🎥 Video</button>
+              <button class="action-btn" data-action="link" data-name="${ex.ad}">🔗 Link</button>
+              <button class="action-btn" data-action="alternatif" data-name="${ex.ad}">🔄 Alternatif</button>
             </div>
-            ${ex.noteExtra ? `<div style="font-size:0.7rem; margin-top:5px; color:#b9c8ff;">💡 ${ex.noteExtra}</div>` : ''}
+            ${ex.not ? `<div style="font-size:0.7rem; margin-top:4px; color:#b9c8ff;">💡 ${ex.not}</div>` : ''}
           </div>
-          <div class="set-list" id="setlist-${dayKey}-${exIdx}">
+          <div class="set-list" id="setler-${gunKey}-${exIdx}">
       `;
-      for (let s = 1; s <= ex.sets; s++) {
+      for (let s = 1; s <= ex.set; s++) {
         html += `
           <div class="set-row">
-            <div class="set-number">Set ${s}</div>
+            <div class="set-numarasi">Set ${s}</div>
             <input type="text" class="weight-input" placeholder="Ağırlık (kg)" autocomplete="off">
-            <div class="rep-text">${ex.rep}</div>
-            <button class="rest-set-btn" data-day="${dayKey}" data-exercise="${ex.name}" data-set="${s}">⏱️ Dinlenme</button>
+            <button class="rest-btn" data-gun="${gunKey}" data-ex="${ex.ad}" data-setno="${s}">⏱️ 90sn Dinlen</button>
           </div>
         `;
       }
       html += `</div></div>`;
     }
+    html += `</div>`;
     return html;
   }
 
-  function renderMealSection(dayKey) {
-    const meals = mealsData[dayKey];
-    if (!meals) return `<div class="meal-card">🍽️ Beslenme bilgisi eklenmemiş</div>`;
-    let mealHtml = `<div class="meal-card"><div class="meal-title">🍱 GÜNLÜK BESLENME & SU</div><div class="meal-grid">`;
-    meals.forEach(m => {
-      const waterHtml = m.water ? `<span class="water">💧 ${m.water}</span>` : '';
-      mealHtml += `<div class="meal-item"><span class="meal-time">${m.time}</span><span class="meal-desc">${m.text} ${waterHtml ? ` ${waterHtml}` : ''}</span></div>`;
-    });
-    mealHtml += `</div></div>`;
-    return mealHtml;
+  function tumGunuOlustur(gunKey) {
+    return `<div id="panel-${gunKey}" class="gun-paneli">${yemekHtml(gunKey)}${hareketHtml(gunKey)}</div>`;
   }
 
-  function buildFullDayPanel(dayKey) {
-    const mealSection = renderMealSection(dayKey);
-    const workoutHtml = renderWorkoutPanel(dayKey);
-    return `
-      <div class="day-panel" id="panel-${dayKey}">
-        ${mealSection}
-        <div style="margin-bottom: 0.5rem;"><span style="background:#dc2626; padding:0.2rem 0.7rem; border-radius: 30px;">🏋️ ANTRENMAN</span></div>
-        ${workoutHtml}
-      </div>
-    `;
-  }
-
-  function renderAllDays() {
-    const container = document.getElementById("daysContainer");
-    let allPanelsHtml = '';
-    for (let d of daysOrder) {
-      allPanelsHtml += buildFullDayPanel(d);
+  // tüm panelleri oluştur
+  function renderTumGunler() {
+    const container = document.getElementById("gunIcerik");
+    let allPanels = '';
+    for (let g of gunSirasi) {
+      allPanels += tumGunuOlustur(g);
     }
-    container.innerHTML = allPanelsHtml;
-    // aktif panel göster
-    for (let d of daysOrder) {
-      const panel = document.getElementById(`panel-${d}`);
+    container.innerHTML = allPanels;
+    // aktif paneli göster
+    for (let g of gunSirasi) {
+      const panel = document.getElementById(`panel-${g}`);
       if (panel) {
-        if (d === activeDayKey) panel.classList.add("active-panel");
-        else panel.classList.remove("active-panel");
+        if (g === aktifGun) panel.style.display = "block";
+        else panel.style.display = "none";
       }
     }
-    attachSetRestEvents();
-    attachActionButtonsEvents();
+    attachDinlenmeEventleri();
+    attachActionEventleri();
   }
 
-  // set dinlenme eventleri
-  function attachSetRestEvents() {
-    document.querySelectorAll('.rest-set-btn').forEach(btn => {
+  // dinlenme butonlarına event
+  function attachDinlenmeEventleri() {
+    document.querySelectorAll('.rest-btn').forEach(btn => {
       btn.removeEventListener('click', restHandler);
       btn.addEventListener('click', restHandler);
     });
   }
   function restHandler(e) {
     e.stopPropagation();
-    startTimer(90);
+    baslatTimer(90);
   }
 
-  // action butonlar (Not, 1RM, video, link, alternatif)
-  function attachActionButtonsEvents() {
+  // action butonları
+  function attachActionEventleri() {
     document.querySelectorAll('.action-btn').forEach(btn => {
       btn.removeEventListener('click', actionHandler);
       btn.addEventListener('click', actionHandler);
     });
   }
   function actionHandler(e) {
-    const action = e.currentTarget.getAttribute('data-action');
-    const exName = e.currentTarget.getAttribute('data-exname');
-    if (action === 'not') {
-      const userNote = prompt(`📝 "${exName}" için not gir:`, "Örn: 3 saniye iniş");
-      if (userNote) alert(`Not kaydedildi: ${userNote}`);
-      else alert("Not boş");
-    } else if (action === '1rm') {
-      let weight = prompt(`🏋️ "${exName}" için kaldırdığın max ağırlık (kg):`, "100");
-      if (weight) alert(`Tahmini 1RM: ${weight} kg (hesaplama için antrenöre danış)`);
-    } else if (action === 'video') {
-      alert(`🎥 "${exName}" için video önerisi: YouTube'da araştırabilirsin.`);
-    } else if (action === 'link') {
-      alert(`🔗 "${exName}" için faydalı link: https://exrx.net (egzersiz kütüphanesi)`);
-    } else if (action === 'alternatif') {
-      alert(`🔄 "${exName}" alternatifi: Dumbell versiyonu / kablo / makine varyasyonu denenebilir.`);
+    const act = e.currentTarget.getAttribute('data-action');
+    const exName = e.currentTarget.getAttribute('data-name');
+    if (act === 'not') {
+      const notMetin = prompt(`📝 "${exName}" için not ekle:`, "Örn: 3 saniye iniş");
+      if (notMetin) alert(`Not: ${notMetin}`);
+    } else if (act === '1rm') {
+      let kg = prompt(`🏋️ "${exName}" için tahmini 1RM ağırlık (kg):`, "100");
+      if (kg) alert(`1RM tahmini: ${kg} kg`);
+    } else if (act === 'video') {
+      alert(`🎥 "${exName}" için video önerisi: YouTube'da “${exName} form” ara.`);
+    } else if (act === 'link') {
+      alert(`🔗 "${exName}" için örnek link: https://exrx.net/search`);
+    } else if (act === 'alternatif') {
+      alert(`🔄 "${exName}" alternatif hareket: Dumbell / kablo / makine varyasyonu deneyebilirsin.`);
     }
   }
 
   // tab butonlarını oluştur
-  function buildTabs() {
-    const tabsContainer = document.getElementById("dayTabs");
-    tabsContainer.innerHTML = '';
-    for (let d of daysOrder) {
-      const isRest = exercisesMap[d]?.isRest || false;
+  function tablariOlustur() {
+    const tabContainer = document.getElementById("gunTabs");
+    tabContainer.innerHTML = '';
+    for (let g of gunSirasi) {
+      const isRest = (hareketler[g] && hareketler[g].length === 0);
       const btn = document.createElement("button");
-      btn.textContent = dayDisplayNames[d];
-      btn.classList.add("day-btn");
-      if (isRest) btn.classList.add("rest-badge");
-      if (d === activeDayKey) btn.classList.add("active");
+      btn.textContent = gunAdlari[g];
+      btn.classList.add("gun-btn");
+      if (isRest) btn.classList.add("rest");
+      if (g === aktifGun) btn.classList.add("active");
       btn.addEventListener("click", () => {
-        activeDayKey = d;
-        document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+        aktifGun = g;
+        document.querySelectorAll('.gun-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.querySelectorAll('.day-panel').forEach(panel => panel.classList.remove('active-panel'));
-        const targetPanel = document.getElementById(`panel-${d}`);
-        if (targetPanel) targetPanel.classList.add('active-panel');
-        // timer reset yok, sadece görünüm
-        stopTimer();
-        resetTimerToDefault();
+        document.querySelectorAll('.gun-paneli').forEach(panel => panel.style.display = 'none');
+        const aktifPanel = document.getElementById(`panel-${g}`);
+        if (aktifPanel) aktifPanel.style.display = "block";
+        durdurTimer();
+        sifirlaTimer();
       });
-      tabsContainer.appendChild(btn);
+      tabContainer.appendChild(btn);
     }
   }
 
-  // timer kontrol butonları
-  document.getElementById("stopTimerBtn").addEventListener("click", () => stopTimer());
+  // timer düğmeleri
+  document.getElementById("stopTimerBtn").addEventListener("click", () => durdurTimer());
   document.getElementById("resetTimerBtn").addEventListener("click", () => {
-    stopTimer();
-    resetTimerToDefault();
+    durdurTimer();
+    sifirlaTimer();
   });
 
-  function init() {
-    renderAllDays();
-    buildTabs();
-    resetTimerToDefault();
-  }
-  init();
+  // BAŞLAT
+  renderTumGunler();
+  tablariOlustur();
+  sifirlaTimer();
 </script>
 </body>
 </html>
