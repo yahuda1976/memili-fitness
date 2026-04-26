@@ -195,26 +195,36 @@ small {
     border-radius: 10px;
     color: var(--ios-text2);
 }
-.note-btn, .oneRM-btn, .video-btn, .link-btn, .alt-btn {
-    background: var(--ios-blue);
-    border: none;
-    padding: 6px 10px;
-    border-radius: 8px;
+/* Buton grubu - eşit dağıtım, taşma yok, siyah arka planda beyaz */
+.ex-title-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: space-between;
+}
+.ex-title-buttons button {
+    flex: 1;
+    background: var(--ios-card2);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 4px;
+    border-radius: 10px;
     color: white;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     cursor: pointer;
-    margin-left: 6px;
+    text-align: center;
+    white-space: nowrap;
 }
-.video-btn {
-    background: var(--ios-red);
+.ex-title-buttons button:active {
+    transform: scale(0.95);
 }
-.link-btn {
-    background: var(--ios-green);
-}
-.alt-btn {
-    background: var(--ios-orange);
-}
+/* Özel buton renkleri (isteğe bağlı tutarlılık için) */
+.ex-title-buttons .note-btn { background: var(--ios-card2); }
+.ex-title-buttons .oneRM-btn { background: var(--ios-card2); }
+.ex-title-buttons .video-btn { background: var(--ios-card2); }
+.ex-title-buttons .link-btn { background: var(--ios-card2); }
+.ex-title-buttons .alt-btn { background: var(--ios-card2); }
+
 .ex-title {
     background: var(--ios-card2);
     border-radius: 12px;
@@ -229,15 +239,8 @@ small {
     flex-wrap: wrap;
     gap: 8px;
 }
-.ex-title button {
-    background: var(--ios-red);
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    font-size: 0.7rem;
-    cursor: pointer;
+.ex-title > span {
+    flex: 1;
 }
 /* Süper set çizgisi */
 .superset-group {
@@ -778,24 +781,24 @@ small {
 <script>
 // ==================== BESİN VERİTABANI ====================
 const foodDatabase = {
-    "tavuk göğsü": {p:31,k:0,f:3.6,cal:165},
-    "pirinç pişmiş": {p:2.7,k:28,f:0.3,cal:130},
-    "yumurta": {p:6,k:0.6,f:5,cal:68},
     "yulaf": {p:13,k:68,f:7,cal:389},
     "süt": {p:3.4,k:5,f:3.6,cal:61},
     "skyr": {p:11,k:4,f:0.2,cal:64},
-    "whey protein": {p:24,k:3,f:1,cal:120},
     "muz": {p:1.1,k:23,f:0.3,cal:89},
-    "kıyma": {p:26,k:0,f:20,cal:291},
-    "patates haşlama": {p:2,k:17,f:0.1,cal:77},
+    "ekmek": {p:9,k:49,f:3.2,cal:265},
+    "peynir": {p:22,k:2,f:20,cal:300},
+    "tavuk": {p:31,k:0,f:3.6,cal:165},
+    "pilav": {p:2.7,k:28,f:0.3,cal:130},
+    "yoğurt": {p:5,k:6,f:3,cal:61},
     "ton balığı": {p:26,k:0,f:1,cal:116},
-    "lavaş": {p:9,k:55,f:3,cal:275},
-    "chia": {p:17,k:42,f:31,cal:486},
-    "kahve": {p:0,k:0,f:0,cal:2},
-    "zeytinyağı": {p:0,k:0,f:100,cal:884},
-    "kinoa pişmiş": {p:4.4,k:21,f:1.9,cal:120},
-    "quark": {p:13,k:3.5,f:0.2,cal:73},
-    "salata": {p:1,k:2,f:0.2,cal:15}
+    "et döner": {p:20,k:5,f:15,cal:230},
+    "yumurta": {p:6,k:0.6,f:5,cal:68},
+    "köfte": {p:24,k:4,f:18,cal:250},
+    "patates": {p:2,k:17,f:0.1,cal:77},
+    "salata": {p:1,k:2,f:0.2,cal:15},
+    "kinoa": {p:4.4,k:21,f:1.9,cal:120},
+    "whey protein": {p:24,k:3,f:1,cal:120},
+    "omega-3": {p:0,k:0,f:100,cal:30}
 };
 
 let dailyMacros = {protein:0, carb:0, fat:0, cal:0};
@@ -805,27 +808,14 @@ function parseFoodAndCalcMacros(text) {
     let lowerText = text.toLowerCase();
     for(let food in foodDatabase) {
         if(lowerText.includes(food)) {
-            let regex = new RegExp(`(\\d+)\\s*g?\\s*${food}`);
-            let match = lowerText.match(regex);
-            let amount = match ? parseInt(match[1]) : 100;
-            if(food === "yumurta" || food === "muz") {
-                let adetRegex = new RegExp(`(\\d+)\\s*${food}`);
-                let adetMatch = lowerText.match(adetRegex);
-                if(adetMatch) amount = parseInt(adetMatch[1]);
-                else amount = 1;
-                let data = foodDatabase[food];
-                total.p += data.p * amount;
-                total.k += data.k * amount;
-                total.f += data.f * amount;
-                total.cal += data.cal * amount;
-            } else {
-                let multiplier = amount / 100;
-                let data = foodDatabase[food];
-                total.p += data.p * multiplier;
-                total.k += data.k * multiplier;
-                total.f += data.f * multiplier;
-                total.cal += data.cal * multiplier;
-            }
+            let amount = 100;
+            if(food === "yumurta" || food === "muz") amount = 1;
+            let multiplier = amount / 100;
+            let data = foodDatabase[food];
+            total.p += data.p * multiplier;
+            total.k += data.k * multiplier;
+            total.f += data.f * multiplier;
+            total.cal += data.cal * multiplier;
         }
     }
     return total;
@@ -914,35 +904,34 @@ function deleteVideoFromLibrary(ex) {
 
 // ==================== KAS GRUBU DİNLENME TAKİBİ ====================
 const muscleGroupMap = {
-    "Incline Dumbbell Press (30–45°)": "Göğüs",
+    "Incline Dumbbell Press": "Göğüs",
     "Dumbbell Bench Press": "Göğüs",
-    "Chest Dip (Paralel bar)": "Göğüs",
-    "Cable Fly": "Göğüs",
-    "Incline Machine Press": "Göğüs",
-    "Low to High Cable Fly": "Göğüs",
-    "Pec Deck": "Göğüs",
-    "Push-Up": "Göğüs",
+    "Chest Dip": "Göğüs",
+    "Cable Chest Fly": "Göğüs",
+    "Rope Pushdown": "Triceps",
+    "Overhead Triceps Extension": "Triceps",
     "Lat Pulldown": "Sırt",
     "Barbell Row": "Sırt",
-    "Single Arm Dumbbell Row (Dumbbell)": "Sırt",
     "Seated Cable Row": "Sırt",
-    "Straight Arm Pulldown (Cable)": "Sırt",
-    "Hyperextension (Bench)": "Sırt",
+    "Straight Arm Pulldown": "Sırt",
     "Face Pull": "Omuz",
+    "Barbell Curl": "Biceps",
+    "Hammer Curl": "Biceps",
     "Dumbbell Shoulder Press": "Omuz",
     "Lateral Raise": "Omuz",
     "Reverse Pec Deck": "Omuz",
     "Cable Lateral Raise": "Omuz",
-    "Barbell Curl": "Biceps",
-    "Hammer Curl": "Biceps",
-    "Triceps Pushdown (Halat/rope)": "Triceps",
-    "Overhead Triceps Extension (Dumbbell / cable)": "Triceps",
-    "Seated Leg Curl": "Bacak",
+    "Cable Curl": "Biceps",
     "Squat": "Bacak",
+    "Leg Curl": "Bacak",
     "Leg Extension": "Bacak",
     "Romanian Deadlift": "Bacak",
-    "Walking Lunge (her bacak)": "Bacak",
-    "Calf Raise": "Bacak"
+    "Walking Lunge": "Bacak",
+    "Calf Raise": "Bacak",
+    "Incline Machine Press": "Göğüs",
+    "Low to High Cable Fly": "Göğüs",
+    "Pec Deck": "Göğüs",
+    "Push-Up": "Göğüs"
 };
 
 let muscleLastTrained = {};
@@ -1024,35 +1013,34 @@ function renderRecoveryPanel() {
 
 // ==================== ALTERNATİF HAREKET ÖNERİCİSİ ====================
 const exerciseAlternatives = {
-    "Incline Dumbbell Press (30–45°)": ["Incline Machine Press", "Smith Machine Incline Press"],
+    "Incline Dumbbell Press": ["Incline Machine Press", "Smith Machine Incline Press"],
     "Dumbbell Bench Press": ["Barbell Bench Press", "Chest Press Machine"],
-    "Chest Dip (Paralel bar)": ["Decline Dumbbell Press", "Bench Dip"],
-    "Cable Fly": ["Pec Deck", "Dumbbell Fly"],
-    "Triceps Pushdown (Halat/rope)": ["Straight Bar Pushdown", "V-Bar Pushdown"],
-    "Overhead Triceps Extension (Dumbbell / cable)": ["Skullcrusher", "Single Arm Dumbbell Extension"],
+    "Chest Dip": ["Decline Dumbbell Press", "Bench Dip"],
+    "Cable Chest Fly": ["Pec Deck", "Dumbbell Fly"],
+    "Rope Pushdown": ["Straight Bar Pushdown", "V-Bar Pushdown"],
+    "Overhead Triceps Extension": ["Skullcrusher", "Single Arm Dumbbell Extension"],
     "Lat Pulldown": ["Pull-Up", "Assisted Pull-Up"],
     "Barbell Row": ["T-Bar Row", "Machine Row"],
-    "Single Arm Dumbbell Row (Dumbbell)": ["Seated Cable Row", "Chest Supported Row"],
     "Seated Cable Row": ["Chest Supported Row", "Barbell Row"],
-    "Straight Arm Pulldown (Cable)": ["Dumbbell Pullover"],
-    "Hyperextension (Bench)": ["Romanian Deadlift", "Back Extension Machine"],
+    "Straight Arm Pulldown": ["Dumbbell Pullover"],
     "Face Pull": ["Reverse Pec Deck", "Rear Delt Raise"],
-    "Dumbbell Shoulder Press": ["Machine Shoulder Press", "Smith Machine Press"],
+    "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl"],
+    "Hammer Curl": ["Rope Hammer Curl"],
+    "Dumbbell Shoulder Press": ["Machine Shoulder Press"],
     "Lateral Raise": ["Cable Lateral Raise", "Machine Lateral Raise"],
     "Reverse Pec Deck": ["Face Pull", "Bent Over Rear Delt Raise"],
     "Cable Lateral Raise": ["Dumbbell Lateral Raise"],
-    "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl"],
-    "Hammer Curl": ["Rope Hammer Curl", "Cross Body Curl"],
-    "Seated Leg Curl": ["Lying Leg Curl", "Nordic Curl"],
+    "Cable Curl": ["Concentration Curl"],
     "Squat": ["Leg Press", "Hack Squat"],
+    "Leg Curl": ["Lying Leg Curl", "Nordic Curl"],
     "Leg Extension": ["Sissy Squat", "Reverse Nordic"],
     "Romanian Deadlift": ["Good Morning", "Hyperextension"],
-    "Walking Lunge (her bacak)": ["Reverse Lunge", "Bulgarian Split Squat"],
+    "Walking Lunge": ["Reverse Lunge", "Bulgarian Split Squat"],
     "Calf Raise": ["Seated Calf Raise", "Donkey Calf Raise"],
-    "Incline Machine Press": ["Incline Dumbbell Press", "Smith Machine Incline"],
-    "Low to High Cable Fly": ["Incline Dumbbell Fly", "Cable Crossover"],
-    "Pec Deck": ["Cable Fly", "Dumbbell Fly"],
-    "Push-Up": ["Close Grip Bench Press", "Incline Push-Up"]
+    "Incline Machine Press": ["Incline Dumbbell Press"],
+    "Low to High Cable Fly": ["Incline Dumbbell Fly"],
+    "Pec Deck": ["Cable Fly"],
+    "Push-Up": ["Close Grip Bench Press"]
 };
 
 function showAlternatives(exerciseName) {
@@ -1077,167 +1065,120 @@ function showAlternatives(exerciseName) {
     document.body.appendChild(modal);
 }
 
-// ==================== TÜM VERİLER (GÜNCELLENMİŞ) ====================
+// ==================== TÜM VERİLER (YENİ LİSTE) ====================
 let data = {
     "PAZARTESI": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr + chia", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + pirinç + salata - EAA (4 tablet)", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Tavuk + kinoa", "💧 1 bardak",
-        "17:30 💧 1 bardak",
-        "18:15 Pre-workout - Muz - EAA (2 tablet)", "💧 1 bardak",
-        "18:40 💧 1 bardak",
-        "🏋️ GÖĞÜS (AĞIR) + TRICEPS",
-        {ex:"Incline Dumbbell Press (30–45°)", sets:4, link:"", notes:""},
-        {ex:"Dumbbell Bench Press", sets:3, link:"", notes:""},
-        {ex:"Chest Dip (Paralel bar)", sets:3, link:"", notes:""},
-        {ex:"Cable Fly", sets:3, link:"", notes:""},
-        {ex:"Triceps Pushdown (Halat/rope)", sets:3, link:"", notes:""},
-        {ex:"Overhead Triceps Extension (Dumbbell / cable)", sets:3, link:"", notes:""},
+        "07:45 Overnight oats (yulaf + süt + Skyr + muz) - Omega-3 (2 kapsül)", "💧 1 bardak",
+        "👉 Püf: sabah karbonhidrat = gün boyu enerji",
+        "09:30 Ekmek + peynir", "💧 1 bardak",
+        "10:30 💧 1 bardak",
+        "12:30 💧 1 bardak",
+        "14:00 Tavuk + pilav + yoğurt", "💧 1 bardak",
+        "👉 Püf: pilavı abartma → antrenman enerjisi temiz kalsın",
+        "16:30 💧 1 bardak",
+        "18:00 Whey + Kreatin (5g)", "💧 1 bardak",
+        "👉 Püf: kreatin = kas içi doluluk",
+        "🏋️ GÖĞÜS + TRICEPS (AĞIR)",
+        {ex:"Incline Dumbbell Press", sets:4, link:"", notes:"👉 30–35° bench, 3 sn yavaş indir, göğüsle it, omuzla değil - Püf: en büyük göğüs geliştirici hareket"},
+        {ex:"Dumbbell Bench Press", sets:3, link:"", notes:"👉 Kürek kemiklerini sık, göğsü yukarıda tut - Püf: omuz değil göğüs hissi"},
+        {ex:"Chest Dip", sets:3, link:"", notes:"👉 Öne eğil, alt göğüs odak - Püf: dik değil, öne eğik"},
+        {ex:"Cable Chest Fly", sets:3, link:"", notes:"👉 Kapanışta 1 sn sık, yavaş kontrol - Püf: ağırlık değil sıkıştırma"},
+        {ex:"Rope Pushdown", sets:3, link:"", notes:"👉 Dirsek sabit, altta ipi aç - Püf: sadece ön kol hareket etsin"},
+        {ex:"Overhead Triceps Extension", sets:3, link:"", notes:"👉 Baş üstü ger, long head hissi - Püf: esneme önemli"},
         "💧 4 bardak",
-        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
-        "20:45 💧 1 bardak",
-        "21:00 Kıyma + patates", "💧 1 bardak",
-        "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
+        "20:30 Whey", "💧 1 bardak",
+        "21:00 Tavuk + patates + salata + Skyr", "💧 1 bardak",
+        "👉 Püf: protein + hafif karbonhidrat = recovery"
     ],
     "SALI": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr + meyve", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Kıyma + pirinç + salata - EAA (4 tablet)", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Ton balığı + lavaş", "💧 1 bardak",
-        "17:30 💧 1 bardak",
-        "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
-        "18:40 💧 1 bardak",
-        "🏋️ SIRT",
-        {ex:"Lat Pulldown", sets:4, link:"", notes:""},
-        {ex:"Barbell Row", sets:3, link:"", notes:""},
-        {ex:"Single Arm Dumbbell Row (Dumbbell)", sets:3, link:"", notes:""},
-        {ex:"Seated Cable Row", sets:3, link:"", notes:""},
-        {ex:"Straight Arm Pulldown (Cable)", sets:3, link:"", notes:""},
-        {ex:"Hyperextension (Bench)", sets:3, link:"", notes:""},
-        {ex:"Face Pull", sets:3, link:"", notes:""},
-        "💧 4 bardak",
-        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
-        "20:45 💧 1 bardak",
-        "21:00 Tavuk + kinoa", "💧 1 bardak",
-        "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
-    ],
-    "CARSAMBA": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr + meyve", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + kinoa - EAA (4 tablet)", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Quark + meyve", "💧 1 bardak",
-        "17:30 💧 1 bardak",
-        "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
-        "18:40 💧 1 bardak",
-        "🏋️ OFF (DİNLENME)",
-        "💧 4 bardak",
-        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
-        "20:45 💧 1 bardak",
-        "21:00 Tavuk + pirinç", "💧 1 bardak",
-        "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
-    ],
-    "PERSEMBE": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr + chia", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + pirinç - EAA (4 tablet)", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Tavuk + kinoa", "💧 1 bardak",
-        "17:30 💧 1 bardak",
-        "18:15 Pre-workout - Muz", "💧 1 bardak",
-        "18:40 💧 1 bardak",
-        "🏋️ OMUZ + BICEPS",
-        {ex:"Dumbbell Shoulder Press", sets:4, link:"", notes:""},
-        {ex:"Lateral Raise", sets:4, link:"", notes:""},
-        {ex:"Reverse Pec Deck", sets:3, link:"", notes:""},
-        {ex:"Cable Lateral Raise", sets:3, link:"", notes:""},
-        {ex:"Barbell Curl", sets:3, link:"", notes:""},
+        "07:45 Oats + Omega-3", "💧 1 bardak",
+        "09:30 Ton balığı + ekmek", "💧 1 bardak",
+        "12:30 💧 1 bardak",
+        "14:00 Et döner + pilav", "💧 1 bardak",
+        "16:30 💧 1 bardak",
+        "18:00 Whey + Kreatin", "💧 1 bardak",
+        "🏋️ SIRT + BICEPS (AĞIR)",
+        {ex:"Lat Pulldown", sets:4, link:"", notes:"👉 Göğse çek - Püf: arkaya kaçma"},
+        {ex:"Barbell Row", sets:3, link:"", notes:"👉 Bel sabit - Püf: momentum yok"},
+        {ex:"Seated Cable Row", sets:3, link:"", notes:"👉 Kürek sık - Püf: 1 sn sık"},
+        {ex:"Straight Arm Pulldown", sets:3, link:"", notes:"👉 Lat izolasyon - Püf: kol değil sırt"},
+        {ex:"Face Pull", sets:3, link:"", notes:"👉 Arka omuz - Püf: sağlık hareketi"},
+        {ex:"Barbell Curl", sets:3, link:"", notes:"👉 Sallama yok"},
         {ex:"Hammer Curl", sets:3, link:"", notes:""},
         "💧 4 bardak",
-        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
-        "20:45 💧 1 bardak",
-        "21:00 Kıyma + patates", "💧 1 bardak",
-        "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
+        "20:30 Whey", "💧 1 bardak",
+        "21:00 Yumurta + ekmek + Skyr", "💧 1 bardak"
+    ],
+    "CARSAMBA": [
+        "07:45 Hafif oats + Omega-3", "💧 1 bardak",
+        "09:30 Meyve + kuruyemiş", "💧 1 bardak",
+        "12:30 💧 1 bardak",
+        "14:00 Ton balığı + salata", "💧 1 bardak",
+        "16:30 💧 1 bardak",
+        "20:30 Yumurta + yoğurt", "💧 1 bardak",
+        "👉 Püf: recovery günü = kas büyüme"
+    ],
+    "PERSEMBE": [
+        "07:45 Oats + Omega-3", "💧 1 bardak",
+        "09:30 Ekmek + peynir", "💧 1 bardak",
+        "14:00 Tavuk + pilav", "💧 1 bardak",
+        "18:00 Whey + Kreatin", "💧 1 bardak",
+        "🏋️ OMUZ + BICEPS (PUMP)",
+        {ex:"Dumbbell Shoulder Press", sets:4, link:"", notes:"👉 Bel boşluk yok"},
+        {ex:"Lateral Raise", sets:4, link:"", notes:"👉 Omuz hizası"},
+        {ex:"Reverse Pec Deck", sets:3, link:"", notes:"👉 Arka omuz"},
+        {ex:"Cable Lateral Raise", sets:3, link:"", notes:""},
+        {ex:"Cable Curl", sets:2, link:"", notes:""},
+        {ex:"Hammer Curl", sets:2, link:"", notes:""},
+        "💧 4 bardak",
+        "21:00 Köfte + patates + Skyr", "💧 1 bardak"
     ],
     "CUMA": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + pirinç - EAA (4 tablet)", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Kıyma + kinoa", "💧 1 bardak",
-        "17:30 💧 1 bardak",
-        "18:15 Pre-workout - EAA (2 tablet)", "💧 1 bardak",
-        "18:40 💧 1 bardak",
+        "07:45 Oats + Omega-3", "💧 1 bardak",
+        "14:00 Et + pilav", "💧 1 bardak",
         "🏋️ BACAK",
-        {ex:"Seated Leg Curl", sets:3, link:"", notes:""},
-        {ex:"Squat", sets:4, link:"", notes:""},
+        {ex:"Squat", sets:4, link:"", notes:"👉 Derin squat - Püf: derinlik önemli"},
+        {ex:"Leg Curl", sets:3, link:"", notes:""},
         {ex:"Leg Extension", sets:3, link:"", notes:""},
-        {ex:"Romanian Deadlift", sets:3, link:"", notes:""},
-        {ex:"Walking Lunge (her bacak)", sets:3, link:"", notes:""},
+        {ex:"Romanian Deadlift", sets:3, link:"", notes:"👉 Kalçadan kır"},
+        {ex:"Walking Lunge", sets:3, link:"", notes:""},
         {ex:"Calf Raise", sets:4, link:"", notes:""},
         "💧 4 bardak",
-        "20:15 Whey (1 ölçek) - Kreatin (5g)", "💧 1 bardak",
-        "20:45 💧 1 bardak",
-        "21:00 Tavuk + pilav", "💧 1 bardak",
-        "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak"
+        "21:00 Tavuk + pilav + yoğurt", "💧 1 bardak"
     ],
     "CUMARTESI": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr + meyve", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + kinoa", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Quark + meyve - Whey (1 ölçek)", "💧 1 bardak",
-        "17:30 💧 1 bardak", "18:30 💧 1 bardak",
-        "20:00 Ton balığı + lavaş", "💧 1 bardak",
-        "20:30 💧 1 bardak", "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak",
-        "🏋️ GÖĞÜS (PUMP)",
+        "07:45 Oats + Omega-3", "💧 1 bardak",
+        "09:30 Ekmek + peynir", "💧 1 bardak",
+        "12:30 💧 1 bardak",
+        "14:00 Tavuk + pilav", "💧 1 bardak",
+        "16:30 💧 1 bardak",
+        "18:00 Whey + Kreatin", "💧 1 bardak",
+        "🏋️ GÖĞÜS + TRICEPS PUMP",
         {ex:"Incline Machine Press", sets:3, link:"", notes:""},
         {ex:"Low to High Cable Fly", sets:3, link:"", notes:""},
         {ex:"Pec Deck", sets:3, link:"", notes:""},
-        {ex:"Push-Up", sets:2, link:"", notes:"failure"}
+        {ex:"Push-Up", sets:2, link:"", notes:"failure"},
+        "💧 4 bardak",
+        "20:30 Whey", "💧 1 bardak",
+        "21:00 Tavuk + salata + Skyr", "💧 1 bardak"
     ],
     "PAZAR": [
-        "07:00 Yulaf + süt + kahve - Whey (1 ölçek) - Omega 3 + çörek otu yağı", "💧 1 bardak",
-        "07:30 💧 1 bardak", "08:00 💧 1 bardak",
-        "09:00 Skyr", "💧 1 bardak",
-        "09:30 💧 1 bardak", "11:00 💧 1 bardak", "12:00 💧 1 bardak",
-        "14:00 Tavuk + kinoa", "💧 1 bardak",
-        "14:30 💧 1 bardak", "15:30 💧 1 bardak",
-        "17:00 Quark + meyve - Whey (1 ölçek)", "💧 1 bardak",
-        "17:30 💧 1 bardak", "18:30 💧 1 bardak",
-        "20:00 Ton balığı + salata + lavaş", "💧 1 bardak",
-        "20:30 💧 1 bardak", "21:30 💧 1 bardak",
-        "23:00 Skyr", "💧 1 bardak",
-        "🏋️ OFF (DİNLENME)"
+        "07:45 Oats + Omega-3", "💧 1 bardak",
+        "09:30 Meyve + kuruyemiş", "💧 1 bardak",
+        "12:30 💧 1 bardak",
+        "14:00 Ton balığı + salata", "💧 1 bardak",
+        "16:30 💧 1 bardak",
+        "19:00 Yürüyüş",
+        "20:30 Yumurta + yoğurt", "💧 1 bardak",
+        "👉 Püf: tam dinlenme + su takibi"
     ]
 };
 
 let supplements = [
-    {name: "Omega 3 + Çörek Otu Yağı", time: "Sabah"},
+    {name: "Omega-3", time: "Sabah"},
     {name: "Whey Protein", time: "Sabah & Antrenman sonrası"},
-    {name: "EAA", time: "Öğle (4 tablet) + Antrenman öncesi (2 tablet)"},
-    {name: "Kreatin", time: "Antrenman sonrası (5g)"}
+    {name: "Kreatin", time: "Antrenman öncesi"},
+    {name: "EAA", time: "Antrenman sırası (isteğe bağlı)"}
 ];
 
 let doneState = {};
@@ -1403,7 +1344,6 @@ function saveDataToLocal() {
     localStorage.setItem("fitnessDataUltimate", JSON.stringify(data));
     localStorage.setItem("fitnessDoneUltimate", JSON.stringify(doneState));
     localStorage.setItem("fitnessWaterUltimate", JSON.stringify(waterIntake));
-    localStorage.setItem("fitnessSetsUltimate", JSON.stringify(totalSetCount));
     localStorage.setItem("fitnessSupplements", JSON.stringify(supplements));
     localStorage.setItem("fitnessDailyNotes", JSON.stringify(dailyNotes));
     localStorage.setItem("fitnessOneRMHistory", JSON.stringify(oneRMHistory));
@@ -1418,7 +1358,6 @@ function loadDataFromLocal() {
     let sd = localStorage.getItem("fitnessDataUltimate"); if (sd) data = JSON.parse(sd);
     let s = localStorage.getItem("fitnessDoneUltimate"); if (s) doneState = JSON.parse(s);
     let sw = localStorage.getItem("fitnessWaterUltimate"); if (sw) waterIntake = JSON.parse(sw);
-    let ss = localStorage.getItem("fitnessSetsUltimate"); if (ss) totalSetCount = JSON.parse(ss);
     let sup = localStorage.getItem("fitnessSupplements"); if (sup) supplements = JSON.parse(sup);
     let dn = localStorage.getItem("fitnessDailyNotes"); if (dn) dailyNotes = JSON.parse(dn);
     let orm = localStorage.getItem("fitnessOneRMHistory"); if (orm) oneRMHistory = JSON.parse(orm);
@@ -1426,7 +1365,7 @@ function loadDataFromLocal() {
     let bm = localStorage.getItem("bodyMeasurements"); if (bm) bodyMeasurements = JSON.parse(bm);
     let bf = localStorage.getItem("beforePhoto"); if (bf) beforePhoto = bf;
     let af = localStorage.getItem("afterPhoto"); if (af) afterPhoto = af;
-    let ev = localStorage.getItem("fitnessExerciseVideos"); if (ev) Object.assign(exerciseVideos, JSON.parse(ev));
+    let ev = localStorage.getItem("fitnessExerciseVideos"); if (ev) exerciseVideos = JSON.parse(ev);
     let ml = localStorage.getItem("muscleLastTrained"); if (ml) muscleLastTrained = JSON.parse(ml);
 }
 function updateBodyMeasurementsUI() {
@@ -1573,12 +1512,13 @@ function renderDayItems(day) {
         } else if (item && typeof item === "object" && item.ex) {
             let titleDiv = document.createElement("div");
             titleDiv.className = "ex-title";
-            titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div style="display:flex; gap:8px;">
-                <button class="note-btn" onclick="showExerciseNote('${item.ex}','${day}',${idx})">📝 Not</button>
-                <button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">🏋️ 1RM</button>
-                <button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">📹 Video</button>
-                <button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button>
-                <button class="alt-btn" onclick="showAlternatives('${item.ex}')">🔄 Alternatif</button>
+            titleDiv.innerHTML = `<span>💪 ${item.ex}</span>
+                <div class="ex-title-buttons">
+                    <button class="note-btn" onclick="showExerciseNote('${item.ex}','${day}',${idx})">Not</button>
+                    <button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">1RM</button>
+                    <button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">Video</button>
+                    <button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">Link</button>
+                    <button class="alt-btn" onclick="showAlternatives('${item.ex}')">Alternatif</button>
                 </div>`;
             cont.appendChild(titleDiv);
             for (let s=1; s<=item.sets; s++) {
@@ -1597,11 +1537,11 @@ function renderDayItems(day) {
                                 delete doneState[setKey];
                                 totalSetCount--;
                                 saveDataToLocal();
-                                updateAllStats();
                                 renderDayItems(day);
                                 buildHome();
-                                showToast("❌ Set iptal edildi");
+                                updateAllStats();
                                 updateDailyMacros();
+                                showToast("❌ Set iptal edildi");
                             }
                             return;
                         }
@@ -1639,7 +1579,7 @@ function populateManageSelects() {
     days.forEach(d => { mealSel.innerHTML += `<option value="${d}">${d}</option>`; exSel.innerHTML += `<option value="${d}">${d}</option>`; });
     mealSel.onchange = () => refreshMealList(); exSel.onchange = () => refreshExerciseList();
 }
-function refreshMealList() { let day = document.getElementById("mealManageDay").value, cont = document.getElementById("mealList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("🏋️") && !it.includes("🧘")) { let div = document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px0"; div.style.background="var(--ios-card2)"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1; color:var(--ios-text);">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:var(--ios-red); border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button></div>`; cont.appendChild(div); } }); }
+function refreshMealList() { let day = document.getElementById("mealManageDay").value, cont = document.getElementById("mealList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("🏋️") && !it.includes("👤")) { let div = document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px0"; div.style.background="var(--ios-card2)"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1; color:var(--ios-text);">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:var(--ios-red); border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button></div>`; cont.appendChild(div); } }); }
 function deleteMeal(day,idx) { if(confirm("Sil?")) { data[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("✅ Silindi"); } }
 function addMealToDay() { let day = document.getElementById("mealManageDay").value, name = document.getElementById("newMealName").value; if(!day||!name) { showToast("Gün ve ad girin"); return; } data[day].push(name); saveDataToLocal(); document.getElementById("newMealName").value=""; refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
 function refreshExerciseList() { let day = document.getElementById("exerciseManageDay").value, cont = document.getElementById("exerciseList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(it && typeof it==="object" && it.ex) { let div = document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px0"; div.style.background="var(--ios-card2)"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1; color:var(--ios-text);">💪 ${it.ex} (${it.sets} set)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteExercise('${day}',${idx})" style="background:var(--ios-red); border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button><button class="delete-btn" style="background:var(--ios-green); border:none; padding:4px 8px; border-radius:8px; color:white; margin-left:4px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗</button></div>`; cont.appendChild(div); } }); }
