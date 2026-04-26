@@ -23,8 +23,8 @@
     --ios-text2: #AEAEB2;
 }
 body {
-    background: var(--ios-bg);
-    color: var(--ios-text);
+    background: #000000;
+    color: #FFFFFF;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     font-size: 17px;
     min-height: 100vh;
@@ -32,7 +32,7 @@ body {
     font-weight: 500;
 }
 .app-header {
-    background: rgba(0,0,0,0.9);
+    background: #000000;
     backdrop-filter: blur(20px);
     padding: 16px 20px;
     text-align: center;
@@ -59,43 +59,44 @@ body {
     margin: 0 auto;
 }
 .card {
-    background: var(--ios-card);
+    background: #1C1C1E;
     border-radius: 14px;
     padding: 20px 12px;
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .card:active {
     transform: scale(0.97);
-    background: var(--ios-card2);
+    background: #2C2C2E;
 }
 .card h3 {
     font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 8px;
-    color: var(--ios-red);
+    color: #FF3B30;
 }
 .card.settings-card h3 {
-    color: var(--ios-blue);
+    color: #007AFF;
 }
 .progress-bar {
     width: 100%;
     height: 4px;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border-radius: 4px;
     overflow: hidden;
     margin-top: 12px;
 }
 .progress-fill {
     height: 100%;
-    background: var(--ios-green);
+    background: #34C759;
 }
 small {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--ios-text2);
+    color: #8E8E93;
     display: block;
     margin-top: 8px;
 }
@@ -105,13 +106,13 @@ small {
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--ios-bg);
+    background: #000000;
     z-index: 1000;
     overflow-y: auto;
     padding-bottom: 120px;
 }
 .day-header {
-    background: rgba(0,0,0,0.9);
+    background: #000000;
     backdrop-filter: blur(20px);
     padding: 16px 20px;
     display: flex;
@@ -123,7 +124,7 @@ small {
     border-bottom: 0.5px solid rgba(255,255,255,0.1);
 }
 .back-btn, .add-item-btn {
-    background: var(--ios-blue);
+    background: #007AFF;
     border: none;
     padding: 10px 20px;
     border-radius: 12px;
@@ -139,9 +140,10 @@ small {
 .day-title {
     font-size: 1.4rem;
     font-weight: 700;
+    color: #FFFFFF;
 }
 .item, .set {
-    background: var(--ios-card);
+    background: #1C1C1E;
     margin: 10px 16px;
     padding: 14px;
     border-radius: 14px;
@@ -149,24 +151,25 @@ small {
     align-items: center;
     gap: 12px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .set {
     cursor: pointer;
 }
 .set.done, .item.done {
-    background: rgba(52, 199, 89, 0.15);
+    background: rgba(52, 199, 89, 0.2);
     text-decoration: line-through;
-    color: var(--ios-text2);
+    opacity: 0.8;
 }
 .set.done::after, .item.done::after {
     content: "✓";
-    color: var(--ios-green);
+    color: #34C759;
     font-weight: 600;
     margin-left: 8px;
 }
 .set span, .item span {
     font-weight: 600;
-    color: var(--ios-red);
+    color: #FFFFFF;
     flex: 1;
 }
 .move-buttons {
@@ -175,29 +178,29 @@ small {
     gap: 4px;
 }
 .move-btn {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.15);
     border: none;
     font-size: 1rem;
     cursor: pointer;
     padding: 4px 6px;
     border-radius: 10px;
-    color: var(--ios-text2);
+    color: #FFFFFF;
 }
-/* 5'li butonlar eşit genişlik */
+/* 5'li butonlar: eşit genişlik, taşma yok, beyaz yazı */
 .ex-title-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
     justify-content: space-between;
 }
 .ex-title-buttons button {
     flex: 1;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border: 1px solid rgba(255,255,255,0.2);
-    padding: 6px 4px;
+    padding: 8px 4px;
     border-radius: 10px;
     color: white;
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     font-weight: 600;
     cursor: pointer;
     text-align: center;
@@ -208,7 +211,7 @@ small {
     transform: scale(0.95);
 }
 .ex-title {
-    background: var(--ios-card2);
+    background: #1C1C1E;
     border-radius: 12px;
     padding: 12px 16px;
     margin: 16px 16px 8px;
@@ -217,25 +220,28 @@ small {
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .ex-title > span {
     flex: 1;
     font-weight: 600;
+    color: #FFFFFF;
 }
 .bottom-quest {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: var(--ios-card);
+    background: #1C1C1E;
     padding: 12px 20px;
     z-index: 100;
+    border-top: 0.5px solid rgba(255,255,255,0.1);
 }
 .quest-title {
     font-size: 0.9rem;
     font-weight: 600;
     text-align: center;
-    color: var(--ios-blue);
+    color: #007AFF;
 }
 .quest-grid {
     display: grid;
@@ -245,7 +251,7 @@ small {
 }
 .quest-item {
     text-align: center;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     padding: 8px;
     border-radius: 12px;
 }
@@ -255,35 +261,37 @@ small {
 .quest-progress {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--ios-text);
+    color: #FFFFFF;
 }
 .daily-score {
     text-align: center;
     font-size: 0.8rem;
     font-weight: 500;
-    color: var(--ios-text2);
+    color: #8E8E93;
 }
 .score-bar {
     width: 100%;
     height: 4px;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border-radius: 4px;
     margin-top: 6px;
     overflow: hidden;
 }
 .score-fill {
     height: 100%;
-    background: var(--ios-green);
+    background: #34C759;
 }
 .stats-panel {
-    background: var(--ios-card);
+    background: #1C1C1E;
     margin: 16px;
     padding: 20px;
     border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .stats-panel h3 {
     font-size: 1.1rem;
     font-weight: 600;
+    color: #FFFFFF;
 }
 .stats-grid {
     display: grid;
@@ -293,18 +301,18 @@ small {
 }
 .stat-card {
     text-align: center;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     padding: 14px;
     border-radius: 12px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: var(--ios-blue);
+    color: #007AFF;
 }
 .stat-card span {
     display: block;
     font-size: 1.4rem;
     font-weight: 700;
-    color: var(--ios-text);
+    color: #FFFFFF;
     margin-top: 4px;
 }
 .badges {
@@ -314,18 +322,19 @@ small {
     margin-top: 16px;
 }
 .badge {
-    background: var(--ios-card2);
+    background: #2C2C2E;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 500;
-    color: var(--ios-blue);
+    color: #007AFF;
 }
 .water-chart, .set-chart {
-    background: var(--ios-card);
+    background: #1C1C1E;
     border-radius: 14px;
     padding: 16px;
     margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .chart-tabs {
     display: flex;
@@ -334,16 +343,16 @@ small {
 }
 .chart-tab {
     flex: 1;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border: none;
     padding: 10px;
     border-radius: 10px;
     font-weight: 600;
-    color: var(--ios-blue);
+    color: #007AFF;
     cursor: pointer;
 }
 .chart-tab.active {
-    background: var(--ios-blue);
+    background: #007AFF;
     color: white;
 }
 .chart-bar-item {
@@ -356,18 +365,18 @@ small {
     width: 45px;
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--ios-text2);
+    color: #FFFFFF;
 }
 .bar-fill {
     flex: 1;
     height: 28px;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border-radius: 8px;
     overflow: hidden;
 }
 .bar {
     height: 100%;
-    background: var(--ios-blue);
+    background: #007AFF;
     transition: width 0.5s;
     display: flex;
     align-items: center;
@@ -395,7 +404,7 @@ small {
     font-size: 40px;
     font-weight: 700;
     font-family: monospace;
-    color: var(--ios-blue);
+    color: #007AFF;
 }
 .timer-buttons {
     display: flex;
@@ -409,11 +418,11 @@ small {
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: 600;
-    color: var(--ios-blue);
+    color: #007AFF;
     cursor: pointer;
 }
 .stop-sound-btn {
-    background: var(--ios-red);
+    background: #FF3B30;
     color: white;
     border: none;
     padding: 6px 12px;
@@ -429,7 +438,7 @@ small {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.9);
     backdrop-filter: blur(8px);
     z-index: 3000;
     display: flex;
@@ -438,7 +447,7 @@ small {
     padding: 20px;
 }
 .modal-content {
-    background: var(--ios-card);
+    background: #1C1C1E;
     border-radius: 20px;
     padding: 24px;
     max-width: 350px;
@@ -449,7 +458,7 @@ small {
     width: 100%;
     padding: 14px;
     margin: 8px 0;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border: none;
     border-radius: 10px;
     font-weight: 500;
@@ -470,11 +479,11 @@ small {
     cursor: pointer;
 }
 .modal-btn.confirm {
-    background: var(--ios-blue);
+    background: #007AFF;
     color: white;
 }
 .modal-btn.cancel {
-    background: var(--ios-red);
+    background: #FF3B30;
     color: white;
 }
 .toast {
@@ -503,7 +512,7 @@ small {
     font-size: 1rem;
     font-weight: 500;
     text-align: center;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     color: white;
     border: none;
     border-radius: 10px;
@@ -511,8 +520,8 @@ small {
 .set-info {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--ios-orange);
-    background: var(--ios-card2);
+    color: #FF9500;
+    background: #2C2C2E;
     padding: 4px 10px;
     border-radius: 20px;
     margin-left: 8px;
@@ -521,10 +530,11 @@ small {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    background: var(--ios-card);
+    background: #1C1C1E;
     border-radius: 14px;
     padding: 12px;
     margin: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .macro-item {
     text-align: center;
@@ -538,15 +548,15 @@ small {
     font-size: 1rem;
     font-weight: 700;
     margin: 2px 0;
+    color: #FFFFFF;
 }
 .macro-item small {
-    color: var(--ios-text2);
+    color: #8E8E93;
     font-size: 0.6rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 .recovery-panel {
-    background: var(--ios-card);
+    background: #1C1C1E;
     border-radius: 14px;
     padding: 12px;
     margin: 12px 16px;
@@ -554,6 +564,7 @@ small {
     flex-wrap: wrap;
     gap: 12px;
     justify-content: space-between;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .recovery-item {
     flex: 1;
@@ -563,14 +574,15 @@ small {
     font-weight: 600;
     font-size: 0.75rem;
 }
-.recovery-red { background: rgba(255, 59, 48, 0.2); color: var(--ios-red); }
-.recovery-orange { background: rgba(255, 149, 0, 0.2); color: var(--ios-orange); }
-.recovery-green { background: rgba(52, 199, 89, 0.2); color: var(--ios-green); }
+.recovery-red { background: rgba(255, 59, 48, 0.2); color: #FF3B30; }
+.recovery-orange { background: rgba(255, 149, 0, 0.2); color: #FF9500; }
+.recovery-green { background: rgba(52, 199, 89, 0.2); color: #34C759; }
 .body-stats {
-    background: var(--ios-card);
+    background: #1C1C1E;
     border-radius: 14px;
     padding: 16px;
     margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 .measure-input {
     display: flex;
@@ -581,23 +593,19 @@ small {
 .measure-input label {
     flex: 1;
     font-weight: 500;
-    color: var(--ios-text2);
+    color: #FFFFFF;
 }
 .measure-input input {
     flex: 2;
     padding: 10px;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border: none;
     border-radius: 10px;
     color: white;
     text-align: center;
 }
-.photo-upload {
-    text-align: center;
-    margin: 16px 0;
-}
 .photo-upload button {
-    background: var(--ios-blue);
+    background: #007AFF;
     border: none;
     padding: 10px 20px;
     border-radius: 12px;
@@ -615,7 +623,7 @@ small {
 }
 .before-after div {
     text-align: center;
-    background: var(--ios-card2);
+    background: #2C2C2E;
     border-radius: 14px;
     padding: 12px;
     width: 45%;
@@ -624,13 +632,6 @@ small {
     max-width: 100%;
     border-radius: 12px;
     margin-top: 8px;
-}
-.slider-container {
-    margin-top: 16px;
-    text-align: center;
-}
-.slider-container input {
-    width: 100%;
 }
 </style>
 </head>
@@ -671,27 +672,27 @@ small {
         <div style="width:50px;"></div>
     </div>
     <div style="padding: 16px;">
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:var(--ios-blue);">💾 VERİ YEDEKLEME</h3>
-            <button onclick="backupData()" style="width:100%; background:var(--ios-blue); border:none; padding:14px; border-radius:12px; color:white; font-weight:600; margin-bottom:8px;">💾 YEDEK AL</button>
-            <button onclick="restoreData()" style="width:100%; background:var(--ios-green); border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">📂 GERİ YÜKLE</button>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);">
+            <h3 style="color:#007AFF;">💾 VERİ YEDEKLEME</h3>
+            <button onclick="backupData()" style="width:100%; background:#007AFF; border:none; padding:14px; border-radius:12px; color:white; font-weight:600; margin-bottom:8px;">💾 YEDEK AL</button>
+            <button onclick="restoreData()" style="width:100%; background:#34C759; border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">📂 GERİ YÜKLE</button>
         </div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;">
-            <h3 style="color:var(--ios-red);">🎥 VİDEO KÜTÜPHANESİ</h3>
-            <input type="text" id="videoExName" placeholder="Hareket adı" style="width:100%; padding:12px; background:var(--ios-card2); border:none; border-radius:10px; margin-bottom:8px; color:white; font-size:16px;">
-            <input type="text" id="videoExLink" placeholder="YouTube linki yapıştır" style="width:100%; padding:12px; background:var(--ios-card2); border:none; border-radius:10px; margin-bottom:8px; color:white; font-size:16px;">
-            <button onclick="addVideoToLibrary()" style="width:100%; background:var(--ios-red); border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">➕ Kütüphaneye Ekle</button>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);">
+            <h3 style="color:#FF3B30;">🎥 VİDEO KÜTÜPHANESİ</h3>
+            <input type="text" id="videoExName" placeholder="Hareket adı" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
+            <input type="text" id="videoExLink" placeholder="YouTube linki yapıştır" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
+            <button onclick="addVideoToLibrary()" style="width:100%; background:#FF3B30; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">➕ Kütüphaneye Ekle</button>
             <div id="videoLibraryList" style="margin-top:12px;"></div>
         </div>
         <div class="body-stats">
-            <h3 style="color:var(--ios-blue);">📏 VÜCUT ÖLÇÜLERİ</h3>
+            <h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
             <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1" placeholder="kg"></div>
             <div class="measure-input"><label>Bel (cm)</label><input type="number" id="bodyWaist" step="0.5" placeholder="cm"></div>
             <div class="measure-input"><label>Göğüs (cm)</label><input type="number" id="bodyChest" step="0.5" placeholder="cm"></div>
             <div class="measure-input"><label>Kol (cm)</label><input type="number" id="bodyArm" step="0.5" placeholder="cm"></div>
             <div class="measure-input"><label>Bacak (cm)</label><input type="number" id="bodyLeg" step="0.5" placeholder="cm"></div>
-            <button onclick="saveBodyMeasurements()" style="background:var(--ios-green); border:none; padding:12px; border-radius:12px; color:white; font-weight:600; width:100%; margin-top:8px;">💾 Ölçüleri Kaydet</button>
-            <h3 style="color:var(--ios-blue); margin-top:20px;">📸 FOTOĞRAF TAKİBİ</h3>
+            <button onclick="saveBodyMeasurements()" style="background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600; width:100%; margin-top:8px;">💾 Ölçüleri Kaydet</button>
+            <h3 style="color:#007AFF; margin-top:20px;">📸 FOTOĞRAF TAKİBİ</h3>
             <div class="photo-upload">
                 <button onclick="uploadPhoto('before')">📷 ÖNCE FOTOĞRAF EKLE</button>
                 <button onclick="uploadPhoto('after')">📷 SONRA FOTOĞRAF EKLE</button>
@@ -699,15 +700,15 @@ small {
             <div class="before-after" id="photoContainer"></div>
             <div class="slider-container" id="sliderContainer" style="display:none;"></div>
         </div>
-        <div class="water-chart"><h3 style="color:var(--ios-blue);">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:var(--ios-text2);"></div></div>
-        <div class="set-chart"><h3 style="color:var(--ios-blue);">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-blue);">📝 GÜNLÜK NOTLARIM</h3><textarea id="dailyNote" rows="4" placeholder="Bugün antrenman nasıldı? Not al..."></textarea><button onclick="saveDailyNote()" style="margin-top:8px; background:var(--ios-green); border:none; padding:10px; border-radius:12px; color:white; font-weight:600;">💾 Notu Kaydet</button></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-blue);">🏋️ 1RM HESAPLAYICI</h3><select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:var(--ios-card2); border:none; border-radius:10px; margin-bottom:8px; color:white;"></select><input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"><input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"><button onclick="calculateAndSaveOneRM()" style="width:100%; background:var(--ios-blue); border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">📊 1RM Hesapla ve Kaydet</button><div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div><canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-orange);">📊 AĞIRLIK TAKİBİ</h3><div id="weightTrackingList" style="color:var(--ios-text2);"></div></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-red);">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:var(--ios-red); border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:var(--ios-text2);">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-blue);">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:var(--ios-green); border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Yemek Ekle</button></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-blue);">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:var(--ios-green); border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Hareket Ekle</button></div>
-        <div style="background:var(--ios-card); border-radius:14px; padding:16px; margin-bottom:16px;"><h3 style="color:var(--ios-blue);">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:var(--ios-card2); border:none; border-radius:10px; color:white;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:var(--ios-green); border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Takviye Ekle</button></div>
+        <div class="water-chart"><h3 style="color:#007AFF;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem; color:#8E8E93;"></div></div>
+        <div class="set-chart"><h3 style="color:#007AFF;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#007AFF;">📝 GÜNLÜK NOTLARIM</h3><textarea id="dailyNote" rows="4" placeholder="Bugün antrenman nasıldı? Not al..." style="background:#2C2C2E; border:none; border-radius:10px; color:white; padding:12px; width:100%;"></textarea><button onclick="saveDailyNote()" style="margin-top:8px; background:#34C759; border:none; padding:10px; border-radius:12px; color:white; font-weight:600;">💾 Notu Kaydet</button></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#007AFF;">🏋️ 1RM HESAPLAYICI</h3><select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;"></select><input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px; background:#2C2C2E; border:none; border-radius:10px; color:white;"><input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px; background:#2C2C2E; border:none; border-radius:10px; color:white;"><button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007AFF; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">📊 1RM Hesapla ve Kaydet</button><div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold; color:#FFFFFF;"></div><canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#FF9500;">📊 AĞIRLIK TAKİBİ</h3><div id="weightTrackingList" style="color:#8E8E93;"></div></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#FF3B30;">⚠️ HAFTA YÖNETİMİ</h3><button onclick="resetWeek()" style="width:100%; background:#FF3B30; border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">🔄 Tüm Haftayı Sıfırla</button><p style="font-size:0.7rem; margin-top:8px; color:#8E8E93;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#007AFF;">🍽️ Yemek Yönetimi</h3><select id="mealManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select><div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"><button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Yemek Ekle</button></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#007AFF;">💪 Egzersiz Yönetimi</h3><select id="exerciseManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select><div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div><input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white; margin-bottom:8px;"><input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"><button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Hareket Ekle</button></div>
+        <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:16px; border:1px solid rgba(255,255,255,0.1);"><h3 style="color:#007AFF;">💊 Supplement Takviye</h3><div id="supplementList" style="margin-bottom:12px;"></div><input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white; margin-bottom:8px;"><input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"><button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Takviye Ekle</button></div>
     </div>
 </div>
 
@@ -831,12 +832,12 @@ function renderVideoLibrary() {
     if(!list) return;
     let html = "";
     for(let ex in exerciseVideos) {
-        html += `<div style="background:var(--ios-card2); padding:10px; border-radius:10px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-            <div style="flex:1; font-size:0.8rem;"><div style="font-weight:600;">${escapeHtml(ex)}</div><div style="color:var(--ios-text2); font-size:0.7rem;">${exerciseVideos[ex]}</div></div>
-            <button onclick="deleteVideoFromLibrary('${escapeHtml(ex)}')" style="background:var(--ios-red); border:none; padding:6px 10px; border-radius:8px; color:white;">Sil</button>
+        html += `<div style="background:#2C2C2E; padding:10px; border-radius:10px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="flex:1; font-size:0.8rem;"><div style="font-weight:600;">${escapeHtml(ex)}</div><div style="color:#8E8E93; font-size:0.7rem;">${exerciseVideos[ex]}</div></div>
+            <button onclick="deleteVideoFromLibrary('${escapeHtml(ex)}')" style="background:#FF3B30; border:none; padding:6px 10px; border-radius:8px; color:white;">Sil</button>
         </div>`;
     }
-    list.innerHTML = html || "<p style='color:var(--ios-text2); text-align:center;'>Kütüphane boş</p>";
+    list.innerHTML = html || "<p style='color:#8E8E93; text-align:center;'>Kütüphane boş</p>";
 }
 function deleteVideoFromLibrary(ex) {
     if(confirm(`"${ex}" videosunu sil?`)) {
@@ -924,7 +925,7 @@ function renderRecoveryPanel() {
     }).join('');
 }
 
-// ==================== VERİLER (YENİ PLAN) ====================
+// ==================== VERİLER (SON TAM LİSTE) ====================
 let data = {
     "PAZARTESI": [
         "07:45 Yulaf ezmesi + süt + Skyr + muz - Omega-3 (2 kapsül)", "💧 1 bardak su",
@@ -1173,7 +1174,7 @@ function updateOneRMChart(ex) {
     let maxVal = Math.max(...last5.map(h=>h.oneRM),1);
     let w = canvas.width, h = canvas.height;
     ctx.clearRect(0,0,w,h);
-    ctx.fillStyle="#007aff";
+    ctx.fillStyle="#007AFF";
     let barW = (w-50)/last5.length-5;
     for(let i=0;i<last5.length;i++) {
         let barH = (last5[i].oneRM/maxVal)*(h-40);
@@ -1181,7 +1182,7 @@ function updateOneRMChart(ex) {
         ctx.fillStyle="#1c1c1e";
         ctx.font="10px sans-serif";
         ctx.fillText(last5[i].oneRM, 50+i*(barW+5), h-barH-25);
-        ctx.fillStyle="#007aff";
+        ctx.fillStyle="#007AFF";
     }
     ctx.fillStyle="#1c1c1e";
     ctx.font="12px sans-serif";
@@ -1417,7 +1418,7 @@ function updateWeightTrackingDisplay() {
     let html = "";
     for(let day in setLogs) for(let ex in setLogs[day]) {
         let entries = Object.entries(setLogs[day][ex]).map(([sn,log])=>`Set ${sn}: ${log.reps} tekrar x ${log.weight} kg`).join(" | ");
-        html += `<div style="background:var(--ios-card2); padding:12px; border-radius:12px; margin-bottom:12px;"><strong>${day} - ${ex}</strong><br>${entries}</div>`;
+        html += `<div style="background:#2C2C2E; padding:12px; border-radius:12px; margin-bottom:12px;"><strong>${day} - ${ex}</strong><br>${entries}</div>`;
     }
     cont.innerHTML = html || "<div>Henüz ağırlık kaydı yok</div>";
 }
@@ -1428,14 +1429,14 @@ function populateManageSelects() {
     days.forEach(d => { mealSel.innerHTML += `<option value="${d}">${d}</option>`; exSel.innerHTML += `<option value="${d}">${d}</option>`; });
     mealSel.onchange = () => refreshMealList(); exSel.onchange = () => refreshExerciseList();
 }
-function refreshMealList() { let day=document.getElementById("mealManageDay").value, cont=document.getElementById("mealList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("🏋️") && !it.includes("👉")) { let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="var(--ios-card2)"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:var(--ios-red); border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button></div>`; cont.appendChild(div); } }); }
+function refreshMealList() { let day=document.getElementById("mealManageDay").value, cont=document.getElementById("mealList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("🏋️") && !it.includes("👉")) { let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button></div>`; cont.appendChild(div); } }); }
 function deleteMeal(day,idx) { if(confirm("Sil?")) { data[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("✅ Silindi"); } }
 function addMealToDay() { let day=document.getElementById("mealManageDay").value, name=document.getElementById("newMealName").value; if(!day||!name) { showToast("Gün ve ad girin"); return; } data[day].push(name); saveDataToLocal(); document.getElementById("newMealName").value=""; refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
-function refreshExerciseList() { let day=document.getElementById("exerciseManageDay").value, cont=document.getElementById("exerciseList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(it && typeof it==="object" && it.ex) { let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="var(--ios-card2)"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">💪 ${it.ex} (${it.sets} set)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteExercise('${day}',${idx})" style="background:var(--ios-red); border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button><button class="delete-btn" style="background:var(--ios-green); margin-left:4px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗</button></div>`; cont.appendChild(div); } }); }
+function refreshExerciseList() { let day=document.getElementById("exerciseManageDay").value, cont=document.getElementById("exerciseList"); if(!day||!data[day]) { cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(it && typeof it==="object" && it.ex) { let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">💪 ${it.ex} (${it.sets} set)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteExercise('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button><button class="delete-btn" style="background:#34C759; margin-left:4px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗</button></div>`; cont.appendChild(div); } }); }
 function setVideoLinkFromSettings(day,idx) { let ex=data[day][idx].ex; let link=prompt(`${ex} için YouTube linki:`, data[day][idx].link||""); if(link!==null){ data[day][idx].link=link; saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); showToast("✅ Link kaydedildi"); } }
 function deleteExercise(day,idx) { if(confirm("Bu hareket silinsin mi?")) { data[day].splice(idx,1); saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("✅ Silindi"); } }
 function addExerciseToDay() { let day=document.getElementById("exerciseManageDay").value, name=document.getElementById("newExerciseName").value, sets=parseInt(document.getElementById("newExerciseSets").value); if(!day||!name||!sets) { showToast("Gün, hareket ve set sayısı girin"); return; } data[day].push({ex:name, sets:sets, link:"", notes:""}); saveDataToLocal(); document.getElementById("newExerciseName").value=""; document.getElementById("newExerciseSets").value=""; refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" (${sets} set) eklendi`); }
-function updateSupplementsDisplay() { let cont=document.getElementById("supplementList"); if(!cont) return; cont.innerHTML=""; supplements.forEach((sup,idx)=>{ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid rgba(255,255,255,0.1)"; div.innerHTML=`<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})" style="background:var(--ios-red); border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button>`; cont.appendChild(div); }); }
+function updateSupplementsDisplay() { let cont=document.getElementById("supplementList"); if(!cont) return; cont.innerHTML=""; supplements.forEach((sup,idx)=>{ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid rgba(255,255,255,0.1)"; div.innerHTML=`<span>💊 ${sup.name} - ${sup.time}</span><button class="delete-btn" onclick="deleteSupplement(${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px; color:white;">Sil</button>`; cont.appendChild(div); }); }
 function deleteSupplement(idx) { if(confirm("Takviye silinsin mi?")) { supplements.splice(idx,1); saveDataToLocal(); updateSupplementsDisplay(); showToast("✅ Silindi"); } }
 function addSupplement() { let name=document.getElementById("newSupplementName").value, time=document.getElementById("newSupplementTime").value; if(!name||!time) { showToast("Ad ve zaman girin"); return; } supplements.push({name,time}); saveDataToLocal(); document.getElementById("newSupplementName").value=""; document.getElementById("newSupplementTime").value=""; updateSupplementsDisplay(); showToast(`✅ "${name}" eklendi`); }
 function getWaterData() { let days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"]; return days.map(d=>({day:d.substring(0,3), amount:waterIntake[`${d}_water`]||0})); }
