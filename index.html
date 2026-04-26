@@ -186,7 +186,6 @@ small {
     border-radius: 10px;
     color: #FFFFFF;
 }
-/* 5'li butonlar: eşit genişlik, taşma yok, beyaz yazı */
 .ex-title-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -737,7 +736,7 @@ small {
 </div>
 
 <script>
-// ==================== BESİN VERİTABANI (KALORİ HESABI İÇİN) ====================
+// ==================== BESİN VERİTABANI ====================
 const foodDatabase = {
     "yulaf": {p:13,k:68,f:7,cal:389},
     "süt": {p:3.4,k:5,f:3.6,cal:61},
@@ -849,7 +848,7 @@ function deleteVideoFromLibrary(ex) {
 }
 function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
 
-// ==================== KAS GRUBU DİNLENME VE ALTERNATİFLER ====================
+// ==================== KAS GRUBU DİNLENME VE ALTERNATİFLER (BİREBİR YENİ LİSTE) ====================
 const muscleGroupMap = {
     "Incline Dumbbell Press": "Göğüs", "Dumbbell Bench Press": "Göğüs", "Chest Dip": "Göğüs", "Cable Fly": "Göğüs",
     "Rope Pushdown": "Triceps", "Overhead Extension": "Triceps", "Incline Machine Chest Press": "Göğüs",
@@ -859,44 +858,44 @@ const muscleGroupMap = {
     "Dumbbell Shoulder Press": "Omuz", "Lateral Raise": "Omuz", "Reverse Pec Deck": "Omuz", "Cable Lateral Raise": "Omuz",
     "Squat": "Bacak", "Leg Curl": "Bacak", "Leg Extension": "Bacak", "Romanian Deadlift": "Bacak", "Walking Lunge": "Bacak", "Calf Raise": "Bacak"
 };
+
 const exerciseAlternatives = {
-    "Incline Dumbbell Press": ["Incline Machine Press", "Smith Machine Incline Press"],
-    "Dumbbell Bench Press": ["Barbell Bench Press", "Chest Press Machine"],
-    "Chest Dip": ["Decline Dumbbell Press", "Bench Dip"],
-    "Cable Fly": ["Pec Deck", "Dumbbell Fly"],
-    "Rope Pushdown": ["Straight Bar Pushdown", "V-Bar Pushdown"],
-    "Overhead Extension": ["Skullcrusher", "Single Arm Dumbbell Extension"],
-    "Lat Pulldown": ["Pull-Up", "Assisted Pull-Up"],
-    "Barbell Row": ["T-Bar Row", "Machine Row"],
-    "Seated Cable Row": ["Chest Supported Row", "Barbell Row"],
-    "Straight Arm Pulldown": ["Dumbbell Pullover"],
-    "Face Pull": ["Reverse Pec Deck", "Rear Delt Raise"],
-    "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl"],
-    "Hammer Curl": ["Rope Hammer Curl"],
-    "Dumbbell Shoulder Press": ["Machine Shoulder Press"],
-    "Lateral Raise": ["Cable Lateral Raise", "Machine Lateral Raise"],
-    "Reverse Pec Deck": ["Face Pull", "Bent Over Rear Delt Raise"],
-    "Cable Lateral Raise": ["Dumbbell Lateral Raise"],
-    "Cable Curl": ["Concentration Curl"],
-    "Squat": ["Leg Press", "Hack Squat"],
-    "Leg Curl": ["Lying Leg Curl", "Nordic Curl"],
-    "Leg Extension": ["Sissy Squat", "Reverse Nordic"],
-    "Romanian Deadlift": ["Good Morning", "Hyperextension"],
-    "Walking Lunge": ["Reverse Lunge", "Bulgarian Split Squat"],
-    "Calf Raise": ["Seated Calf Raise", "Donkey Calf Raise"],
-    "Incline Machine Chest Press": ["Incline Dumbbell Press"],
-    "Low to High Cable Fly": ["Incline Dumbbell Fly"],
-    "Pec Deck Machine": ["Cable Fly"],
-    "Push-Up": ["Close Grip Bench Press"]
+    // PAZARTESİ göğüs+triceps
+    "Incline Dumbbell Press": ["Incline Barbell Press", "Smith Machine Incline Press", "Incline Chest Press Machine"],
+    "Dumbbell Bench Press": ["Barbell Bench Press", "Chest Press Machine", "Smith Machine Flat Press"],
+    "Chest Dip": ["Assisted Dip Machine", "Decline Bench Press", "Bench Dip"],
+    "Cable Fly": ["Pec Deck Machine", "Dumbbell Fly", "Resistance Band Fly"],
+    "Rope Pushdown": ["Straight Bar Pushdown", "V-Bar Pushdown", "Resistance Band Pushdown"],
+    "Overhead Extension": ["Dumbbell Overhead Extension", "Cable Overhead Extension", "EZ Bar Skullcrusher"],
+    // SALI sırt+biceps
+    "Lat Pulldown": ["Pull-Up", "Assisted Pull-Up Machine", "Wide Grip Lat Pulldown"],
+    "Barbell Row": ["T-Bar Row", "Dumbbell Row", "Chest Supported Row Machine"],
+    "Seated Cable Row": ["Machine Row", "Dumbbell Row", "Pendlay Row"],
+    "Straight Arm Pulldown": ["Dumbbell Pullover", "Resistance Band Pulldown", "Machine Straight Arm Pulldown"],
+    "Face Pull": ["Reverse Pec Deck", "Dumbbell Rear Delt Raise", "Cable Rear Delt Fly"],
+    "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl", "Cable Curl"],
+    "Hammer Curl": ["Rope Hammer Curl", "Cross Body Dumbbell Curl", "Reverse EZ Curl"],
+    // PERŞEMBE omuz+biceps
+    "Dumbbell Shoulder Press": ["Barbell Shoulder Press", "Machine Shoulder Press", "Smith Machine Shoulder Press"],
+    "Lateral Raise": ["Cable Lateral Raise", "Machine Lateral Raise", "Incline Dumbbell Lateral Raise"],
+    "Reverse Pec Deck": ["Cable Rear Delt Fly", "Dumbbell Rear Delt Raise", "Face Pull"],
+    "Cable Lateral Raise": ["Dumbbell Lateral Raise", "Machine Lateral Raise", "Leaning Cable Raise"],
+    "Cable Curl": ["Dumbbell Curl", "EZ Bar Curl", "Resistance Band Curl"],
+    // CUMA bacak
+    "Squat": ["Hack Squat Machine", "Leg Press Machine", "Smith Machine Squat"],
+    "Leg Curl": ["Lying Leg Curl", "Seated Leg Curl", "Stability Ball Leg Curl"],
+    "Leg Extension": ["Sissy Squat", "Hack Squat (dar stance)", "Step Up"],
+    "Romanian Deadlift": ["Dumbbell Romanian Deadlift", "Cable Pull Through", "Hip Thrust"],
+    "Walking Lunge": ["Static Lunge", "Bulgarian Split Squat", "Reverse Lunge"],
+    "Calf Raise": ["Seated Calf Raise", "Leg Press Calf Raise", "Smith Standing Calf Raise"],
+    // CUMARTESİ pump
+    "Incline Machine Chest Press": ["Incline Dumbbell Press", "Smith Machine Incline Press", "Barbell Incline Press"],
+    "Low to High Cable Fly": ["Incline Dumbbell Fly", "Pec Deck Machine", "Dumbbell Fly"],
+    "Pec Deck Machine": ["Cable Fly", "Dumbbell Fly", "Resistance Band Fly"],
+    "Push-Up": ["Barbell Bench Press", "Chest Press Machine", "Dumbbell Bench Press"],
+    "Cable Overhead Extension": ["Dumbbell Overhead Extension", "EZ Bar Skullcrusher", "Single Arm Cable Extension"]
 };
-function showAlternatives(exerciseName) {
-    let alts = exerciseAlternatives[exerciseName];
-    if(!alts || alts.length===0) { showToast("Bu hareket için alternatif önerisi yok."); return; }
-    let modal = document.createElement("div");
-    modal.className = "modal";
-    modal.innerHTML = `<div class="modal-content"><h3>💪 ${exerciseName} alternatifleri</h3><ul style="margin:16px 0; padding-left:20px;">${alts.map(alt=>`<li>${alt}</li>`).join('')}</ul><div class="modal-buttons"><button class="modal-btn confirm" onclick="this.closest('.modal').remove()">Kapat</button></div></div>`;
-    document.body.appendChild(modal);
-}
+
 let muscleLastTrained = {};
 function updateMuscleLastTrained(exerciseName, date) {
     let muscle = muscleGroupMap[exerciseName];
@@ -923,6 +922,14 @@ function renderRecoveryPanel() {
         let text = m + (last ? ` (${Math.floor((new Date()-new Date(last))/(1000*3600))}s)` : " (yok)");
         return `<div class="recovery-item recovery-${status}">${text}</div>`;
     }).join('');
+}
+function showAlternatives(exerciseName) {
+    let alts = exerciseAlternatives[exerciseName];
+    if(!alts || alts.length===0) { showToast("Bu hareket için alternatif önerisi yok."); return; }
+    let modal = document.createElement("div");
+    modal.className = "modal";
+    modal.innerHTML = `<div class="modal-content"><h3>💪 ${exerciseName} alternatifleri</h3><ul style="margin:16px 0; padding-left:20px;">${alts.map(alt=>`<li>${alt}</li>`).join('')}</ul><div class="modal-buttons"><button class="modal-btn confirm" onclick="this.closest('.modal').remove()">Kapat</button></div></div>`;
+    document.body.appendChild(modal);
 }
 
 // ==================== VERİLER (SON TAM LİSTE) ====================
