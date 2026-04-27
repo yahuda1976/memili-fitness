@@ -150,8 +150,47 @@
             color: #FFFFFF;
         }
 
-        .item,
+        /* ---------- YENİ: Set kartlarına dört tarafı ince yeşil çerçeve ---------- */
         .set {
+            background: #1C1C1E;
+            margin: 10px 16px;
+            padding: 14px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1.5px solid #2ecc2e;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+        .set.done {
+            background: #007AFF;
+            text-decoration: line-through;
+            opacity: 0.9;
+            border-color: #34C759;
+        }
+        .set.done::after {
+            content: "✓";
+            color: white;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .set span {
+            font-weight: 600;
+            color: #FFFFFF;
+            flex: 1;
+        }
+        .set .set-info {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #FF9500;
+            background: #2C2C2E;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+        }
+        /* normal öğeler (yemek vs) */
+        .item {
             background: #1C1C1E;
             margin: 10px 16px;
             padding: 14px;
@@ -161,33 +200,24 @@
             gap: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .set {
-            cursor: pointer;
-        }
-
-        .set.done,
         .item.done {
             background: #007AFF;
             text-decoration: line-through;
             opacity: 0.9;
         }
-
-        .set.done::after,
         .item.done::after {
             content: "✓";
             color: white;
             font-weight: 600;
             margin-left: 8px;
         }
-
-        .set span,
         .item span {
             font-weight: 600;
             color: #FFFFFF;
             flex: 1;
         }
 
+        /* ---------- Egzersiz başlığı (kırmızı renk) ---------- */
         .ex-title {
             background: #1C1C1E;
             border-radius: 12px;
@@ -200,56 +230,57 @@
             gap: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .ex-title>span {
+        .ex-title > span:first-child {
             flex: 1;
-            font-weight: 600;
-            color: #34C759;
+            font-weight: 700;
+            color: #FF3B30 !important;   /* KIRMIZI başlık */
+            font-size: 1.2rem;
         }
 
-        .set:not(.done) {
-            background: #1C1C1E;
-            border-left: 4px solid #34C759;
-        }
-
-        .set:not(.done) span {
-            color: #34C759;
-        }
-
+        /* ---------- 8 buton için 4x2 grid, yatay basık, sarı yazı, yuvarlak köşe ---------- */
         .ex-title-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
             width: 100%;
             max-width: 100%;
         }
-
         .ex-title-buttons button {
-            flex: 1;
             background: #2C2C2E;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 6px 2px;
-            border-radius: 10px;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 600;
+            padding: 10px 0;
+            border-radius: 40px;
+            color: #FFCC33;   /* sarı yazı */
+            font-size: 0.7rem;
+            font-weight: 700;
             cursor: pointer;
             text-align: center;
             white-space: nowrap;
-            min-width: 0;
+            transition: 0.1s;
         }
-
         .ex-title-buttons button:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
+            background: #3a3a3c;
+        }
+        /* küçük ekranlarda buton yazıları taşmasın */
+        @media (max-width: 480px) {
+            .ex-title-buttons button {
+                font-size: 0.6rem;
+                padding: 8px 0;
+                white-space: normal;
+                word-break: keep-all;
+            }
+            .ex-title-buttons {
+                gap: 6px;
+            }
         }
 
+        /* Diğer mevcut stiller (değişmeden) */
         .move-buttons {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
-
         .move-btn {
             background: rgba(255, 255, 255, 0.15);
             border: none;
@@ -259,7 +290,6 @@
             border-radius: 10px;
             color: #FFFFFF;
         }
-
         .bottom-quest {
             position: fixed;
             bottom: 0;
@@ -270,45 +300,38 @@
             z-index: 100;
             border-top: 0.5px solid rgba(255, 255, 255, 0.1);
         }
-
         .quest-title {
             font-size: 0.9rem;
             font-weight: 600;
             text-align: center;
             color: #007AFF;
         }
-
         .quest-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
             margin: 10px 0;
         }
-
         .quest-item {
             text-align: center;
             background: #2C2C2E;
             padding: 8px;
             border-radius: 12px;
         }
-
         .quest-icon {
             font-size: 1.3rem;
         }
-
         .quest-progress {
             font-size: 0.8rem;
             font-weight: 600;
             color: #FFFFFF;
         }
-
         .daily-score {
             text-align: center;
             font-size: 0.8rem;
             font-weight: 500;
             color: #8E8E93;
         }
-
         .score-bar {
             width: 100%;
             height: 4px;
@@ -317,12 +340,10 @@
             margin-top: 6px;
             overflow: hidden;
         }
-
         .score-fill {
             height: 100%;
             background: #34C759;
         }
-
         .stats-panel {
             background: #1C1C1E;
             margin: 16px;
@@ -330,20 +351,17 @@
             border-radius: 14px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .stats-panel h3 {
             font-size: 1.1rem;
             font-weight: 600;
             color: #FFFFFF;
         }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-top: 12px;
         }
-
         .stat-card {
             text-align: center;
             background: #2C2C2E;
@@ -353,7 +371,6 @@
             font-weight: 500;
             color: #007AFF;
         }
-
         .stat-card span {
             display: block;
             font-size: 1.4rem;
@@ -361,14 +378,12 @@
             color: #FFFFFF;
             margin-top: 4px;
         }
-
         .badges {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             margin-top: 16px;
         }
-
         .badge {
             background: #2C2C2E;
             padding: 6px 14px;
@@ -377,7 +392,6 @@
             font-weight: 500;
             color: #007AFF;
         }
-
         .water-chart,
         .set-chart {
             background: #1C1C1E;
@@ -386,13 +400,11 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .chart-tabs {
             display: flex;
             gap: 12px;
             margin-bottom: 16px;
         }
-
         .chart-tab {
             flex: 1;
             background: #2C2C2E;
@@ -403,26 +415,22 @@
             color: #007AFF;
             cursor: pointer;
         }
-
         .chart-tab.active {
             background: #007AFF;
             color: white;
         }
-
         .chart-bar-item {
             margin: 10px 0;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .bar-label {
             width: 45px;
             font-size: 0.75rem;
             font-weight: 500;
             color: #FFFFFF;
         }
-
         .bar-fill {
             flex: 1;
             height: 28px;
@@ -430,7 +438,6 @@
             border-radius: 8px;
             overflow: hidden;
         }
-
         .bar {
             height: 100%;
             background: #007AFF;
@@ -443,7 +450,6 @@
             font-weight: 600;
             font-size: 0.7rem;
         }
-
         .timer-box {
             position: fixed;
             bottom: 180px;
@@ -457,21 +463,18 @@
             min-width: 140px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .timer-num {
             font-size: 40px;
             font-weight: 700;
             font-family: monospace;
             color: #007AFF;
         }
-
         .timer-buttons {
             display: flex;
             gap: 12px;
             margin-top: 10px;
             justify-content: center;
         }
-
         .timer-btn {
             background: #3a3a3c;
             border: none;
@@ -481,7 +484,6 @@
             color: #007AFF;
             cursor: pointer;
         }
-
         .stop-sound-btn {
             background: #FF3B30;
             color: white;
@@ -493,7 +495,6 @@
             cursor: pointer;
             margin-top: 8px;
         }
-
         .modal {
             position: fixed;
             top: 0;
@@ -508,7 +509,6 @@
             justify-content: center;
             padding: 20px;
         }
-
         .modal-content {
             background: #1C1C1E;
             border-radius: 20px;
@@ -517,7 +517,6 @@
             width: 100%;
             color: white;
         }
-
         .modal-content input,
         .modal-content select,
         .modal-content textarea {
@@ -531,13 +530,11 @@
             color: white;
             font-family: inherit;
         }
-
         .modal-buttons {
             display: flex;
             gap: 12px;
             margin-top: 20px;
         }
-
         .modal-btn {
             flex: 1;
             padding: 14px;
@@ -546,17 +543,14 @@
             font-weight: 600;
             cursor: pointer;
         }
-
         .modal-btn.confirm {
             background: #007AFF;
             color: white;
         }
-
         .modal-btn.cancel {
             background: #FF3B30;
             color: white;
         }
-
         .video-modal {
             position: fixed;
             top: 0;
@@ -570,7 +564,6 @@
             justify-content: center;
             padding: 20px;
         }
-
         .video-modal-content {
             background: #1C1C1E;
             border-radius: 20px;
@@ -579,13 +572,11 @@
             width: auto;
             text-align: center;
         }
-
         .video-modal-content video {
             max-width: 100%;
             max-height: 70vh;
             border-radius: 12px;
         }
-
         .close-video-btn {
             margin-top: 12px;
             background: #007AFF;
@@ -596,7 +587,6 @@
             font-weight: 600;
             cursor: pointer;
         }
-
         .toast {
             position: fixed;
             bottom: 30%;
@@ -611,26 +601,14 @@
             animation: fadeOut 1.5s forwards;
             font-size: 0.85rem;
         }
-
         @keyframes fadeOut {
-            0% {
-                opacity: 1;
-                bottom: 30%;
-            }
-            70% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                bottom: 40%;
-                display: none;
-            }
+            0% { opacity: 1; bottom: 30%; }
+            70% { opacity: 1; }
+            100% { opacity: 0; bottom: 40%; display: none; }
         }
-
         .hidden {
             display: none;
         }
-
         .input-number-only {
             width: 100%;
             padding: 14px;
@@ -642,17 +620,6 @@
             border: none;
             border-radius: 10px;
         }
-
-        .set-info {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #FF9500;
-            background: #2C2C2E;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-left: 8px;
-        }
-
         .macro-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -663,16 +630,13 @@
             margin: 12px 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .macro-item {
             text-align: center;
         }
-
         .macro-item span {
             font-size: 1.2rem;
             display: block;
         }
-
         .macro-item b {
             display: block;
             font-size: 1rem;
@@ -680,13 +644,11 @@
             margin: 2px 0;
             color: #FFFFFF;
         }
-
         .macro-item small {
             color: #8E8E93;
             font-size: 0.6rem;
             text-transform: uppercase;
         }
-
         .recovery-panel {
             background: #1C1C1E;
             border-radius: 14px;
@@ -698,7 +660,6 @@
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .recovery-item {
             flex: 1;
             text-align: center;
@@ -707,22 +668,18 @@
             font-weight: 600;
             font-size: 0.75rem;
         }
-
         .recovery-red {
             background: rgba(255, 59, 48, 0.2);
             color: #FF3B30;
         }
-
         .recovery-orange {
             background: rgba(255, 149, 0, 0.2);
             color: #FF9500;
         }
-
         .recovery-green {
             background: rgba(52, 199, 89, 0.2);
             color: #34C759;
         }
-
         .body-stats {
             background: #1C1C1E;
             border-radius: 14px;
@@ -730,20 +687,17 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         .measure-input {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin: 12px 0;
         }
-
         .measure-input label {
             flex: 1;
             font-weight: 500;
             color: #FFFFFF;
         }
-
         .measure-input input {
             flex: 2;
             padding: 10px;
@@ -753,7 +707,6 @@
             color: white;
             text-align: center;
         }
-
         .photo-upload button {
             background: #007AFF;
             border: none;
@@ -764,7 +717,6 @@
             margin: 5px;
             cursor: pointer;
         }
-
         .before-after {
             display: flex;
             gap: 12px;
@@ -772,7 +724,6 @@
             flex-wrap: wrap;
             margin-top: 16px;
         }
-
         .before-after div {
             text-align: center;
             background: #2C2C2E;
@@ -780,7 +731,6 @@
             padding: 12px;
             width: 45%;
         }
-
         .before-after img {
             max-width: 100%;
             border-radius: 12px;
