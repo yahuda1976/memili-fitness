@@ -222,7 +222,7 @@
             gap: 6px;
             justify-content: space-between;
             width: 100%;
-            max-width: 280px;
+            max-width: 100%;
         }
 
         .ex-title-buttons button {
@@ -232,7 +232,7 @@
             padding: 6px 2px;
             border-radius: 10px;
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             cursor: pointer;
             text-align: center;
@@ -555,6 +555,46 @@
         .modal-btn.cancel {
             background: #FF3B30;
             color: white;
+        }
+
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 4000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .video-modal-content {
+            background: #1C1C1E;
+            border-radius: 20px;
+            padding: 16px;
+            max-width: 90%;
+            width: auto;
+            text-align: center;
+        }
+
+        .video-modal-content video {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 12px;
+        }
+
+        .close-video-btn {
+            margin-top: 12px;
+            background: #007AFF;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
         }
 
         .toast {
@@ -888,7 +928,7 @@
         </div>
     </div>
     <script>
-        // ==================== TÜM VERİLER (SON LİSTE + BİCEPS/TRICEPS BAŞLIKLARI) ====================
+        // ==================== TÜM VERİLER (SON LİSTE) ====================
         let data = {
             "PAZARTESI": [
                 "07:45 Yulaf ezmesi + süt + Skyr + muz - Omega-3 (2 kapsül)", "💧 1 bardak su",
@@ -902,13 +942,13 @@
                 "18:00 whey protein + kreatin 5 gram", "💧 1 bardak su",
                 "🏋️ GÖĞÜS + TRICEPS (AĞIR)",
                 "🟥 GÖĞÜS",
-                {ex: "Incline Dumbbell Press", sets: 4, link: "", notes: "👉 30–35 derece açı, 3 saniye indir, göğüsle it"},
-                {ex: "Dumbbell Bench Press", sets: 3, link: "", notes: "👉 kürek kemiklerini sık, kontrollü indir"},
-                {ex: "Chest Dip", sets: 3, link: "", notes: "👉 öne eğil, alt göğüs hissi"},
-                {ex: "Cable Fly", sets: 3, link: "", notes: "👉 ortada sık"},
+                {ex: "Incline Dumbbell Press", sets: 4, link: "", notes: "👉 30–35 derece açı, 3 saniye indir, göğüsle it", localVideo: null },
+                {ex: "Dumbbell Bench Press", sets: 3, link: "", notes: "👉 kürek kemiklerini sık, kontrollü indir", localVideo: null },
+                {ex: "Chest Dip", sets: 3, link: "", notes: "👉 öne eğil, alt göğüs hissi", localVideo: null },
+                {ex: "Cable Fly", sets: 3, link: "", notes: "👉 ortada sık", localVideo: null },
                 "🔥 TRICEPS",
-                {ex: "Rope Pushdown", sets: 3, link: "", notes: "👉 dirsek sabit"},
-                {ex: "Overhead Extension", sets: 3, link: "", notes: "👉 uzun baş germe"},
+                {ex: "Rope Pushdown", sets: 3, link: "", notes: "👉 dirsek sabit", localVideo: null },
+                {ex: "Overhead Extension", sets: 3, link: "", notes: "👉 uzun baş germe", localVideo: null },
                 "💧 4 bardak su",
                 "20:30 whey protein", "💧 1 bardak su",
                 "21:00 tavuk + patates + salata + Skyr", "💧 1 bardak su"
@@ -925,14 +965,14 @@
                 "18:00 whey + kreatin", "💧 1 bardak su",
                 "🏋️ SIRT + BICEPS",
                 "🔵 SIRT",
-                {ex: "Lat Pulldown", sets: 4, link: "", notes: "👉 göğse çek"},
-                {ex: "Barbell Row", sets: 3, link: "", notes: "👉 bel sabit"},
-                {ex: "Seated Cable Row", sets: 3, link: "", notes: "👉 kürek sık"},
-                {ex: "Straight Arm Pulldown", sets: 3, link: "", notes: "👉 lat izolasyon"},
-                {ex: "Face Pull", sets: 3, link: "", notes: "👉 arka omuz"},
+                {ex: "Lat Pulldown", sets: 4, link: "", notes: "👉 göğse çek", localVideo: null },
+                {ex: "Barbell Row", sets: 3, link: "", notes: "👉 bel sabit", localVideo: null },
+                {ex: "Seated Cable Row", sets: 3, link: "", notes: "👉 kürek sık", localVideo: null },
+                {ex: "Straight Arm Pulldown", sets: 3, link: "", notes: "👉 lat izolasyon", localVideo: null },
+                {ex: "Face Pull", sets: 3, link: "", notes: "👉 arka omuz", localVideo: null },
                 "💪 BICEPS",
-                {ex: "Barbell Curl", sets: 3, link: "", notes: "👉 sallama yok"},
-                {ex: "Hammer Curl", sets: 3, link: "", notes: ""},
+                {ex: "Barbell Curl", sets: 3, link: "", notes: "👉 sallama yok", localVideo: null },
+                {ex: "Hammer Curl", sets: 3, link: "", notes: "", localVideo: null },
                 "💧 4 bardak su",
                 "20:30 whey protein", "💧 1 bardak su",
                 "21:00 yumurta + ekmek + Skyr", "💧 1 bardak su"
@@ -957,13 +997,13 @@
                 "18:00 whey + kreatin", "💧 1 bardak su",
                 "🏋️ OMUZ + BICEPS",
                 "🟩 OMUZ",
-                {ex: "Dumbbell Shoulder Press", sets: 4, link: "", notes: "👉 bel boşluk yok"},
-                {ex: "Lateral Raise", sets: 4, link: "", notes: "👉 omuz hizası"},
-                {ex: "Reverse Pec Deck", sets: 3, link: "", notes: "👉 arka omuz"},
-                {ex: "Cable Lateral Raise", sets: 3, link: "", notes: ""},
+                {ex: "Dumbbell Shoulder Press", sets: 4, link: "", notes: "👉 bel boşluk yok", localVideo: null },
+                {ex: "Lateral Raise", sets: 4, link: "", notes: "👉 omuz hizası", localVideo: null },
+                {ex: "Reverse Pec Deck", sets: 3, link: "", notes: "👉 arka omuz", localVideo: null },
+                {ex: "Cable Lateral Raise", sets: 3, link: "", notes: "", localVideo: null },
                 "💪 BICEPS",
-                {ex: "Cable Curl", sets: 2, link: "", notes: ""},
-                {ex: "Hammer Curl", sets: 2, link: "", notes: ""},
+                {ex: "Cable Curl", sets: 2, link: "", notes: "", localVideo: null },
+                {ex: "Hammer Curl", sets: 2, link: "", notes: "", localVideo: null },
                 "💧 4 bardak su",
                 "20:30 whey protein", "💧 1 bardak su",
                 "21:00 köfte + patates + Skyr", "💧 1 bardak su"
@@ -976,12 +1016,12 @@
                 "16:30 💧 1 bardak su",
                 "18:00 whey + kreatin", "💧 1 bardak su",
                 "🏋️ BACAK",
-                {ex: "Squat", sets: 4, link: "", notes: "👉 derin in"},
-                {ex: "Leg Curl", sets: 3, link: "", notes: ""},
-                {ex: "Leg Extension", sets: 3, link: "", notes: ""},
-                {ex: "Romanian Deadlift", sets: 3, link: "", notes: "👉 kalçadan kır"},
-                {ex: "Walking Lunge", sets: 3, link: "", notes: ""},
-                {ex: "Calf Raise", sets: 4, link: "", notes: ""},
+                {ex: "Squat", sets: 4, link: "", notes: "👉 derin in", localVideo: null },
+                {ex: "Leg Curl", sets: 3, link: "", notes: "", localVideo: null },
+                {ex: "Leg Extension", sets: 3, link: "", notes: "", localVideo: null },
+                {ex: "Romanian Deadlift", sets: 3, link: "", notes: "👉 kalçadan kır", localVideo: null },
+                {ex: "Walking Lunge", sets: 3, link: "", notes: "", localVideo: null },
+                {ex: "Calf Raise", sets: 4, link: "", notes: "", localVideo: null },
                 "💧 4 bardak su",
                 "20:30 whey", "💧 1 bardak su",
                 "21:00 tavuk + patates + yoğurt", "💧 1 bardak su"
@@ -998,13 +1038,13 @@
                 "18:00 whey + kreatin", "💧 1 bardak su",
                 "🏋️ GÖĞÜS + TRICEPS (PUMP)",
                 "🟪 GÖĞÜS (PUMP)",
-                {ex: "Incline Machine Chest Press", sets: 3, link: "", notes: "👉 sabit makine, kontrollü tempo, yukarıda kilitleme yok"},
-                {ex: "Low to High Cable Fly", sets: 3, link: "", notes: "👉 alttan yukarı çapraz çek, üst göğüs hedef, kapanışta sık"},
-                {ex: "Pec Deck Machine", sets: 3, link: "", notes: "👉 tam sıkıştırma, 2 saniye sık"},
-                {ex: "Push-Up", sets: 2, link: "", notes: "👉 tükenene kadar, tempo yavaş"},
+                {ex: "Incline Machine Chest Press", sets: 3, link: "", notes: "👉 sabit makine, kontrollü tempo, yukarıda kilitleme yok", localVideo: null },
+                {ex: "Low to High Cable Fly", sets: 3, link: "", notes: "👉 alttan yukarı çapraz çek, üst göğüs hedef, kapanışta sık", localVideo: null },
+                {ex: "Pec Deck Machine", sets: 3, link: "", notes: "👉 tam sıkıştırma, 2 saniye sık", localVideo: null },
+                {ex: "Push-Up", sets: 2, link: "", notes: "👉 tükenene kadar, tempo yavaş", localVideo: null },
                 "🔥 TRICEPS (PUMP)",
-                {ex: "Rope Pushdown", sets: 2, link: "", notes: "👉 ipi aşağı aç, dirsek sabit"},
-                {ex: "Cable Overhead Extension", sets: 2, link: "", notes: "👉 baş üstü esnetme, uzun baş tam açılmalı"},
+                {ex: "Rope Pushdown", sets: 2, link: "", notes: "👉 ipi aşağı aç, dirsek sabit", localVideo: null },
+                {ex: "Cable Overhead Extension", sets: 2, link: "", notes: "👉 baş üstü esnetme, uzun baş tam açılmalı", localVideo: null },
                 "💧 4 bardak su",
                 "20:30 whey protein", "💧 1 bardak su",
                 "21:00 yumurta + peynir + Skyr", "💧 1 bardak su"
@@ -1023,16 +1063,7 @@
             ]
         };
 
-        let supplements = [{
-            name: "Omega-3",
-            time: "Sabah"
-        }, {
-            name: "Whey Protein",
-            time: "Sabah & Antrenman sonrası"
-        }, {
-            name: "Kreatin",
-            time: "Antrenman öncesi (5g)"
-        }];
+        let supplements = [{ name: "Omega-3", time: "Sabah" }, { name: "Whey Protein", time: "Sabah & Antrenman sonrası" }, { name: "Kreatin", time: "Antrenman öncesi (5g)" }];
         let doneState = {};
         let waterIntake = {};
         let totalSetCount = 0;
@@ -1044,18 +1075,74 @@
         let dailyNotes = {};
         let oneRMHistory = {};
         let setLogs = {};
-        let bodyMeasurements = {
-            weight: 0,
-            waist: 0,
-            chest: 0,
-            arm: 0,
-            leg: 0
-        };
+        let bodyMeasurements = { weight: 0, waist: 0, chest: 0, arm: 0, leg: 0 };
         let beforePhoto = null;
         let afterPhoto = null;
         let exerciseVideos = {};
 
-        // Alternatif listeleri (birebir)
+        // IndexedDB for local videos
+        let db = null;
+        const DB_NAME = "FitnessVideoDB";
+        const STORE_NAME = "videos";
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                if (db) {
+                    resolve(db);
+                    return;
+                }
+                const request = indexedDB.open(DB_NAME, 1);
+                request.onerror = (event) => {
+                    console.error("IndexedDB error:", event);
+                    reject(event);
+                };
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve(db);
+                };
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME, { keyPath: "id" });
+                    }
+                };
+            });
+        }
+
+        async function saveVideoToDB(id, videoBlob) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], "readwrite");
+                const store = transaction.objectStore(STORE_NAME);
+                const putRequest = store.put({ id: id, video: videoBlob });
+                putRequest.onsuccess = () => resolve();
+                putRequest.onerror = (e) => reject(e);
+            });
+        }
+
+        async function getVideoFromDB(id) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], "readonly");
+                const store = transaction.objectStore(STORE_NAME);
+                const getRequest = store.get(id);
+                getRequest.onsuccess = () => resolve(getRequest.result ? getRequest.result.video : null);
+                getRequest.onerror = (e) => reject(e);
+            });
+        }
+
+        async function deleteVideoFromDB(id) {
+            const db = await openDB();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], "readwrite");
+                const store = transaction.objectStore(STORE_NAME);
+                const deleteRequest = store.delete(id);
+                deleteRequest.onsuccess = () => resolve();
+                deleteRequest.onerror = (e) => reject(e);
+            });
+        }
+
+        // Alternatif listeleri
         const exerciseAlternatives = {
             "Incline Dumbbell Press": ["Incline Barbell Press", "Smith Machine Incline Press", "Incline Chest Press Machine"],
             "Dumbbell Bench Press": ["Barbell Bench Press", "Chest Press Machine", "Smith Machine Flat Press"],
@@ -1089,37 +1176,15 @@
         };
 
         const muscleGroupMap = {
-            "Incline Dumbbell Press": "Göğüs",
-            "Dumbbell Bench Press": "Göğüs",
-            "Chest Dip": "Göğüs",
-            "Cable Fly": "Göğüs",
-            "Rope Pushdown": "Triceps",
-            "Overhead Extension": "Triceps",
-            "Lat Pulldown": "Sırt",
-            "Barbell Row": "Sırt",
-            "Seated Cable Row": "Sırt",
-            "Straight Arm Pulldown": "Sırt",
-            "Face Pull": "Omuz",
-            "Barbell Curl": "Biceps",
-            "Hammer Curl": "Biceps",
-            "Dumbbell Shoulder Press": "Omuz",
-            "Lateral Raise": "Omuz",
-            "Reverse Pec Deck": "Omuz",
-            "Cable Lateral Raise": "Omuz",
-            "Cable Curl": "Biceps",
-            "Squat": "Bacak",
-            "Leg Curl": "Bacak",
-            "Leg Extension": "Bacak",
-            "Romanian Deadlift": "Bacak",
-            "Walking Lunge": "Bacak",
-            "Calf Raise": "Bacak",
-            "Incline Machine Chest Press": "Göğüs",
-            "Low to High Cable Fly": "Göğüs",
-            "Pec Deck Machine": "Göğüs",
-            "Push-Up": "Göğüs",
-            "Cable Overhead Extension": "Triceps"
+            "Incline Dumbbell Press": "Göğüs", "Dumbbell Bench Press": "Göğüs", "Chest Dip": "Göğüs", "Cable Fly": "Göğüs",
+            "Rope Pushdown": "Triceps", "Overhead Extension": "Triceps", "Lat Pulldown": "Sırt", "Barbell Row": "Sırt",
+            "Seated Cable Row": "Sırt", "Straight Arm Pulldown": "Sırt", "Face Pull": "Omuz", "Barbell Curl": "Biceps",
+            "Hammer Curl": "Biceps", "Dumbbell Shoulder Press": "Omuz", "Lateral Raise": "Omuz", "Reverse Pec Deck": "Omuz",
+            "Cable Lateral Raise": "Omuz", "Cable Curl": "Biceps", "Squat": "Bacak", "Leg Curl": "Bacak",
+            "Leg Extension": "Bacak", "Romanian Deadlift": "Bacak", "Walking Lunge": "Bacak", "Calf Raise": "Bacak",
+            "Incline Machine Chest Press": "Göğüs", "Low to High Cable Fly": "Göğüs", "Pec Deck Machine": "Göğüs",
+            "Push-Up": "Göğüs", "Cable Overhead Extension": "Triceps"
         };
-
         let muscleLastTrained = {};
 
         // ==================== YARDIMCI FONKSİYONLAR ====================
@@ -1180,10 +1245,7 @@
         function saveSetLog(day, ex, setNo, weight, reps) {
             if (!setLogs[day]) setLogs[day] = {};
             if (!setLogs[day][ex]) setLogs[day][ex] = {};
-            setLogs[day][ex][setNo] = {
-                weight,
-                reps
-            };
+            setLogs[day][ex][setNo] = { weight, reps };
             localStorage.setItem("fitnessSetLogs", JSON.stringify(setLogs));
             updateMuscleLastTrained(ex, new Date().toISOString());
         }
@@ -1204,10 +1266,7 @@
                 let prev = days[(idx - i + 7) % 7];
                 let log = getSetLog(prev, ex, setNo);
                 if (log && log.weight > 0) {
-                    let sugg = {
-                        weight: log.weight,
-                        reps: log.reps
-                    };
+                    let sugg = { weight: log.weight, reps: log.reps };
                     if (log.reps >= 12) sugg.weight += 2.5;
                     else if (log.reps >= 10) sugg.weight += 2.5;
                     else if (log.reps >= 8) sugg.reps = log.reps + 1;
@@ -1229,11 +1288,9 @@
                 <div><label>⚖️ Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}" step="1" min="0"></div>
                 <div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
             document.body.appendChild(modal);
-            let wInp = modal.querySelector("#weightInput"),
-                rInp = modal.querySelector("#repsInput");
+            let wInp = modal.querySelector("#weightInput"), rInp = modal.querySelector("#repsInput");
             modal.querySelector("#saveBtn").onclick = () => {
-                let w = parseInt(wInp.value) || 0,
-                    r = parseInt(rInp.value) || 1;
+                let w = parseInt(wInp.value) || 0, r = parseInt(rInp.value) || 1;
                 saveSetLog(day, ex, setNo, w, r);
                 modal.remove();
                 if (onSave) onSave(w, r);
@@ -1259,10 +1316,9 @@
             if (soundStopFlag) return;
             try {
                 if (currentSound) currentSound.close();
-                const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 currentSound = ctx;
-                const dur = 10,
-                    int = 0.4;
+                const dur = 10, int = 0.4;
                 let start = ctx.currentTime;
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
@@ -1279,15 +1335,8 @@
                 }
                 osc.stop(start + dur);
                 ctx.resume();
-                currentSound = {
-                    close: () => {
-                        try {
-                            osc.stop();
-                            ctx.close();
-                        } catch (e) {}
-                    }
-                };
-            } catch (e) {}
+                currentSound = { close: () => { try { osc.stop(); ctx.close(); } catch (e) { } } };
+            } catch (e) { }
         }
 
         function stopSound() {
@@ -1306,8 +1355,7 @@
         function startTimer(sec) {
             stopTimer();
             let rem = sec;
-            let tb = document.getElementById("timerBox"),
-                tn = document.getElementById("timerNum");
+            let tb = document.getElementById("timerBox"), tn = document.getElementById("timerNum");
             if (!tb || !tn) return;
             tb.style.display = "block";
             tn.innerText = rem;
@@ -1344,12 +1392,7 @@
             let oneRM = calculate1RM(w, r);
             document.getElementById("oneRMResult").innerHTML = `🏆 1RM: ${oneRM} kg`;
             if (!oneRMHistory[ex]) oneRMHistory[ex] = [];
-            oneRMHistory[ex].push({
-                date: new Date().toISOString(),
-                weight: w,
-                reps: r,
-                oneRM
-            });
+            oneRMHistory[ex].push({ date: new Date().toISOString(), weight: w, reps: r, oneRM: oneRM });
             saveDataToLocal();
             updateOneRMChart(ex);
             showToast(`✅ ${ex} için 1RM kaydedildi: ${oneRM} kg`);
@@ -1369,8 +1412,7 @@
             }
             let last5 = hist.slice(-5);
             let maxVal = Math.max(...last5.map(h => h.oneRM), 1);
-            let w = canvas.width,
-                h = canvas.height;
+            let w = canvas.width, h = canvas.height;
             ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = "#007AFF";
             let barW = (w - 50) / last5.length - 5;
@@ -1392,9 +1434,7 @@
             if (!sel) return;
             sel.innerHTML = "";
             let set = new Set();
-            for (let day in data)
-                for (let it of data[day])
-                    if (it && typeof it === "object" && it.ex) set.add(it.ex);
+            for (let day in data) for (let it of data[day]) if (it && typeof it === "object" && it.ex) set.add(it.ex);
             set.forEach(ex => {
                 let opt = document.createElement("option");
                 opt.value = ex;
@@ -1476,14 +1516,9 @@
         }
 
         function getDayStats(day) {
-            let total = 0,
-                comp = 0;
+            let total = 0, comp = 0;
             let items = data[day];
-            if (!items) return {
-                total,
-                comp,
-                percent: 0
-            };
+            if (!items) return { total, comp, percent: 0 };
             items.forEach((item, idx) => {
                 if (typeof item === "string") {
                     total++;
@@ -1495,11 +1530,7 @@
                     }
                 }
             });
-            return {
-                total,
-                comp,
-                percent: total === 0 ? 0 : (comp / total) * 100
-            };
+            return { total, comp, percent: total === 0 ? 0 : (comp / total) * 100 };
         }
 
         function openDay(day) {
@@ -1524,13 +1555,89 @@
             buildHome();
         }
 
+        // YEREL VİDEO FONKSİYONLARI
+        async function playLocalVideo(ex, day, idx) {
+            const videoId = `${day}_${ex}_${idx}`;
+            try {
+                const videoBlob = await getVideoFromDB(videoId);
+                if (videoBlob) {
+                    const url = URL.createObjectURL(videoBlob);
+                    const modal = document.createElement("div");
+                    modal.className = "video-modal";
+                    modal.innerHTML = `
+                        <div class="video-modal-content">
+                            <video controls autoplay src="${url}"></video>
+                            <div><button class="close-video-btn">Kapat</button></div>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                    modal.querySelector(".close-video-btn").onclick = () => {
+                        modal.remove();
+                        URL.revokeObjectURL(url);
+                    };
+                    modal.onclick = (e) => {
+                        if (e.target === modal) {
+                            modal.remove();
+                            URL.revokeObjectURL(url);
+                        }
+                    };
+                } else {
+                    showToast("Bu hareket için kayıtlı yerel video yok. Önce yükleyin.");
+                }
+            } catch (e) {
+                showToast("Video yüklenirken hata oluştu.");
+            }
+        }
+
+        async function addLocalVideo(ex, day, idx) {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = "video/*";
+            input.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith("video/")) {
+                    const videoId = `${day}_${ex}_${idx}`;
+                    try {
+                        await saveVideoToDB(videoId, file);
+                        showToast(`✅ "${ex}" için yerel video kaydedildi.`);
+                    } catch (e) {
+                        showToast("Video kaydedilemedi, dosya çok büyük olabilir.");
+                    }
+                } else {
+                    showToast("Lütfen geçerli bir video dosyası seçin.");
+                }
+            };
+            input.click();
+        }
+
+        async function removeLocalVideo(ex, day, idx) {
+            const videoId = `${day}_${ex}_${idx}`;
+            const existing = await getVideoFromDB(videoId);
+            if (!existing) {
+                showToast("Bu hareket için kayıtlı video yok.");
+                return;
+            }
+            if (confirm(`"${ex}" için kayıtlı videoyu silmek istediğinize emin misiniz?`)) {
+                await deleteVideoFromDB(videoId);
+                showToast(`✅ "${ex}" için video silindi.`);
+            }
+        }
+
         function openExerciseVideo(ex, link, day, idx) {
-            let url = "";
-            if (link && link.trim() !== "") url = link;
-            else if (exerciseVideos[ex]) url = exerciseVideos[ex];
-            else url = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
-            window.open(url, '_blank');
-            showToast(`📹 ${ex} videosu açılıyor...`);
+            (async () => {
+                const videoId = `${day}_${ex}_${idx}`;
+                const videoBlob = await getVideoFromDB(videoId);
+                if (videoBlob) {
+                    playLocalVideo(ex, day, idx);
+                } else {
+                    let url = "";
+                    if (link && link.trim() !== "") url = link;
+                    else if (exerciseVideos[ex]) url = exerciseVideos[ex];
+                    else url = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex + " egzersizi")}`;
+                    window.open(url, '_blank');
+                    showToast(`📹 ${ex} videosu açılıyor...`);
+                }
+            })();
         }
 
         function setVideoLink(ex, day, idx) {
@@ -1595,153 +1702,39 @@
 
         function escapeHtml(str) {
             if (!str) return '';
-            return str.replace(/[&<>]/g, m => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;'
-            }[m]));
+            return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
         }
 
         const foodDatabase = {
-            "yulaf": {
-                p: 13,
-                k: 68,
-                f: 7,
-                cal: 389
-            },
-            "süt": {
-                p: 3.4,
-                k: 5,
-                f: 3.6,
-                cal: 61
-            },
-            "skyr": {
-                p: 11,
-                k: 4,
-                f: 0.2,
-                cal: 64
-            },
-            "muz": {
-                p: 1.1,
-                k: 23,
-                f: 0.3,
-                cal: 89
-            },
-            "ekmek": {
-                p: 9,
-                k: 49,
-                f: 3.2,
-                cal: 265
-            },
-            "peynir": {
-                p: 22,
-                k: 2,
-                f: 20,
-                cal: 300
-            },
-            "tavuk": {
-                p: 31,
-                k: 0,
-                f: 3.6,
-                cal: 165
-            },
-            "pilav": {
-                p: 2.7,
-                k: 28,
-                f: 0.3,
-                cal: 130
-            },
-            "yoğurt": {
-                p: 5,
-                k: 6,
-                f: 3,
-                cal: 61
-            },
-            "ton balığı": {
-                p: 26,
-                k: 0,
-                f: 1,
-                cal: 116
-            },
-            "et döner": {
-                p: 20,
-                k: 5,
-                f: 15,
-                cal: 230
-            },
-            "yumurta": {
-                p: 6,
-                k: 0.6,
-                f: 5,
-                cal: 68
-            },
-            "köfte": {
-                p: 24,
-                k: 4,
-                f: 18,
-                cal: 250
-            },
-            "patates": {
-                p: 2,
-                k: 17,
-                f: 0.1,
-                cal: 77
-            },
-            "salata": {
-                p: 1,
-                k: 2,
-                f: 0.2,
-                cal: 15
-            },
-            "whey": {
-                p: 24,
-                k: 3,
-                f: 1,
-                cal: 120
-            },
-            "kreatin": {
-                p: 0,
-                k: 0,
-                f: 0,
-                cal: 0
-            },
-            "omega-3": {
-                p: 0,
-                k: 0,
-                f: 100,
-                cal: 30
-            },
-            "meyve": {
-                p: 0.5,
-                k: 15,
-                f: 0.2,
-                cal: 60
-            },
-            "kuruyemiş": {
-                p: 20,
-                k: 16,
-                f: 50,
-                cal: 600
-            }
+            "yulaf": { p: 13, k: 68, f: 7, cal: 389 },
+            "süt": { p: 3.4, k: 5, f: 3.6, cal: 61 },
+            "skyr": { p: 11, k: 4, f: 0.2, cal: 64 },
+            "muz": { p: 1.1, k: 23, f: 0.3, cal: 89 },
+            "ekmek": { p: 9, k: 49, f: 3.2, cal: 265 },
+            "peynir": { p: 22, k: 2, f: 20, cal: 300 },
+            "tavuk": { p: 31, k: 0, f: 3.6, cal: 165 },
+            "pilav": { p: 2.7, k: 28, f: 0.3, cal: 130 },
+            "yoğurt": { p: 5, k: 6, f: 3, cal: 61 },
+            "ton balığı": { p: 26, k: 0, f: 1, cal: 116 },
+            "et döner": { p: 20, k: 5, f: 15, cal: 230 },
+            "yumurta": { p: 6, k: 0.6, f: 5, cal: 68 },
+            "köfte": { p: 24, k: 4, f: 18, cal: 250 },
+            "patates": { p: 2, k: 17, f: 0.1, cal: 77 },
+            "salata": { p: 1, k: 2, f: 0.2, cal: 15 },
+            "whey": { p: 24, k: 3, f: 1, cal: 120 },
+            "kreatin": { p: 0, k: 0, f: 0, cal: 0 },
+            "omega-3": { p: 0, k: 0, f: 100, cal: 30 },
+            "meyve": { p: 0.5, k: 15, f: 0.2, cal: 60 },
+            "kuruyemiş": { p: 20, k: 16, f: 50, cal: 600 }
         };
 
-        let dailyMacros = {
-            protein: 0,
-            carb: 0,
-            fat: 0,
-            cal: 0
-        };
+        let dailyMacros = { protein: 0, carb: 0, fat: 0, cal: 0 };
 
         function parseFoodAndCalcMacros(text) {
-            let total = {
-                p: 0,
-                k: 0,
-                f: 0,
-                cal: 0
-            };
-            let low = text.toLowerCase();
+            let total = { p: 0, k: 0, f: 0, cal: 0 };
+            let lower = text.toLowerCase();
             for (let food in foodDatabase) {
-                if (low.includes(food)) {
+                if (lower.includes(food)) {
                     let amount = 1;
                     if (food === "yumurta" || food === "muz") amount = 1;
                     let mult = amount / 100;
@@ -1756,12 +1749,7 @@
         }
 
         function updateDailyMacros() {
-            dailyMacros = {
-                protein: 0,
-                carb: 0,
-                fat: 0,
-                cal: 0
-            };
+            dailyMacros = { protein: 0, carb: 0, fat: 0, cal: 0 };
             if (!currentDayOpen) return;
             let items = data[currentDayOpen];
             items.forEach((item, idx) => {
@@ -1851,7 +1839,16 @@
                 } else if (item && typeof item === "object" && item.ex) {
                     let titleDiv = document.createElement("div");
                     titleDiv.className = "ex-title";
-                    titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div class="ex-title-buttons"><button class="note-btn" onclick="showExerciseNote('${item.ex}','${day}',${idx})">Not</button><button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">1RM</button><button class="video-btn" onclick="openExerciseVideo('${item.ex}','${item.link||""}','${day}',${idx})">Video</button><button class="link-btn" onclick="setVideoLink('${item.ex}','${day}',${idx})">Link</button><button class="alt-btn" onclick="showAlternatives('${item.ex}')">Diğer</button></div>`;
+                    titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div class="ex-title-buttons">
+                        <button onclick="openExerciseVideo('${item.ex}','${item.link || ""}','${day}',${idx})">📹 Video</button>
+                        <button onclick="addLocalVideo('${item.ex}','${day}',${idx})">📂 Yerel Ekle</button>
+                        <button onclick="playLocalVideo('${item.ex}','${day}',${idx})">▶️ Yerel Oynat</button>
+                        <button onclick="removeLocalVideo('${item.ex}','${day}',${idx})">🗑️ Yerel Sil</button>
+                        <button onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button>
+                        <button onclick="showAlternatives('${item.ex}')">Diğer</button>
+                        <button class="note-btn" onclick="showExerciseNote('${item.ex}','${day}',${idx})">Not</button>
+                        <button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">1RM</button>
+                    </div>`;
                     cont.appendChild(titleDiv);
                     for (let s = 1; s <= item.sets; s++) {
                         let setDiv = document.createElement("div");
@@ -1939,8 +1936,7 @@
 
         function populateManageSelects() {
             let days = Object.keys(data);
-            let mealSel = document.getElementById("mealManageDay"),
-                exSel = document.getElementById("exerciseManageDay");
+            let mealSel = document.getElementById("mealManageDay"), exSel = document.getElementById("exerciseManageDay");
             mealSel.innerHTML = '<option value="">Gün Seç</option>';
             exSel.innerHTML = '<option value="">Gün Seç</option>';
             days.forEach(d => {
@@ -1952,8 +1948,7 @@
         }
 
         function refreshMealList() {
-            let day = document.getElementById("mealManageDay").value,
-                cont = document.getElementById("mealList");
+            let day = document.getElementById("mealManageDay").value, cont = document.getElementById("mealList");
             if (!day || !data[day]) {
                 cont.innerHTML = "<i>Gün seçin</i>";
                 return;
@@ -1987,8 +1982,7 @@
         }
 
         function addMealToDay() {
-            let day = document.getElementById("mealManageDay").value,
-                name = document.getElementById("newMealName").value;
+            let day = document.getElementById("mealManageDay").value, name = document.getElementById("newMealName").value;
             if (!day || !name) {
                 showToast("Gün ve ad girin");
                 return;
@@ -2003,8 +1997,7 @@
         }
 
         function refreshExerciseList() {
-            let day = document.getElementById("exerciseManageDay").value,
-                cont = document.getElementById("exerciseList");
+            let day = document.getElementById("exerciseManageDay").value, cont = document.getElementById("exerciseList");
             if (!day || !data[day]) {
                 cont.innerHTML = "<i>Gün seçin</i>";
                 return;
@@ -2050,19 +2043,12 @@
         }
 
         function addExerciseToDay() {
-            let day = document.getElementById("exerciseManageDay").value,
-                name = document.getElementById("newExerciseName").value,
-                sets = parseInt(document.getElementById("newExerciseSets").value);
+            let day = document.getElementById("exerciseManageDay").value, name = document.getElementById("newExerciseName").value, sets = parseInt(document.getElementById("newExerciseSets").value);
             if (!day || !name || !sets) {
                 showToast("Gün, hareket ve set sayısı girin");
                 return;
             }
-            data[day].push({
-                ex: name,
-                sets: sets,
-                link: "",
-                notes: ""
-            });
+            data[day].push({ ex: name, sets: sets, link: "", notes: "", localVideo: null });
             saveDataToLocal();
             document.getElementById("newExerciseName").value = "";
             document.getElementById("newExerciseSets").value = "";
@@ -2097,16 +2083,12 @@
         }
 
         function addSupplement() {
-            let name = document.getElementById("newSupplementName").value,
-                time = document.getElementById("newSupplementTime").value;
+            let name = document.getElementById("newSupplementName").value, time = document.getElementById("newSupplementTime").value;
             if (!name || !time) {
                 showToast("Ad ve zaman girin");
                 return;
             }
-            supplements.push({
-                name,
-                time
-            });
+            supplements.push({ name, time });
             saveDataToLocal();
             document.getElementById("newSupplementName").value = "";
             document.getElementById("newSupplementTime").value = "";
@@ -2116,10 +2098,7 @@
 
         function getWaterData() {
             let days = ["PAZARTESI", "SALI", "CARSAMBA", "PERSEMBE", "CUMA", "CUMARTESI", "PAZAR"];
-            return days.map(d => ({
-                day: d.substring(0, 3),
-                amount: waterIntake[`${d}_water`] || 0
-            }));
+            return days.map(d => ({ day: d.substring(0, 3), amount: waterIntake[`${d}_water`] || 0 }));
         }
 
         function setWaterChartType(t) {
@@ -2130,12 +2109,10 @@
         }
 
         function updateWaterChart() {
-            let cont = document.getElementById("waterChartContainer"),
-                msg = document.getElementById("waterChartMessage");
+            let cont = document.getElementById("waterChartContainer"), msg = document.getElementById("waterChartMessage");
             if (!cont) return;
             if (currentChartType === 'daily') {
-                let wd = getWaterData(),
-                    maxW = Math.max(...wd.map(d => d.amount), 1);
+                let wd = getWaterData(), maxW = Math.max(...wd.map(d => d.amount), 1);
                 cont.innerHTML = '<h4>📊 Günlük Su (bardak)</h4>';
                 wd.forEach(d => {
                     let p = (d.amount / maxW) * 100;
@@ -2169,9 +2146,7 @@
         }
 
         function updateQuests(day) {
-            let water = 0,
-                meals = 0,
-                sets = 0;
+            let water = 0, meals = 0, sets = 0;
             Object.keys(doneState).forEach(k => {
                 if (k.includes(day)) {
                     if (k.includes("meal")) {
@@ -2196,8 +2171,7 @@
 
         function updateAllStats() {
             let totalWater = Object.values(waterIntake).reduce((a, b) => a + b, 0);
-            let bestDayScore = 0,
-                bestDayName = "";
+            let bestDayScore = 0, bestDayName = "";
             Object.keys(data).forEach(day => {
                 let ds = 0;
                 Object.keys(doneState).forEach(k => {
@@ -2244,16 +2218,14 @@
             modal.className = "modal";
             modal.innerHTML = `<div class="modal-content"><h3>➕ ${currentDayOpen}</h3><select id="itemTypeSelect"><option value="meal">🍽️ Yemek</option><option value="exercise">💪 Hareket</option></select><input id="itemNameInput" placeholder="Ad"><div id="setsContainer" style="display:none"><input id="itemSetsInput" type="number" placeholder="Set sayısı"></div><div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
             document.body.appendChild(modal);
-            let typeSel = document.getElementById("itemTypeSelect"),
-                setsCont = document.getElementById("setsContainer");
+            let typeSel = document.getElementById("itemTypeSelect"), setsCont = document.getElementById("setsContainer");
             typeSel.onchange = () => {
                 setsCont.style.display = typeSel.value === "exercise" ? "block" : "none";
             };
         }
 
         function addItemToCurrentDay() {
-            let type = document.getElementById("itemTypeSelect").value,
-                name = document.getElementById("itemNameInput").value;
+            let type = document.getElementById("itemTypeSelect").value, name = document.getElementById("itemNameInput").value;
             if (!name) {
                 showToast("Ad girin");
                 return;
@@ -2267,12 +2239,7 @@
                     showToast("Set sayısı girin");
                     return;
                 }
-                data[currentDayOpen].push({
-                    ex: name,
-                    sets: sets,
-                    link: "",
-                    notes: ""
-                });
+                data[currentDayOpen].push({ ex: name, sets: sets, link: "", notes: "", localVideo: null });
                 showToast(`✅ "${name}" (${sets} set) eklendi`);
             }
             saveDataToLocal();
@@ -2282,25 +2249,9 @@
         }
 
         function backupData() {
-            const exp = {
-                data,
-                doneState,
-                waterIntake,
-                totalSetCount,
-                supplements,
-                dailyNotes,
-                oneRMHistory,
-                setLogs,
-                bodyMeasurements,
-                beforePhoto,
-                afterPhoto,
-                exerciseVideos,
-                muscleLastTrained
-            };
+            const exp = { data, doneState, waterIntake, totalSetCount, supplements, dailyNotes, oneRMHistory, setLogs, bodyMeasurements, beforePhoto, afterPhoto, exerciseVideos, muscleLastTrained };
             const str = JSON.stringify(exp, null, 2);
-            const blob = new Blob([str], {
-                type: "application/json"
-            });
+            const blob = new Blob([str], { type: "application/json" });
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
             a.download = `fitness_backup_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
