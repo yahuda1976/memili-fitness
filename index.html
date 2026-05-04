@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Tam Sürüm (Ana Sayfa Progress Bar + Hafta Geçmişi)</title>
+    <title>Fitness Pro - Koyu Beyaz Yazı + Kas Renkleri</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 120px; font-weight: 500; }
         .app-header { background: #000; padding: 16px 20px; text-align: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
         .app-header h1 { font-size: 1.8rem; background: linear-gradient(135deg,#007aff,#5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px 0 20px; max-width: 550px; margin: 0 auto; }
-        .history-btn { background: #34C759; border: none; padding: 12px 20px; border-radius: 30px; color: white; font-weight: 600; cursor: pointer; }
-        .history-btn:active { transform: scale(0.97); }
         .grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; padding: 20px; max-width: 550px; margin: 0 auto; }
         .card { background: #1C1C1E; border-radius: 14px; padding: 20px 12px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
         .card:active { transform: scale(0.97); background: #2C2C2E; }
-        .card h3 { font-size: 1.3rem; font-weight: 700; color: #FF3B30; margin-bottom: 8px; }
+        /* Gün isimleri beyaz, kalın ve büyük */
+        .card h3 { font-size: 1.6rem; font-weight: 900; color: #ffffff; margin-bottom: 8px; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
         .card.settings-card h3 { color: #007AFF; }
         .progress-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin-top: 12px; }
         .progress-fill { height: 100%; background: #34C759; transition: width 0.3s; }
@@ -23,7 +21,7 @@
         .day-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 1000; overflow-y: auto; padding-bottom: 120px; }
         .day-header { background: #000; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
         .back-btn, .add-item-btn { background: #007AFF; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 1rem; color: white; cursor: pointer; }
-        .day-title { font-size: 1.4rem; font-weight: 700; }
+        .day-title { font-size: 1.4rem; font-weight: 700; color: #fff; }
         .item, .set { background: #1C1C1E; margin: 10px 16px; padding: 14px; border-radius: 14px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.1); }
         .set { cursor: pointer; border-left: 4px solid #34C759; }
         .set.done, .item.done { background: #007AFF; text-decoration: line-through; opacity: 0.9; }
@@ -31,6 +29,7 @@
         .set span, .item span { font-weight: 600; flex: 1; color: #fff; }
         .ex-title { background: #1C1C1E; border-radius: 12px; padding: 12px 16px; margin: 16px 16px 8px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .ex-title > span { flex: 1; font-weight: 600; color: #34C759; font-size: 1.1rem; }
+        /* 8 BUTON TAMAMI */
         .ex-title-buttons { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; width: 100%; margin-top: 8px; }
         .ex-title-buttons button { background: #2C2C2E; border: 1px solid rgba(255,255,255,0.2); padding: 8px 0; border-radius: 40px; color: #FFCC33; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
         .move-buttons { display: flex; flex-direction: column; gap: 4px; }
@@ -66,11 +65,13 @@
         .macro-item span { font-size: 1.2rem; display: block; }
         .macro-item b { display: block; font-size: 1rem; font-weight: 700; margin: 2px 0; color: #FFF; }
         .macro-item small { color: #8E8E93; font-size: 0.6rem; text-transform: uppercase; }
+        /* KAS KARTLARI RENKLİ (çalışma durumuna göre) */
         .recovery-panel { background: #1C1C1E; border-radius: 14px; padding: 12px; margin: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
-        .recovery-item { flex: 1; text-align: center; padding: 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
-        .recovery-red { background: rgba(255,59,48,0.2); color: #FF3B30; }
-        .recovery-orange { background: rgba(255,149,0,0.2); color: #FF9500; }
-        .recovery-green { background: rgba(52,199,89,0.2); color: #34C759; }
+        .recovery-item { flex: 1; text-align: center; padding: 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; transition: 0.2s; }
+        .kas-red { background: rgba(255,59,48,0.2); color: #FF3B30; border-left: 4px solid #FF3B30; }
+        .kas-orange { background: rgba(255,149,0,0.2); color: #FF9500; border-left: 4px solid #FF9500; }
+        .kas-green { background: rgba(52,199,89,0.2); color: #34C759; border-left: 4px solid #34C759; }
+        .kas-no-data { background: rgba(150,150,150,0.2); color: #aaa; }
         .weekly-history-list { background: #1C1C1E; border-radius: 14px; padding: 12px; margin: 12px; }
         .week-item { background: #2C2C2E; border-radius: 12px; padding: 10px; margin-bottom: 8px; cursor: pointer; }
         .week-date { font-weight: bold; color: #007AFF; }
@@ -82,18 +83,16 @@
         .before-after { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
         .before-after div { text-align:center; background:#2C2C2E; border-radius:14px; padding:12px; width:45%; }
         .before-after img { max-width:100%; border-radius:12px; margin-top:8px; }
-        .profit-indicator { font-size:0.9rem; background:#2c6e2f; display:inline-block; padding:4px 12px; border-radius:30px; margin-top:6px; color:white; }
+        .full-width-bottom-btn { width: calc(100% - 40px); margin: 20px auto 20px auto; display: block; background: #34C759; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; }
+        .full-width-bottom-btn:active { transform: scale(0.97); }
     </style>
     <script src="https://unpkg.com/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
 </head>
 <body>
 <div id="appContent">
     <div class="app-header"><h1>🔥 FITNESS PRO</h1></div>
-    <div class="top-bar">
-        <button class="history-btn" onclick="openWeekHistory()">📅 HAFTA GEÇMİŞİ</button>
-        <div style="width:40px;"></div>
-    </div>
     <div id="homeGrid" class="grid"></div>
+    <button class="full-width-bottom-btn" onclick="openWeekHistory()">📅 HAFTA GEÇMİŞİ</button>
     <div id="dayView" class="day-view hidden">
         <div class="day-header">
             <button class="back-btn" onclick="closeDay()">← Geri</button>
@@ -111,12 +110,10 @@
             <div style="width:50px;"></div>
         </div>
         <div style="padding:16px;">
-            <!-- BARKOD EKLEME -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF9500;">📷 BARKOD İLE BESİN EKLE</h3>
                 <button onclick="openBarcodeFoodModal()" style="width:100%; background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📷 KAMERA İLE BARKOD OKU</button>
             </div>
-            <!-- VÜCUT ÖLÇÜLERİ ve FOTOĞRAF TAKİBİ -->
             <div class="body-stats">
                 <h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
                 <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1" placeholder="kg"></div>
@@ -133,22 +130,6 @@
                 <div class="before-after" id="photoContainer"></div>
                 <div id="sliderContainer" style="margin-top:12px;"></div>
             </div>
-            <!-- 1RM HESAPLAYICI -->
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
-                <h3 style="color:#007AFF;">🏋️ 1RM HESAPLAYICI</h3>
-                <select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;"></select>
-                <input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
-                <input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
-                <button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007AFF; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">📊 1RM Hesapla ve Kaydet</button>
-                <div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div>
-                <canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas>
-            </div>
-            <!-- AĞIRLIK TAKİBİ (SET LOGLARI) -->
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
-                <h3 style="color:#FF9500;">📊 AĞIRLIK TAKİBİ</h3>
-                <div id="weightTrackingList" style="color:#8E8E93; max-height:200px; overflow-y:auto;"></div>
-            </div>
-            <!-- YEMEK YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">🍽️ Yemek Yönetimi</h3>
                 <select id="mealManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
@@ -156,7 +137,6 @@
                 <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Yemek Ekle</button>
             </div>
-            <!-- EGZERSİZ YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💪 Egzersiz Yönetimi</h3>
                 <select id="exerciseManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
@@ -165,7 +145,6 @@
                 <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Hareket Ekle</button>
             </div>
-            <!-- SUPPLEMENT TAKVİYE -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💊 Supplement Takviye</h3>
                 <div id="supplementList" style="margin-bottom:12px;"></div>
@@ -173,7 +152,6 @@
                 <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Takviye Ekle</button>
             </div>
-            <!-- YEDEKLEME -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💾 VERİ YEDEKLEME</h3>
                 <button onclick="backupData()" style="width:100%; background:#007AFF; border:none; padding:14px; border-radius:12px; color:white; font-weight:600; margin-bottom:8px;">💾 YEDEK AL</button>
@@ -256,7 +234,7 @@
         "23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"
     ];
 
-    // ========== EGZERSİZ PLANLARI ==========
+    // ========== EGZERSİZ PLANLARI (8 buton destekli) ==========
     const workoutPlans = {
         "PAZARTESI": { title: "🏋️ AĞIR GÖĞÜS + TRICEPS", muscleGroups: [
             { name: "🟥 GÖĞÜS", exercises: [{ ex: "Incline Dumbbell Press", sets: 4 }, { ex: "Flat Dumbbell Press", sets: 4 }, { ex: "Cable Crossover", sets: 3 }, { ex: "Chest Press", sets: 3 }] },
@@ -296,7 +274,6 @@
     let currentStream = null;
     let bodyMeasurements = { weight:0, waist:0, chest:0, arm:0, leg:0 };
     let beforePhoto = null, afterPhoto = null;
-    let oneRMHistory = {};
 
     const muscleGroupMap = {
         "Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs",
@@ -366,7 +343,6 @@
         localStorage.setItem("bodyMeasurements", JSON.stringify(bodyMeasurements));
         if(beforePhoto) localStorage.setItem("beforePhoto", beforePhoto);
         if(afterPhoto) localStorage.setItem("afterPhoto", afterPhoto);
-        localStorage.setItem("oneRMHistory", JSON.stringify(oneRMHistory));
     }
 
     function loadDataFromLocal() {
@@ -389,10 +365,9 @@
         let bm = localStorage.getItem("bodyMeasurements"); if (bm) bodyMeasurements = JSON.parse(bm);
         let bf = localStorage.getItem("beforePhoto"); if (bf) beforePhoto = bf;
         let af = localStorage.getItem("afterPhoto"); if (af) afterPhoto = af;
-        let orm = localStorage.getItem("oneRMHistory"); if (orm) oneRMHistory = JSON.parse(orm);
     }
 
-    // ANA SAYFA (Progress bar ile)
+    // ANA SAYFA (gün isimleri beyaz, kalın)
     function buildHome() {
         let grid = document.getElementById("homeGrid");
         grid.innerHTML = "";
@@ -484,6 +459,29 @@
         document.getElementById("questScore").innerHTML = `${score}/100`;
     }
 
+    // KAS KARTLARI (çalışma durumuna göre renk)
+    function renderRecoveryPanel() {
+        let panel = document.getElementById("recoveryPanel");
+        if (!panel) return;
+        let muscles = ["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"];
+        panel.innerHTML = "";
+        for (let m of muscles) {
+            let last = muscleLastTrained[m];
+            let diffHours = last ? (new Date() - new Date(last)) / (1000 * 3600) : null;
+            let cls = "kas-no-data";
+            let text = `${m} (yok)`;
+            if (last) {
+                if (diffHours < 24) { cls = "kas-red"; text = `${m} (${Math.floor(diffHours)} saat önce)`; }
+                else if (diffHours < 48) { cls = "kas-orange"; text = `${m} (${Math.floor(diffHours)} saat önce)`; }
+                else { cls = "kas-green"; text = `${m} (${Math.floor(diffHours)} saat önce)`; }
+            }
+            let div = document.createElement("div");
+            div.className = `recovery-item ${cls}`;
+            div.innerText = text;
+            panel.appendChild(div);
+        }
+    }
+
     function openDay(day) {
         currentDayOpen = day;
         document.getElementById("homeGrid").style.display = "none";
@@ -509,24 +507,15 @@
         refreshMealList();
         refreshExerciseList();
         updateSupplementsDisplay();
-        populateOneRMSelect();
-        updateWeightTrackingDisplay();
         updateBodyMeasurementsUI();
-        updateOneRMChart();
     }
     function closeSettings() {
         document.getElementById("settingsView").classList.add("hidden");
         document.getElementById("homeGrid").style.display = "grid";
         buildHome();
     }
-    function renderRecoveryPanel() {
-        let panel = document.getElementById("recoveryPanel");
-        if (!panel) return;
-        let muscles = ["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"];
-        panel.innerHTML = muscles.map(m => `<div class="recovery-item recovery-green">${m} (yok)</div>`).join('');
-    }
 
-    // Görüntüleme
+    // GÖRÜNTÜLEME (8 BUTONLU)
     function renderDayItems(day) {
         let cont = document.getElementById("dayItems");
         cont.innerHTML = "";
@@ -564,8 +553,14 @@
                 let titleDiv = document.createElement("div");
                 titleDiv.className = "ex-title";
                 titleDiv.innerHTML = `<span>💪 ${item.ex}</span><div class="ex-title-buttons">
+                    <button onclick="openExerciseVideo('${item.ex}','${item.link||""}')">📹 Video</button>
+                    <button onclick="addLocalVideo('${item.ex}','${day}',${idx})">📂 Yerel Ekle</button>
+                    <button onclick="playLocalVideo('${item.ex}','${day}',${idx})">▶️ Yerel Oynat</button>
+                    <button onclick="removeLocalVideo('${item.ex}','${day}',${idx})">🗑️ Yerel Sil</button>
+                    <button onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button>
                     <button onclick="showAlternatives('${item.ex}')">Diğer</button>
                     <button class="note-btn" onclick="showExerciseNote('${item.ex}','${day}',${idx})">Not</button>
+                    <button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">1RM</button>
                 </div>`;
                 cont.appendChild(titleDiv);
                 for (let s = 1; s <= item.sets; s++) {
@@ -615,7 +610,11 @@
         setLogs[day][ex][setNo] = { weight, reps };
         saveDataToLocal();
         let m = muscleGroupMap[ex];
-        if (m) muscleLastTrained[m] = new Date().toISOString();
+        if (m) {
+            muscleLastTrained[m] = new Date().toISOString();
+            renderRecoveryPanel();
+            saveDataToLocal();
+        }
     }
     function promptWeightAndReps(day, ex, setNo, defaultW, defaultR, onSave) {
         let defW = defaultW || 0;
@@ -669,8 +668,7 @@
         typeSel.onchange = () => { setsCont.style.display = typeSel.value === "exercise" ? "block" : "none"; };
     }
     function addItemToCurrentDay() {
-        let type = document.getElementById("itemTypeSelect").value;
-        let name = document.getElementById("itemNameInput").value;
+        let type = document.getElementById("itemTypeSelect").value, name = document.getElementById("itemNameInput").value;
         if (!name) { showToast("Ad girin"); return; }
         if (type === "meal") {
             currentWeekData[currentDayOpen].push(name);
@@ -705,6 +703,82 @@
         let alt = altList[ex];
         if (alt) alert("Alternatif: " + alt);
         else showToast("Alternatif yok");
+    }
+    function openExerciseVideo(ex,link) {
+        let url = link || `https://www.youtube.com/results?search_query=${encodeURIComponent(ex)}`;
+        window.open(url,'_blank');
+    }
+    async function addLocalVideo(ex,day,idx) {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = "video/*";
+        input.onchange = async(e) => {
+            let file = e.target.files[0];
+            if (file) {
+                let id = `${day}_${ex}_${idx}`;
+                try {
+                    let db = await openDB();
+                    let tx = db.transaction("videos","readwrite");
+                    tx.objectStore("videos").put({id:id, video:file});
+                    showToast("Video kaydedildi");
+                } catch(e) { showToast("Hata"); }
+            }
+        };
+        input.click();
+    }
+    async function playLocalVideo(ex,day,idx) {
+        let id = `${day}_${ex}_${idx}`;
+        try {
+            let db = await openDB();
+            let res = await new Promise(r => db.transaction("videos").objectStore("videos").get(id).onsuccess = e => r(e.target.result));
+            if (res && res.video) {
+                let url = URL.createObjectURL(res.video);
+                let modal = document.createElement("div");
+                modal.className = "modal";
+                modal.innerHTML = `<div class="modal-content"><video controls src="${url}" style="width:100%"></video><button onclick="this.closest('.modal').remove()">Kapat</button></div>`;
+                document.body.appendChild(modal);
+            } else showToast("Video yok");
+        } catch(e) { showToast("Hata"); }
+    }
+    async function removeLocalVideo(ex,day,idx) {
+        let id = `${day}_${ex}_${idx}`;
+        if (confirm("Sil?")) {
+            let db = await openDB();
+            db.transaction("videos","readwrite").objectStore("videos").delete(id);
+            showToast("Silindi");
+        }
+    }
+    function setVideoLink(ex,day,idx) {
+        let link = prompt("YouTube linki:", currentWeekData[day][idx].link || "");
+        if (link !== null) {
+            currentWeekData[day][idx].link = link;
+            saveDataToLocal();
+            if (currentDayOpen === day) renderDayItems(day);
+            showToast("Link kaydedildi");
+        }
+    }
+    function showOneRMForExercise(ex) {
+        let last = null;
+        for (let day in setLogs) {
+            for (let e in setLogs[day]) {
+                if (e === ex) {
+                    let maxSet = Object.values(setLogs[day][e]).reduce((a,b) => b.weight > a.weight ? b : a, {weight:0});
+                    if (maxSet.weight > 0) last = maxSet;
+                }
+            }
+        }
+        if (last && last.weight > 0) {
+            let oneRM = Math.round(last.weight * (36 / (37 - last.reps)));
+            showToast(`🏆 ${ex} 1RM: ${oneRM} kg (${last.reps} tekrar × ${last.weight} kg)`);
+        } else showToast("Ağırlık kaydı yok");
+    }
+    function openDB() {
+        return new Promise((res,rej) => {
+            let req = indexedDB.open("FitnessVideoDB",1);
+            req.onupgradeneeded = e => { if (!e.target.result.objectStoreNames.contains("videos")) e.target.result.createObjectStore("videos",{keyPath:"id"}); };
+            req.onsuccess = e => res(e.target.result);
+            req.onerror = rej;
+        });
     }
 
     // Hafta geçmişi
@@ -742,7 +816,7 @@
         modal.style.display = "none";
     }
 
-    // Yönetim
+    // Yönetim yardımcıları
     function populateManageSelects() {
         let days = Object.keys(currentWeekData);
         let mealSel = document.getElementById("mealManageDay"), exSel = document.getElementById("exerciseManageDay");
@@ -859,7 +933,7 @@
         showToast(`✅ "${name}" eklendi`);
     }
     function backupData() {
-        let exp = { weekArchive, currentWeekKey, doneState, waterIntake, totalSetCount, setLogs, muscleLastTrained, supplements, bodyMeasurements, beforePhoto, afterPhoto, oneRMHistory };
+        let exp = { weekArchive, currentWeekKey, doneState, waterIntake, totalSetCount, setLogs, muscleLastTrained, supplements, bodyMeasurements, beforePhoto, afterPhoto };
         let str = JSON.stringify(exp);
         let a = document.createElement("a");
         a.href = URL.createObjectURL(new Blob([str]));
@@ -888,7 +962,6 @@
                     if (imp.bodyMeasurements) bodyMeasurements = imp.bodyMeasurements;
                     if (imp.beforePhoto) beforePhoto = imp.beforePhoto;
                     if (imp.afterPhoto) afterPhoto = imp.afterPhoto;
-                    if (imp.oneRMHistory) oneRMHistory = imp.oneRMHistory;
                     if (weekArchive[currentWeekKey]) currentWeekData = weekArchive[currentWeekKey].weekData;
                     else initNewWeek();
                     saveDataToLocal();
@@ -901,8 +974,6 @@
         };
         inp.click();
     }
-
-    // Vücut ölçüleri ve fotoğraf
     function saveBodyMeasurements() {
         bodyMeasurements.weight = parseFloat(document.getElementById("bodyWeight").value) || 0;
         bodyMeasurements.waist = parseFloat(document.getElementById("bodyWaist").value) || 0;
@@ -956,76 +1027,7 @@
         } else sliderDiv.style.display = "none";
     }
 
-    // 1RM
-    function populateOneRMSelect() {
-        let sel = document.getElementById("oneRMExerciseSelect");
-        if (!sel) return;
-        let exercises = new Set();
-        for (let day in currentWeekData) {
-            for (let it of currentWeekData[day]) if (it && typeof it === "object" && it.ex) exercises.add(it.ex);
-        }
-        sel.innerHTML = '<option value="">Hareket seç</option>';
-        for (let ex of exercises) sel.innerHTML += `<option value="${ex}">${ex}</option>`;
-        sel.onchange = () => updateOneRMChart();
-    }
-    function updateOneRMChart() {
-        let ex = document.getElementById("oneRMExerciseSelect").value;
-        let canvas = document.getElementById("oneRMChart");
-        if (!canvas || !ex) return;
-        let hist = oneRMHistory[ex] || [];
-        let ctx = canvas.getContext("2d");
-        if (hist.length === 0) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#555";
-            ctx.font = "12px sans-serif";
-            ctx.fillText("Veri yok", 10, 50);
-            return;
-        }
-        let last5 = hist.slice(-5);
-        let maxVal = Math.max(...last5.map(h => h.oneRM), 1);
-        let w = canvas.width, h = canvas.height;
-        ctx.clearRect(0, 0, w, h);
-        ctx.fillStyle = "#007AFF";
-        let barW = (w - 50) / last5.length - 5;
-        for (let i = 0; i < last5.length; i++) {
-            let barH = (last5[i].oneRM / maxVal) * (h - 40);
-            ctx.fillRect(50 + i * (barW + 5), h - barH - 20, barW, barH);
-            ctx.fillStyle = "#1c1c1e";
-            ctx.font = "10px sans-serif";
-            ctx.fillText(last5[i].oneRM, 50 + i * (barW + 5), h - barH - 25);
-            ctx.fillStyle = "#007AFF";
-        }
-        ctx.fillStyle = "#1c1c1e";
-        ctx.font = "12px sans-serif";
-        ctx.fillText("Son 5 kayıt", 10, 20);
-    }
-    function calculateAndSaveOneRM() {
-        let ex = document.getElementById("oneRMExerciseSelect").value;
-        let w = parseFloat(document.getElementById("oneRMWeight").value);
-        let r = parseInt(document.getElementById("oneRMReps").value);
-        if (!ex || isNaN(w) || isNaN(r) || r < 1 || r > 36) { showToast("Geçerli değer girin"); return; }
-        let oneRM = Math.round(w * (36 / (37 - r)));
-        document.getElementById("oneRMResult").innerHTML = `🏆 1RM: ${oneRM} kg`;
-        if (!oneRMHistory[ex]) oneRMHistory[ex] = [];
-        oneRMHistory[ex].push({ date: new Date().toISOString(), weight: w, reps: r, oneRM: oneRM });
-        saveDataToLocal();
-        updateOneRMChart();
-        showToast(`✅ ${ex} için 1RM kaydedildi`);
-    }
-    function updateWeightTrackingDisplay() {
-        let cont = document.getElementById("weightTrackingList");
-        if (!cont) return;
-        let html = "";
-        for (let day in setLogs) {
-            for (let ex in setLogs[day]) {
-                let entries = Object.entries(setLogs[day][ex]).map(([sn, log]) => `Set ${sn}: ${log.reps} tekrar x ${log.weight} kg`).join(" | ");
-                html += `<div style="background:#2C2C2E; padding:12px; border-radius:12px; margin-bottom:12px;"><strong>${day} - ${ex}</strong><br>${entries}</div>`;
-            }
-        }
-        cont.innerHTML = html || "<div>Henüz ağırlık kaydı yok</div>";
-    }
-
-    // Kameralı barkod
+    // BARKOD KAMERA
     function openBarcodeFoodModal() {
         let modal = document.createElement("div");
         modal.className = "modal";
@@ -1139,7 +1141,7 @@
         };
     }
 
-    // Genel yardımcılar
+    // GENEL YARDIMCILAR
     function showToast(msg) { let t = document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
     function playBeep() { try { let ctx = new (window.AudioContext||window.webkitAudioContext)(); let o = ctx.createOscillator(); o.frequency.value=880; let g = ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); } catch(e){} }
     function stopTimer() { if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
