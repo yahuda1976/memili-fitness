@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro 🔥 - Yeni Beslenme Planları</title>
+    <title>Fitness Pro 🔥 - Tüm Günler Saat Sıralı</title>
     <style>
+        /* (stiller aynen önceki gibi, uzunluk için kısaltıldı – tam kodda mevcut) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 17px; min-height: 100vh; padding-bottom: 160px; font-weight: 500; }
         .app-header { background: #000; backdrop-filter: blur(20px); padding: 16px 20px; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
@@ -40,12 +41,12 @@
         .quest-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 10px 0; }
         .quest-item { text-align: center; background: #2C2C2E; padding: 8px; border-radius: 12px; }
         .quest-icon { font-size: 1.3rem; }
-        .quest-progress { font-size: 0.8rem; font-weight: 600; }
+        .quest-progress { font-size: 0.8rem; font-weight: 600; color: #FFF; }
         .daily-score { text-align: center; font-size: 0.8rem; color: #8E8E93; }
         .score-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; margin-top: 6px; overflow: hidden; }
         .score-fill { height: 100%; background: #34C759; }
         .stats-panel { background: #1C1C1E; margin: 16px; padding: 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); }
-        .stats-panel h3 { font-size: 1.1rem; font-weight: 600; }
+        .stats-panel h3 { font-size: 1.1rem; font-weight: 600; color: #FFF; }
         .stats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 12px; }
         .stat-card { text-align: center; background: #2C2C2E; padding: 14px; border-radius: 12px; font-size: 0.85rem; color: #007AFF; }
         .stat-card span { display: block; font-size: 1.4rem; font-weight: 700; color: #FFF; margin-top: 4px; }
@@ -139,12 +140,9 @@
             <div style="width:50px;"></div>
         </div>
         <div style="padding:16px;">
-            <!-- SU GRAFİĞİ -->
             <div class="water-chart"><h3 style="color:#007AFF;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem;"></div></div>
-            <!-- HAFTALIK SET GRAFİĞİ -->
             <div class="set-chart"><h3 style="color:#007AFF;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
             
-            <!-- GELİŞMİŞ ÖZELLİKLER KARTI -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF9500;">🚀 GELİŞMİŞ ÖZELLİKLER</h3>
                 <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 12px;">
@@ -159,7 +157,6 @@
                 </div>
             </div>
             
-            <!-- VİDEO KÜTÜPHANESİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF3B30;">🎥 VİDEO KÜTÜPHANESİ</h3>
                 <input type="text" id="videoExName" placeholder="Hareket adı" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
@@ -167,7 +164,6 @@
                 <button onclick="addVideoToLibrary()" style="width:100%; background:#FF3B30; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">➕ Kütüphaneye Ekle</button>
                 <div id="videoLibraryList" style="margin-top:12px;"></div>
             </div>
-            <!-- VÜCUT ÖLÇÜLERİ ve FOTOĞRAF TAKİBİ -->
             <div class="body-stats">
                 <h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
                 <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1" placeholder="kg"></div>
@@ -184,7 +180,6 @@
                 <div class="before-after" id="photoContainer"></div>
                 <div id="sliderContainer" style="margin-top:12px;"></div>
             </div>
-            <!-- 1RM HESAPLAYICI -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">🏋️ 1RM HESAPLAYICI</h3>
                 <select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;"></select>
@@ -194,18 +189,15 @@
                 <div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div>
                 <canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas>
             </div>
-            <!-- AĞIRLIK TAKİBİ (SET LOGLARI) -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF9500;">📊 AĞIRLIK TAKİBİ</h3>
                 <div id="weightTrackingList" style="color:#8E8E93; max-height:200px; overflow-y:auto;"></div>
             </div>
-            <!-- HAFTA YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF3B30;">⚠️ HAFTA YÖNETİMİ</h3>
                 <button onclick="resetWeek()" style="width:100%; background:#FF3B30; border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">🔄 Tüm Haftayı Sıfırla</button>
                 <p style="font-size:0.7rem; margin-top:8px; color:#8E8E93;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p>
             </div>
-            <!-- YEMEK YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">🍽️ Yemek Yönetimi</h3>
                 <select id="mealManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
@@ -213,7 +205,6 @@
                 <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Yemek Ekle</button>
             </div>
-            <!-- EGZERSİZ YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💪 Egzersiz Yönetimi</h3>
                 <select id="exerciseManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
@@ -222,7 +213,6 @@
                 <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Hareket Ekle</button>
             </div>
-            <!-- SUPPLEMENT TAKVİYE -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💊 Supplement Takviye</h3>
                 <div id="supplementList" style="margin-bottom:12px;"></div>
@@ -230,7 +220,6 @@
                 <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Takviye Ekle</button>
             </div>
-            <!-- YEDEKLEME -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💾 VERİ YEDEKLEME</h3>
                 <button onclick="backupData()" style="width:100%; background:#007AFF; border:none; padding:14px; border-radius:12px; color:white; font-weight:600; margin-bottom:8px;">💾 YEDEK AL</button>
@@ -262,52 +251,37 @@
 </div>
 
 <script>
-    // ========== MAKRO YAKALAMA FONKSİYONU ==========
-    // Artık her yemek satırının sonundaki "👉 ~xxx kcal / yyg protein" bilgisini okur.
+    // ========== MAKRO YAKALAMA ==========
     function parseFoodAndCalcMacros(text) {
         let total = { p:0, k:0, f:0, cal:0 };
-        // Kalori yakala (örn: ~400 kcal)
         let kcalMatch = text.match(/~(\d+)\s*kcal/i);
         if (kcalMatch) total.cal = parseInt(kcalMatch[1]);
-        // Protein yakala (örn: 25g protein)
         let protMatch = text.match(/(\d+)\s*g\s*protein/i);
         if (protMatch) total.p = parseInt(protMatch[1]);
-        // Karbonhidrat ve yağ bilgisi yok, 0 kalabilir (isteğe bağlı geliştirilebilir)
         return total;
     }
 
-    // ========== YENİ BESLENME PLANLARI ==========
-    // Su satırları aynen korunacak (💧 1 bardak su)
-    const waterRows = [
-        "💧 1 bardak su", "💧 1 bardak su", "💧 1 bardak su", "💧 1 bardak su",
-        "💧 4 bardak su", "💧 1 bardak su", "💧 1 bardak su"
-    ];
-
-    // YEMEK PLANI 1 (TREN GÜNÜ) - 8 öğün
+    // ========== YEMEK PLANLARI (SAATLER GÜNCELLENDİ, ANTREMAN SAATLERİ 19:00 ÖNCESİ, 21:00 SONRASI) ==========
     const plan1Meals = [
         "🌅 07:00 – TREN KAHVALTI: 5 yemek kaşığı yulaf, 1 su bardağı süt, 4 yemek kaşığı Skyr, 1 küçük muz, 💊 Omega-3 👉 ~400 kcal / 25g protein",
         "🥣 09:00 – ARA ÖĞÜN: 4 yemek kaşığı Skyr, 1 tatlı kaşığı chia, 1 küçük meyve 👉 ~250 kcal / 20g protein",
         "🍽️ 14:00 – ANA ÖĞÜN (PRE): 150 g tavuk, 6 yemek kaşığı pirinç, 1 tatlı kaşığı zeytinyağı, salata 👉 ~550 kcal / 40g protein",
         "🍽️ 17:00 – 2. ANA ÖĞÜN: 120 g tavuk, 4 yemek kaşığı pirinç, salata 👉 ~400 kcal / 30g protein",
-        "⚡ 18:15 – ANTRENMAN ÖNCESİ: 1 muz, 1 küçük lavaş 👉 ~250 kcal",
-        "💪 20:15 – POST WORKOUT: 1 ölçek whey, 1 küçük meyve 👉 ~200 kcal / 25g protein",
-        "🍽️ 21:00 – AKŞAM: 150 g kıyma (orta yağlı), 4 yemek kaşığı pirinç veya patates, salata 👉 ~500 kcal / 35g protein",
-        "🌙 23:00 – GECE: 4 yemek kaşığı Skyr veya quark 👉 ~150 kcal / 15g protein"
+        "⚡ 19:00 – ANTRENMAN ÖNCESİ: 1 muz, 1 küçük lavaş 👉 ~250 kcal",
+        "💪 21:00 – POST WORKOUT: 1 ölçek whey, 1 küçük meyve 👉 ~200 kcal / 25g protein",
+        "🍽️ 21:30 – AKŞAM: 150 g kıyma (orta yağlı), 4 yemek kaşığı pirinç veya patates, salata 👉 ~500 kcal / 35g protein",
+        "🌙 23:30 – GECE: 4 yemek kaşığı Skyr veya quark 👉 ~150 kcal / 15g protein"
     ];
-
-    // YEMEK PLANI 2 (TREN GÜNÜ) - 8 öğün
     const plan2Meals = [
         "🌅 07:00 – TREN KAHVALTI: 5 yemek kaşığı yulaf, 1 su bardağı süt, 1 ölçek whey, kahve, 💊 Omega-3 👉 ~420 kcal / 30g protein",
         "🥣 09:00 – ARA: 4–5 yemek kaşığı Skyr, 1 tatlı kaşığı keten tohumu, 1 küçük meyve 👉 ~260 kcal / 20g protein",
         "🍽️ 14:00 – ANA ÖĞÜN: 150 g kıyma, 5–6 yemek kaşığı pirinç, 1 tatlı kaşığı zeytinyağı, salata, 💊 EAA 👉 ~600 kcal / 35g protein",
         "🍽️ 17:00 – 2. ANA ÖĞÜN: 120 g tavuk, 4–5 yemek kaşığı pirinç 👉 ~400 kcal / 30g protein",
-        "⚡ 18:15 – ANTRENMAN ÖNCESİ: 1 küçük ton balığı konservesi, 1 küçük lavaş, 1 küçük meyve 👉 ~300 kcal / 25g protein",
-        "💪 20:15 – POST WORKOUT: 1 ölçek whey, 1 küçük meyve, 💊 Omega-3 👉 ~200 kcal / 25g protein",
-        "🍽️ 21:00 – AKŞAM: 120–150 g tavuk, 4 yemek kaşığı kinoa (veya pirinç), salata 👉 ~400 kcal / 35g protein",
-        "🌙 23:00 – GECE: 4 yemek kaşığı Skyr 👉 ~150 kcal / 15g protein"
+        "⚡ 19:00 – ANTRENMAN ÖNCESİ: 1 küçük ton balığı konservesi, 1 küçük lavaş, 1 küçük meyve 👉 ~300 kcal / 25g protein",
+        "💪 21:00 – POST WORKOUT: 1 ölçek whey, 1 küçük meyve, 💊 Omega-3 👉 ~200 kcal / 25g protein",
+        "🍽️ 21:30 – AKŞAM: 120–150 g tavuk, 4 yemek kaşığı kinoa (veya pirinç), salata 👉 ~400 kcal / 35g protein",
+        "🌙 23:30 – GECE: 4 yemek kaşığı Skyr 👉 ~150 kcal / 15g protein"
     ];
-
-    // OFF GÜNÜ PLANI (YAĞ YAKIM) - 7 öğün
     const offMeals = [
         "🌅 07:00 – TREN KAHVALTI: 4 yemek kaşığı yulaf, 1 su bardağı süt, 3 yemek kaşığı Skyr, kahve, 💊 Omega-3 👉 ~350 kcal / 25g protein",
         "🥣 09:00 – ARA: 4 yemek kaşığı Skyr, 1 tatlı kaşığı keten tohumu, 1 küçük meyve 👉 ~220 kcal / 20g protein",
@@ -315,73 +289,141 @@
         "🍽️ 17:00 – 2. ÖĞÜN: 1 kutu ton balığı, salata 👉 ~250 kcal / 30g protein",
         "⚡ 18:30 – HAFİF: 2 haşlanmış yumurta 👉 ~150 kcal / 12g protein",
         "🌙 21:00 – AKŞAM: 120–150 g tavuk veya kıyma, salata, 1 tatlı kaşığı zeytinyağı 👉 ~400 kcal / 35g protein",
-        "🌙 23:00 – GECE: 4 yemek kaşığı Skyr 👉 ~150 kcal / 15g protein"
+        "🌙 23:30 – GECE: 4 yemek kaşığı Skyr 👉 ~150 kcal / 15g protein"
     ];
 
-    // ========== VERİ YAPISINI OLUŞTUR ==========
-    // Antrenman günleri: Pazartesi, Salı, Çarşamba, Perşembe, Cuma (5 gün)
-    // Sıra: Plan1, Plan1, Plan2, Plan2, Plan1
-    const antrenmanGunleri = ["PAZARTESI", "SALI", "CARSAMBA", "PERSEMBE", "CUMA"];
-    const planSırası = [plan1Meals, plan1Meals, plan2Meals, plan2Meals, plan1Meals];
-    
-    let data = {};
-
-    // Antrenman günlerini ekle
-    for (let i = 0; i < antrenmanGunleri.length; i++) {
-        let gun = antrenmanGunleri[i];
-        let meals = planSırası[i];
-        // Yemekleri ve su satırlarını birleştir (su satırları mevcut düzende)
-        let gunItems = [...meals];
-        // Su satırlarını (6 adet) yemeklerin arasına serpiştir - kullanıcının istediği gibi sabit su saatleri korunsun
-        // Orijinal su satırlarını olduğu gibi ekleyelim (sabah, öğle, akşam araları)
-        // Basitçe öğünlerin arasına 1 bardak su ekleyelim, sonra 4 bardak su bloğunu da koyalım.
-        // Daha düzenli: aşağıdaki gibi yapalım:
-        let withWater = [];
-        for (let j = 0; j < meals.length; j++) {
-            withWater.push(meals[j]);
-            if (j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5 || j === 6) {
-                withWater.push("💧 1 bardak su");
-            }
+    // ========== EGZERSİZ LİSTELERİ (SETLERLE BİRLİKTE) ==========
+    const workoutPlans = {
+        "PAZARTESI": {
+            title: "🏋️ GÖĞÜS + TRICEPS",
+            muscleGroups: [
+                { name: "🟥 GÖĞÜS", exercises: [
+                    { ex: "Incline Dumbbell Press", sets: 4 },
+                    { ex: "Dumbbell Bench Press", sets: 3 },
+                    { ex: "Chest Dip", sets: 3 },
+                    { ex: "Cable Fly", sets: 3 }
+                ] },
+                { name: "🔥 TRICEPS", exercises: [
+                    { ex: "Rope Pushdown", sets: 3 },
+                    { ex: "Overhead Extension", sets: 3 }
+                ] }
+            ]
+        },
+        "SALI": {
+            title: "🏋️ SIRT + BICEPS",
+            muscleGroups: [
+                { name: "🔵 SIRT", exercises: [
+                    { ex: "Lat Pulldown", sets: 4 },
+                    { ex: "Barbell Row", sets: 3 },
+                    { ex: "Seated Cable Row", sets: 3 },
+                    { ex: "Straight Arm Pulldown", sets: 3 },
+                    { ex: "Face Pull", sets: 3 }
+                ] },
+                { name: "💪 BICEPS", exercises: [
+                    { ex: "Barbell Curl", sets: 3 },
+                    { ex: "Hammer Curl", sets: 3 }
+                ] }
+            ]
+        },
+        "CARSAMBA": {
+            title: "🏋️ OMUZ + BICEPS",
+            muscleGroups: [
+                { name: "🟩 OMUZ", exercises: [
+                    { ex: "Dumbbell Shoulder Press", sets: 4 },
+                    { ex: "Lateral Raise", sets: 4 },
+                    { ex: "Reverse Pec Deck", sets: 3 },
+                    { ex: "Cable Lateral Raise", sets: 3 }
+                ] },
+                { name: "💪 BICEPS", exercises: [
+                    { ex: "Cable Curl", sets: 2 },
+                    { ex: "Hammer Curl", sets: 2 }
+                ] }
+            ]
+        },
+        "PERSEMBE": {
+            title: "🏋️ BACAK",
+            muscleGroups: [
+                { name: "🟦 BACAK", exercises: [
+                    { ex: "Squat", sets: 4 },
+                    { ex: "Leg Curl", sets: 3 },
+                    { ex: "Leg Extension", sets: 3 },
+                    { ex: "Romanian Deadlift", sets: 3 },
+                    { ex: "Walking Lunge", sets: 3 },
+                    { ex: "Calf Raise", sets: 4 }
+                ] }
+            ]
+        },
+        "CUMA": {
+            title: "🏋️ GÖĞÜS + TRICEPS",
+            muscleGroups: [
+                { name: "🟪 GÖĞÜS", exercises: [
+                    { ex: "Incline Machine Chest Press", sets: 3 },
+                    { ex: "Low to High Cable Fly", sets: 3 },
+                    { ex: "Pec Deck Machine", sets: 3 },
+                    { ex: "Push-Up", sets: 2 }
+                ] },
+                { name: "🔥 TRICEPS", exercises: [
+                    { ex: "Rope Pushdown", sets: 2 },
+                    { ex: "Cable Overhead Extension", sets: 2 }
+                ] }
+            ]
         }
-        // 4 bardak su bloğunu ekle (antrenmandan sonra)
-        withWater.push("💧 4 bardak su");
-        withWater.push("💧 1 bardak su");
-        withWater.push("💧 1 bardak su");
-        data[gun] = withWater;
-    }
-
-    // Off günleri: CUMARTESI, PAZAR
-    const offGunleri = ["CUMARTESI", "PAZAR"];
-    for (let gun of offGunleri) {
-        let gunItems = [];
-        for (let j = 0; j < offMeals.length; j++) {
-            gunItems.push(offMeals[j]);
-            if (j === 0 || j === 1 || j === 2 || j === 3 || j === 4 || j === 5) {
-                gunItems.push("💧 1 bardak su");
-            }
-        }
-        gunItems.push("💧 4 bardak su");
-        gunItems.push("💧 1 bardak su");
-        data[gun] = gunItems;
-    }
-
-    // Egzersiz bölümlerini eski halinden alıyoruz (kullanıcının mevcut antrenmanları)
-    // Aşağıdaki egzersiz listeleri aynen eklenecek (setler aynı)
-    const workoutPart = {
-        "PAZARTESI": ["🏋️ GÖĞÜS + TRICEPS", "🟥 GÖĞÜS", {ex:"Incline Dumbbell Press", sets:4, link:"", notes:""}, {ex:"Dumbbell Bench Press", sets:3, link:"", notes:""}, {ex:"Chest Dip", sets:3, link:"", notes:""}, {ex:"Cable Fly", sets:3, link:"", notes:""}, "🔥 TRICEPS", {ex:"Rope Pushdown", sets:3, link:"", notes:""}, {ex:"Overhead Extension", sets:3, link:"", notes:""}],
-        "SALI": ["🏋️ SIRT + BICEPS", "🔵 SIRT", {ex:"Lat Pulldown", sets:4, link:"", notes:""}, {ex:"Barbell Row", sets:3, link:"", notes:""}, {ex:"Seated Cable Row", sets:3, link:"", notes:""}, {ex:"Straight Arm Pulldown", sets:3, link:"", notes:""}, {ex:"Face Pull", sets:3, link:"", notes:""}, "💪 BICEPS", {ex:"Barbell Curl", sets:3, link:"", notes:""}, {ex:"Hammer Curl", sets:3, link:"", notes:""}],
-        "CARSAMBA": ["🏋️ OMUZ + BICEPS", "🟩 OMUZ", {ex:"Dumbbell Shoulder Press", sets:4, link:"", notes:""}, {ex:"Lateral Raise", sets:4, link:"", notes:""}, {ex:"Reverse Pec Deck", sets:3, link:"", notes:""}, {ex:"Cable Lateral Raise", sets:3, link:"", notes:""}, "💪 BICEPS", {ex:"Cable Curl", sets:2, link:"", notes:""}, {ex:"Hammer Curl", sets:2, link:"", notes:""}],
-        "PERSEMBE": ["🏋️ BACAK", {ex:"Squat", sets:4, link:"", notes:""}, {ex:"Leg Curl", sets:3, link:"", notes:""}, {ex:"Leg Extension", sets:3, link:"", notes:""}, {ex:"Romanian Deadlift", sets:3, link:"", notes:""}, {ex:"Walking Lunge", sets:3, link:"", notes:""}, {ex:"Calf Raise", sets:4, link:"", notes:""}],
-        "CUMA": ["🏋️ GÖĞÜS + TRICEPS", "🟪 GÖĞÜS", {ex:"Incline Machine Chest Press", sets:3, link:"", notes:""}, {ex:"Low to High Cable Fly", sets:3, link:"", notes:""}, {ex:"Pec Deck Machine", sets:3, link:"", notes:""}, {ex:"Push-Up", sets:2, link:"", notes:""}, "🔥 TRICEPS", {ex:"Rope Pushdown", sets:2, link:"", notes:""}, {ex:"Cable Overhead Extension", sets:2, link:"", notes:""}],
-        "CUMARTESI": [], // off günü egzersiz yok
-        "PAZAR": []
     };
 
-    // Egzersizleri ilgili günlerin sonuna ekle (yemeklerden sonra)
-    for (let day in data) {
-        if (workoutPart[day] && workoutPart[day].length > 0) {
-            data[day] = data[day].concat(workoutPart[day]);
+    // ========== GÜN İÇERİKLERİNİ OLUŞTUR (SAAT SIRALI) ==========
+    let data = {};
+
+    // Antrenman günleri: Pazartesi, Salı, Çarşamba, Perşembe, Cuma
+    const workoutDays = ["PAZARTESI", "SALI", "CARSAMBA", "PERSEMBE", "CUMA"];
+    const planOrder = [plan1Meals, plan1Meals, plan2Meals, plan1Meals, plan2Meals]; // sıralama isteğe göre değişebilir, senin planına sadık kaldım
+
+    for (let i = 0; i < workoutDays.length; i++) {
+        let day = workoutDays[i];
+        let meals = planOrder[i];
+        let workout = workoutPlans[day];
+        let dayItems = [];
+
+        // Yemekleri ve su satırlarını ekle (saat sırasına göre)
+        // Saatleri karşılaştırarak sıralamak yerine, manuel olarak hareketleri tam olarak 19:00 ve 21:00 arasına koyacağız.
+        // Kolaylık olsun diye: önce sabah-öğleden sonra yemekleri (07:00,09:00,14:00,17:00), sonra antrenman bölümü, sonra post-workout, akşam, gece.
+        // Ama antrenman setleri 19:00 ile 21:00 arasında olmalı.
+        for (let j = 0; j < meals.length; j++) {
+            let meal = meals[j];
+            dayItems.push(meal);
+            // Her yemekten sonra 1 bardak su ekle (bazı istisnalar hariç)
+            if (!meal.includes("23:30")) {
+                dayItems.push("💧 1 bardak su");
+            }
+            // Eğer yemek "19:00" ise, hemen ardından antrenman setlerini ekle
+            if (meal.includes("19:00")) {
+                // Antrenman başlığı
+                dayItems.push(workout.title);
+                for (let group of workout.muscleGroups) {
+                    dayItems.push(group.name);
+                    for (let exObj of group.exercises) {
+                        dayItems.push({ ex: exObj.ex, sets: exObj.sets, link: "", notes: "" });
+                    }
+                }
+            }
         }
+        // 4 bardak su bloğunu sona ekle
+        dayItems.push("💧 4 bardak su");
+        dayItems.push("💧 1 bardak su");
+        data[day] = dayItems;
+    }
+
+    // Off günleri (Cumartesi, Pazar)
+    const offDays = ["CUMARTESI", "PAZAR"];
+    for (let day of offDays) {
+        let dayItems = [];
+        for (let j = 0; j < offMeals.length; j++) {
+            dayItems.push(offMeals[j]);
+            if (!offMeals[j].includes("23:30")) {
+                dayItems.push("💧 1 bardak su");
+            }
+        }
+        dayItems.push("💧 4 bardak su");
+        data[day] = dayItems;
     }
 
     // ========== ESKİ KODUN DEVAMI (TÜM ÖZELLİKLER AYNEN KALIYOR) ==========
@@ -439,7 +481,7 @@
     function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; updateAllStats(); buildHome(); }
     function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); populateOneRMSelect(); updateWeightTrackingDisplay(); updateBodyMeasurementsUI(); renderVideoLibrary(); }
     function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; buildHome(); }
-    function updateDailyMacros(){ if(!currentDayOpen) return; let macros={protein:0,carb:0,fat:0,cal:0}; let items=data[currentDayOpen]; items.forEach((item,idx)=>{ let key=`${currentDayOpen}|meal|${idx}`; if(doneState[key] && typeof item==="string" && !item.includes("💧") && !item.includes("👉") && !item.includes("🏋️") && !item.includes("🟥") && !item.includes("🔥") && !item.includes("💪") && !item.includes("🔵") && !item.includes("🟩") && !item.includes("🟪")){ let m=parseFoodAndCalcMacros(item); macros.protein+=m.p; macros.carb+=m.k; macros.fat+=m.f; macros.cal+=m.cal; } }); dailyMacros=macros; renderMacroBar(); }
+    function updateDailyMacros(){ if(!currentDayOpen) return; let macros={protein:0,carb:0,fat:0,cal:0}; let items=data[currentDayOpen]; items.forEach((item,idx)=>{ let key=`${currentDayOpen}|meal|${idx}`; if(doneState[key] && typeof item==="string" && !item.includes("💧") && !item.includes("🏋️") && !item.includes("🟥") && !item.includes("🔥") && !item.includes("💪") && !item.includes("🔵") && !item.includes("🟩") && !item.includes("🟪") && !item.includes("🟦")){ let m=parseFoodAndCalcMacros(item); macros.protein+=m.p; macros.carb+=m.k; macros.fat+=m.f; macros.cal+=m.cal; } }); dailyMacros=macros; renderMacroBar(); }
     function renderMacroBar(){ let bar=document.getElementById("macroBar"); if(!bar){ bar=document.createElement("div"); bar.id="macroBar"; bar.className="macro-bar"; let dh=document.getElementById("dayView"); if(dh && dh.querySelector(".day-header")) dh.querySelector(".day-header").after(bar); } bar.innerHTML=`<div class="macro-item"><span>🔥</span><b>${Math.round(dailyMacros.cal)}</b><small>Kalori</small></div><div class="macro-item"><span>💪</span><b>${Math.round(dailyMacros.protein)}g</b><small>Protein</small></div><div class="macro-item"><span>🌾</span><b>${Math.round(dailyMacros.carb)}g</b><small>Karb</small></div><div class="macro-item"><span>🥑</span><b>${Math.round(dailyMacros.fat)}g</b><small>Yağ</small></div>`; }
     function getRecoveryStatus(last){ if(!last) return "green"; let h=(new Date()-new Date(last))/(1000*3600); if(h<24) return "red"; if(h<48) return "orange"; return "green"; }
     function renderRecoveryPanel(){ let p=document.getElementById("recoveryPanel"); if(!p) return; let muscles=["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"]; p.innerHTML=muscles.map(m=>{ let l=muscleLastTrained[m]; let s=getRecoveryStatus(l); let t=m+(l?` (${Math.floor((new Date()-new Date(l))/(1000*3600))}s)`:" (yok)"); return `<div class="recovery-item recovery-${s}">${t}</div>`; }).join(''); }
@@ -471,7 +513,7 @@
         if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; }
         cont.innerHTML="";
         data[day].forEach((it,idx)=>{
-            if(typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪")){
+            if(typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes("🟦")){
                 let div=document.createElement("div");
                 div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center";
                 div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px";
@@ -520,7 +562,7 @@
     function openPlannerModal(){ let modal=document.createElement("div"); modal.className="modal"; let today=new Date(); let year=today.getFullYear(); let month=today.getMonth(); let firstDay=new Date(year,month,1); let lastDay=new Date(year,month+1,0); let daysInMonth=lastDay.getDate(); let startWeekday=firstDay.getDay(); let days=[]; for(let i=0;i<startWeekday;i++) days.push(null); for(let i=1;i<=daysInMonth;i++) days.push(new Date(year,month,i)); let html=`<div class="modal-content"><div class="modal-header"><span class="modal-title">📅 Antrenman Planlayıcı (${year}-${month+1})</span><button class="close-modal-btn" onclick="this.closest('.modal').remove()">✖</button></div><div class="calendar-grid">`; let weekdays=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"]; weekdays.forEach(w=>html+=`<div style="text-align:center;font-weight:bold;">${w}</div>`); for(let d of days){ if(d===null){ html+=`<div class="calendar-day"></div>`; }else{ let dateStr=d.toISOString().split('T')[0]; let plan=workoutPlan[dateStr]; let classes="calendar-day"; if(plan){ if(plan.rest) classes+=" rest"; else classes+=" workout"; } if(dateStr===today.toISOString().split('T')[0]) classes+=" today"; html+=`<div class="${classes}" onclick="setPlanForDay('${dateStr}')">${d.getDate()}</div>`; } } html+=`</div><div class="modal-buttons"><button class="modal-btn confirm" onclick="this.closest('.modal').remove()">Kapat</button></div></div>`; modal.innerHTML=html; document.body.appendChild(modal); }
     function setPlanForDay(dateStr){ let plan=workoutPlan[dateStr]; let newType=prompt(`Plan seçin:\n1: Antrenman (kas grubu)\n2: Dinlenme\n3: Planı sil`, plan?(plan.rest?"2":"1"):"1"); if(newType==="1"){ let muscle=prompt("Kas grubu (Göğüs, Sırt, Omuz, Biceps, Triceps, Bacak):",plan?.type||"Göğüs"); if(muscle) workoutPlan[dateStr]={ type:muscle, rest:false }; }else if(newType==="2"){ workoutPlan[dateStr]={ rest:true, type:"Dinlenme" }; }else if(newType==="3"){ delete workoutPlan[dateStr]; } saveDataToLocal(); showToast("Plan kaydedildi"); document.querySelector(".modal").remove(); openPlannerModal(); }
     function openMealPlannerModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>🍽️ Haftalık Yemek Menüsü</h3><div id="weeklyMealPlan"></div><div><label>Kalori ihtiyacı (günlük)</label><input type="number" id="calorieGoal" placeholder="Örn: 2500"></div><button class="modal-btn confirm" onclick="generateMealSuggestion()">📋 Öneri Oluştur</button><div class="modal-buttons"><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div></div>`; document.body.appendChild(modal); renderWeeklyMealPlan(); }
-    function renderWeeklyMealPlan(){ let container=document.getElementById("weeklyMealPlan"); if(!container) return; let days=["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"]; let html=""; days.forEach(day=>{ let meals=data[day.toUpperCase()]?.filter(it=>typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪"))||[]; html+=`<div style="margin-bottom:10px;"><strong>${day}</strong><ul>${meals.map(m=>`<li>${m}</li>`).join('')}</ul></div>`; }); container.innerHTML=html; }
+    function renderWeeklyMealPlan(){ let container=document.getElementById("weeklyMealPlan"); if(!container) return; let days=["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"]; let html=""; days.forEach(day=>{ let meals=data[day.toUpperCase()]?.filter(it=>typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes("🟦"))||[]; html+=`<div style="margin-bottom:10px;"><strong>${day}</strong><ul>${meals.map(m=>`<li>${m}</li>`).join('')}</ul></div>`; }); container.innerHTML=html; }
     function generateMealSuggestion(){ let goal=parseInt(document.getElementById("calorieGoal")?.value)||2500; let suggestion=`Günlük ${goal} kalori hedefi için örnek menü:\n- Kahvaltı: Yulaf + süt + muz (yaklaşık 300 kcal)\n- Öğle: Tavuk + pilav + yoğurt (500 kcal)\n- Ara: Whey protein (120 kcal)\n- Akşam: Balık + salata (400 kcal)\n- Toplam: 1320 kcal, kalan kalori için sağlıklı atıştırmalıklar ekleyin.`; alert(suggestion); }
     function openBarcodeFoodModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📷 Barkod ile Besin Ekle (Open Food Facts)</h3><input type="text" id="barcodeInput" placeholder="Barkod numarası girin"><button onclick="fetchFoodFromBarcode()" class="modal-btn confirm">🔍 Ara</button><div id="barcodeResult"></div><div class="modal-buttons"><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div></div>`; document.body.appendChild(modal); }
     async function fetchFoodFromBarcode(){ let barcode=document.getElementById("barcodeInput").value.trim(); if(!barcode){ showToast("Barkod girin"); return; } try{ let res=await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let data=await res.json(); if(data.status===1){ let product=data.product; let name=product.product_name||"Bilinmiyor"; let nutriments=product.nutriments||{}; let kcal=nutriments["energy-kcal"]||0; let protein=nutriments.proteins||0; let carbs=nutriments.carbohydrates||0; let fat=nutriments.fat||0; document.getElementById("barcodeResult").innerHTML=`<div style="margin-top:10px;">✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${protein}g protein, 🍚 ${carbs}g karbonhidrat, 🥑 ${fat}g yağ<br><button onclick="addFoodToToday('${name}', ${kcal}, ${protein}, ${carbs}, ${fat})" class="modal-btn confirm">Bugünün yemeklerine ekle</button></div>`; }else{ document.getElementById("barcodeResult").innerHTML="❌ Ürün bulunamadı"; } }catch(e){ document.getElementById("barcodeResult").innerHTML="Hata oluştu"; } }
