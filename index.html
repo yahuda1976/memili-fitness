@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Antrenman History & Kameralı Barkod</title>
+    <title>Fitness Pro - Kameralı Barkod Çalışıyor</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 160px; font-weight: 500; }
@@ -141,12 +141,8 @@
             <div style="width:50px;"></div>
         </div>
         <div style="padding:16px;">
-            <!-- SU GRAFİĞİ -->
             <div class="water-chart"><h3 style="color:#007AFF;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem;"></div></div>
-            <!-- HAFTALIK SET GRAFİĞİ -->
             <div class="set-chart"><h3 style="color:#007AFF;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
-            
-            <!-- GELİŞMİŞ ÖZELLİKLER KARTI -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF9500;">🚀 GELİŞMİŞ ÖZELLİKLER</h3>
                 <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 12px;">
@@ -160,18 +156,12 @@
                     <button onclick="openBarcodeFoodModal()" style="background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📷 Barkod ile Besin Ekle</button>
                 </div>
             </div>
-
-            <!-- ANTRENMAN HISTORY SİSTEMİ (YENİ) -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#34C759;">📜 ANTRENMAN GEÇMİŞİ</h3>
-                <select id="historyExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
-                    <option value="">Bir hareket seçin</option>
-                </select>
+                <select id="historyExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;"></select>
                 <button onclick="loadHistory()" style="width:100%; background:#2C2C2E; border:none; padding:12px; border-radius:12px; margin-bottom:12px;">📊 GÖSTER</button>
                 <div id="historyContainer" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
-            
-            <!-- VİDEO KÜTÜPHANESİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF3B30;">🎥 VİDEO KÜTÜPHANESİ</h3>
                 <input type="text" id="videoExName" placeholder="Hareket adı" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
@@ -179,8 +169,6 @@
                 <button onclick="addVideoToLibrary()" style="width:100%; background:#FF3B30; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">➕ Kütüphaneye Ekle</button>
                 <div id="videoLibraryList" style="margin-top:12px;"></div>
             </div>
-            
-            <!-- VÜCUT ÖLÇÜLERİ ve FOTOĞRAF TAKİBİ -->
             <div class="body-stats">
                 <h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
                 <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1" placeholder="kg"></div>
@@ -197,8 +185,6 @@
                 <div class="before-after" id="photoContainer"></div>
                 <div id="sliderContainer" style="margin-top:12px;"></div>
             </div>
-            
-            <!-- 1RM HESAPLAYICI -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">🏋️ 1RM HESAPLAYICI</h3>
                 <select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;"></select>
@@ -208,21 +194,15 @@
                 <div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div>
                 <canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas>
             </div>
-            
-            <!-- AĞIRLIK TAKİBİ (SET LOGLARI) -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF9500;">📊 AĞIRLIK TAKİBİ</h3>
                 <div id="weightTrackingList" style="color:#8E8E93; max-height:200px; overflow-y:auto;"></div>
             </div>
-            
-            <!-- HAFTA YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF3B30;">⚠️ HAFTA YÖNETİMİ</h3>
                 <button onclick="resetWeek()" style="width:100%; background:#FF3B30; border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">🔄 Tüm Haftayı Sıfırla</button>
                 <p style="font-size:0.7rem; margin-top:8px; color:#8E8E93;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p>
             </div>
-            
-            <!-- YEMEK YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">🍽️ Yemek Yönetimi</h3>
                 <select id="mealManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
@@ -230,8 +210,6 @@
                 <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Yemek Ekle</button>
             </div>
-            
-            <!-- EGZERSİZ YÖNETİMİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💪 Egzersiz Yönetimi</h3>
                 <select id="exerciseManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
@@ -240,8 +218,6 @@
                 <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Hareket Ekle</button>
             </div>
-            
-            <!-- SUPPLEMENT TAKVİYE -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💊 Supplement Takviye</h3>
                 <div id="supplementList" style="margin-bottom:12px;"></div>
@@ -249,8 +225,6 @@
                 <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
                 <button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Takviye Ekle</button>
             </div>
-            
-            <!-- YEDEKLEME -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💾 VERİ YEDEKLEME</h3>
                 <button onclick="backupData()" style="width:100%; background:#007AFF; border:none; padding:14px; border-radius:12px; color:white; font-weight:600; margin-bottom:8px;">💾 YEDEK AL</button>
@@ -447,7 +421,7 @@
         <div class="macro-item"><span>🥑</span><b>${Math.round(dailyMacros.f)}g</b><small>Yağ</small></div>`;
     }
 
-    // ========== ANTRENMAN HISTORY SİSTEMİ ==========
+    // ========== ANTRENMAN HISTORY ==========
     function loadHistory() {
         let ex = document.getElementById("historyExerciseSelect").value;
         if (!ex) { showToast("Bir hareket seçin"); return; }
@@ -471,10 +445,8 @@
             document.getElementById("historyContainer").innerHTML = "<p>Bu hareket için henüz kayıt yok.</p>";
             return;
         }
-        // Tarihe göre sırala (en yeni en üstte)
         let daysOrder = ["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"];
         history.sort((a,b) => daysOrder.indexOf(b.date) - daysOrder.indexOf(a.date));
-        
         let maxVolume = Math.max(...history.map(h => h.volume));
         let html = `<table class="history-table"><thead><tr><th>Tarih</th><th>Set</th><th>Ağırlık (kg)</th><th>Tekrar</th><th>Hacim (kg)</th></tr></thead><tbody>`;
         for (let h of history) {
@@ -482,27 +454,6 @@
             html += `<tr class="${rowClass}"><td>${h.date}</td><td>${h.set}</td><td>${h.weight}</td><td>${h.reps}</td><td>${h.volume}</td></tr>`;
         }
         html += `</tbody></table>`;
-        
-        // Haftalık analiz
-        let weeks = {};
-        let today = new Date();
-        for (let i = 0; i < 4; i++) {
-            let weekStart = new Date(today);
-            weekStart.setDate(today.getDate() - (today.getDay() + 7*i));
-            let weekEnd = new Date(weekStart);
-            weekEnd.setDate(weekStart.getDate() + 6);
-            weeks[`${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`] = 0;
-        }
-        for (let h of history) {
-            let dayIndex = daysOrder.indexOf(h.date);
-            if (dayIndex === -1) continue;
-            let antDate = new Date(); 
-            antDate.setDate(antDate.getDate() - (antDate.getDay() - dayIndex)); // yaklaşık
-            for (let w in weeks) {
-                // basit: hafta adına göre eşleme yapmak yerine son 4 haftayı topla
-            }
-        }
-        // Daha pratik: son 4 haftanın toplam hacmini hesapla
         let weeklyVolumes = [];
         for (let w = 0; w < 4; w++) {
             let start = new Date();
@@ -532,7 +483,6 @@
             weeklyHtml += `<div class="week-card"><strong>${i+1}. Hafta</strong><br>${weeklyVolumes[i]} kg<br>${change}</div>`;
         }
         weeklyHtml += `</div>`;
-        
         let comment = "";
         if (weeklyVolumes.length >= 2) {
             let latest = weeklyVolumes[0];
@@ -541,7 +491,6 @@
             else if (latest < previous) comment = "📉 Hacim düşmüş. Dinlenme veya yük azaltma gerekebilir.";
             else comment = "➡️ Hacim sabit. Ağırlık veya tekrar artırmayı dene.";
         }
-        
         document.getElementById("historyContainer").innerHTML = `<strong>💪 ${ex} - Geçmiş Kayıtlar</strong><br>${weeklyHtml}${html}<div style="margin-top:12px;"><em>${comment}</em></div>`;
     }
 
@@ -558,7 +507,7 @@
         if (exercises.size === 0) select.innerHTML = '<option value="">Henüz kayıt yok</option>';
     }
 
-    // ========== BARKOD İLE BESİN EKLE - KAMERALI ==========
+    // ========== BARKOD İLE BESİN EKLE (DÜZELTİLMİŞ KAMERALI) ==========
     function openBarcodeFoodModal() {
         let modal = document.createElement("div");
         modal.className = "modal";
@@ -625,10 +574,11 @@
         document.querySelector(".modal").remove();
     }
 
+    // DÜZELTİLMİŞ KAMERALI BARKOD
     function openCameraBarcode() {
         let modal = document.querySelector(".modal");
         if (modal) modal.remove();
-        // Kamera modal'ını aç
+
         let camModal = document.createElement("div");
         camModal.className = "modal";
         camModal.style.justifyContent = "center";
@@ -642,8 +592,10 @@
             <div id="barcodeCameraStatus" style="color:#ffaa88; margin-top:12px;">📷 KAMERA BAŞLATILIYOR...</div>
         `;
         document.body.appendChild(camModal);
+
         let video = document.getElementById("barcodeCameraVideo");
         let statusDiv = document.getElementById("barcodeCameraStatus");
+
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
             .then(stream => {
                 video.srcObject = stream;
@@ -659,19 +611,22 @@
                     quaggaActive = true;
                     statusDiv.innerHTML = "🎥 BARKODU GÖSTER...";
                 });
-                Quagga.onDetected(data => {
+                Quagga.onDetected(async (data) => {
                     let code = data.codeResult.code;
+                    // İlk okumadan sonra tekrar okumaması için Quagga'yı durdur
                     Quagga.stop();
                     quaggaActive = false;
                     if (currentStream) currentStream.getTracks().forEach(t => t.stop());
                     camModal.remove();
-                    fetchBarcodeAndAdd(code);
+                    // Barkodu işle
+                    await fetchBarcodeAndAdd(code);
                 });
             })
             .catch(err => {
                 statusDiv.innerHTML = "❌ KAMERA İZNİ GEREKLİ";
                 setTimeout(() => camModal.remove(), 2000);
             });
+
         document.getElementById("closeBarcodeCameraBtn").onclick = () => {
             if (quaggaActive) Quagga.stop();
             if (currentStream) currentStream.getTracks().forEach(t => t.stop());
@@ -679,7 +634,7 @@
         };
     }
 
-    // ========== DİĞER FONKSİYONLAR (VAR OLAN) ==========
+    // ========== DİĞER FONKSİYONLAR ==========
     function showToast(msg) { let t = document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
     function playBeep() { try { let ctx = new (window.AudioContext||window.webkitAudioContext)(); let o = ctx.createOscillator(); o.frequency.value=880; let g = ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); } catch(e){} }
     function stopTimer() { if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
