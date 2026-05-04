@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Kesin Makro</title>
+    <title>Fitness Pro - Eksiksiz Ayarlar</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 160px; font-weight: 500; }
@@ -59,8 +59,8 @@
         .recovery-orange { background: rgba(255,149,0,0.2); color: #FF9500; }
         .recovery-green { background: rgba(52,199,89,0.2); color: #34C759; }
         .modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; }
-        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:400px; width:100%; color:white; }
-        .modal-content input, .modal-content select { width:100%; padding:12px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; font-size:1rem; }
+        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:500px; width:100%; color:white; max-height:80vh; overflow-y:auto; }
+        .modal-content input, .modal-content select, .modal-content textarea { width:100%; padding:12px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; }
         .modal-buttons { display:flex; gap:12px; margin-top:20px; }
         .modal-btn { flex:1; padding:12px; border:none; border-radius:40px; font-weight:600; cursor:pointer; }
         .modal-btn.confirm { background:#007AFF; color:white; }
@@ -83,6 +83,21 @@
         .bar-fill { flex:1; height:28px; background:#2C2C2E; border-radius:8px; overflow:hidden; }
         .bar { height:100%; background:#007AFF; transition:width 0.5s; display:flex; align-items:center; justify-content:flex-end; padding-right:10px; color:white; font-weight:600; font-size:0.7rem; }
         .water-chart, .set-chart { background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px; }
+        .body-stats { background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px; }
+        .measure-input { display:flex; justify-content:space-between; align-items:center; margin:12px 0; }
+        .measure-input label { flex:1; }
+        .measure-input input { flex:2; padding:10px; background:#2C2C2E; border:none; border-radius:10px; color:white; text-align:center; }
+        .photo-upload button { background:#007AFF; border:none; padding:10px 20px; border-radius:12px; color:white; font-weight:600; margin:5px; cursor:pointer; }
+        .before-after { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
+        .before-after div { text-align:center; background:#2C2C2E; border-radius:14px; padding:12px; width:45%; }
+        .before-after img { max-width:100%; border-radius:12px; margin-top:8px; }
+        .profit-indicator { font-size:0.9rem; background:#2c6e2f; display:inline-block; padding:4px 12px; border-radius:30px; margin-top:6px; color:white; }
+        .backup-item { background:#3a3a3a; border-radius:40px; padding:14px; margin-bottom:12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; margin: 10px 0; }
+        .calendar-day { background: #2C2C2E; padding: 8px; text-align: center; border-radius: 12px; cursor: pointer; }
+        .calendar-day.workout { background: #34C759; color: #000; }
+        .calendar-day.rest { background: #FF3B30; }
+        .calendar-day.today { border: 2px solid #007AFF; }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -117,8 +132,12 @@
             <div style="width:50px;"></div>
         </div>
         <div style="padding:16px;">
+            <!-- SU GRAFİĞİ -->
             <div class="water-chart"><h3 style="color:#007AFF;">💧 SU TAKİP GRAFİĞİ</h3><div class="chart-tabs"><button class="chart-tab active" onclick="setWaterChartType('daily')">📅 Günlük</button><button class="chart-tab" onclick="setWaterChartType('weekly')">📆 Haftalık</button><button class="chart-tab" onclick="setWaterChartType('monthly')">📊 Aylık</button></div><div id="waterChartContainer"></div><div id="waterChartMessage" style="margin-top:12px; text-align:center; font-size:0.8rem;"></div></div>
+            <!-- HAFTALIK SET GRAFİĞİ -->
             <div class="set-chart"><h3 style="color:#007AFF;">📈 HAFTALIK SET GRAFİĞİ</h3><div id="weeklyChartContainer"></div></div>
+            
+            <!-- GELİŞMİŞ ÖZELLİKLER KARTI -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF9500;">🚀 GELİŞMİŞ ÖZELLİKLER</h3>
                 <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 12px;">
@@ -132,6 +151,8 @@
                     <button onclick="openBarcodeFoodModal()" style="background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📷 Barkod ile Besin Ekle</button>
                 </div>
             </div>
+            
+            <!-- VİDEO KÜTÜPHANESİ -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#FF3B30;">🎥 VİDEO KÜTÜPHANESİ</h3>
                 <input type="text" id="videoExName" placeholder="Hareket adı" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
@@ -139,6 +160,78 @@
                 <button onclick="addVideoToLibrary()" style="width:100%; background:#FF3B30; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">➕ Kütüphaneye Ekle</button>
                 <div id="videoLibraryList" style="margin-top:12px;"></div>
             </div>
+            
+            <!-- VÜCUT ÖLÇÜLERİ ve FOTOĞRAF TAKİBİ -->
+            <div class="body-stats">
+                <h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
+                <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1" placeholder="kg"></div>
+                <div class="measure-input"><label>Bel (cm)</label><input type="number" id="bodyWaist" step="0.5" placeholder="cm"></div>
+                <div class="measure-input"><label>Göğüs (cm)</label><input type="number" id="bodyChest" step="0.5" placeholder="cm"></div>
+                <div class="measure-input"><label>Kol (cm)</label><input type="number" id="bodyArm" step="0.5" placeholder="cm"></div>
+                <div class="measure-input"><label>Bacak (cm)</label><input type="number" id="bodyLeg" step="0.5" placeholder="cm"></div>
+                <button onclick="saveBodyMeasurements()" style="background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600; width:100%; margin-top:8px;">💾 Ölçüleri Kaydet</button>
+                <h3 style="color:#007AFF; margin-top:20px;">📸 FOTOĞRAF TAKİBİ</h3>
+                <div class="photo-upload">
+                    <button onclick="uploadPhoto('before')">📷 ÖNCE FOTOĞRAF EKLE</button>
+                    <button onclick="uploadPhoto('after')">📷 SONRA FOTOĞRAF EKLE</button>
+                </div>
+                <div class="before-after" id="photoContainer"></div>
+                <div id="sliderContainer" style="margin-top:12px;"></div>
+            </div>
+            
+            <!-- 1RM HESAPLAYICI -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#007AFF;">🏋️ 1RM HESAPLAYICI</h3>
+                <select id="oneRMExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;"></select>
+                <input type="number" id="oneRMWeight" placeholder="Ağırlık (kg)" style="width:100%; padding:12px; margin-bottom:8px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
+                <input type="number" id="oneRMReps" placeholder="Tekrar sayısı" style="width:100%; padding:12px; margin-bottom:8px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
+                <button onclick="calculateAndSaveOneRM()" style="width:100%; background:#007AFF; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">📊 1RM Hesapla ve Kaydet</button>
+                <div id="oneRMResult" style="margin-top:12px; text-align:center; font-weight:bold;"></div>
+                <canvas id="oneRMChart" width="300" height="150" style="margin-top:16px; background:#fff; border-radius:16px;"></canvas>
+            </div>
+            
+            <!-- AĞIRLIK TAKİBİ (SET LOGLARI) -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#FF9500;">📊 AĞIRLIK TAKİBİ</h3>
+                <div id="weightTrackingList" style="color:#8E8E93; max-height:200px; overflow-y:auto;"></div>
+            </div>
+            
+            <!-- HAFTA YÖNETİMİ -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#FF3B30;">⚠️ HAFTA YÖNETİMİ</h3>
+                <button onclick="resetWeek()" style="width:100%; background:#FF3B30; border:none; padding:14px; border-radius:12px; color:white; font-weight:600;">🔄 Tüm Haftayı Sıfırla</button>
+                <p style="font-size:0.7rem; margin-top:8px; color:#8E8E93;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p>
+            </div>
+            
+            <!-- YEMEK YÖNETİMİ -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#007AFF;">🍽️ Yemek Yönetimi</h3>
+                <select id="mealManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
+                <div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div>
+                <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
+                <button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Yemek Ekle</button>
+            </div>
+            
+            <!-- EGZERSİZ YÖNETİMİ -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#007AFF;">💪 Egzersiz Yönetimi</h3>
+                <select id="exerciseManageDay" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;"></select>
+                <div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div>
+                <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white; margin-bottom:8px;">
+                <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
+                <button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Hareket Ekle</button>
+            </div>
+            
+            <!-- SUPPLEMENT TAKVİYE -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#007AFF;">💊 Supplement Takviye</h3>
+                <div id="supplementList" style="margin-bottom:12px;"></div>
+                <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white; margin-bottom:8px;">
+                <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2C2C2E; border:none; border-radius:10px; color:white;">
+                <button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white; font-weight:600;">+ Takviye Ekle</button>
+            </div>
+            
+            <!-- YEDEKLEME -->
             <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
                 <h3 style="color:#007AFF;">💾 VERİ YEDEKLEME</h3>
                 <button onclick="backupData()" style="width:100%; background:#007AFF; border:none; padding:14px; border-radius:12px; color:white; font-weight:600; margin-bottom:8px;">💾 YEDEK AL</button>
@@ -170,8 +263,7 @@
 </div>
 
 <script>
-    // ========== KESİN MAKRO AYRIŞTIRICI ==========
-    // Bu fonksiyon "Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g" formatını kesin olarak okur.
+    // ========== MAKRO AYRIŞTIRICI (SADECE METİN) ==========
     function parseFoodMacros(text) {
         let kcal = 0, prot = 0, carb = 0, fat = 0;
         let kcalMatch = text.match(/Kalori:\s*(\d+)/i);
@@ -185,7 +277,7 @@
         return { cal: kcal, p: prot, k: carb, f: fat };
     }
 
-    // ========== YEMEK LİSTELERİ (BİREBİR SENİN VERDİĞİN RAKAMLARLA) ==========
+    // ========== YEMEK LİSTELERİ (RAKAMLARLA) ==========
     const plan1Meals = [
         "07:00 Yulaf + sut + muz + whey + Skyr | Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g",
         "09:00 Skyr + chia + meyve | Kalori: 250 | Protein: 20 g | Karb: 30 g | Yag: 8 g",
@@ -216,7 +308,7 @@
         "23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"
     ];
 
-    // ========== EGZERSİZ PLANLARI (KISA) ==========
+    // ========== EGZERSİZ PLANLARI ==========
     const workoutPlans = {
         "PAZARTESI": { title: "🏋️ AĞIR GÖĞÜS + TRICEPS", muscleGroups: [
             { name: "🟥 GÖĞÜS", exercises: [{ ex: "Incline Dumbbell Press", sets: 4 }, { ex: "Flat Dumbbell Press", sets: 4 }, { ex: "Cable Crossover", sets: 3 }, { ex: "Chest Press", sets: 3 }] },
@@ -282,16 +374,28 @@
     let soundStopFlag = false;
     let setLogs = {};
     let muscleLastTrained = {};
-    let db = null;
     let exerciseVideos = {};
+    let bodyMeasurements = { weight:0, waist:0, chest:0, arm:0, leg:0 };
+    let beforePhoto = null, afterPhoto = null;
     let oneRMHistory = {};
+    let supplements = [{ name:"Omega-3", time:"Sabah" },{ name:"Whey Protein", time:"Antrenman sonrası" },{ name:"Kreatin", time:"Antrenman öncesi" }];
+    let db = null;
     let workoutPlan = {};
-    let dailyMacros = { cal: 0, p: 0, k: 0, f: 0 };
+    let dailyMacros = { cal:0, p:0, k:0, f:0 };
 
-    // ========== MAKRO HESAPLAMA (SADECE İŞARETLİ YEMEKLER) ==========
+    const muscleGroupMap = {
+        "Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs",
+        "Pushdown":"Triceps","Overhead Extension":"Triceps","Lat Pulldown":"Sırt","Seated Row":"Sırt","One-Arm Row":"Sırt",
+        "Face Pull":"Omuz","Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak",
+        "Leg Curl":"Bacak","Calf Raise":"Bacak","Incline Fly":"Göğüs","Neutral Press":"Göğüs","Pec Deck":"Göğüs",
+        "Close-Grip Press":"Triceps","Skull Crusher":"Triceps","Lateral Raise":"Omuz","Bent-Over Raise":"Omuz",
+        "Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps"
+    };
+
+    // ========== MAKRO HESAPLAMA (SADECE İŞARETLİLER) ==========
     function updateDailyMacros() {
         if (!currentDayOpen) return;
-        let total = { cal: 0, p: 0, k: 0, f: 0 };
+        let total = { cal:0, p:0, k:0, f:0 };
         let items = data[currentDayOpen];
         items.forEach((item, idx) => {
             let key = `${currentDayOpen}|meal|${idx}`;
@@ -332,14 +436,14 @@
     function getSetLog(day,ex,setNo){ return setLogs[day]?.[ex]?.[setNo]||null; }
     function saveSetLog(day,ex,setNo,weight,reps){ if(!setLogs[day]) setLogs[day]={}; if(!setLogs[day][ex]) setLogs[day][ex]={}; setLogs[day][ex][setNo]={weight,reps}; localStorage.setItem("fitnessSetLogs",JSON.stringify(setLogs)); let m=muscleGroupMap[ex]; if(m){ muscleLastTrained[m]=new Date().toISOString(); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); renderRecoveryPanel(); } }
     function promptWeightAndReps(day,ex,setNo,defaultW,defaultR,onSave){ let sugg=getSetLog(day,ex,setNo); let defW=defaultW||(sugg?sugg.weight:0); let defR=defaultR||(sugg?sugg.reps:8); let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}"></div><div><label>Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); modal.querySelector("#saveBtn").onclick=()=>{ let w=parseInt(modal.querySelector("#weightInput").value)||0; let r=parseInt(modal.querySelector("#repsInput").value)||1; saveSetLog(day,ex,setNo,w,r); modal.remove(); if(onSave) onSave(w,r); showToast(`✅ Set ${setNo}: ${r} tekrar x ${w} kg`); let setKey=`${day}|set|${ex}|${setNo}`; if(!doneState[setKey]){ doneState[setKey]=true; totalSetCount++; saveDataToLocal(); updateAllStats(); if(currentDayOpen===day) renderDayItems(day); buildHome(); startTimer(90); showToast(`✅ Set ${setNo} tamamlandı! +30 XP`); } else { saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); } }; }
-    function saveDataToLocal(){ localStorage.setItem("fitnessData",JSON.stringify(data)); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("exerciseVideos",JSON.stringify(exerciseVideos)); localStorage.setItem("oneRMHistory",JSON.stringify(oneRMHistory)); localStorage.setItem("workoutPlan",JSON.stringify(workoutPlan)); }
-    function loadDataFromLocal(){ try{ let d=localStorage.getItem("fitnessData"); if(d) data=JSON.parse(d); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let sl=localStorage.getItem("setLogs"); if(sl) setLogs=JSON.parse(sl); let ml=localStorage.getItem("muscleLastTrained"); if(ml) muscleLastTrained=JSON.parse(ml); let ev=localStorage.getItem("exerciseVideos"); if(ev) exerciseVideos=JSON.parse(ev); let orm=localStorage.getItem("oneRMHistory"); if(orm) oneRMHistory=JSON.parse(orm); let wp=localStorage.getItem("workoutPlan"); if(wp) workoutPlan=JSON.parse(wp); } catch(e){} }
+    function saveDataToLocal(){ localStorage.setItem("fitnessData",JSON.stringify(data)); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("exerciseVideos",JSON.stringify(exerciseVideos)); localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); if(beforePhoto) localStorage.setItem("beforePhoto",beforePhoto); if(afterPhoto) localStorage.setItem("afterPhoto",afterPhoto); localStorage.setItem("oneRMHistory",JSON.stringify(oneRMHistory)); localStorage.setItem("supplements",JSON.stringify(supplements)); localStorage.setItem("workoutPlan",JSON.stringify(workoutPlan)); }
+    function loadDataFromLocal(){ try{ let d=localStorage.getItem("fitnessData"); if(d) data=JSON.parse(d); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let sl=localStorage.getItem("setLogs"); if(sl) setLogs=JSON.parse(sl); let ml=localStorage.getItem("muscleLastTrained"); if(ml) muscleLastTrained=JSON.parse(ml); let ev=localStorage.getItem("exerciseVideos"); if(ev) exerciseVideos=JSON.parse(ev); let bm=localStorage.getItem("bodyMeasurements"); if(bm) bodyMeasurements=JSON.parse(bm); let bf=localStorage.getItem("beforePhoto"); if(bf) beforePhoto=bf; let af=localStorage.getItem("afterPhoto"); if(af) afterPhoto=af; let orm=localStorage.getItem("oneRMHistory"); if(orm) oneRMHistory=JSON.parse(orm); let sup=localStorage.getItem("supplements"); if(sup) supplements=JSON.parse(sup); let wp=localStorage.getItem("workoutPlan"); if(wp) workoutPlan=JSON.parse(wp); } catch(e){} }
     function updateAllStats(){ let totalWater=Object.values(waterIntake).reduce((a,b)=>a+b,0); let bestDayScore=0,bestDayName=""; Object.keys(data).forEach(day=>{ let ds=0; Object.keys(doneState).forEach(k=>{ if(k.includes(day)){ if(k.includes("set")) ds+=2; if(k.includes("meal")) ds+=1; } }); if(ds>bestDayScore){ bestDayScore=ds; bestDayName=day; } }); document.getElementById("totalSets").innerText=totalSetCount; document.getElementById("totalWater").innerText=totalWater; document.getElementById("bestDay").innerText=bestDayName||"-"; document.getElementById("totalXP").innerText=totalSetCount*30; let badges=[]; if(totalSetCount>=20) badges.push("🔥 Alev"); if(totalSetCount>=50) badges.push("💪 Demir"); if(totalSetCount>=100) badges.push("👑 Efsane"); if(badges.length===0) badges.push("🔒 20 set yap"); document.getElementById("badgesContainer").innerHTML=badges.map(b=>`<div class="badge">${b}</div>`).join(''); }
     function getDayStats(day){ let total=0,comp=0; let items=data[day]; if(!items) return {total,comp,percent:0}; items.forEach((item,idx)=>{ if(typeof item==="string"){ total++; if(doneState[`${day}|meal|${idx}`]) comp++; } else if(item&&typeof item==="object"&&item.sets){ for(let s=1;s<=item.sets;s++){ total++; if(doneState[`${day}|set|${item.ex}|${s}`]) comp++; } } }); return {total,comp,percent:total===0?0:(comp/total)*100}; }
     function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHTML=""; for(let day in data){ let stats=getDayStats(day); let card=document.createElement("div"); card.className="card"; card.innerHTML=`<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`; card.onclick=()=>openDay(day); grid.appendChild(card); } let setCard=document.createElement("div"); setCard.className="card settings-card"; setCard.innerHTML=`<h3>AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`; setCard.onclick=()=>openSettings(); grid.appendChild(setCard); }
     function openDay(day){ currentDayOpen=day; document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.remove("hidden"); document.getElementById("settingsView").classList.add("hidden"); document.getElementById("dayTitle").innerText=day; renderDayItems(day); updateDailyMacros(); renderRecoveryPanel(); }
     function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; updateAllStats(); buildHome(); }
-    function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); updateWaterChart(); updateWeeklyChart(); }
+    function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); populateOneRMSelect(); updateWeightTrackingDisplay(); updateBodyMeasurementsUI(); renderVideoLibrary(); }
     function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; buildHome(); }
     function renderRecoveryPanel(){ let p=document.getElementById("recoveryPanel"); if(!p) return; let muscles=["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"]; p.innerHTML=muscles.map(m=>{ let l=muscleLastTrained[m]; let s=l ? ((new Date()-new Date(l))/(1000*3600)<24?"red":(new Date()-new Date(l))/(1000*3600)<48?"orange":"green") : "green"; return `<div class="recovery-item recovery-${s}">${m}${l?` (${Math.floor((new Date()-new Date(l))/(1000*3600))}s)`:" (yok)"}</div>`; }).join(''); }
     function updateQuests(day){ let water=0,meals=0,sets=0; for(let k in doneState){ if(k.includes(day)){ if(k.includes("meal")){ meals++; let idx=parseInt(k.split("|")[2]); let txt=data[day]?.[idx]; if(typeof txt==="string" && txt.includes("💧")) water++; } if(k.includes("set")) sets++; } } let wk=`${day}_water`; let totalWater=(waterIntake[wk]||0)+water; document.getElementById("questWater").innerHTML=`${Math.min(totalWater,8)}/8`; document.getElementById("questMeal").innerHTML=`${Math.min(meals,12)}/12`; document.getElementById("questSet").innerHTML=`${Math.min(sets,20)}/20`; let score=Math.min(totalWater*5+meals*3+sets*2,100); document.getElementById("dailyScoreText").innerText=score; document.getElementById("scoreFill").style.width=score+"%"; document.getElementById("questScore").innerHTML=`${score}/100`; }
@@ -352,8 +456,8 @@
     function setWaterChartType(t){ currentChartType=t; if(event && event.target) event.target.classList.add("active"); updateWaterChart(); }
     function updateWaterChart(){ let cont=document.getElementById("waterChartContainer"), msg=document.getElementById("waterChartMessage"); if(!cont) return; if(currentChartType==='daily'){ let wd=getWaterData(), maxW=Math.max(...wd.map(d=>d.amount),1); cont.innerHTML='<h4>📊 Günlük Su (bardak)</h4>'; wd.forEach(d=>{ let p=(d.amount/maxW)*100; cont.innerHTML+=`<div class="chart-bar-item"><div class="bar-label">${d.day}</div><div class="bar-fill"><div class="bar" style="width:${p}%">${d.amount}</div></div></div>`; }); msg.innerHTML=`💧 Toplam: ${wd.reduce((a,b)=>a+b.amount,0)} bardak`; } else if(currentChartType==='weekly'){ let tot=Object.values(waterIntake).reduce((a,b)=>a+b,0); cont.innerHTML='<h4>📆 Haftalık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Hafta</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/100)*100,100)}%">${tot}</div></div></div>'; msg.innerHTML=`💧 Bu hafta: ${tot} bardak`; } else { let tot=Object.values(waterIntake).reduce((a,b)=>a+b,0); cont.innerHTML='<h4>📊 Aylık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Ay</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/200)*100,100)}%">${tot}</div></div></div>'; msg.innerHTML=`💧 Bu ay: ${tot} bardak`; } }
     function updateWeeklyChart(){ let cont=document.getElementById("weeklyChartContainer"); if(!cont) return; let days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"]; cont.innerHTML="<h4>📈 Haftalık Set Grafiği</h4>"; days.forEach(day=>{ let sets=0; for(let k in doneState) if(k.includes(day) && k.includes("set")) sets++; let w=Math.min((sets/20)*100,100); cont.innerHTML+=`<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${w}%">${sets}</div></div></div>`; }); }
-    function backupData(){ let exp={data,doneState,waterIntake,totalSetCount,setLogs,muscleLastTrained,exerciseVideos,oneRMHistory,workoutPlan}; let str=JSON.stringify(exp); let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([str])); a.download=`backup_${Date.now()}.json`; a.click(); showToast("Yedek alındı"); }
-    function restoreData(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; if(!file) return; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.data) data=imp.data; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.setLogs) setLogs=imp.setLogs; if(imp.muscleLastTrained) muscleLastTrained=imp.muscleLastTrained; if(imp.exerciseVideos) exerciseVideos=imp.exerciseVideos; if(imp.oneRMHistory) oneRMHistory=imp.oneRMHistory; if(imp.workoutPlan) workoutPlan=imp.workoutPlan; saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); updateAllStats(); updateWaterChart(); updateWeeklyChart(); updateDailyMacros(); showToast("Yedek yüklendi"); } catch(err){ alert("Hata"); } }; reader.readAsText(file); }; inp.click(); }
+    function backupData(){ let exp={data,doneState,waterIntake,totalSetCount,setLogs,muscleLastTrained,exerciseVideos,bodyMeasurements,beforePhoto,afterPhoto,oneRMHistory,supplements,workoutPlan}; let str=JSON.stringify(exp); let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([str])); a.download=`backup_${Date.now()}.json`; a.click(); showToast("Yedek alındı"); }
+    function restoreData(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; if(!file) return; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.data) data=imp.data; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.setLogs) setLogs=imp.setLogs; if(imp.muscleLastTrained) muscleLastTrained=imp.muscleLastTrained; if(imp.exerciseVideos) exerciseVideos=imp.exerciseVideos; if(imp.bodyMeasurements) bodyMeasurements=imp.bodyMeasurements; if(imp.beforePhoto) beforePhoto=imp.beforePhoto; if(imp.afterPhoto) afterPhoto=imp.afterPhoto; if(imp.oneRMHistory) oneRMHistory=imp.oneRMHistory; if(imp.supplements) supplements=imp.supplements; if(imp.workoutPlan) workoutPlan=imp.workoutPlan; saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); updateAllStats(); updateWaterChart(); updateWeeklyChart(); updateDailyMacros(); showToast("Yedek yüklendi"); } catch(err){ alert("Hata"); } }; reader.readAsText(file); }; inp.click(); }
     function addVideoToLibrary(){ let n=document.getElementById("videoExName").value.trim(), l=document.getElementById("videoExLink").value.trim(); if(!n||!l){ showToast("Ad ve link gir"); return; } exerciseVideos[n]=l; saveDataToLocal(); renderVideoLibrary(); showToast("Video eklendi"); }
     function renderVideoLibrary(){ let list=document.getElementById("videoLibraryList"); if(!list) return; let html=""; for(let ex in exerciseVideos) html+=`<div style="background:#2C2C2E; padding:10px; border-radius:10px; margin-bottom:6px;"><strong>${ex}</strong><br>${exerciseVideos[ex]}<button onclick="deleteVideoFromLibrary('${ex}')" style="margin-left:10px; background:#c0392b; border:none; padding:4px 10px; border-radius:20px;">Sil</button></div>`; list.innerHTML=html||"Kütüphane boş"; }
     function deleteVideoFromLibrary(ex){ delete exerciseVideos[ex]; saveDataToLocal(); renderVideoLibrary(); showToast("Silindi"); }
@@ -381,7 +485,25 @@
     async function fetchBarcode(){ let barcode=document.getElementById("barcodeInput").value.trim(); if(!barcode) return; try{ let res=await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let data=await res.json(); if(data.status===1){ let p=data.product; let name=p.product_name||"Bilinmiyor"; let nut=p.nutriments||{}; let kcal=nut["energy-kcal"]||0; let prot=nut.proteins||0; let carb=nut.carbohydrates||0; let fat=nut.fat||0; document.getElementById("barcodeResult").innerHTML=`✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${prot}g, 🌾 ${carb}g, 🥑 ${fat}g<br><button onclick="addBarcodeFood('${name}',${kcal},${prot},${carb},${fat})">Güne Ekle</button>`; } else document.getElementById("barcodeResult").innerHTML="❌ Bulunamadı"; } catch(e){ document.getElementById("barcodeResult").innerHTML="Hata"; } }
     function addBarcodeFood(name,kcal,prot,carb,fat){ if(!currentDayOpen) return; let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`; data[currentDayOpen].push(newItem); saveDataToLocal(); renderDayItems(currentDayOpen); updateDailyMacros(); showToast(`${name} eklendi`); document.querySelector(".modal").remove(); }
 
-    const muscleGroupMap = { "Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs","Pushdown":"Triceps","Overhead Extension":"Triceps","Lat Pulldown":"Sırt","Seated Row":"Sırt","One-Arm Row":"Sırt","Face Pull":"Omuz","Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak","Leg Curl":"Bacak","Calf Raise":"Bacak","Incline Fly":"Göğüs","Neutral Press":"Göğüs","Pec Deck":"Göğüs","Close-Grip Press":"Triceps","Skull Crusher":"Triceps","Lateral Raise":"Omuz","Bent-Over Raise":"Omuz","Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps" };
+    // AYARLAR YARDIMCILARI (yemek/egzersiz yönetimi,supplement,ölçüler vb.)
+    function populateManageSelects(){ let days=Object.keys(data); let mealSel=document.getElementById("mealManageDay"), exSel=document.getElementById("exerciseManageDay"); mealSel.innerHTML='<option value="">Gün Seç</option>'; exSel.innerHTML='<option value="">Gün Seç</option>'; days.forEach(d=>{ mealSel.innerHTML+=`<option value="${d}">${d}</option>`; exSel.innerHTML+=`<option value="${d}">${d}</option>`; }); mealSel.onchange=()=>refreshMealList(); exSel.onchange=()=>refreshExerciseList(); }
+    function refreshMealList(){ let day=document.getElementById("mealManageDay").value, cont=document.getElementById("mealList"); if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes("🟦")){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px;">Sil</button></div>`; cont.appendChild(div); } }); }
+    function deleteMeal(day,idx){ if(confirm("Sil?")){ data[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("Silindi"); } }
+    function addMealToDay(){ let day=document.getElementById("mealManageDay").value, name=document.getElementById("newMealName").value; if(!day||!name){ showToast("Gün ve ad girin"); return; } data[day].push(name); saveDataToLocal(); document.getElementById("newMealName").value=""; refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
+    function refreshExerciseList(){ let day=document.getElementById("exerciseManageDay").value, cont=document.getElementById("exerciseList"); if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(it&&typeof it==="object"&&it.ex){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">💪 ${it.ex} (${it.sets} set)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteExercise('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px;">Sil</button><button class="delete-btn" style="background:#34C759; margin-left:4px;" onclick="setVideoLinkFromSettings('${day}',${idx})">🔗</button></div>`; cont.appendChild(div); } }); }
+    function setVideoLinkFromSettings(day,idx){ let ex=data[day][idx].ex; let link=prompt(`${ex} için YouTube linki:`, data[day][idx].link||""); if(link!==null){ data[day][idx].link=link; saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); showToast("Link kaydedildi"); } }
+    function deleteExercise(day,idx){ if(confirm("Bu hareket silinsin mi?")){ data[day].splice(idx,1); saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("Silindi"); } }
+    function addExerciseToDay(){ let day=document.getElementById("exerciseManageDay").value, name=document.getElementById("newExerciseName").value, sets=parseInt(document.getElementById("newExerciseSets").value); if(!day||!name||!sets){ showToast("Gün, hareket ve set sayısı girin"); return; } data[day].push({ex:name,sets:sets,link:"",notes:"",localVideo:null}); saveDataToLocal(); document.getElementById("newExerciseName").value=""; document.getElementById("newExerciseSets").value=""; refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
+    function updateSupplementsDisplay(){ let cont=document.getElementById("supplementList"); if(!cont) return; cont.innerHTML=""; supplements.forEach((sup,idx)=>{ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid rgba(255,255,255,0.1)"; div.innerHTML=`<span>💊 ${sup.name} - ${sup.time}</span><button onclick="deleteSupplement(${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px;">Sil</button>`; cont.appendChild(div); }); }
+    function deleteSupplement(idx){ if(confirm("Takviye silinsin mi?")){ supplements.splice(idx,1); saveDataToLocal(); updateSupplementsDisplay(); showToast("Silindi"); } }
+    function addSupplement(){ let name=document.getElementById("newSupplementName").value, time=document.getElementById("newSupplementTime").value; if(!name||!time){ showToast("Ad ve zaman girin"); return; } supplements.push({name,time}); saveDataToLocal(); document.getElementById("newSupplementName").value=""; document.getElementById("newSupplementTime").value=""; updateSupplementsDisplay(); showToast(`✅ "${name}" eklendi`); }
+    function updateWeightTrackingDisplay(){ let cont=document.getElementById("weightTrackingList"); if(!cont) return; let html=""; for(let day in setLogs){ for(let ex in setLogs[day]){ let entries=Object.entries(setLogs[day][ex]).map(([sn,log])=>`Set ${sn}: ${log.reps} tekrar x ${log.weight} kg`).join(" | "); html+=`<div style="background:#2C2C2E; padding:12px; border-radius:12px; margin-bottom:12px;"><strong>${day} - ${ex}</strong><br>${entries}</div>`; } } cont.innerHTML=html||"<div>Henüz ağırlık kaydı yok</div>"; }
+    function populateOneRMSelect(){ let sel=document.getElementById("oneRMExerciseSelect"); if(!sel) return; sel.innerHTML=""; let set=new Set(); for(let day in data) for(let it of data[day]) if(it&&typeof it==="object"&&it.ex) set.add(it.ex); set.forEach(ex=>{ let opt=document.createElement("option"); opt.value=ex; opt.textContent=ex; sel.appendChild(opt); }); if(sel.options.length){ sel.onchange=()=>updateOneRMChart(sel.value); updateOneRMChart(sel.value); } }
+    function updateOneRMChart(ex){ let canvas=document.getElementById("oneRMChart"); if(!canvas) return; let ctx=canvas.getContext("2d"); let hist=oneRMHistory[ex]||[]; if(hist.length===0){ ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="#555"; ctx.font="12px sans-serif"; ctx.fillText("Henüz veri yok",10,50); return; } let last5=hist.slice(-5); let maxVal=Math.max(...last5.map(h=>h.oneRM),1); let w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); ctx.fillStyle="#007AFF"; let barW=(w-50)/last5.length-5; for(let i=0;i<last5.length;i++){ let barH=(last5[i].oneRM/maxVal)*(h-40); ctx.fillRect(50+i*(barW+5),h-barH-20,barW,barH); ctx.fillStyle="#1c1c1e"; ctx.font="10px sans-serif"; ctx.fillText(last5[i].oneRM,50+i*(barW+5),h-barH-25); ctx.fillStyle="#007AFF"; } ctx.fillStyle="#1c1c1e"; ctx.font="12px sans-serif"; ctx.fillText("Son 5 kayıt",10,20); }
+    function calculateAndSaveOneRM(){ let ex=document.getElementById("oneRMExerciseSelect").value; let w=parseFloat(document.getElementById("oneRMWeight").value); let r=parseInt(document.getElementById("oneRMReps").value); if(!ex||isNaN(w)||isNaN(r)||r<1||r>36){ showToast("Geçerli ağırlık ve tekrar (1-36) girin!"); return; } let oneRM=Math.round(w*(36/(37-r))); document.getElementById("oneRMResult").innerHTML=`🏆 1RM: ${oneRM} kg`; if(!oneRMHistory[ex]) oneRMHistory[ex]=[]; oneRMHistory[ex].push({date:new Date().toISOString(),weight:w,reps:r,oneRM:oneRM}); saveDataToLocal(); updateOneRMChart(ex); showToast(`✅ ${ex} için 1RM kaydedildi: ${oneRM} kg`); }
+    function saveBodyMeasurements(){ bodyMeasurements.weight=parseFloat(document.getElementById("bodyWeight").value)||0; bodyMeasurements.waist=parseFloat(document.getElementById("bodyWaist").value)||0; bodyMeasurements.chest=parseFloat(document.getElementById("bodyChest").value)||0; bodyMeasurements.arm=parseFloat(document.getElementById("bodyArm").value)||0; bodyMeasurements.leg=parseFloat(document.getElementById("bodyLeg").value)||0; saveDataToLocal(); showToast("📏 Vücut ölçüleri kaydedildi"); }
+    function uploadPhoto(type){ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ if(type==="before") beforePhoto=ev.target.result; else afterPhoto=ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); showToast(`📸 ${type==="before"?"Önce":"Sonra"} fotoğraf kaydedildi`); }; reader.readAsDataURL(file); } }; inp.click(); }
+    function updateBodyMeasurementsUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("photoContainer"); if(cont) cont.innerHTML=`<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`; let sliderDiv=document.getElementById("sliderContainer"); if(beforePhoto&&afterPhoto){ sliderDiv.style.display="block"; if(!document.getElementById("photoSlider")){ sliderDiv.innerHTML='<input type="range" id="photoSlider" min="0" max="100" value="0" step="1"><div style="display:flex; justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider=document.getElementById("photoSlider"); slider.addEventListener("input",(e)=>{ let val=e.target.value; let imgs=document.querySelectorAll("#photoContainer img"); if(imgs[0]) imgs[0].style.opacity=(100-val)/100; if(imgs[1]) imgs[1].style.opacity=val/100; }); } } else { sliderDiv.style.display="none"; } }
 
     function renderDayItems(day){
         let cont=document.getElementById("dayItems");
