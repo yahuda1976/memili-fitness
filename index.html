@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Kesin Makro Hesaplama</title>
+    <title>Fitness Pro - Kesin Makro</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 160px; font-weight: 500; }
@@ -12,9 +12,9 @@
         .grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; padding: 20px; max-width: 550px; margin: 0 auto; }
         .card { background: #1C1C1E; border-radius: 14px; padding: 20px 12px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
         .card:active { transform: scale(0.97); background: #2C2C2E; }
-        .card h3 { font-size: 1.3rem; font-weight: 700; color: #FF3B30; }
+        .card h3 { font-size: 1.3rem; font-weight: 700; color: #FF3B30; margin-bottom: 8px; }
         .card.settings-card h3 { color: #007AFF; }
-        .progress-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; margin-top: 12px; }
+        .progress-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin-top: 12px; }
         .progress-fill { height: 100%; background: #34C759; transition: width 0.3s; }
         small { font-size: 0.75rem; color: #8E8E93; display: block; margin-top: 8px; }
         .day-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 1000; overflow-y: auto; padding-bottom: 120px; }
@@ -39,7 +39,7 @@
         .quest-icon { font-size: 1.3rem; }
         .quest-progress { font-size: 0.8rem; font-weight: 600; }
         .daily-score { text-align: center; font-size: 0.8rem; color: #8E8E93; }
-        .score-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; margin-top: 6px; }
+        .score-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; margin-top: 6px; overflow: hidden; }
         .score-fill { height: 100%; background: #34C759; }
         .stats-panel { background: #1C1C1E; margin: 16px; padding: 20px; border-radius: 14px; }
         .stats-panel h3 { font-size: 1.1rem; font-weight: 600; }
@@ -59,22 +59,22 @@
         .recovery-orange { background: rgba(255,149,0,0.2); color: #FF9500; }
         .recovery-green { background: rgba(52,199,89,0.2); color: #34C759; }
         .modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; }
-        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:500px; width:100%; color:white; max-height:80vh; overflow-y:auto; }
-        .modal-content input, .modal-content select, .modal-content textarea { width:100%; padding:14px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; }
+        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:400px; width:100%; color:white; }
+        .modal-content input, .modal-content select { width:100%; padding:12px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; font-size:1rem; }
         .modal-buttons { display:flex; gap:12px; margin-top:20px; }
-        .modal-btn { flex:1; padding:14px; border:none; border-radius:40px; font-weight:600; cursor:pointer; }
+        .modal-btn { flex:1; padding:12px; border:none; border-radius:40px; font-weight:600; cursor:pointer; }
         .modal-btn.confirm { background:#007AFF; color:white; }
         .modal-btn.cancel { background:#FF3B30; color:white; }
         .timer-box { position:fixed; bottom:180px; right:20px; background:rgba(28,28,30,0.98); border-radius:20px; padding:16px 20px; text-align:center; z-index:2000; min-width:140px; }
         .timer-num { font-size:40px; font-weight:700; font-family:monospace; color:#007AFF; }
         .timer-buttons { display:flex; gap:12px; margin-top:10px; justify-content:center; }
         .timer-btn { background:#3a3a3c; border:none; padding:6px 16px; border-radius:20px; font-weight:600; color:#007AFF; cursor:pointer; }
-        .stop-sound-btn { background:#FF3B30; color:white; border:none; padding:6px 12px; border-radius:20px; font-weight:600; font-size:0.7rem; cursor:pointer; margin-top:8px; }
+        .stop-sound-btn { background:#FF3B30; color:white; border:none; padding:6px 12px; border-radius:20px; font-size:0.7rem; cursor:pointer; margin-top:8px; }
         .hidden { display:none; }
         .toast { position:fixed; bottom:30%; left:50%; transform:translateX(-50%); background:#1c1c1e; color:white; padding:12px 24px; border-radius:60px; font-weight:600; z-index:2000; animation:fadeOut 1.5s forwards; }
         @keyframes fadeOut { 0% { opacity:1; } 70% { opacity:1; } 100% { opacity:0; display:none; } }
-        .input-number-only { width:100%; padding:14px; text-align:center; background:#2C2C2E; color:white; border:none; border-radius:10px; }
-        .set-info { font-size:0.8rem; font-weight:600; color:#FF9500; background:#2C2C2E; padding:4px 10px; border-radius:20px; margin-left:8px; }
+        .input-number-only { width:100%; padding:12px; text-align:center; background:#2C2C2E; color:white; border:none; border-radius:10px; }
+        .set-info { font-size:0.8rem; color:#FF9500; background:#2C2C2E; padding:4px 10px; border-radius:20px; margin-left:8px; }
         .chart-tabs { display:flex; gap:12px; margin-bottom:16px; }
         .chart-tab { flex:1; background:#2C2C2E; border:none; padding:10px; border-radius:10px; font-weight:600; color:#007AFF; cursor:pointer; }
         .chart-tab.active { background:#007AFF; color:white; }
@@ -170,25 +170,22 @@
 </div>
 
 <script>
-    // ========== MAKRO AYRIŞTIRICI (SADECE METİN, EMOJİ YOK) ==========
+    // ========== KESİN MAKRO AYRIŞTIRICI ==========
+    // Bu fonksiyon "Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g" formatını kesin olarak okur.
     function parseFoodMacros(text) {
         let kcal = 0, prot = 0, carb = 0, fat = 0;
-        // Kalori: 420
         let kcalMatch = text.match(/Kalori:\s*(\d+)/i);
         if (kcalMatch) kcal = parseInt(kcalMatch[1]);
-        // Protein: 30 g
         let protMatch = text.match(/Protein:\s*(\d+)\s*g/i);
         if (protMatch) prot = parseInt(protMatch[1]);
-        // Karb: 55 g
         let carbMatch = text.match(/Karb:\s*(\d+)\s*g/i);
         if (carbMatch) carb = parseInt(carbMatch[1]);
-        // Yag: 10 g
         let fatMatch = text.match(/Yag:\s*(\d+)\s*g/i);
         if (fatMatch) fat = parseInt(fatMatch[1]);
         return { cal: kcal, p: prot, k: carb, f: fat };
     }
 
-    // ========== YEMEK PLANLARI (SADECE METİN, | AYIRACLI, EMOJİSİZ) ==========
+    // ========== YEMEK LİSTELERİ (BİREBİR SENİN VERDİĞİN RAKAMLARLA) ==========
     const plan1Meals = [
         "07:00 Yulaf + sut + muz + whey + Skyr | Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g",
         "09:00 Skyr + chia + meyve | Kalori: 250 | Protein: 20 g | Karb: 30 g | Yag: 8 g",
@@ -196,7 +193,7 @@
         "17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g",
         "18:15 Muz + lavas | Kalori: 250 | Protein: 5 g | Karb: 55 g | Yag: 2 g",
         "20:15 Whey + meyve | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g",
-        "21:00 Kiyma + patates/pirinc + salata | Kalori: 500 | Protein: 35 g | Karb: 40 g | Yag: 18 g",
+        "21:00 Kiyma + patates + salata | Kalori: 500 | Protein: 35 g | Karb: 40 g | Yag: 18 g",
         "23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"
     ];
     const plan2Meals = [
@@ -219,25 +216,25 @@
         "23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"
     ];
 
-    // ========== EGZERSİZ PLANLARI (SON HAL) ==========
+    // ========== EGZERSİZ PLANLARI (KISA) ==========
     const workoutPlans = {
         "PAZARTESI": { title: "🏋️ AĞIR GÖĞÜS + TRICEPS", muscleGroups: [
-            { name: "🟥 GÖĞÜS", exercises: [{ ex: "Incline Dumbbell Press (30-45°)", sets: 4 }, { ex: "Flat Dumbbell Press", sets: 4 }, { ex: "Low-to-High Cable Crossover", sets: 3 }, { ex: "Chest Press Machine", sets: 3 }] },
-            { name: "🔥 TRICEPS", exercises: [{ ex: "Triceps Pushdown", sets: 3 }, { ex: "Overhead Dumbbell Extension", sets: 3 }] }
+            { name: "🟥 GÖĞÜS", exercises: [{ ex: "Incline Dumbbell Press", sets: 4 }, { ex: "Flat Dumbbell Press", sets: 4 }, { ex: "Cable Crossover", sets: 3 }, { ex: "Chest Press", sets: 3 }] },
+            { name: "🔥 TRICEPS", exercises: [{ ex: "Pushdown", sets: 3 }, { ex: "Overhead Extension", sets: 3 }] }
         ] },
         "SALI": { title: "🏋️ SIRT + TRAPEZ", muscleGroups: [
-            { name: "🔵 SIRT", exercises: [{ ex: "Lat Pulldown (geniş)", sets: 4 }, { ex: "Seated Cable Row (V-bar)", sets: 3 }, { ex: "One-Arm Dumbbell Row", sets: 3 }, { ex: "Face Pull", sets: 3 }, { ex: "Dumbbell Shrug", sets: 4 }, { ex: "Rack Pull", sets: 3 }] }
+            { name: "🔵 SIRT", exercises: [{ ex: "Lat Pulldown", sets: 4 }, { ex: "Seated Row", sets: 3 }, { ex: "One-Arm Row", sets: 3 }, { ex: "Face Pull", sets: 3 }, { ex: "Shrug", sets: 4 }, { ex: "Rack Pull", sets: 3 }] }
         ] },
         "CARSAMBA": { title: "🏋️ BACAK", muscleGroups: [
-            { name: "🟦 BACAK", exercises: [{ ex: "Squat", sets: 4 }, { ex: "Deadlift", sets: 3 }, { ex: "Leg Extension", sets: 3 }, { ex: "Lying Leg Curl", sets: 3 }, { ex: "Calf Machine", sets: 4 }] }
+            { name: "🟦 BACAK", exercises: [{ ex: "Squat", sets: 4 }, { ex: "Deadlift", sets: 3 }, { ex: "Leg Extension", sets: 3 }, { ex: "Leg Curl", sets: 3 }, { ex: "Calf Raise", sets: 4 }] }
         ] },
         "PERSEMBE": { title: "🏋️ GÖĞÜS 2 + TRICEPS", muscleGroups: [
-            { name: "🟪 GÖĞÜS", exercises: [{ ex: "Incline Dumbbell Fly", sets: 3 }, { ex: "Flat Dumbbell Neutral Press", sets: 3 }, { ex: "Pec Deck Machine", sets: 3 }, { ex: "Chest Press Machine", sets: 3 }] },
-            { name: "🔥 TRICEPS", exercises: [{ ex: "Close-Grip Dumbbell Press", sets: 3 }, { ex: "Skull Crusher", sets: 3 }] }
+            { name: "🟪 GÖĞÜS", exercises: [{ ex: "Incline Fly", sets: 3 }, { ex: "Neutral Press", sets: 3 }, { ex: "Pec Deck", sets: 3 }, { ex: "Chest Press", sets: 3 }] },
+            { name: "🔥 TRICEPS", exercises: [{ ex: "Close-Grip Press", sets: 3 }, { ex: "Skull Crusher", sets: 3 }] }
         ] },
         "CUMA": { title: "🏋️ OMUZ + BICEPS", muscleGroups: [
-            { name: "🟩 OMUZ", exercises: [{ ex: "Dumbbell Lateral Raise", sets: 4 }, { ex: "Bent-Over Lateral Raise", sets: 3 }, { ex: "Cable Lateral Raise", sets: 3 }, { ex: "Face Pull", sets: 3 }] },
-            { name: "💪 BICEPS", exercises: [{ ex: "Barbell Curl", sets: 3 }, { ex: "Incline Dumbbell Curl", sets: 3 }, { ex: "Hammer Curl", sets: 3 }] }
+            { name: "🟩 OMUZ", exercises: [{ ex: "Lateral Raise", sets: 4 }, { ex: "Bent-Over Raise", sets: 3 }, { ex: "Cable Raise", sets: 3 }, { ex: "Face Pull", sets: 3 }] },
+            { name: "💪 BICEPS", exercises: [{ ex: "Barbell Curl", sets: 3 }, { ex: "Incline Curl", sets: 3 }, { ex: "Hammer Curl", sets: 3 }] }
         ] }
     };
 
@@ -262,7 +259,6 @@
             }
         }
         dayItems.push("💧 4 bardak su");
-        dayItems.push("💧 1 bardak su");
         data[day] = dayItems;
     }
     for (let day of ["CUMARTESI", "PAZAR"]) {
@@ -275,20 +271,69 @@
         data[day] = dayItems;
     }
 
-    // ========== STATE VE YARDIMCILAR ==========
-    let doneState = {}, waterIntake = {}, totalSetCount = 0, timerInterval = null, currentDayOpen = null, currentChartType = 'daily', currentSound = null, soundStopFlag = false, setLogs = {}, muscleLastTrained = {}, db = null, exerciseVideos = {}, bodyMeasurements = { weight:0, waist:0, chest:0, arm:0, leg:0 }, beforePhoto = null, afterPhoto = null, oneRMHistory = {}, supplements = [{ name:"Omega-3", time:"Sabah" },{ name:"Whey", time:"Antrenman sonrası" },{ name:"Kreatin", time:"Antrenman öncesi" }], workoutPlan = {};
-    const muscleGroupMap = { "Incline Dumbbell Press (30-45°)":"Göğüs","Flat Dumbbell Press":"Göğüs","Low-to-High Cable Crossover":"Göğüs","Chest Press Machine":"Göğüs","Triceps Pushdown":"Triceps","Overhead Dumbbell Extension":"Triceps","Lat Pulldown (geniş)":"Sırt","Seated Cable Row (V-bar)":"Sırt","One-Arm Dumbbell Row":"Sırt","Face Pull":"Omuz","Dumbbell Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak","Lying Leg Curl":"Bacak","Calf Machine":"Bacak","Incline Dumbbell Fly":"Göğüs","Flat Dumbbell Neutral Press":"Göğüs","Pec Deck Machine":"Göğüs","Close-Grip Dumbbell Press":"Triceps","Skull Crusher":"Triceps","Dumbbell Lateral Raise":"Omuz","Bent-Over Lateral Raise":"Omuz","Cable Lateral Raise":"Omuz","Barbell Curl":"Biceps","Incline Dumbbell Curl":"Biceps","Hammer Curl":"Biceps" };
-    function showToast(msg){ let t=document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
-    function playBeep(){ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); o.frequency.value=880; let g=ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); } catch(e){} }
-    function stopTimer(){ if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
-    function startTimer(sec){ stopTimer(); let rem=sec; let tb=document.getElementById("timerBox"), tn=document.getElementById("timerNum"); if(!tb||!tn) return; tb.style.display="block"; tn.innerText=rem; timerInterval=setInterval(()=>{ if(rem<=1){ clearInterval(timerInterval); tb.style.display="none"; playLongBeep(); showToast("🔔 Dinlenme bitti!"); } else { rem--; tn.innerText=rem; } },1000); }
-    function playLongBeep(){ if(soundStopFlag) return; try{ if(currentSound) currentSound.close(); const ctx=new (window.AudioContext||window.webkitAudioContext)(); currentSound=ctx; const dur=10,int=0.4; let start=ctx.currentTime; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type="square"; osc.frequency.value=880; gain.gain.value=0.18; osc.connect(gain); gain.connect(ctx.destination); osc.start(); for(let i=0;i<dur/int;i++){ let t=start+i*int; gain.gain.setValueAtTime(0.18,t); gain.gain.setValueAtTime(0.00001,t+0.15); } osc.stop(start+dur); ctx.resume(); currentSound={close:()=>{ try{ osc.stop(); ctx.close(); } catch(e){} } }; } catch(e){} }
-    function customTimer(){ let s=prompt("Dinlenme süresi (saniye):","90"); if(s && !isNaN(parseInt(s)) && parseInt(s)>0) startTimer(parseInt(s)); }
+    // ========== STATE ==========
+    let doneState = {};
+    let waterIntake = {};
+    let totalSetCount = 0;
+    let timerInterval = null;
+    let currentDayOpen = null;
+    let currentChartType = 'daily';
+    let currentSound = null;
+    let soundStopFlag = false;
+    let setLogs = {};
+    let muscleLastTrained = {};
+    let db = null;
+    let exerciseVideos = {};
+    let oneRMHistory = {};
+    let workoutPlan = {};
+    let dailyMacros = { cal: 0, p: 0, k: 0, f: 0 };
+
+    // ========== MAKRO HESAPLAMA (SADECE İŞARETLİ YEMEKLER) ==========
+    function updateDailyMacros() {
+        if (!currentDayOpen) return;
+        let total = { cal: 0, p: 0, k: 0, f: 0 };
+        let items = data[currentDayOpen];
+        items.forEach((item, idx) => {
+            let key = `${currentDayOpen}|meal|${idx}`;
+            if (doneState[key] && typeof item === "string" && !item.includes("💧")) {
+                let m = parseFoodMacros(item);
+                total.cal += m.cal;
+                total.p += m.p;
+                total.k += m.k;
+                total.f += m.f;
+            }
+        });
+        dailyMacros = total;
+        renderMacroBar();
+    }
+
+    function renderMacroBar() {
+        let bar = document.getElementById("macroBar");
+        if (!bar) {
+            bar = document.createElement("div");
+            bar.id = "macroBar";
+            bar.className = "macro-bar";
+            let dh = document.getElementById("dayView");
+            if (dh && dh.querySelector(".day-header")) dh.querySelector(".day-header").after(bar);
+        }
+        bar.innerHTML = `<div class="macro-item"><span>🔥</span><b>${Math.round(dailyMacros.cal)}</b><small>Kalori</small></div>
+        <div class="macro-item"><span>💪</span><b>${Math.round(dailyMacros.p)}g</b><small>Protein</small></div>
+        <div class="macro-item"><span>🌾</span><b>${Math.round(dailyMacros.k)}g</b><small>Karb</small></div>
+        <div class="macro-item"><span>🥑</span><b>${Math.round(dailyMacros.f)}g</b><small>Yağ</small></div>`;
+    }
+
+    // ========== DİĞER FONKSİYONLAR (KISA) ==========
+    function showToast(msg) { let t = document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
+    function playBeep() { try { let ctx = new (window.AudioContext||window.webkitAudioContext)(); let o = ctx.createOscillator(); o.frequency.value=880; let g = ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); } catch(e){} }
+    function stopTimer() { if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
+    function startTimer(sec) { stopTimer(); let rem=sec; let tb=document.getElementById("timerBox"), tn=document.getElementById("timerNum"); if(!tb||!tn) return; tb.style.display="block"; tn.innerText=rem; timerInterval=setInterval(()=>{ if(rem<=1){ clearInterval(timerInterval); tb.style.display="none"; playLongBeep(); showToast("🔔 Dinlenme bitti!"); } else { rem--; tn.innerText=rem; } },1000); }
+    function playLongBeep() { if(soundStopFlag) return; try { if(currentSound) currentSound.close(); const ctx = new (window.AudioContext||window.webkitAudioContext)(); currentSound=ctx; const dur=10,int=0.4; let start=ctx.currentTime; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type="square"; osc.frequency.value=880; gain.gain.value=0.18; osc.connect(gain); gain.connect(ctx.destination); osc.start(); for(let i=0;i<dur/int;i++){ let t=start+i*int; gain.gain.setValueAtTime(0.18,t); gain.gain.setValueAtTime(0.00001,t+0.15); } osc.stop(start+dur); ctx.resume(); currentSound={close:()=>{ try{ osc.stop(); ctx.close(); } catch(e){} } }; } catch(e){} }
+    function customTimer() { let s=prompt("Saniye:","90"); if(s && !isNaN(parseInt(s)) && parseInt(s)>0) startTimer(parseInt(s)); }
     function getSetLog(day,ex,setNo){ return setLogs[day]?.[ex]?.[setNo]||null; }
     function saveSetLog(day,ex,setNo,weight,reps){ if(!setLogs[day]) setLogs[day]={}; if(!setLogs[day][ex]) setLogs[day][ex]={}; setLogs[day][ex][setNo]={weight,reps}; localStorage.setItem("fitnessSetLogs",JSON.stringify(setLogs)); let m=muscleGroupMap[ex]; if(m){ muscleLastTrained[m]=new Date().toISOString(); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); renderRecoveryPanel(); } }
-    function promptWeightAndReps(day,ex,setNo,defaultW,defaultR,onSave){ let sugg=getSetLog(day,ex,setNo); let defW=defaultW||(sugg?sugg.weight:0); let defR=defaultR||(sugg?sugg.reps:8); let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>🔄 Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}" step="1" min="1"></div><div><label>⚖️ Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}" step="1" min="0"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); modal.querySelector("#saveBtn").onclick=()=>{ let w=parseInt(modal.querySelector("#weightInput").value)||0; let r=parseInt(modal.querySelector("#repsInput").value)||1; saveSetLog(day,ex,setNo,w,r); modal.remove(); if(onSave) onSave(w,r); showToast(`✅ Set ${setNo}: ${r} tekrar x ${w} kg`); let setKey=`${day}|set|${ex}|${setNo}`; if(!doneState[setKey]){ doneState[setKey]=true; totalSetCount++; saveDataToLocal(); updateAllStats(); if(currentDayOpen===day) renderDayItems(day); buildHome(); startTimer(90); showToast(`✅ Set ${setNo} tamamlandı! +30 XP`); } else { saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); } }; }
-    function saveDataToLocal(){ localStorage.setItem("fitnessData",JSON.stringify(data)); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("exerciseVideos",JSON.stringify(exerciseVideos)); localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); if(beforePhoto) localStorage.setItem("beforePhoto",beforePhoto); if(afterPhoto) localStorage.setItem("afterPhoto",afterPhoto); localStorage.setItem("oneRMHistory",JSON.stringify(oneRMHistory)); localStorage.setItem("supplements",JSON.stringify(supplements)); localStorage.setItem("workoutPlan",JSON.stringify(workoutPlan)); }
-    function loadDataFromLocal(){ try{ let d=localStorage.getItem("fitnessData"); if(d) data=JSON.parse(d); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let sl=localStorage.getItem("setLogs"); if(sl) setLogs=JSON.parse(sl); let ml=localStorage.getItem("muscleLastTrained"); if(ml) muscleLastTrained=JSON.parse(ml); let ev=localStorage.getItem("exerciseVideos"); if(ev) exerciseVideos=JSON.parse(ev); let bm=localStorage.getItem("bodyMeasurements"); if(bm) bodyMeasurements=JSON.parse(bm); let bf=localStorage.getItem("beforePhoto"); if(bf) beforePhoto=bf; let af=localStorage.getItem("afterPhoto"); if(af) afterPhoto=af; let orm=localStorage.getItem("oneRMHistory"); if(orm) oneRMHistory=JSON.parse(orm); let sup=localStorage.getItem("supplements"); if(sup) supplements=JSON.parse(sup); let wp=localStorage.getItem("workoutPlan"); if(wp) workoutPlan=JSON.parse(wp); } catch(e){} }
+    function promptWeightAndReps(day,ex,setNo,defaultW,defaultR,onSave){ let sugg=getSetLog(day,ex,setNo); let defW=defaultW||(sugg?sugg.weight:0); let defR=defaultR||(sugg?sugg.reps:8); let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}"></div><div><label>Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); modal.querySelector("#saveBtn").onclick=()=>{ let w=parseInt(modal.querySelector("#weightInput").value)||0; let r=parseInt(modal.querySelector("#repsInput").value)||1; saveSetLog(day,ex,setNo,w,r); modal.remove(); if(onSave) onSave(w,r); showToast(`✅ Set ${setNo}: ${r} tekrar x ${w} kg`); let setKey=`${day}|set|${ex}|${setNo}`; if(!doneState[setKey]){ doneState[setKey]=true; totalSetCount++; saveDataToLocal(); updateAllStats(); if(currentDayOpen===day) renderDayItems(day); buildHome(); startTimer(90); showToast(`✅ Set ${setNo} tamamlandı! +30 XP`); } else { saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); } }; }
+    function saveDataToLocal(){ localStorage.setItem("fitnessData",JSON.stringify(data)); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("exerciseVideos",JSON.stringify(exerciseVideos)); localStorage.setItem("oneRMHistory",JSON.stringify(oneRMHistory)); localStorage.setItem("workoutPlan",JSON.stringify(workoutPlan)); }
+    function loadDataFromLocal(){ try{ let d=localStorage.getItem("fitnessData"); if(d) data=JSON.parse(d); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let sl=localStorage.getItem("setLogs"); if(sl) setLogs=JSON.parse(sl); let ml=localStorage.getItem("muscleLastTrained"); if(ml) muscleLastTrained=JSON.parse(ml); let ev=localStorage.getItem("exerciseVideos"); if(ev) exerciseVideos=JSON.parse(ev); let orm=localStorage.getItem("oneRMHistory"); if(orm) oneRMHistory=JSON.parse(orm); let wp=localStorage.getItem("workoutPlan"); if(wp) workoutPlan=JSON.parse(wp); } catch(e){} }
     function updateAllStats(){ let totalWater=Object.values(waterIntake).reduce((a,b)=>a+b,0); let bestDayScore=0,bestDayName=""; Object.keys(data).forEach(day=>{ let ds=0; Object.keys(doneState).forEach(k=>{ if(k.includes(day)){ if(k.includes("set")) ds+=2; if(k.includes("meal")) ds+=1; } }); if(ds>bestDayScore){ bestDayScore=ds; bestDayName=day; } }); document.getElementById("totalSets").innerText=totalSetCount; document.getElementById("totalWater").innerText=totalWater; document.getElementById("bestDay").innerText=bestDayName||"-"; document.getElementById("totalXP").innerText=totalSetCount*30; let badges=[]; if(totalSetCount>=20) badges.push("🔥 Alev"); if(totalSetCount>=50) badges.push("💪 Demir"); if(totalSetCount>=100) badges.push("👑 Efsane"); if(badges.length===0) badges.push("🔒 20 set yap"); document.getElementById("badgesContainer").innerHTML=badges.map(b=>`<div class="badge">${b}</div>`).join(''); }
     function getDayStats(day){ let total=0,comp=0; let items=data[day]; if(!items) return {total,comp,percent:0}; items.forEach((item,idx)=>{ if(typeof item==="string"){ total++; if(doneState[`${day}|meal|${idx}`]) comp++; } else if(item&&typeof item==="object"&&item.sets){ for(let s=1;s<=item.sets;s++){ total++; if(doneState[`${day}|set|${item.ex}|${s}`]) comp++; } } }); return {total,comp,percent:total===0?0:(comp/total)*100}; }
     function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHTML=""; for(let day in data){ let stats=getDayStats(day); let card=document.createElement("div"); card.className="card"; card.innerHTML=`<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`; card.onclick=()=>openDay(day); grid.appendChild(card); } let setCard=document.createElement("div"); setCard.className="card settings-card"; setCard.innerHTML=`<h3>AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`; setCard.onclick=()=>openSettings(); grid.appendChild(setCard); }
@@ -296,11 +341,7 @@
     function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; updateAllStats(); buildHome(); }
     function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); updateWaterChart(); updateWeeklyChart(); }
     function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; buildHome(); }
-    function updateDailyMacros(){ if(!currentDayOpen) return; let macros={ cal:0, p:0, k:0, f:0 }; let items=data[currentDayOpen]; items.forEach((item,idx)=>{ let key=`${currentDayOpen}|meal|${idx}`; if(doneState[key] && typeof item==="string" && !item.includes("💧")){ let m=parseFoodMacros(item); macros.cal += m.cal; macros.p += m.p; macros.k += m.k; macros.f += m.f; } }); dailyMacros=macros; renderMacroBar(); }
-    let dailyMacros = { cal:0, p:0, k:0, f:0 };
-    function renderMacroBar(){ let bar=document.getElementById("macroBar"); if(!bar){ bar=document.createElement("div"); bar.id="macroBar"; bar.className="macro-bar"; let dh=document.getElementById("dayView"); if(dh && dh.querySelector(".day-header")) dh.querySelector(".day-header").after(bar); } bar.innerHTML=`<div class="macro-item"><span>🔥</span><b>${Math.round(dailyMacros.cal)}</b><small>Kalori</small></div><div class="macro-item"><span>💪</span><b>${Math.round(dailyMacros.p)}g</b><small>Protein</small></div><div class="macro-item"><span>🌾</span><b>${Math.round(dailyMacros.k)}g</b><small>Karb</small></div><div class="macro-item"><span>🥑</span><b>${Math.round(dailyMacros.f)}g</b><small>Yağ</small></div>`; }
-    function getRecoveryStatus(last){ if(!last) return "green"; let h=(new Date()-new Date(last))/(1000*3600); if(h<24) return "red"; if(h<48) return "orange"; return "green"; }
-    function renderRecoveryPanel(){ let p=document.getElementById("recoveryPanel"); if(!p) return; let muscles=["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"]; p.innerHTML=muscles.map(m=>{ let l=muscleLastTrained[m]; let s=getRecoveryStatus(l); let t=m+(l?` (${Math.floor((new Date()-new Date(l))/(1000*3600))}s)`:" (yok)"); return `<div class="recovery-item recovery-${s}">${t}</div>`; }).join(''); }
+    function renderRecoveryPanel(){ let p=document.getElementById("recoveryPanel"); if(!p) return; let muscles=["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"]; p.innerHTML=muscles.map(m=>{ let l=muscleLastTrained[m]; let s=l ? ((new Date()-new Date(l))/(1000*3600)<24?"red":(new Date()-new Date(l))/(1000*3600)<48?"orange":"green") : "green"; return `<div class="recovery-item recovery-${s}">${m}${l?` (${Math.floor((new Date()-new Date(l))/(1000*3600))}s)`:" (yok)"}</div>`; }).join(''); }
     function updateQuests(day){ let water=0,meals=0,sets=0; for(let k in doneState){ if(k.includes(day)){ if(k.includes("meal")){ meals++; let idx=parseInt(k.split("|")[2]); let txt=data[day]?.[idx]; if(typeof txt==="string" && txt.includes("💧")) water++; } if(k.includes("set")) sets++; } } let wk=`${day}_water`; let totalWater=(waterIntake[wk]||0)+water; document.getElementById("questWater").innerHTML=`${Math.min(totalWater,8)}/8`; document.getElementById("questMeal").innerHTML=`${Math.min(meals,12)}/12`; document.getElementById("questSet").innerHTML=`${Math.min(sets,20)}/20`; let score=Math.min(totalWater*5+meals*3+sets*2,100); document.getElementById("dailyScoreText").innerText=score; document.getElementById("scoreFill").style.width=score+"%"; document.getElementById("questScore").innerHTML=`${score}/100`; }
     function moveItemUp(day,idx){ if(idx>0){ [data[day][idx],data[day][idx-1]]=[data[day][idx-1],data[day][idx]]; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("⬆️ Taşındı"); } }
     function moveItemDown(day,idx){ if(idx<data[day].length-1){ [data[day][idx],data[day][idx+1]]=[data[day][idx+1],data[day][idx]]; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("⬇️ Taşındı"); } }
@@ -311,25 +352,37 @@
     function setWaterChartType(t){ currentChartType=t; if(event && event.target) event.target.classList.add("active"); updateWaterChart(); }
     function updateWaterChart(){ let cont=document.getElementById("waterChartContainer"), msg=document.getElementById("waterChartMessage"); if(!cont) return; if(currentChartType==='daily'){ let wd=getWaterData(), maxW=Math.max(...wd.map(d=>d.amount),1); cont.innerHTML='<h4>📊 Günlük Su (bardak)</h4>'; wd.forEach(d=>{ let p=(d.amount/maxW)*100; cont.innerHTML+=`<div class="chart-bar-item"><div class="bar-label">${d.day}</div><div class="bar-fill"><div class="bar" style="width:${p}%">${d.amount}</div></div></div>`; }); msg.innerHTML=`💧 Toplam: ${wd.reduce((a,b)=>a+b.amount,0)} bardak`; } else if(currentChartType==='weekly'){ let tot=Object.values(waterIntake).reduce((a,b)=>a+b,0); cont.innerHTML='<h4>📆 Haftalık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Hafta</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/100)*100,100)}%">${tot}</div></div></div>'; msg.innerHTML=`💧 Bu hafta: ${tot} bardak`; } else { let tot=Object.values(waterIntake).reduce((a,b)=>a+b,0); cont.innerHTML='<h4>📊 Aylık Su</h4><div class="chart-bar-item"><div class="bar-label">Bu Ay</div><div class="bar-fill"><div class="bar" style="width:${Math.min((tot/200)*100,100)}%">${tot}</div></div></div>'; msg.innerHTML=`💧 Bu ay: ${tot} bardak`; } }
     function updateWeeklyChart(){ let cont=document.getElementById("weeklyChartContainer"); if(!cont) return; let days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"]; cont.innerHTML="<h4>📈 Haftalık Set Grafiği</h4>"; days.forEach(day=>{ let sets=0; for(let k in doneState) if(k.includes(day) && k.includes("set")) sets++; let w=Math.min((sets/20)*100,100); cont.innerHTML+=`<div class="chart-bar-item"><div class="bar-label">${day.substring(0,3)}</div><div class="bar-fill"><div class="bar" style="width:${w}%">${sets}</div></div></div>`; }); }
-    function backupData(){ let exp={data,doneState,waterIntake,totalSetCount,setLogs,muscleLastTrained,exerciseVideos,bodyMeasurements,beforePhoto,afterPhoto,oneRMHistory,supplements,workoutPlan}; let str=JSON.stringify(exp); let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([str])); a.download=`backup_${Date.now()}.json`; a.click(); showToast("Yedek alındı"); }
-    function restoreData(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; if(!file) return; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.data) data=imp.data; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.setLogs) setLogs=imp.setLogs; if(imp.muscleLastTrained) muscleLastTrained=imp.muscleLastTrained; if(imp.exerciseVideos) exerciseVideos=imp.exerciseVideos; if(imp.bodyMeasurements) bodyMeasurements=imp.bodyMeasurements; if(imp.beforePhoto) beforePhoto=imp.beforePhoto; if(imp.afterPhoto) afterPhoto=imp.afterPhoto; if(imp.oneRMHistory) oneRMHistory=imp.oneRMHistory; if(imp.supplements) supplements=imp.supplements; if(imp.workoutPlan) workoutPlan=imp.workoutPlan; saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); updateAllStats(); updateWaterChart(); updateWeeklyChart(); showToast("Yedek yüklendi"); } catch(err){ alert("Hatalı dosya"); } }; reader.readAsText(file); }; inp.click(); }
-    function addVideoToLibrary(){ let n=document.getElementById("videoExName").value.trim(), l=document.getElementById("videoExLink").value.trim(); if(!n||!l){ showToast("Hareket adı ve link gir"); return; } exerciseVideos[n]=l; saveDataToLocal(); renderVideoLibrary(); showToast("Video eklendi"); }
+    function backupData(){ let exp={data,doneState,waterIntake,totalSetCount,setLogs,muscleLastTrained,exerciseVideos,oneRMHistory,workoutPlan}; let str=JSON.stringify(exp); let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([str])); a.download=`backup_${Date.now()}.json`; a.click(); showToast("Yedek alındı"); }
+    function restoreData(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; if(!file) return; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.data) data=imp.data; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.setLogs) setLogs=imp.setLogs; if(imp.muscleLastTrained) muscleLastTrained=imp.muscleLastTrained; if(imp.exerciseVideos) exerciseVideos=imp.exerciseVideos; if(imp.oneRMHistory) oneRMHistory=imp.oneRMHistory; if(imp.workoutPlan) workoutPlan=imp.workoutPlan; saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); updateAllStats(); updateWaterChart(); updateWeeklyChart(); updateDailyMacros(); showToast("Yedek yüklendi"); } catch(err){ alert("Hata"); } }; reader.readAsText(file); }; inp.click(); }
+    function addVideoToLibrary(){ let n=document.getElementById("videoExName").value.trim(), l=document.getElementById("videoExLink").value.trim(); if(!n||!l){ showToast("Ad ve link gir"); return; } exerciseVideos[n]=l; saveDataToLocal(); renderVideoLibrary(); showToast("Video eklendi"); }
     function renderVideoLibrary(){ let list=document.getElementById("videoLibraryList"); if(!list) return; let html=""; for(let ex in exerciseVideos) html+=`<div style="background:#2C2C2E; padding:10px; border-radius:10px; margin-bottom:6px;"><strong>${ex}</strong><br>${exerciseVideos[ex]}<button onclick="deleteVideoFromLibrary('${ex}')" style="margin-left:10px; background:#c0392b; border:none; padding:4px 10px; border-radius:20px;">Sil</button></div>`; list.innerHTML=html||"Kütüphane boş"; }
     function deleteVideoFromLibrary(ex){ delete exerciseVideos[ex]; saveDataToLocal(); renderVideoLibrary(); showToast("Silindi"); }
-
-    // Egzersiz butonları (kısa)
     function openExerciseVideo(ex,link){ let url=link || exerciseVideos[ex] || `https://www.youtube.com/results?search_query=${encodeURIComponent(ex)}`; window.open(url,'_blank'); }
     async function addLocalVideo(ex,day,idx){ let input=document.createElement("input"); input.type="file"; input.accept="video/*"; input.onchange=async(e)=>{ let file=e.target.files[0]; if(file){ let id=`${day}_${ex}_${idx}`; try{ let db=await openDB(); let tx=db.transaction("videos","readwrite"); tx.objectStore("videos").put({id:id, video:file}); showToast("Video kaydedildi"); } catch(e){ showToast("Hata"); } } }; input.click(); }
     async function playLocalVideo(ex,day,idx){ let id=`${day}_${ex}_${idx}`; try{ let db=await openDB(); let res=await new Promise(r=>db.transaction("videos").objectStore("videos").get(id).onsuccess=e=>r(e.target.result)); if(res && res.video){ let url=URL.createObjectURL(res.video); let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><video controls src="${url}" style="width:100%"></video><button onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); } else showToast("Video yok"); } catch(e){ showToast("Hata"); } }
     async function removeLocalVideo(ex,day,idx){ let id=`${day}_${ex}_${idx}`; if(confirm("Sil?")){ let db=await openDB(); db.transaction("videos","readwrite").objectStore("videos").delete(id); showToast("Silindi"); } }
     function setVideoLink(ex,day,idx){ let link=prompt("YouTube linki:", data[day][idx].link||""); if(link!==null){ data[day][idx].link=link; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); showToast("Link kaydedildi"); } }
     function showOneRMForExercise(ex){ let last=null; for(let day in setLogs) for(let e in setLogs[day]) if(e===ex){ let maxSet=Object.values(setLogs[day][e]).reduce((a,b)=>b.weight>a.weight?b:a,{weight:0}); if(maxSet.weight>0) last=maxSet; } if(last && last.weight>0){ let oneRM=Math.round(last.weight*(36/(37-last.reps))); showToast(`1RM: ${oneRM} kg (${last.reps} tekrar × ${last.weight} kg)`); } else showToast("Ağırlık kaydı yok"); }
-    function showAlternatives(ex){ let altList={ "Incline Dumbbell Press (30-45°)":["Incline Barbell Press","Smith Machine"], "Flat Dumbbell Press":["Barbell Bench Press","Chest Press"], "Triceps Pushdown":["V-Bar Pushdown"], "Lat Pulldown":["Pull-Up"], "Face Pull":["Reverse Pec Deck"], "Squat":["Leg Press","Hack Squat"], "Deadlift":["Rack Pull"], "Dumbbell Lateral Raise":["Cable Lateral Raise"], "Barbell Curl":["EZ Bar Curl"], "Hammer Curl":["Rope Hammer Curl"] }; let alts=altList[ex]; if(alts) alert("Alternatifler:\n"+alts.join("\n")); else showToast("Alternatif yok"); }
+    function showAlternatives(ex){ let altList={ "Incline Dumbbell Press":"Incline Barbell","Flat Dumbbell Press":"Barbell Bench","Pushdown":"V-Bar","Lat Pulldown":"Pull-Up","Face Pull":"Reverse Pec Deck","Squat":"Leg Press","Deadlift":"Rack Pull","Lateral Raise":"Cable Raise","Barbell Curl":"EZ Bar","Hammer Curl":"Rope Curl" }; let alts=altList[ex]; if(alts) alert("Alternatif: "+alts); else showToast("Alternatif yok"); }
     function showExerciseNote(ex,day,idx){ let note=data[day][idx].notes||""; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📝 ${ex}</h3><textarea id="noteText" rows="4">${note}</textarea><div class="modal-buttons"><button class="modal-btn confirm" onclick="saveNote('${day}',${idx},'${ex}')">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); }
     function saveNote(day,idx,ex){ let note=document.getElementById("noteText").value; data[day][idx].notes=note; saveDataToLocal(); document.querySelector(".modal").remove(); showToast("Not kaydedildi"); }
     function openDB(){ return new Promise((res,rej)=>{ let req=indexedDB.open("FitnessVideoDB",1); req.onupgradeneeded=e=>{ if(!e.target.result.objectStoreNames.contains("videos")) e.target.result.createObjectStore("videos",{keyPath:"id"}); }; req.onsuccess=e=>res(e.target.result); req.onerror=rej; }); }
+    function showMostTrainedMuscle(){ let mc={}; for(let day in setLogs) for(let ex in setLogs[day]){ let m=muscleGroupMap[ex]; if(m) mc[m]=(mc[m]||0)+Object.keys(setLogs[day][ex]).length; } let top=Object.entries(mc).sort((a,b)=>b[1]-a[1])[0]; alert(top?`En çok ${top[0]} (${top[1]} set)`:"Veri yok"); }
+    function showTotalWorkoutTime(){ let totalSec=totalSetCount*90; let h=Math.floor(totalSec/3600), m=Math.floor((totalSec%3600)/60); alert(`Toplam antrenman süresi (yakl.): ${h} saat ${m} dakika`); }
+    function openPlannerModal(){ let today=new Date(); let year=today.getFullYear(), month=today.getMonth(); let first=new Date(year,month,1); let last=new Date(year,month+1,0); let days=[]; for(let i=0;i<first.getDay();i++) days.push(null); for(let i=1;i<=last.getDate();i++) days.push(new Date(year,month,i)); let html=`<div class="modal-content"><h3>📅 Planlayıcı (${year}-${month+1})</h3><div class="calendar-grid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:5px;">`; ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"].forEach(w=>html+=`<div style="text-align:center">${w}</div>`); for(let d of days){ if(!d) html+=`<div></div>`; else{ let ds=d.toISOString().split('T')[0]; let plan=workoutPlan[ds]; let cls="calendar-day"; if(plan) cls+= plan.rest?" rest":" workout"; if(ds===today.toISOString().split('T')[0]) cls+=" today"; html+=`<div class="${cls}" style="background:#2C2C2E; padding:8px; text-align:center; border-radius:12px; cursor:pointer;" onclick="setPlan('${ds}')">${d.getDate()}</div>`; } } html+=`</div><button class="modal-btn confirm" onclick="this.closest('.modal').remove()">Kapat</button></div>`; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=html; document.body.appendChild(modal); }
+    function setPlan(dateStr){ let type=prompt("Plan: 1 Antrenman (kas), 2 Dinlenme, 3 Sil", "1"); if(type==="1"){ let muscle=prompt("Kas grubu:"); if(muscle) workoutPlan[dateStr]={ type:muscle, rest:false }; } else if(type==="2") workoutPlan[dateStr]={ rest:true }; else delete workoutPlan[dateStr]; saveDataToLocal(); document.querySelector(".modal").remove(); openPlannerModal(); }
+    function openMealPlannerModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>🍽️ Haftalık Menü</h3><div id="weeklyMealPlan"></div><input id="calGoal" placeholder="Günlük kalori hedefi"><button onclick="suggestMeal()">Öneri</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); renderWeeklyMeal(); }
+    function renderWeeklyMeal(){ let cont=document.getElementById("weeklyMealPlan"); if(!cont) return; let html=""; for(let [day,items] of Object.entries(data)){ let meals=items.filter(i=>typeof i==="string" && !i.includes("💧") && !i.includes("🏋️")); html+=`<strong>${day}</strong><ul>${meals.map(m=>`<li>${m}</li>`).join('')}</ul>`; } cont.innerHTML=html; }
+    function suggestMeal(){ let goal=parseInt(document.getElementById("calGoal")?.value)||2500; alert(`${goal} kcal için örnek menü: Kahvaltı 400, Öğle 550, Ara 250, Akşam 500, Gece 150 -> toplam 1850, kalan için atıştırmalık.`); }
+    function openWarmupModal(){ alert("🔥 Dinamik Isınma (5 dk): Kol çevirme, bacak sallama, yerinde yürüme, kedi-deve\n❄️ Soğuma (5 dk): Hamstring esneme, quad esneme, göğüs açma, omuz esneme"); }
+    async function exportReportPDF(){ let el=document.getElementById("statsPanel").cloneNode(true); html2pdf().from(el).save(); }
+    function exportToExcelFull(){ let rows=[["Gün","Tip","Ad"]]; for(let day in data) for(let it of data[day]) rows.push([day, typeof it==="string"?"Yemek":"Egzersiz", typeof it==="string"?it:it.ex]); let ws=XLSX.utils.aoa_to_sheet(rows); let wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Rapor"); XLSX.writeFile(wb,`rapor_${new Date().toISOString().slice(0,10)}.xlsx`); }
+    function openBarcodeFoodModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📷 Barkod ile Besin Ekle</h3><input id="barcodeInput" placeholder="Barkod"><button onclick="fetchBarcode()">Ara</button><div id="barcodeResult"></div><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); }
+    async function fetchBarcode(){ let barcode=document.getElementById("barcodeInput").value.trim(); if(!barcode) return; try{ let res=await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let data=await res.json(); if(data.status===1){ let p=data.product; let name=p.product_name||"Bilinmiyor"; let nut=p.nutriments||{}; let kcal=nut["energy-kcal"]||0; let prot=nut.proteins||0; let carb=nut.carbohydrates||0; let fat=nut.fat||0; document.getElementById("barcodeResult").innerHTML=`✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${prot}g, 🌾 ${carb}g, 🥑 ${fat}g<br><button onclick="addBarcodeFood('${name}',${kcal},${prot},${carb},${fat})">Güne Ekle</button>`; } else document.getElementById("barcodeResult").innerHTML="❌ Bulunamadı"; } catch(e){ document.getElementById("barcodeResult").innerHTML="Hata"; } }
+    function addBarcodeFood(name,kcal,prot,carb,fat){ if(!currentDayOpen) return; let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`; data[currentDayOpen].push(newItem); saveDataToLocal(); renderDayItems(currentDayOpen); updateDailyMacros(); showToast(`${name} eklendi`); document.querySelector(".modal").remove(); }
 
-    // renderDayItems
+    const muscleGroupMap = { "Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs","Pushdown":"Triceps","Overhead Extension":"Triceps","Lat Pulldown":"Sırt","Seated Row":"Sırt","One-Arm Row":"Sırt","Face Pull":"Omuz","Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak","Leg Curl":"Bacak","Calf Raise":"Bacak","Incline Fly":"Göğüs","Neutral Press":"Göğüs","Pec Deck":"Göğüs","Close-Grip Press":"Triceps","Skull Crusher":"Triceps","Lateral Raise":"Omuz","Bent-Over Raise":"Omuz","Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps" };
+
     function renderDayItems(day){
         let cont=document.getElementById("dayItems");
         cont.innerHTML="";
@@ -419,21 +472,6 @@
         });
         updateQuests(day);
     }
-
-    // Bazı ek fonksiyonlar (kısa)
-    function showMostTrainedMuscle(){ let mc={}; for(let day in setLogs) for(let ex in setLogs[day]){ let m=muscleGroupMap[ex]; if(m) mc[m]=(mc[m]||0)+Object.keys(setLogs[day][ex]).length; } let top=Object.entries(mc).sort((a,b)=>b[1]-a[1])[0]; alert(top?`En çok ${top[0]} (${top[1]} set)`:"Veri yok"); }
-    function showTotalWorkoutTime(){ let totalSec=totalSetCount*90; let h=Math.floor(totalSec/3600), m=Math.floor((totalSec%3600)/60); alert(`Toplam antrenman süresi (yakl.): ${h} saat ${m} dakika`); }
-    function openPlannerModal(){ let today=new Date(); let year=today.getFullYear(), month=today.getMonth(); let first=new Date(year,month,1); let last=new Date(year,month+1,0); let days=[]; for(let i=0;i<first.getDay();i++) days.push(null); for(let i=1;i<=last.getDate();i++) days.push(new Date(year,month,i)); let html=`<div class="modal-content"><h3>📅 Planlayıcı (${year}-${month+1})</h3><div class="calendar-grid">`; ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"].forEach(w=>html+=`<div style="text-align:center">${w}</div>`); for(let d of days){ if(!d) html+=`<div></div>`; else{ let ds=d.toISOString().split('T')[0]; let plan=workoutPlan[ds]; let cls="calendar-day"; if(plan) cls+= plan.rest?" rest":" workout"; if(ds===today.toISOString().split('T')[0]) cls+=" today"; html+=`<div class="${cls}" onclick="setPlan('${ds}')">${d.getDate()}</div>`; } } html+=`</div><button class="modal-btn confirm" onclick="this.closest('.modal').remove()">Kapat</button></div>`; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=html; document.body.appendChild(modal); }
-    function setPlan(dateStr){ let type=prompt("Plan: 1 Antrenman (kas), 2 Dinlenme, 3 Sil", "1"); if(type==="1"){ let muscle=prompt("Kas grubu:"); if(muscle) workoutPlan[dateStr]={ type:muscle, rest:false }; } else if(type==="2") workoutPlan[dateStr]={ rest:true }; else delete workoutPlan[dateStr]; saveDataToLocal(); document.querySelector(".modal").remove(); openPlannerModal(); }
-    function openMealPlannerModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>🍽️ Haftalık Menü</h3><div id="weeklyMealPlan"></div><input id="calGoal" placeholder="Günlük kalori hedefi"><button onclick="suggestMeal()">Öneri</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); renderWeeklyMeal(); }
-    function renderWeeklyMeal(){ let cont=document.getElementById("weeklyMealPlan"); if(!cont) return; let html=""; for(let [day,items] of Object.entries(data)){ let meals=items.filter(i=>typeof i==="string" && !i.includes("💧") && !i.includes("🏋️")); html+=`<strong>${day}</strong><ul>${meals.map(m=>`<li>${m}</li>`).join('')}</ul>`; } cont.innerHTML=html; }
-    function suggestMeal(){ let goal=parseInt(document.getElementById("calGoal")?.value)||2500; alert(`${goal} kcal için örnek menü: Kahvaltı 400, Öğle 550, Ara 250, Akşam 500, Gece 150 -> toplam 1850, kalan için sağlıklı atıştırmalık.`); }
-    function openWarmupModal(){ alert("🔥 Dinamik Isınma (5 dk): Kol çevirme, bacak sallama, yerinde yürüme, kedi-deve\n❄️ Soğuma (5 dk): Hamstring esneme, quad esneme, göğüs açma, omuz esneme"); }
-    async function exportReportPDF(){ let el=document.getElementById("statsPanel").cloneNode(true); html2pdf().from(el).save(); }
-    function exportToExcelFull(){ let rows=[["Gün","Tip","Ad"]]; for(let day in data) for(let it of data[day]) rows.push([day, typeof it==="string"?"Yemek":"Egzersiz", typeof it==="string"?it:it.ex]); let ws=XLSX.utils.aoa_to_sheet(rows); let wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Rapor"); XLSX.writeFile(wb,`rapor_${new Date().toISOString().slice(0,10)}.xlsx`); }
-    function openBarcodeFoodModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📷 Barkod ile Besin Ekle</h3><input id="barcodeInput" placeholder="Barkod"><button onclick="fetchBarcode()">Ara</button><div id="barcodeResult"></div><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); }
-    async function fetchBarcode(){ let barcode=document.getElementById("barcodeInput").value.trim(); if(!barcode) return; try{ let res=await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let data=await res.json(); if(data.status===1){ let p=data.product; let name=p.product_name||"Bilinmiyor"; let nut=p.nutriments||{}; let kcal=nut["energy-kcal"]||0; let prot=nut.proteins||0; let carb=nut.carbohydrates||0; let fat=nut.fat||0; document.getElementById("barcodeResult").innerHTML=`✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${prot}g, 🌾 ${carb}g, 🥑 ${fat}g<br><button onclick="addBarcodeFood('${name}',${kcal},${prot},${carb},${fat})">Güne Ekle</button>`; } else document.getElementById("barcodeResult").innerHTML="❌ Bulunamadı"; } catch(e){ document.getElementById("barcodeResult").innerHTML="Hata"; } }
-    function addBarcodeFood(name,kcal,prot,carb,fat){ if(!currentDayOpen) return; let text=`${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`; data[currentDayOpen].push(text); saveDataToLocal(); renderDayItems(currentDayOpen); updateDailyMacros(); showToast("Eklendi"); document.querySelector(".modal").remove(); }
 
     loadDataFromLocal();
     buildHome();
