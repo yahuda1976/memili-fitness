@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Kameralı Barkod Çalışıyor</title>
+    <title>Fitness Pro - Barkod ile Besin Ekle (Seçmeli Gün)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 160px; font-weight: 500; }
@@ -58,7 +58,7 @@
         .recovery-red { background: rgba(255,59,48,0.2); color: #FF3B30; }
         .recovery-orange { background: rgba(255,149,0,0.2); color: #FF9500; }
         .recovery-green { background: rgba(52,199,89,0.2); color: #34C759; }
-        .modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; }
+        .modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); backdrop-filter: blur(8px); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; }
         .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:500px; width:100%; color:white; max-height:80vh; overflow-y:auto; }
         .modal-content input, .modal-content select, .modal-content textarea { width:100%; padding:12px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; }
         .modal-buttons { display:flex; gap:12px; margin-top:20px; }
@@ -507,7 +507,7 @@
         if (exercises.size === 0) select.innerHTML = '<option value="">Henüz kayıt yok</option>';
     }
 
-    // ========== BARKOD İLE BESİN EKLE (DÜZELTİLMİŞ KAMERALI) ==========
+    // ========== BARKOD İLE BESİN EKLE (DÜZELTİLMİŞ: ÖNCE GÖSTER, SONRA SEÇ) ==========
     function openBarcodeFoodModal() {
         let modal = document.createElement("div");
         modal.className = "modal";
@@ -538,10 +538,10 @@
     async function fetchManualBarcode() {
         let barcode = document.getElementById("manualBarcode").value.trim();
         if (!barcode) { showToast("Barkod girin"); return; }
-        await fetchBarcodeAndAdd(barcode);
+        await fetchAndShowProduct(barcode);
     }
 
-    async function fetchBarcodeAndAdd(barcode) {
+    async function fetchAndShowProduct(barcode) {
         try {
             let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
             let data = await res.json();
@@ -554,7 +554,17 @@
                 let prot = nut.proteins || 0;
                 let carb = nut.carbohydrates || 0;
                 let fat = nut.fat || 0;
-                resultDiv.innerHTML = `✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${prot}g, 🌾 ${carb}g, 🥑 ${fat}g<br><button class="modal-btn confirm" onclick="addBarcodeFood('${name.replace(/'/g, "\\'")}', ${kcal}, ${prot}, ${carb}, ${fat})">Güne Ekle</button>`;
+                // Göster ve ekleme seçeneği sun
+                resultDiv.innerHTML = `
+                    <div style="margin: 12px 0; padding: 12px; background: #2C2C2E; border-radius: 16px;">
+                        <strong>${escapeHtml(name)}</strong><br>
+                        🔥 ${kcal} kcal &nbsp; 💪 ${prot}g &nbsp; 🌾 ${carb}g &nbsp; 🥑 ${fat}g
+                    </div>
+                    <select id="targetDaySelect" class="input-number-only">
+                        ${Object.keys(data).map(day => `<option value="${day}" ${day === currentDayOpen ? 'selected' : ''}>${day}</option>`).join('')}
+                    </select>
+                    <button class="modal-btn confirm" onclick="addProductToSelectedDay('${name.replace(/'/g, "\\'")}', ${kcal}, ${prot}, ${carb}, ${fat})">Ekle</button>
+                `;
             } else {
                 resultDiv.innerHTML = "❌ Ürün bulunamadı";
             }
@@ -563,18 +573,24 @@
         }
     }
 
-    function addBarcodeFood(name, kcal, prot, carb, fat) {
-        if (!currentDayOpen) { showToast("Önce bir gün açın"); return; }
+    function addProductToSelectedDay(name, kcal, prot, carb, fat) {
+        let selectedDay = document.getElementById("targetDaySelect").value;
+        if (!selectedDay || !data[selectedDay]) {
+            showToast("Geçerli bir gün seçin");
+            return;
+        }
         let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`;
-        data[currentDayOpen].push(newItem);
+        data[selectedDay].push(newItem);
         saveDataToLocal();
-        renderDayItems(currentDayOpen);
-        updateDailyMacros();
-        showToast(`${name} eklendi`);
+        // Eğer o gün açıksa güncelle
+        if (currentDayOpen === selectedDay) {
+            renderDayItems(selectedDay);
+            updateDailyMacros();
+        }
+        showToast(`${name} ${selectedDay} gününe eklendi`);
         document.querySelector(".modal").remove();
     }
 
-    // DÜZELTİLMİŞ KAMERALI BARKOD
     function openCameraBarcode() {
         let modal = document.querySelector(".modal");
         if (modal) modal.remove();
@@ -613,13 +629,12 @@
                 });
                 Quagga.onDetected(async (data) => {
                     let code = data.codeResult.code;
-                    // İlk okumadan sonra tekrar okumaması için Quagga'yı durdur
                     Quagga.stop();
                     quaggaActive = false;
                     if (currentStream) currentStream.getTracks().forEach(t => t.stop());
                     camModal.remove();
-                    // Barkodu işle
-                    await fetchBarcodeAndAdd(code);
+                    // Ürün bilgilerini getir ve göster
+                    await fetchAndShowProduct(code);
                 });
             })
             .catch(err => {
