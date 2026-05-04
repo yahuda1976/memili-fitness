@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Eksiksiz Ayarlar</title>
+    <title>Fitness Pro - Antrenman History & Kameralı Barkod</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 160px; font-weight: 500; }
@@ -98,7 +98,16 @@
         .calendar-day.workout { background: #34C759; color: #000; }
         .calendar-day.rest { background: #FF3B30; }
         .calendar-day.today { border: 2px solid #007AFF; }
+        .history-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.8rem; }
+        .history-table th, .history-table td { border: 1px solid #444; padding: 8px; text-align: left; }
+        .history-table th { background: #2C2C2E; }
+        .pr-row { background: #ffaa33; color: #000; font-weight: bold; }
+        .weekly-stats { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+        .week-card { background: #2C2C2E; border-radius: 12px; padding: 8px; flex: 1; text-align: center; }
+        .improvement { color: #2ecc71; }
+        .regression { color: #e74c3c; }
     </style>
+    <script src="https://unpkg.com/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -150,6 +159,16 @@
                     <button onclick="exportToExcelFull()" style="background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📊 Excel Rapor</button>
                     <button onclick="openBarcodeFoodModal()" style="background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📷 Barkod ile Besin Ekle</button>
                 </div>
+            </div>
+
+            <!-- ANTRENMAN HISTORY SİSTEMİ (YENİ) -->
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
+                <h3 style="color:#34C759;">📜 ANTRENMAN GEÇMİŞİ</h3>
+                <select id="historyExerciseSelect" style="width:100%; padding:12px; background:#2C2C2E; border:none; border-radius:10px; margin-bottom:8px; color:white;">
+                    <option value="">Bir hareket seçin</option>
+                </select>
+                <button onclick="loadHistory()" style="width:100%; background:#2C2C2E; border:none; padding:12px; border-radius:12px; margin-bottom:12px;">📊 GÖSTER</button>
+                <div id="historyContainer" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
             
             <!-- VİDEO KÜTÜPHANESİ -->
@@ -263,7 +282,7 @@
 </div>
 
 <script>
-    // ========== MAKRO AYRIŞTIRICI (SADECE METİN) ==========
+    // ========== MAKRO AYRIŞTIRICI ==========
     function parseFoodMacros(text) {
         let kcal = 0, prot = 0, carb = 0, fat = 0;
         let kcalMatch = text.match(/Kalori:\s*(\d+)/i);
@@ -277,7 +296,7 @@
         return { cal: kcal, p: prot, k: carb, f: fat };
     }
 
-    // ========== YEMEK LİSTELERİ (RAKAMLARLA) ==========
+    // ========== YEMEK LİSTELERİ ==========
     const plan1Meals = [
         "07:00 Yulaf + sut + muz + whey + Skyr | Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g",
         "09:00 Skyr + chia + meyve | Kalori: 250 | Protein: 20 g | Karb: 30 g | Yag: 8 g",
@@ -382,6 +401,8 @@
     let db = null;
     let workoutPlan = {};
     let dailyMacros = { cal:0, p:0, k:0, f:0 };
+    let quaggaActive = false;
+    let currentStream = null;
 
     const muscleGroupMap = {
         "Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs",
@@ -392,7 +413,7 @@
         "Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps"
     };
 
-    // ========== MAKRO HESAPLAMA (SADECE İŞARETLİLER) ==========
+    // ========== MAKRO HESAPLAMA ==========
     function updateDailyMacros() {
         if (!currentDayOpen) return;
         let total = { cal:0, p:0, k:0, f:0 };
@@ -426,7 +447,239 @@
         <div class="macro-item"><span>🥑</span><b>${Math.round(dailyMacros.f)}g</b><small>Yağ</small></div>`;
     }
 
-    // ========== DİĞER FONKSİYONLAR (KISA) ==========
+    // ========== ANTRENMAN HISTORY SİSTEMİ ==========
+    function loadHistory() {
+        let ex = document.getElementById("historyExerciseSelect").value;
+        if (!ex) { showToast("Bir hareket seçin"); return; }
+        let history = [];
+        for (let day in setLogs) {
+            if (setLogs[day][ex]) {
+                for (let setNo in setLogs[day][ex]) {
+                    let log = setLogs[day][ex][setNo];
+                    let volume = log.weight * log.reps;
+                    history.push({
+                        date: day,
+                        set: setNo,
+                        weight: log.weight,
+                        reps: log.reps,
+                        volume: volume
+                    });
+                }
+            }
+        }
+        if (history.length === 0) {
+            document.getElementById("historyContainer").innerHTML = "<p>Bu hareket için henüz kayıt yok.</p>";
+            return;
+        }
+        // Tarihe göre sırala (en yeni en üstte)
+        let daysOrder = ["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"];
+        history.sort((a,b) => daysOrder.indexOf(b.date) - daysOrder.indexOf(a.date));
+        
+        let maxVolume = Math.max(...history.map(h => h.volume));
+        let html = `<table class="history-table"><thead><tr><th>Tarih</th><th>Set</th><th>Ağırlık (kg)</th><th>Tekrar</th><th>Hacim (kg)</th></tr></thead><tbody>`;
+        for (let h of history) {
+            let rowClass = (h.volume === maxVolume && maxVolume > 0) ? "pr-row" : "";
+            html += `<tr class="${rowClass}"><td>${h.date}</td><td>${h.set}</td><td>${h.weight}</td><td>${h.reps}</td><td>${h.volume}</td></tr>`;
+        }
+        html += `</tbody></table>`;
+        
+        // Haftalık analiz
+        let weeks = {};
+        let today = new Date();
+        for (let i = 0; i < 4; i++) {
+            let weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - (today.getDay() + 7*i));
+            let weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            weeks[`${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`] = 0;
+        }
+        for (let h of history) {
+            let dayIndex = daysOrder.indexOf(h.date);
+            if (dayIndex === -1) continue;
+            let antDate = new Date(); 
+            antDate.setDate(antDate.getDate() - (antDate.getDay() - dayIndex)); // yaklaşık
+            for (let w in weeks) {
+                // basit: hafta adına göre eşleme yapmak yerine son 4 haftayı topla
+            }
+        }
+        // Daha pratik: son 4 haftanın toplam hacmini hesapla
+        let weeklyVolumes = [];
+        for (let w = 0; w < 4; w++) {
+            let start = new Date();
+            start.setDate(start.getDate() - start.getDay() - (w*7));
+            let end = new Date(start);
+            end.setDate(start.getDate() + 6);
+            let total = 0;
+            for (let h of history) {
+                let dayIdx = daysOrder.indexOf(h.date);
+                if (dayIdx !== -1) {
+                    let hDate = new Date();
+                    hDate.setDate(hDate.getDate() - (hDate.getDay() - dayIdx));
+                    if (hDate >= start && hDate <= end) total += h.volume;
+                }
+            }
+            weeklyVolumes.push(total);
+        }
+        let weeklyHtml = `<div class="weekly-stats">`;
+        for (let i = 0; i < weeklyVolumes.length; i++) {
+            let change = "";
+            if (i > 0) {
+                let diff = weeklyVolumes[i] - weeklyVolumes[i-1];
+                let cls = diff >= 0 ? "improvement" : "regression";
+                let sign = diff >= 0 ? "▲" : "▼";
+                change = `<span class="${cls}">${sign} ${Math.abs(diff)}</span>`;
+            }
+            weeklyHtml += `<div class="week-card"><strong>${i+1}. Hafta</strong><br>${weeklyVolumes[i]} kg<br>${change}</div>`;
+        }
+        weeklyHtml += `</div>`;
+        
+        let comment = "";
+        if (weeklyVolumes.length >= 2) {
+            let latest = weeklyVolumes[0];
+            let previous = weeklyVolumes[1];
+            if (latest > previous) comment = "📈 Gelişim var! Hacim artıyor, kas büyümesi iyi.";
+            else if (latest < previous) comment = "📉 Hacim düşmüş. Dinlenme veya yük azaltma gerekebilir.";
+            else comment = "➡️ Hacim sabit. Ağırlık veya tekrar artırmayı dene.";
+        }
+        
+        document.getElementById("historyContainer").innerHTML = `<strong>💪 ${ex} - Geçmiş Kayıtlar</strong><br>${weeklyHtml}${html}<div style="margin-top:12px;"><em>${comment}</em></div>`;
+    }
+
+    function populateHistorySelect() {
+        let select = document.getElementById("historyExerciseSelect");
+        let exercises = new Set();
+        for (let day in setLogs) {
+            for (let ex in setLogs[day]) exercises.add(ex);
+        }
+        select.innerHTML = '<option value="">Bir hareket seçin</option>';
+        for (let ex of exercises) {
+            select.innerHTML += `<option value="${ex}">${ex}</option>`;
+        }
+        if (exercises.size === 0) select.innerHTML = '<option value="">Henüz kayıt yok</option>';
+    }
+
+    // ========== BARKOD İLE BESİN EKLE - KAMERALI ==========
+    function openBarcodeFoodModal() {
+        let modal = document.createElement("div");
+        modal.className = "modal";
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3>📷 Barkod ile Besin Ekle</h3>
+                <div class="modal-buttons">
+                    <button class="modal-btn confirm" onclick="openCameraBarcode()">📷 KAMERA İLE OKU</button>
+                    <button class="modal-btn cancel" onclick="showManualBarcodeInput()">✏️ MANUEL GİRİŞ</button>
+                </div>
+                <div id="barcodeManualArea" style="display:none; margin-top:12px;">
+                    <input type="text" id="manualBarcode" placeholder="Barkod numarası">
+                    <button class="modal-btn confirm" onclick="fetchManualBarcode()">ARA</button>
+                </div>
+                <div id="barcodeResult"></div>
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    function showManualBarcodeInput() {
+        document.getElementById("barcodeManualArea").style.display = "block";
+    }
+
+    async function fetchManualBarcode() {
+        let barcode = document.getElementById("manualBarcode").value.trim();
+        if (!barcode) { showToast("Barkod girin"); return; }
+        await fetchBarcodeAndAdd(barcode);
+    }
+
+    async function fetchBarcodeAndAdd(barcode) {
+        try {
+            let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+            let data = await res.json();
+            let resultDiv = document.getElementById("barcodeResult");
+            if (data.status === 1) {
+                let p = data.product;
+                let name = p.product_name || "Bilinmiyor";
+                let nut = p.nutriments || {};
+                let kcal = nut["energy-kcal"] || 0;
+                let prot = nut.proteins || 0;
+                let carb = nut.carbohydrates || 0;
+                let fat = nut.fat || 0;
+                resultDiv.innerHTML = `✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${prot}g, 🌾 ${carb}g, 🥑 ${fat}g<br><button class="modal-btn confirm" onclick="addBarcodeFood('${name.replace(/'/g, "\\'")}', ${kcal}, ${prot}, ${carb}, ${fat})">Güne Ekle</button>`;
+            } else {
+                resultDiv.innerHTML = "❌ Ürün bulunamadı";
+            }
+        } catch(e) {
+            document.getElementById("barcodeResult").innerHTML = "Hata oluştu";
+        }
+    }
+
+    function addBarcodeFood(name, kcal, prot, carb, fat) {
+        if (!currentDayOpen) { showToast("Önce bir gün açın"); return; }
+        let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`;
+        data[currentDayOpen].push(newItem);
+        saveDataToLocal();
+        renderDayItems(currentDayOpen);
+        updateDailyMacros();
+        showToast(`${name} eklendi`);
+        document.querySelector(".modal").remove();
+    }
+
+    function openCameraBarcode() {
+        let modal = document.querySelector(".modal");
+        if (modal) modal.remove();
+        // Kamera modal'ını aç
+        let camModal = document.createElement("div");
+        camModal.className = "modal";
+        camModal.style.justifyContent = "center";
+        camModal.style.alignItems = "center";
+        camModal.style.flexDirection = "column";
+        camModal.innerHTML = `
+            <div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;">
+                <video id="barcodeCameraVideo" autoplay muted playsinline style="width:100%;"></video>
+            </div>
+            <button id="closeBarcodeCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white; font-weight:bold;">✖ KAPAT</button>
+            <div id="barcodeCameraStatus" style="color:#ffaa88; margin-top:12px;">📷 KAMERA BAŞLATILIYOR...</div>
+        `;
+        document.body.appendChild(camModal);
+        let video = document.getElementById("barcodeCameraVideo");
+        let statusDiv = document.getElementById("barcodeCameraStatus");
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(stream => {
+                video.srcObject = stream;
+                currentStream = stream;
+                video.play();
+                if (quaggaActive) Quagga.stop();
+                Quagga.init({
+                    inputStream: { name: "LiveStream", type: "LiveStream", target: video },
+                    decoder: { readers: ["ean_reader", "ean_8_reader", "upc_reader"] }
+                }, err => {
+                    if (err) { statusDiv.innerHTML = "HATA"; return; }
+                    Quagga.start();
+                    quaggaActive = true;
+                    statusDiv.innerHTML = "🎥 BARKODU GÖSTER...";
+                });
+                Quagga.onDetected(data => {
+                    let code = data.codeResult.code;
+                    Quagga.stop();
+                    quaggaActive = false;
+                    if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+                    camModal.remove();
+                    fetchBarcodeAndAdd(code);
+                });
+            })
+            .catch(err => {
+                statusDiv.innerHTML = "❌ KAMERA İZNİ GEREKLİ";
+                setTimeout(() => camModal.remove(), 2000);
+            });
+        document.getElementById("closeBarcodeCameraBtn").onclick = () => {
+            if (quaggaActive) Quagga.stop();
+            if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+            camModal.remove();
+        };
+    }
+
+    // ========== DİĞER FONKSİYONLAR (VAR OLAN) ==========
     function showToast(msg) { let t = document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
     function playBeep() { try { let ctx = new (window.AudioContext||window.webkitAudioContext)(); let o = ctx.createOscillator(); o.frequency.value=880; let g = ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); } catch(e){} }
     function stopTimer() { if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
@@ -434,7 +687,7 @@
     function playLongBeep() { if(soundStopFlag) return; try { if(currentSound) currentSound.close(); const ctx = new (window.AudioContext||window.webkitAudioContext)(); currentSound=ctx; const dur=10,int=0.4; let start=ctx.currentTime; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type="square"; osc.frequency.value=880; gain.gain.value=0.18; osc.connect(gain); gain.connect(ctx.destination); osc.start(); for(let i=0;i<dur/int;i++){ let t=start+i*int; gain.gain.setValueAtTime(0.18,t); gain.gain.setValueAtTime(0.00001,t+0.15); } osc.stop(start+dur); ctx.resume(); currentSound={close:()=>{ try{ osc.stop(); ctx.close(); } catch(e){} } }; } catch(e){} }
     function customTimer() { let s=prompt("Saniye:","90"); if(s && !isNaN(parseInt(s)) && parseInt(s)>0) startTimer(parseInt(s)); }
     function getSetLog(day,ex,setNo){ return setLogs[day]?.[ex]?.[setNo]||null; }
-    function saveSetLog(day,ex,setNo,weight,reps){ if(!setLogs[day]) setLogs[day]={}; if(!setLogs[day][ex]) setLogs[day][ex]={}; setLogs[day][ex][setNo]={weight,reps}; localStorage.setItem("fitnessSetLogs",JSON.stringify(setLogs)); let m=muscleGroupMap[ex]; if(m){ muscleLastTrained[m]=new Date().toISOString(); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); renderRecoveryPanel(); } }
+    function saveSetLog(day,ex,setNo,weight,reps){ if(!setLogs[day]) setLogs[day]={}; if(!setLogs[day][ex]) setLogs[day][ex]={}; setLogs[day][ex][setNo]={weight,reps}; localStorage.setItem("fitnessSetLogs",JSON.stringify(setLogs)); let m=muscleGroupMap[ex]; if(m){ muscleLastTrained[m]=new Date().toISOString(); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); renderRecoveryPanel(); } populateHistorySelect(); }
     function promptWeightAndReps(day,ex,setNo,defaultW,defaultR,onSave){ let sugg=getSetLog(day,ex,setNo); let defW=defaultW||(sugg?sugg.weight:0); let defR=defaultR||(sugg?sugg.reps:8); let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}"></div><div><label>Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); modal.querySelector("#saveBtn").onclick=()=>{ let w=parseInt(modal.querySelector("#weightInput").value)||0; let r=parseInt(modal.querySelector("#repsInput").value)||1; saveSetLog(day,ex,setNo,w,r); modal.remove(); if(onSave) onSave(w,r); showToast(`✅ Set ${setNo}: ${r} tekrar x ${w} kg`); let setKey=`${day}|set|${ex}|${setNo}`; if(!doneState[setKey]){ doneState[setKey]=true; totalSetCount++; saveDataToLocal(); updateAllStats(); if(currentDayOpen===day) renderDayItems(day); buildHome(); startTimer(90); showToast(`✅ Set ${setNo} tamamlandı! +30 XP`); } else { saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); } }; }
     function saveDataToLocal(){ localStorage.setItem("fitnessData",JSON.stringify(data)); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("exerciseVideos",JSON.stringify(exerciseVideos)); localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); if(beforePhoto) localStorage.setItem("beforePhoto",beforePhoto); if(afterPhoto) localStorage.setItem("afterPhoto",afterPhoto); localStorage.setItem("oneRMHistory",JSON.stringify(oneRMHistory)); localStorage.setItem("supplements",JSON.stringify(supplements)); localStorage.setItem("workoutPlan",JSON.stringify(workoutPlan)); }
     function loadDataFromLocal(){ try{ let d=localStorage.getItem("fitnessData"); if(d) data=JSON.parse(d); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let sl=localStorage.getItem("setLogs"); if(sl) setLogs=JSON.parse(sl); let ml=localStorage.getItem("muscleLastTrained"); if(ml) muscleLastTrained=JSON.parse(ml); let ev=localStorage.getItem("exerciseVideos"); if(ev) exerciseVideos=JSON.parse(ev); let bm=localStorage.getItem("bodyMeasurements"); if(bm) bodyMeasurements=JSON.parse(bm); let bf=localStorage.getItem("beforePhoto"); if(bf) beforePhoto=bf; let af=localStorage.getItem("afterPhoto"); if(af) afterPhoto=af; let orm=localStorage.getItem("oneRMHistory"); if(orm) oneRMHistory=JSON.parse(orm); let sup=localStorage.getItem("supplements"); if(sup) supplements=JSON.parse(sup); let wp=localStorage.getItem("workoutPlan"); if(wp) workoutPlan=JSON.parse(wp); } catch(e){} }
@@ -443,7 +696,7 @@
     function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHTML=""; for(let day in data){ let stats=getDayStats(day); let card=document.createElement("div"); card.className="card"; card.innerHTML=`<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`; card.onclick=()=>openDay(day); grid.appendChild(card); } let setCard=document.createElement("div"); setCard.className="card settings-card"; setCard.innerHTML=`<h3>AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim & Yedekleme</small>`; setCard.onclick=()=>openSettings(); grid.appendChild(setCard); }
     function openDay(day){ currentDayOpen=day; document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.remove("hidden"); document.getElementById("settingsView").classList.add("hidden"); document.getElementById("dayTitle").innerText=day; renderDayItems(day); updateDailyMacros(); renderRecoveryPanel(); }
     function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; updateAllStats(); buildHome(); }
-    function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); populateOneRMSelect(); updateWeightTrackingDisplay(); updateBodyMeasurementsUI(); renderVideoLibrary(); }
+    function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("statsPanel").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateWaterChart(); updateWeeklyChart(); populateOneRMSelect(); updateWeightTrackingDisplay(); updateBodyMeasurementsUI(); renderVideoLibrary(); populateHistorySelect(); }
     function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; document.getElementById("statsPanel").style.display="block"; buildHome(); }
     function renderRecoveryPanel(){ let p=document.getElementById("recoveryPanel"); if(!p) return; let muscles=["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"]; p.innerHTML=muscles.map(m=>{ let l=muscleLastTrained[m]; let s=l ? ((new Date()-new Date(l))/(1000*3600)<24?"red":(new Date()-new Date(l))/(1000*3600)<48?"orange":"green") : "green"; return `<div class="recovery-item recovery-${s}">${m}${l?` (${Math.floor((new Date()-new Date(l))/(1000*3600))}s)`:" (yok)"}</div>`; }).join(''); }
     function updateQuests(day){ let water=0,meals=0,sets=0; for(let k in doneState){ if(k.includes(day)){ if(k.includes("meal")){ meals++; let idx=parseInt(k.split("|")[2]); let txt=data[day]?.[idx]; if(typeof txt==="string" && txt.includes("💧")) water++; } if(k.includes("set")) sets++; } } let wk=`${day}_water`; let totalWater=(waterIntake[wk]||0)+water; document.getElementById("questWater").innerHTML=`${Math.min(totalWater,8)}/8`; document.getElementById("questMeal").innerHTML=`${Math.min(meals,12)}/12`; document.getElementById("questSet").innerHTML=`${Math.min(sets,20)}/20`; let score=Math.min(totalWater*5+meals*3+sets*2,100); document.getElementById("dailyScoreText").innerText=score; document.getElementById("scoreFill").style.width=score+"%"; document.getElementById("questScore").innerHTML=`${score}/100`; }
@@ -481,11 +734,8 @@
     function openWarmupModal(){ alert("🔥 Dinamik Isınma (5 dk): Kol çevirme, bacak sallama, yerinde yürüme, kedi-deve\n❄️ Soğuma (5 dk): Hamstring esneme, quad esneme, göğüs açma, omuz esneme"); }
     async function exportReportPDF(){ let el=document.getElementById("statsPanel").cloneNode(true); html2pdf().from(el).save(); }
     function exportToExcelFull(){ let rows=[["Gün","Tip","Ad"]]; for(let day in data) for(let it of data[day]) rows.push([day, typeof it==="string"?"Yemek":"Egzersiz", typeof it==="string"?it:it.ex]); let ws=XLSX.utils.aoa_to_sheet(rows); let wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,"Rapor"); XLSX.writeFile(wb,`rapor_${new Date().toISOString().slice(0,10)}.xlsx`); }
-    function openBarcodeFoodModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📷 Barkod ile Besin Ekle</h3><input id="barcodeInput" placeholder="Barkod"><button onclick="fetchBarcode()">Ara</button><div id="barcodeResult"></div><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); }
-    async function fetchBarcode(){ let barcode=document.getElementById("barcodeInput").value.trim(); if(!barcode) return; try{ let res=await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let data=await res.json(); if(data.status===1){ let p=data.product; let name=p.product_name||"Bilinmiyor"; let nut=p.nutriments||{}; let kcal=nut["energy-kcal"]||0; let prot=nut.proteins||0; let carb=nut.carbohydrates||0; let fat=nut.fat||0; document.getElementById("barcodeResult").innerHTML=`✅ ${name}<br>🔥 ${kcal} kcal, 💪 ${prot}g, 🌾 ${carb}g, 🥑 ${fat}g<br><button onclick="addBarcodeFood('${name}',${kcal},${prot},${carb},${fat})">Güne Ekle</button>`; } else document.getElementById("barcodeResult").innerHTML="❌ Bulunamadı"; } catch(e){ document.getElementById("barcodeResult").innerHTML="Hata"; } }
-    function addBarcodeFood(name,kcal,prot,carb,fat){ if(!currentDayOpen) return; let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`; data[currentDayOpen].push(newItem); saveDataToLocal(); renderDayItems(currentDayOpen); updateDailyMacros(); showToast(`${name} eklendi`); document.querySelector(".modal").remove(); }
 
-    // AYARLAR YARDIMCILARI (yemek/egzersiz yönetimi,supplement,ölçüler vb.)
+    // AYARLAR YARDIMCILARI
     function populateManageSelects(){ let days=Object.keys(data); let mealSel=document.getElementById("mealManageDay"), exSel=document.getElementById("exerciseManageDay"); mealSel.innerHTML='<option value="">Gün Seç</option>'; exSel.innerHTML='<option value="">Gün Seç</option>'; days.forEach(d=>{ mealSel.innerHTML+=`<option value="${d}">${d}</option>`; exSel.innerHTML+=`<option value="${d}">${d}</option>`; }); mealSel.onchange=()=>refreshMealList(); exSel.onchange=()=>refreshExerciseList(); }
     function refreshMealList(){ let day=document.getElementById("mealManageDay").value, cont=document.getElementById("mealList"); if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes("🟦")){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px;">Sil</button></div>`; cont.appendChild(div); } }); }
     function deleteMeal(day,idx){ if(confirm("Sil?")){ data[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("Silindi"); } }
