@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro 🔥 - Son Liste (Dips Yok)</title>
+    <title>Fitness Pro 🔥 - Son Liste (Makro Düzeltildi)</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 17px; min-height: 100vh; padding-bottom: 160px; font-weight: 500; }
@@ -250,31 +250,37 @@
 </div>
 
 <script>
-    // ========== MAKRO YAKALAMA (YENİ FORMAT) ==========
+    // ========== MAKRO YAKALAMA (DÜZELTİLDİ) ==========
     function parseFoodAndCalcMacros(text) {
-        let total = { p:0, k:0, f:0, cal:0 };
-        // Yeni format: 👉 Kalori: 420  /  💪 Protein: 30 g  /  🌾 Karb: 55 g  /  🥑 Yağ: 10 g
-        let kcalMatch = text.match(/👉\s*Kalori:\s*(\d+)/i);
+        let total = { p: 0, k: 0, f: 0, cal: 0 };
+        
+        // Önce yeni formatı dene: Kalori: 420   Protein: 30 g   Karb: 55 g   Yağ: 10 g
+        let kcalMatch = text.match(/Kalori:\s*(\d+)/i);
         if (kcalMatch) total.cal = parseInt(kcalMatch[1]);
-        let protMatch = text.match(/💪\s*Protein:\s*(\d+)\s*g/i);
+        
+        let protMatch = text.match(/Protein:\s*(\d+)\s*g/i);
         if (protMatch) total.p = parseInt(protMatch[1]);
-        let carbMatch = text.match(/🌾\s*Karb:\s*(\d+)\s*g/i);
+        
+        let carbMatch = text.match(/Karb:\s*(\d+)\s*g/i);
         if (carbMatch) total.k = parseInt(carbMatch[1]);
-        let fatMatch = text.match(/🥑\s*Yağ:\s*(\d+)\s*g/i);
+        
+        let fatMatch = text.match(/Yağ:\s*(\d+)\s*g/i);
         if (fatMatch) total.f = parseInt(fatMatch[1]);
+        
         // Eski format (opsiyonel): ~400 kcal / 25g protein
-        if(total.cal === 0) {
+        if (total.cal === 0) {
             let oldKcal = text.match(/~(\d+)\s*kcal/i);
-            if(oldKcal) total.cal = parseInt(oldKcal[1]);
+            if (oldKcal) total.cal = parseInt(oldKcal[1]);
         }
-        if(total.p === 0) {
+        if (total.p === 0) {
             let oldProt = text.match(/(\d+)\s*g\s*protein/i);
-            if(oldProt) total.p = parseInt(oldProt[1]);
+            if (oldProt) total.p = parseInt(oldProt[1]);
         }
         return total;
     }
 
-    // ========== YEMEK PLANLARI (YENİ FORMATTA) ==========
+    // ========== YEMEK PLANLARI (YENİ FORMATTA, DÜZENLİ) ==========
+    // Plan1 (Tren) - Pazartesi, Salı, Çarşamba, Cuma için (sıralamayı isteğe göre değiştirebiliriz)
     const plan1Meals = [
         "🌅 07:00 – Yulaf + süt + muz + whey + Skyr 👉 Kalori: 420 💪 Protein: 30 g 🌾 Karb: 55 g 🥑 Yağ: 10 g",
         "🥣 09:00 – Skyr + chia + meyve 👉 Kalori: 250 💪 Protein: 20 g 🌾 Karb: 30 g 🥑 Yağ: 8 g",
@@ -285,6 +291,7 @@
         "🍽️ 21:00 – Kıyma + patates/pirinç + salata 👉 Kalori: 500 💪 Protein: 35 g 🌾 Karb: 40 g 🥑 Yağ: 18 g",
         "🌙 23:00 – Skyr 👉 Kalori: 150 💪 Protein: 15 g 🌾 Karb: 10 g 🥑 Yağ: 5 g"
     ];
+    // Plan2 (Tren) - Perşembe için
     const plan2Meals = [
         "🌅 07:00 – Yulaf + süt + whey 👉 Kalori: 420 💪 Protein: 30 g 🌾 Karb: 50 g 🥑 Yağ: 10 g",
         "🥣 09:00 – Skyr + keten + meyve 👉 Kalori: 260 💪 Protein: 20 g 🌾 Karb: 30 g 🥑 Yağ: 8 g",
@@ -295,6 +302,7 @@
         "🍽️ 21:00 – Tavuk + kinoa + salata 👉 Kalori: 400 💪 Protein: 35 g 🌾 Karb: 35 g 🥑 Yağ: 10 g",
         "🌙 23:00 – Skyr 👉 Kalori: 150 💪 Protein: 15 g 🌾 Karb: 10 g 🥑 Yağ: 5 g"
     ];
+    // Off günleri (Cumartesi, Pazar)
     const offMeals = [
         "🌅 07:00 – Yulaf + süt + Skyr 👉 Kalori: 350 💪 Protein: 25 g 🌾 Karb: 40 g 🥑 Yağ: 8 g",
         "🥣 09:00 – Skyr + keten + meyve 👉 Kalori: 220 💪 Protein: 20 g 🌾 Karb: 25 g 🥑 Yağ: 7 g",
@@ -305,7 +313,7 @@
         "🌙 23:00 – Skyr 👉 Kalori: 150 💪 Protein: 15 g 🌾 Karb: 10 g 🥑 Yağ: 5 g"
     ];
 
-    // ========== EGZERSİZ LİSTELERİ (SON HAL, DİPS YOK) ==========
+    // ========== EGZERSİZ LİSTELERİ (SON HAL, DİPS YOK, TÜM GÜNLER KONTROL EDİLDİ) ==========
     const workoutPlans = {
         "PAZARTESI": {
             title: "🏋️ AĞIR GÖĞÜS + TRICEPS (kütle odak)",
@@ -314,7 +322,7 @@
                     { ex: "Incline Dumbbell Press (30-45°)", sets: 4 },
                     { ex: "Flat Dumbbell Press", sets: 4 },
                     { ex: "Low-to-High Cable Crossover", sets: 3 },
-                    { ex: "Chest Press Machine (yatay)", sets: 3 }   // opsiyonel – çıkarılabilir
+                    { ex: "Chest Press Machine (yatay)", sets: 3 }
                 ] },
                 { name: "🔥 TRICEPS", exercises: [
                     { ex: "Triceps Pushdown", sets: 3 },
@@ -354,7 +362,7 @@
                     { ex: "Incline Dumbbell Fly", sets: 3 },
                     { ex: "Flat Dumbbell Neutral Press", sets: 3 },
                     { ex: "Pec Deck Machine", sets: 3 },
-                    { ex: "Chest Press Machine (yatay)", sets: 3 }   // opsiyonel
+                    { ex: "Chest Press Machine (yatay)", sets: 3 }
                 ] },
                 { name: "🔥 TRICEPS", exercises: [
                     { ex: "Close-Grip Dumbbell Press", sets: 3 },
@@ -384,7 +392,8 @@
     let data = {};
 
     const workoutDays = ["PAZARTESI", "SALI", "CARSAMBA", "PERSEMBE", "CUMA"];
-    const planOrder = [plan1Meals, plan1Meals, plan1Meals, plan2Meals, plan1Meals]; // dilediğin gibi düzenleyebilirsin
+    // Pazartesi, Salı, Çarşamba -> plan1, Perşembe -> plan2, Cuma -> plan1
+    const planOrder = [plan1Meals, plan1Meals, plan1Meals, plan2Meals, plan1Meals];
 
     for (let i = 0; i < workoutDays.length; i++) {
         let day = workoutDays[i];
@@ -395,11 +404,12 @@
         for (let j = 0; j < meals.length; j++) {
             let meal = meals[j];
             dayItems.push(meal);
+            // Su ekle (son öğün hariç)
             if (!meal.includes("23:00")) {
                 dayItems.push("💧 1 bardak su");
             }
-            // 19:00 yemeğinden hemen sonra antrenmanı ekle (bu saatte sabit)
-            if (meal.includes("18:15") || meal.includes("⚡")) {
+            // Antrenmanı saat 18:15'ten hemen sonra ekle (⚡ işaretli öğün)
+            if (meal.includes("18:15")) {
                 dayItems.push(workout.title);
                 for (let group of workout.muscleGroups) {
                     dayItems.push(group.name);
@@ -499,7 +509,7 @@
     function backupData(){ let exp={data,doneState,waterIntake,totalSetCount,setLogs,muscleLastTrained,exerciseVideos,bodyMeasurements,beforePhoto,afterPhoto,oneRMHistory,supplements,workoutPlan}; let str=JSON.stringify(exp,null,2); let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([str])); a.download=`fitness_backup_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json`; a.click(); showToast("💾 Yedek alındı"); }
     function restoreData(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; if(!file) return; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.data) data=imp.data; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.setLogs) setLogs=imp.setLogs; if(imp.muscleLastTrained) muscleLastTrained=imp.muscleLastTrained; if(imp.exerciseVideos) exerciseVideos=imp.exerciseVideos; if(imp.bodyMeasurements) bodyMeasurements=imp.bodyMeasurements; if(imp.beforePhoto) beforePhoto=imp.beforePhoto; if(imp.afterPhoto) afterPhoto=imp.afterPhoto; if(imp.oneRMHistory) oneRMHistory=imp.oneRMHistory; if(imp.supplements) supplements=imp.supplements; if(imp.workoutPlan) workoutPlan=imp.workoutPlan; saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); updateAllStats(); updateWaterChart(); updateWeeklyChart(); showToast("✅ Yedek başarıyla yüklendi"); }catch(err){ alert("Hatalı dosya"); } }; reader.readAsText(file); }; inp.click(); }
 
-    // AYARLAR YARDIMCILARI (kısa tutuldu, aynen çalışır)
+    // AYARLAR YARDIMCILARI (kısa tutuldu)
     function populateManageSelects(){ let days=Object.keys(data); let mealSel=document.getElementById("mealManageDay"), exSel=document.getElementById("exerciseManageDay"); mealSel.innerHTML='<option value="">Gün Seç</option>'; exSel.innerHTML='<option value="">Gün Seç</option>'; days.forEach(d=>{ mealSel.innerHTML+=`<option value="${d}">${d}</option>`; exSel.innerHTML+=`<option value="${d}">${d}</option>`; }); mealSel.onchange=()=>refreshMealList(); exSel.onchange=()=>refreshExerciseList(); }
     function refreshMealList(){ let day=document.getElementById("mealManageDay").value, cont=document.getElementById("mealList"); if(!day||!data[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; data[day].forEach((it,idx)=>{ if(typeof it==="string" && !it.includes("💧") && !it.includes("🏋️") && !it.includes("🟥") && !it.includes("🔥") && !it.includes("💪") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes("🟦")){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.alignItems="center"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button class="delete-btn" onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px; border-radius:8px;">Sil</button></div>`; cont.appendChild(div); } }); }
     function deleteMeal(day,idx){ if(confirm("Sil?")){ data[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("Silindi"); } }
