@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Yemek Listesi Oluştur (Hedef Takipli)</title>
+    <title>Fitness Pro - Barkod Onaylı Liste Sistemi</title>
     <script type="text/javascript" src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -87,8 +87,9 @@
         .target-progress-bar { width: 100%; height: 8px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin: 4px 0; }
         .target-progress-fill { height: 100%; background: #34C759; width: 0%; transition: width 0.3s; }
         .target-status { font-size: 0.75rem; color: #aaa; }
-        .list-card { background: #2C2C2E; border-radius: 16px; padding: 12px; margin: 12px; cursor: pointer; }
+        .list-card { background: #2C2C2E; border-radius: 16px; padding: 12px; margin: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .list-card:active { transform: scale(0.98); }
+        .delete-list-btn { background: #c0392b; border: none; padding: 6px 12px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -163,26 +164,31 @@
 </div>
 
 <script>
-// ========== YEMEK LİSTELERİ (BAĞIMSIZ LİSTELER) ==========
-let mealLists = {}; // { listId: { name, items: [{name,kcal,protein,carb,fat}], totals, completed, targetDay } }
+// ========== YEMEK LİSTELERİ ==========
+let mealLists = {};
 let currentListId = null;
 let dailyTargets = { protein: 160, carbs: 250, fat: 70, calories: 2500 };
+let pendingProductForList = null; // barkod okunan ama henüz eklenmemiş ürün
+let pendingListId = null;
+
 function saveMealLists() { localStorage.setItem("mealLists", JSON.stringify(mealLists)); }
 function loadMealLists() { let ml = localStorage.getItem("mealLists"); if (ml) mealLists = JSON.parse(ml); else mealLists = {}; renderMealLists(); }
 function createNewMealList() {
     let id = "list_" + Date.now();
-    let name = prompt("Liste adı (örn: Öğle Yemeği, Akşam Menüsü):", "Yeni Liste " + (Object.keys(mealLists).length+1));
+    let name = prompt("Liste adı:", "Yeni Liste " + (Object.keys(mealLists).length+1));
     if (!name) return;
-    mealLists[id] = {
-        name: name,
-        items: [],
-        totals: { protein:0, carbs:0, fat:0, calories:0 },
-        completed: false,
-        targetDay: null
-    };
+    mealLists[id] = { name: name, items: [], totals: { protein:0, carbs:0, fat:0, calories:0 }, completed: false };
     saveMealLists();
     renderMealLists();
     showToast(`"${name}" oluşturuldu`);
+}
+function deleteMealList(listId) {
+    if (confirm(`"${mealLists[listId].name}" listesini silmek istediğinize emin misiniz?`)) {
+        delete mealLists[listId];
+        saveMealLists();
+        renderMealLists();
+        showToast("Liste silindi");
+    }
 }
 function renderMealLists() {
     let container = document.getElementById("mealListsContainer");
@@ -196,10 +202,8 @@ function renderMealLists() {
         let list = mealLists[id];
         let isFull = (list.totals.protein >= dailyTargets.protein && list.totals.carbs >= dailyTargets.carbs && list.totals.fat >= dailyTargets.fat && list.totals.calories >= dailyTargets.calories);
         html += `<div class="list-card" onclick="openMealList('${id}')">
-            <strong>📋 ${list.name}</strong><br>
-            💪 ${list.totals.protein}/${dailyTargets.protein}g &nbsp; 🌾 ${list.totals.carbs}/${dailyTargets.carbs}g &nbsp; 🥑 ${list.totals.fat}/${dailyTargets.fat}g<br>
-            🔥 ${list.totals.calories}/${dailyTargets.calories} kcal<br>
-            ${list.completed ? "✅ Tamamlandı" : (isFull ? "<span class='success'>🎯 Hedefe ulaştı! Kaydedebilirsin.</span>" : "⏳ Devam ediyor")}
+            <div><strong>📋 ${list.name}</strong><br>💪 ${list.totals.protein}/${dailyTargets.protein}g &nbsp; 🌾 ${list.totals.carbs}/${dailyTargets.carbs}g &nbsp; 🥑 ${list.totals.fat}/${dailyTargets.fat}g<br>🔥 ${list.totals.calories}/${dailyTargets.calories} kcal<br>${list.completed ? "✅ Tamamlandı" : (isFull ? "<span class='success'>🎯 Hedefe ulaştı! Kaydedebilirsin.</span>" : "⏳ Devam ediyor")}</div>
+            <button class="delete-list-btn" onclick="event.stopPropagation(); deleteMealList('${id}')">🗑️ Sil</button>
         </div>`;
     }
     container.innerHTML = html;
@@ -217,7 +221,7 @@ function openMealList(listId) {
             <div>💪 ${list.totals.protein}/${dailyTargets.protein}g &nbsp; 🌾 ${list.totals.carbs}/${dailyTargets.carbs}g &nbsp; 🥑 ${list.totals.fat}/${dailyTargets.fat}g &nbsp; 🔥 ${list.totals.calories}/${dailyTargets.calories} kcal</div>
             <div style="max-height:200px; overflow-y:auto; margin:12px 0;">${itemsHtml || "<div>Henüz ürün yok</div>"}</div>
             <div class="modal-buttons">
-                <button class="modal-btn confirm" onclick="addProductToCurrentList()">➕ Barkod ile Ürün Ekle</button>
+                <button class="modal-btn confirm" onclick="openCameraForList()">📷 Barkod ile Ürün Ekle</button>
                 ${isFull && !list.completed ? `<button class="modal-btn confirm" style="background:#e67e22;" onclick="completeAndSaveList('${listId}')">💾 Listeyi Tamamla ve Kaydet</button>` : ""}
                 <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button>
             </div>
@@ -225,24 +229,9 @@ function openMealList(listId) {
     `;
     document.body.appendChild(modal);
 }
-async function addProductToCurrentList() {
+function openCameraForList() {
     if (!currentListId) { showToast("Önce bir liste seçin"); return; }
     openCameraBarcodeForList();
-}
-function addProductToList(listId, product) {
-    let list = mealLists[listId];
-    if (!list) return;
-    list.items.push(product);
-    list.totals.protein += product.protein;
-    list.totals.carbs += product.carbs;
-    list.totals.fat += product.fat;
-    list.totals.calories += product.kcal;
-    saveMealLists();
-    renderMealLists();
-    showToast(`${product.name} listeye eklendi`);
-    // Modal'ı kapatıp tekrar aç (güncelle)
-    document.querySelector(".modal")?.remove();
-    openMealList(listId);
 }
 function completeAndSaveList(listId) {
     let list = mealLists[listId];
@@ -264,13 +253,89 @@ function completeAndSaveList(listId) {
     document.querySelector(".modal")?.remove();
     renderMealLists();
 }
+// ========== KAMERALI BARKOD (ÖNCE GÖSTER, SONRA ONAY) ==========
+let zxingReader = null;
+function openCameraBarcodeForList() {
+    if (zxingReader) { zxingReader.reset(); zxingReader = null; }
+    let camModal = document.createElement("div");
+    camModal.className = "modal";
+    camModal.style.justifyContent = "center";
+    camModal.style.alignItems = "center";
+    camModal.style.flexDirection = "column";
+    camModal.innerHTML = `<div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;"><video id="zxingVideo" autoplay muted playsinline style="width:100%;"></video></div><button id="closeZxingCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white;">✖ KAPAT</button><div id="zxingStatus" style="color:#ffaa88; margin-top:12px;">📷 BARKOD OKUT...</div>`;
+    document.body.appendChild(camModal);
+    let video = document.getElementById("zxingVideo");
+    let statusDiv = document.getElementById("zxingStatus");
+    const codeReader = new ZXing.BrowserMultiFormatReader();
+    zxingReader = codeReader;
+    codeReader.decodeFromVideoDevice(null, video, async (result, err) => {
+        if (result) {
+            let code = result.getText();
+            codeReader.reset(); zxingReader = null;
+            if (camModal) camModal.remove();
+            await showProductAndConfirm(code);
+        }
+        if (err && !err.message.includes("NotFoundException")) { statusDiv.innerHTML = "HATA"; }
+    }).catch(err => { statusDiv.innerHTML = "KAMERA İZNİ GEREKLİ"; setTimeout(() => { if (camModal) camModal.remove(); }, 2000); });
+    document.getElementById("closeZxingCameraBtn").onclick = () => { if (zxingReader) { zxingReader.reset(); zxingReader = null; } if (camModal) camModal.remove(); };
+}
+async function showProductAndConfirm(barcode) {
+    try {
+        let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+        let data = await res.json();
+        if (data.status === 1) {
+            let p = data.product;
+            let name = p.product_name || "Bilinmiyor";
+            let nut = p.nutriments || {};
+            let kcal = nut["energy-kcal"] || nut["energy_value"] || 0;
+            let prot = nut.proteins || nut["proteins_value"] || 0;
+            let carb = nut.carbohydrates || nut["carbohydrates_value"] || 0;
+            let fat = nut.fat || nut["fat_value"] || 0;
+            let confirmModal = document.createElement("div");
+            confirmModal.className = "modal";
+            confirmModal.innerHTML = `
+                <div class="modal-content">
+                    <h3>📷 Ürün Bilgileri</h3>
+                    <div style="margin:12px 0; padding:12px; background:#2C2C2E; border-radius:16px;">
+                        <strong>${escapeHtml(name)}</strong><br>
+                        🔥 ${kcal} kcal &nbsp; 💪 ${prot}g &nbsp; 🌾 ${carb}g &nbsp; 🥑 ${fat}g
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="modal-btn confirm" onclick="addProductToCurrentListConfirmed('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">➕ Listeye Ekle</button>
+                        <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">❌ Vazgeç</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmModal);
+        } else {
+            showToast("Ürün bulunamadı");
+        }
+    } catch(e) { showToast("Hata oluştu"); }
+}
+function addProductToCurrentListConfirmed(name, kcal, prot, carb, fat) {
+    if (!currentListId) { showToast("Önce bir liste seçin"); return; }
+    let product = { name: name, kcal: kcal, protein: prot, carbs: carb, fat: fat };
+    let list = mealLists[currentListId];
+    if (list) {
+        list.items.push(product);
+        list.totals.protein += prot;
+        list.totals.carbs += carb;
+        list.totals.fat += fat;
+        list.totals.calories += kcal;
+        saveMealLists();
+        renderMealLists();
+        showToast(`${name} listeye eklendi`);
+        document.querySelector(".modal")?.remove();
+        openMealList(currentListId);
+    }
+}
 // ========== HEDEF YÖNETİMİ ==========
 function loadTargets() { let p = localStorage.getItem("dailyTargets"); if (p) dailyTargets = JSON.parse(p); document.getElementById("targetProtein").value = dailyTargets.protein; document.getElementById("targetCarbs").value = dailyTargets.carbs; document.getElementById("targetFat").value = dailyTargets.fat; document.getElementById("targetCalories").value = dailyTargets.calories; }
 function saveTargets() { dailyTargets = { protein: parseInt(document.getElementById("targetProtein").value)||160, carbs: parseInt(document.getElementById("targetCarbs").value)||250, fat: parseInt(document.getElementById("targetFat").value)||70, calories: parseInt(document.getElementById("targetCalories").value)||2500 }; localStorage.setItem("dailyTargets", JSON.stringify(dailyTargets)); showToast("Hedefler kaydedildi"); if (currentDayOpen) updateTargetPanel(); }
 function getCurrentDayMacros() { let total = { p:0, k:0, f:0, cal:0 }; let items = currentWeekData[currentDayOpen]; if (items) items.forEach((item, idx) => { let key = `${currentDayOpen}|meal|${idx}`; if (doneState[key] && typeof item === "string" && !item.includes("💧")) { let m = parseFoodMacros(item); total.p += m.p; total.k += m.k; total.f += m.f; total.cal += m.cal; } }); return total; }
 function updateTargetPanel() { let panel = document.getElementById("targetPanel"); if (!panel) return; let current = getCurrentDayMacros(); let pPercent = Math.min(100, (current.p / dailyTargets.protein) * 100); let cPercent = Math.min(100, (current.k / dailyTargets.carbs) * 100); let fPercent = Math.min(100, (current.f / dailyTargets.fat) * 100); let calPercent = Math.min(100, (current.cal / dailyTargets.calories) * 100); let pRem = dailyTargets.protein - current.p; let cRem = dailyTargets.carbs - current.k; let fRem = dailyTargets.fat - current.f; let calRem = dailyTargets.calories - current.cal; let message = ""; if (pRem <= 0 && cRem <= 0 && fRem <= 0 && calRem <= 0) message = "✅ Tebrikler! Günlük hedefine ulaştın!"; else if (pRem < 0) message += `⚠️ Protein hedefini ${Math.abs(pRem)}g aştın. `; else if (cRem < 0) message += `⚠️ Karbonhidrat hedefini ${Math.abs(cRem)}g aştın. `; else if (fRem < 0) message += `⚠️ Yağ hedefini ${Math.abs(fRem)}g aştın. `; else if (calRem < 0) message += `⚠️ Kalori hedefini ${Math.abs(calRem)} kcal aştın. `; panel.innerHTML = `<div><strong>🎯 GÜNLÜK HEDEFLER</strong></div><div>💪 Protein: ${current.p}/${dailyTargets.protein}g <div class="target-progress-bar"><div class="target-progress-fill" style="width:${pPercent}%"></div></div> ${pRem>0 ? `Kalan: ${pRem}g` : (pRem<0 ? `<span class="danger">Aşım: ${-pRem}g</span>` : "Tamam")}</div><div>🌾 Karb: ${current.k}/${dailyTargets.carbs}g <div class="target-progress-bar"><div class="target-progress-fill" style="width:${cPercent}%"></div></div> ${cRem>0 ? `Kalan: ${cRem}g` : (cRem<0 ? `<span class="danger">Aşım: ${-cRem}g</span>` : "Tamam")}</div><div>🥑 Yağ: ${current.f}/${dailyTargets.fat}g <div class="target-progress-bar"><div class="target-progress-fill" style="width:${fPercent}%"></div></div> ${fRem>0 ? `Kalan: ${fRem}g` : (fRem<0 ? `<span class="danger">Aşım: ${-fRem}g</span>` : "Tamam")}</div><div>🔥 Kalori: ${current.cal}/${dailyTargets.calories} kcal <div class="target-progress-bar"><div class="target-progress-fill" style="width:${calPercent}%"></div></div> ${calRem>0 ? `Kalan: ${calRem} kcal` : (calRem<0 ? `<span class="danger">Aşım: ${-calRem} kcal</span>` : "Tamam")}</div><div class="target-status">${message}</div>`; }
-// ========== MAKRO ==========
 function parseFoodMacros(text) { let kcal=0,prot=0,carb=0,fat=0; let kcalMatch=text.match(/Kalori:\s*(\d+)/i); if(kcalMatch) kcal=parseInt(kcalMatch[1]); let protMatch=text.match(/Protein:\s*(\d+)\s*g/i); if(protMatch) prot=parseInt(protMatch[1]); let carbMatch=text.match(/Karb:\s*(\d+)\s*g/i); if(carbMatch) carb=parseInt(carbMatch[1]); let fatMatch=text.match(/Yag:\s*(\d+)\s*g/i); if(fatMatch) fat=parseInt(fatMatch[1]); return {cal:kcal,p:prot,k:carb,f:fat}; }
+// ========== ESKİ VERİ YAPISI ==========
 const plan1Meals=["07:00 Yulaf + sut + muz + whey + Skyr | Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g","09:00 Skyr + chia + meyve | Kalori: 250 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Tavuk + pirinc + zeytinyagi + salata | Kalori: 550 | Protein: 40 g | Karb: 60 g | Yag: 15 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","18:15 Muz + lavas | Kalori: 250 | Protein: 5 g | Karb: 55 g | Yag: 2 g","20:15 Whey + meyve | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Kiyma + patates + salata | Kalori: 500 | Protein: 35 g | Karb: 40 g | Yag: 18 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
 const plan2Meals=["07:00 Yulaf + sut + whey | Kalori: 420 | Protein: 30 g | Karb: 50 g | Yag: 10 g","09:00 Skyr + keten + meyve | Kalori: 260 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Kiyma + pirinc + zeytinyagi | Kalori: 600 | Protein: 35 g | Karb: 60 g | Yag: 20 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","18:15 Ton baligi + lavas + meyve | Kalori: 300 | Protein: 25 g | Karb: 40 g | Yag: 5 g","20:15 Whey + meyve | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Tavuk + kinoa + salata | Kalori: 400 | Protein: 35 g | Karb: 35 g | Yag: 10 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
 const offMeals=["07:00 Yulaf + sut + Skyr | Kalori: 350 | Protein: 25 g | Karb: 40 g | Yag: 8 g","09:00 Skyr + keten + meyve | Kalori: 220 | Protein: 20 g | Karb: 25 g | Yag: 7 g","14:00 Tavuk + salata + zeytinyagi | Kalori: 350 | Protein: 40 g | Karb: 10 g | Yag: 15 g","17:00 Ton baligi + salata | Kalori: 250 | Protein: 30 g | Karb: 5 g | Yag: 10 g","18:30 2 yumurta | Kalori: 150 | Protein: 12 g | Karb: 2 g | Yag: 10 g","21:00 Tavuk + salata | Kalori: 400 | Protein: 35 g | Karb: 10 g | Yag: 15 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
@@ -328,51 +393,6 @@ function saveBodyMeasurements(){ bodyMeasurements.weight=parseFloat(document.get
 function uploadPhoto(type){ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ if(type==="before") beforePhoto=ev.target.result; else afterPhoto=ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); showToast(`📸 ${type==="before"?"Önce":"Sonra"} fotoğraf eklendi`); }; reader.readAsDataURL(file); } }; inp.click(); }
 function updateBodyMeasurementsUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("photoContainer"); if(cont) cont.innerHTML=`<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`; let sliderDiv=document.getElementById("sliderContainer"); if(beforePhoto&&afterPhoto){ sliderDiv.style.display="block"; if(!document.getElementById("photoSlider")){ sliderDiv.innerHTML='<input type="range" id="photoSlider" min="0" max="100" value="0" step="1"><div style="display:flex; justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider=document.getElementById("photoSlider"); slider.addEventListener("input",(e)=>{ let val=e.target.value; let imgs=document.querySelectorAll("#photoContainer img"); if(imgs[0]) imgs[0].style.opacity=(100-val)/100; if(imgs[1]) imgs[1].style.opacity=val/100; }); } }else sliderDiv.style.display="none"; }
 
-// ========== ZXing KAMERALI BARKOD (LİSTE İÇİN) ==========
-let zxingReader = null;
-function openCameraBarcodeForList() {
-    if (zxingReader) { zxingReader.reset(); zxingReader = null; }
-    let camModal = document.createElement("div");
-    camModal.className = "modal";
-    camModal.style.justifyContent = "center";
-    camModal.style.alignItems = "center";
-    camModal.style.flexDirection = "column";
-    camModal.innerHTML = `<div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;"><video id="zxingVideo" autoplay muted playsinline style="width:100%;"></video></div><button id="closeZxingCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white;">✖ KAPAT</button><div id="zxingStatus" style="color:#ffaa88; margin-top:12px;">📷 BARKOD OKUT...</div>`;
-    document.body.appendChild(camModal);
-    let video = document.getElementById("zxingVideo");
-    let statusDiv = document.getElementById("zxingStatus");
-    const codeReader = new ZXing.BrowserMultiFormatReader();
-    zxingReader = codeReader;
-    codeReader.decodeFromVideoDevice(null, video, async (result, err) => {
-        if (result) {
-            let code = result.getText();
-            codeReader.reset(); zxingReader = null;
-            if (camModal) camModal.remove();
-            await addProductToListFromBarcode(code);
-        }
-        if (err && !err.message.includes("NotFoundException")) { statusDiv.innerHTML = "HATA"; }
-    }).catch(err => { statusDiv.innerHTML = "KAMERA İZNİ GEREKLİ"; setTimeout(() => { if (camModal) camModal.remove(); }, 2000); });
-    document.getElementById("closeZxingCameraBtn").onclick = () => { if (zxingReader) { zxingReader.reset(); zxingReader = null; } if (camModal) camModal.remove(); };
-}
-async function addProductToListFromBarcode(barcode) {
-    if (!currentListId) { showToast("Önce bir liste seçin"); return; }
-    try {
-        let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
-        let data = await res.json();
-        if (data.status === 1) {
-            let p = data.product;
-            let name = p.product_name || "Bilinmiyor";
-            let nut = p.nutriments || {};
-            let kcal = nut["energy-kcal"] || nut["energy_value"] || 0;
-            let prot = nut.proteins || nut["proteins_value"] || 0;
-            let carb = nut.carbohydrates || nut["carbohydrates_value"] || 0;
-            let fat = nut.fat || nut["fat_value"] || 0;
-            addProductToList(currentListId, { name, kcal, protein: prot, carbs: carb, fat: fat });
-        } else {
-            showToast("Ürün bulunamadı");
-        }
-    } catch(e) { showToast("Hata oluştu"); }
-}
 function openBarcodeFoodModal() { showToast("Lütfen ayarlardan 'Yeni Liste Oluştur' butonunu kullanın."); }
 function showToast(msg){ let t=document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
 function playBeep(){ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); o.frequency.value=880; let g=ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); }catch(e){} }
