@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Stabil Kamera & AI</title>
+    <title>Fitness Pro - ZXing Stabil Kamera</title>
+    <!-- ZXing (daha stabil barkod okuyucu) -->
+    <script type="text/javascript" src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 120px; font-weight: 500; }
@@ -85,7 +87,6 @@
         .ai-analysis-box { background: #2C2C2E; border-radius: 16px; padding: 12px; margin: 12px 0; border-left: 5px solid #FFCC33; }
         .ai-tag { display: inline-block; background: #1C1C1E; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; margin: 4px 4px 0 0; }
     </style>
-    <script src="https://unpkg.com/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
 </head>
 <body>
 <div id="appContent">
@@ -158,7 +159,7 @@ const plan1Meals=["07:00 Yulaf + sut + muz + whey + Skyr | Kalori: 420 | Protein
 const plan2Meals=["07:00 Yulaf + sut + whey | Kalori: 420 | Protein: 30 g | Karb: 50 g | Yag: 10 g","09:00 Skyr + keten + meyve | Kalori: 260 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Kiyma + pirinc + zeytinyagi | Kalori: 600 | Protein: 35 g | Karb: 60 g | Yag: 20 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","18:15 Ton baligi + lavas + meyve | Kalori: 300 | Protein: 25 g | Karb: 40 g | Yag: 5 g","20:15 Whey + meyve | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Tavuk + kinoa + salata | Kalori: 400 | Protein: 35 g | Karb: 35 g | Yag: 10 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
 const offMeals=["07:00 Yulaf + sut + Skyr | Kalori: 350 | Protein: 25 g | Karb: 40 g | Yag: 8 g","09:00 Skyr + keten + meyve | Kalori: 220 | Protein: 20 g | Karb: 25 g | Yag: 7 g","14:00 Tavuk + salata + zeytinyagi | Kalori: 350 | Protein: 40 g | Karb: 10 g | Yag: 15 g","17:00 Ton baligi + salata | Kalori: 250 | Protein: 30 g | Karb: 5 g | Yag: 10 g","18:30 2 yumurta | Kalori: 150 | Protein: 12 g | Karb: 2 g | Yag: 10 g","21:00 Tavuk + salata | Kalori: 400 | Protein: 35 g | Karb: 10 g | Yag: 15 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
 const workoutPlans={ "PAZARTESI":{ title:"🏋️ AĞIR GÖĞÜS + TRICEPS", muscleGroups:[{ name:"🟥 GÖĞÜS", exercises:[{ ex:"Incline Dumbbell Press", sets:4 },{ ex:"Flat Dumbbell Press", sets:4 },{ ex:"Cable Crossover", sets:3 },{ ex:"Chest Press", sets:3 }] },{ name:"🔥 TRICEPS", exercises:[{ ex:"Pushdown", sets:3 },{ ex:"Overhead Extension", sets:3 }] }] },"SALI":{ title:"🏋️ SIRT + TRAPEZ", muscleGroups:[{ name:"🔵 SIRT", exercises:[{ ex:"Lat Pulldown", sets:4 },{ ex:"Seated Row", sets:3 },{ ex:"One-Arm Row", sets:3 },{ ex:"Face Pull", sets:3 },{ ex:"Shrug", sets:4 },{ ex:"Rack Pull", sets:3 }] }] },"CARSAMBA":{ title:"🏋️ BACAK", muscleGroups:[{ name:"🟦 BACAK", exercises:[{ ex:"Squat", sets:4 },{ ex:"Deadlift", sets:3 },{ ex:"Leg Extension", sets:3 },{ ex:"Leg Curl", sets:3 },{ ex:"Calf Raise", sets:4 }] }] },"PERSEMBE":{ title:"🏋️ GÖĞÜS 2 + TRICEPS", muscleGroups:[{ name:"🟪 GÖĞÜS", exercises:[{ ex:"Incline Fly", sets:3 },{ ex:"Neutral Press", sets:3 },{ ex:"Pec Deck", sets:3 },{ ex:"Chest Press", sets:3 }] },{ name:"🔥 TRICEPS", exercises:[{ ex:"Close-Grip Press", sets:3 },{ ex:"Skull Crusher", sets:3 }] }] },"CUMA":{ title:"🏋️ OMUZ + BICEPS", muscleGroups:[{ name:"🟩 OMUZ", exercises:[{ ex:"Lateral Raise", sets:4 },{ ex:"Bent-Over Raise", sets:3 },{ ex:"Cable Raise", sets:3 },{ ex:"Face Pull", sets:3 }] },{ name:"💪 BICEPS", exercises:[{ ex:"Barbell Curl", sets:3 },{ ex:"Incline Curl", sets:3 },{ ex:"Hammer Curl", sets:3 }] }] } };
-let currentWeekData={}, weekArchive={}, currentWeekKey=null, doneState={}, waterIntake={}, totalSetCount=0, timerInterval=null, currentDayOpen=null, currentSound=null, soundStopFlag=false, setLogs={}, muscleLastTrained={}, supplements=[{ name:"Omega-3", time:"Sabah" },{ name:"Whey", time:"Antrenman sonrası" },{ name:"Kreatin", time:"Antrenman öncesi" }], quaggaActive=false, currentStream=null, bodyMeasurements={ weight:0, waist:0, chest:0, arm:0, leg:0 }, beforePhoto=null, afterPhoto=null;
+let currentWeekData={}, weekArchive={}, currentWeekKey=null, doneState={}, waterIntake={}, totalSetCount=0, timerInterval=null, currentDayOpen=null, currentSound=null, soundStopFlag=false, setLogs={}, muscleLastTrained={}, supplements=[{ name:"Omega-3", time:"Sabah" },{ name:"Whey", time:"Antrenman sonrası" },{ name:"Kreatin", time:"Antrenman öncesi" }], bodyMeasurements={ weight:0, waist:0, chest:0, arm:0, leg:0 }, beforePhoto=null, afterPhoto=null;
 const muscleGroupMap={"Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs","Pushdown":"Triceps","Overhead Extension":"Triceps","Lat Pulldown":"Sırt","Seated Row":"Sırt","One-Arm Row":"Sırt","Face Pull":"Omuz","Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak","Leg Curl":"Bacak","Calf Raise":"Bacak","Incline Fly":"Göğüs","Neutral Press":"Göğüs","Pec Deck":"Göğüs","Close-Grip Press":"Triceps","Skull Crusher":"Triceps","Lateral Raise":"Omuz","Bent-Over Raise":"Omuz","Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps"};
 const DAILY_TARGET = { protein: 160, carbs: 250, fat: 70 };
 function analyzeProduct(product) {
@@ -175,18 +176,14 @@ function analyzeProduct(product) {
     return { score, tags, verdict };
 }
 function generateMealSuggestion(currentMacros) {
-    let remaining = {
-        protein: DAILY_TARGET.protein - currentMacros.p,
-        carbs: DAILY_TARGET.carbs - currentMacros.k,
-        fat: DAILY_TARGET.fat - currentMacros.f
-    };
+    let remaining = { protein: DAILY_TARGET.protein - currentMacros.p, carbs: DAILY_TARGET.carbs - currentMacros.k, fat: DAILY_TARGET.fat - currentMacros.f };
     let priority = "protein";
     if (remaining.carbs > remaining.protein) priority = "carbs";
     if (remaining.fat > remaining.protein && remaining.fat > remaining.carbs) priority = "fat";
     const foodSuggestions = {
-        protein: [{ name: "Tavuk Göğsü", protein: 31, carbs: 0, fat: 3.6 }, { name: "Ton Balığı", protein: 30, carbs: 0, fat: 1 }, { name: "Yumurta", protein: 13, carbs: 0.6, fat: 11 }, { name: "Whey Protein", protein: 80, carbs: 5, fat: 2 }],
+        protein: [{ name: "Tavuk Göğsü", protein: 31, carbs: 0, fat: 3.6 }, { name: "Ton Balığı", protein: 30, carbs: 0, fat: 1 }, { name: "Yumurta", protein: 13, carbs: 0.6, fat: 11 }],
         carbs: [{ name: "Pirinç", protein: 2.7, carbs: 28, fat: 0.3 }, { name: "Yulaf", protein: 13, carbs: 68, fat: 7 }, { name: "Muz", protein: 1.1, carbs: 23, fat: 0.3 }],
-        fat: [{ name: "Zeytinyağı", protein: 0, carbs: 0, fat: 100 }, { name: "Fındık", protein: 14, carbs: 17, fat: 54 }, { name: "Ceviz", protein: 15, carbs: 14, fat: 65 }]
+        fat: [{ name: "Zeytinyağı", protein: 0, carbs: 0, fat: 100 }, { name: "Fındık", protein: 14, carbs: 17, fat: 54 }]
     };
     let best = foodSuggestions[priority][0];
     let message = priority === "protein" ? "💪 Protein eksiğin var" : (priority === "carbs" ? "⚡ Karbonhidrat lazım" : "🥑 Yağ eksiğin var");
@@ -255,7 +252,8 @@ function saveBodyMeasurements(){ bodyMeasurements.weight=parseFloat(document.get
 function uploadPhoto(type){ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ if(type==="before") beforePhoto=ev.target.result; else afterPhoto=ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); showToast(`📸 ${type==="before"?"Önce":"Sonra"} fotoğraf eklendi`); }; reader.readAsDataURL(file); } }; inp.click(); }
 function updateBodyMeasurementsUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("photoContainer"); if(cont) cont.innerHTML=`<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`; let sliderDiv=document.getElementById("sliderContainer"); if(beforePhoto&&afterPhoto){ sliderDiv.style.display="block"; if(!document.getElementById("photoSlider")){ sliderDiv.innerHTML='<input type="range" id="photoSlider" min="0" max="100" value="0" step="1"><div style="display:flex; justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider=document.getElementById("photoSlider"); slider.addEventListener("input",(e)=>{ let val=e.target.value; let imgs=document.querySelectorAll("#photoContainer img"); if(imgs[0]) imgs[0].style.opacity=(100-val)/100; if(imgs[1]) imgs[1].style.opacity=val/100; }); } }else sliderDiv.style.display="none"; }
 
-// ========== KAMERA - STABİL, TEKRAR KULLANILABİLİR ==========
+// ========== ZXing KAMERA (STABİL) ==========
+let zxingReader = null;
 let currentBarcodeModal = null;
 function openBarcodeFoodModal() {
     if (currentBarcodeModal && currentBarcodeModal.parentNode) currentBarcodeModal.remove();
@@ -302,7 +300,7 @@ async function fetchAndShowProduct(barcode) {
             let analysis = analyzeProduct(productObj);
             let currentMacros = getCurrentMacrosForDay(currentDayOpen || "PAZARTESI");
             let aiSuggestion = generateMealSuggestion(currentMacros);
-            let suggestionHtml = `<div class="ai-analysis-box"><strong>🧠 AI Analiz</strong><br>${analysis.tags.map(t => `<span class="ai-tag">${t}</span>`).join(' ')}<br><strong>🎯 Karar:</strong> ${analysis.verdict}<hr style="margin:8px 0; border-color:#444;"><strong>🍽️ AI Yemek Önerisi</strong><br>${aiSuggestion.message}<br>Önerilen: <strong>${aiSuggestion.best.name}</strong> (${aiSuggestion.best.protein}g protein, ${aiSuggestion.best.carbs}g karb, ${aiSuggestion.best.fat}g yağ)<br>Kalan: Protein ${Math.max(0,aiSuggestion.remaining.protein)}g, Karb ${Math.max(0,aiSuggestion.remaining.carbs)}g, Yağ ${Math.max(0,aiSuggestion.remaining.fat)}g</div>`;
+            let suggestionHtml = `<div class="ai-analysis-box"><strong>🧠 AI Analiz</strong><br>${analysis.tags.map(t => `<span class="ai-tag">${t}</span>`).join(' ')}<br><strong>🎯 Karar:</strong> ${analysis.verdict}<hr><strong>🍽️ AI Yemek Önerisi</strong><br>${aiSuggestion.message}<br>Önerilen: <strong>${aiSuggestion.best.name}</strong><br>Kalan: Protein ${Math.max(0,aiSuggestion.remaining.protein)}g, Karb ${Math.max(0,aiSuggestion.remaining.carbs)}g, Yağ ${Math.max(0,aiSuggestion.remaining.fat)}g</div>`;
             let daysHtml = Object.keys(currentWeekData).map(day => `<option value="${day}">${day}</option>`).join('');
             resultDiv.innerHTML = `<div style="margin:12px 0; padding:12px; background:#2C2C2E; border-radius:16px;"><strong>${escapeHtml(name)}</strong><br>🔥 ${kcal} kcal &nbsp; 💪 ${prot}g &nbsp; 🌾 ${carb}g &nbsp; 🥑 ${fat}g</div>${suggestionHtml}<select id="targetDaySelect" class="input-number-only">${daysHtml}</select><button class="modal-btn confirm" style="margin-top:8px;" onclick="addProductToSelectedDay('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">Seçilen Güne Ekle</button><button class="modal-btn confirm" style="margin-top:8px; background:#e67e22;" onclick="addProductAndEat('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">✅ Yedim Ekle (Bugün)</button>`;
         } else {
@@ -353,8 +351,10 @@ function addProductAndEat(name, kcal, prot, carb, fat) {
     if (modal) modal.remove();
 }
 function openCameraBarcode() {
-    if (currentStream) { currentStream.getTracks().forEach(t => t.stop()); currentStream = null; }
-    if (quaggaActive) { Quagga.stop(); quaggaActive = false; }
+    if (zxingReader) {
+        zxingReader.reset();
+        zxingReader = null;
+    }
     let modal = document.querySelector(".modal");
     if (modal) modal.remove();
     let camModal = document.createElement("div");
@@ -362,33 +362,32 @@ function openCameraBarcode() {
     camModal.style.justifyContent = "center";
     camModal.style.alignItems = "center";
     camModal.style.flexDirection = "column";
-    camModal.innerHTML = `<div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;"><video id="barcodeCameraVideo" autoplay muted playsinline style="width:100%;"></video></div><button id="closeBarcodeCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white;">✖ KAPAT</button><div id="barcodeCameraStatus" style="color:#ffaa88; margin-top:12px;">📷 KAMERA BAŞLATILIYOR...</div>`;
+    camModal.innerHTML = `<div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;"><video id="zxingVideo" autoplay muted playsinline style="width:100%;"></video></div><button id="closeZxingCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white;">✖ KAPAT</button><div id="zxingStatus" style="color:#ffaa88; margin-top:12px;">📷 KAMERA BAŞLATILIYOR...</div>`;
     document.body.appendChild(camModal);
-    let video = document.getElementById("barcodeCameraVideo");
-    let statusDiv = document.getElementById("barcodeCameraStatus");
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-        .then(stream => {
-            video.srcObject = stream; currentStream = stream; video.play();
-            if (quaggaActive) Quagga.stop();
-            Quagga.init({ inputStream: { name: "LiveStream", type: "LiveStream", target: video }, decoder: { readers: ["ean_reader","ean_8_reader","upc_reader"] } }, err => {
-                if (err) { statusDiv.innerHTML = "HATA"; return; }
-                Quagga.start(); quaggaActive = true; statusDiv.innerHTML = "🎥 BARKODU GÖSTER...";
-            });
-            Quagga.onDetected(async (data) => {
-                let code = data.codeResult.code;
-                Quagga.stop(); quaggaActive = false;
-                if (currentStream) { currentStream.getTracks().forEach(t => t.stop()); currentStream = null; }
-                if (camModal) camModal.remove();
-                openBarcodeFoodModal();
-                let resultDiv = document.getElementById("barcodeResult");
-                if (resultDiv) resultDiv.innerHTML = "<div style='text-align:center;padding:20px;'>Ürün bilgileri getiriliyor...</div>";
-                await fetchAndShowProduct(code);
-            });
-        })
-        .catch(err => { statusDiv.innerHTML = "❌ KAMERA İZNİ GEREKLİ"; setTimeout(() => { if (camModal) camModal.remove(); }, 2000); });
-    document.getElementById("closeBarcodeCameraBtn").onclick = () => {
-        if (quaggaActive) Quagga.stop();
-        if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+    let video = document.getElementById("zxingVideo");
+    let statusDiv = document.getElementById("zxingStatus");
+    const codeReader = new ZXing.BrowserMultiFormatReader();
+    zxingReader = codeReader;
+    codeReader.decodeFromVideoDevice(null, video, (result, err) => {
+        if (result) {
+            let code = result.getText();
+            codeReader.reset();
+            zxingReader = null;
+            if (camModal) camModal.remove();
+            openBarcodeFoodModal();
+            let resultDiv = document.getElementById("barcodeResult");
+            if (resultDiv) resultDiv.innerHTML = "<div style='text-align:center;padding:20px;'>Ürün bilgileri getiriliyor...</div>";
+            fetchAndShowProduct(code);
+        }
+        if (err && !err.message.includes("NotFoundException")) {
+            statusDiv.innerHTML = "❌ KAMERA HATASI";
+        }
+    }).catch(err => {
+        statusDiv.innerHTML = "❌ KAMERA İZNİ GEREKLİ";
+        setTimeout(() => { if (camModal) camModal.remove(); }, 2000);
+    });
+    document.getElementById("closeZxingCameraBtn").onclick = () => {
+        if (zxingReader) { zxingReader.reset(); zxingReader = null; }
         if (camModal) camModal.remove();
     };
 }
