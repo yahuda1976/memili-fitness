@@ -3,25 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Son Düzeltmeler</title>
+    <title>Fitness Pro - Kameralı Barkod Düzeltildi</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 120px; font-weight: 500; }
         .app-header { background: #000; padding: 16px 20px; text-align: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
         .app-header h1 { font-size: 1.8rem; background: linear-gradient(135deg,#007aff,#5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        /* ANA MENÜ KARTLARI - KÜÇÜLTÜLMÜŞ, KALIN YAZI */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; max-width: 550px; margin: 0 auto; }
-        .card { background: #1C1C1E; border-radius: 16px; padding: 16px 8px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.1s; }
+        .card { background: #1C1C1E; border-radius: 16px; padding: 16px 8px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
         .card:active { transform: scale(0.97); background: #2C2C2E; }
-        /* Gün isimleri - çok kalın, dolgun, beyaz */
         .card h3 { font-size: 1.4rem; font-weight: 900; color: #ffffff; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
         .card.settings-card h3 { color: #007AFF; }
         .progress-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin-top: 10px; }
         .progress-fill { height: 100%; background: #34C759; transition: width 0.3s; }
         small { font-size: 0.7rem; color: #8E8E93; display: block; margin-top: 6px; }
-        /* GÜN İÇİ GÖRÜNÜM - BUTONLAR SABİT DEĞİL, AKIŞKAN */
         .day-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 1000; overflow-y: auto; padding-bottom: 120px; }
-        .day-header { background: #000; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; /* sticky kaldırıldı */ border-bottom: 0.5px solid rgba(255,255,255,0.1); }
+        .day-header { background: #000; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
         .back-btn, .add-item-btn { background: #007AFF; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 1rem; color: white; cursor: pointer; }
         .day-title { font-size: 1.4rem; font-weight: 700; color: #fff; }
         .item, .set { background: #1C1C1E; margin: 10px 16px; padding: 14px; border-radius: 14px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.1); }
@@ -31,7 +28,6 @@
         .set span, .item span { font-weight: 600; flex: 1; color: #fff; }
         .ex-title { background: #1C1C1E; border-radius: 12px; padding: 12px 16px; margin: 16px 16px 8px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(255,255,255,0.1); }
         .ex-title > span { flex: 1; font-weight: 600; color: #34C759; font-size: 1.1rem; }
-        /* 8 BUTON */
         .ex-title-buttons { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; width: 100%; margin-top: 8px; }
         .ex-title-buttons button { background: #2C2C2E; border: 1px solid rgba(255,255,255,0.2); padding: 8px 0; border-radius: 40px; color: #FFCC33; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
         .move-buttons { display: flex; flex-direction: column; gap: 4px; }
@@ -67,9 +63,8 @@
         .macro-item span { font-size: 1.2rem; display: block; }
         .macro-item b { display: block; font-size: 1rem; font-weight: 700; margin: 2px 0; color: #FFF; }
         .macro-item small { color: #8E8E93; font-size: 0.6rem; text-transform: uppercase; }
-        /* KAS KARTLARI */
         .recovery-panel { background: #1C1C1E; border-radius: 14px; padding: 12px; margin: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
-        .recovery-item { flex: 1; text-align: center; padding: 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; transition: 0.2s; }
+        .recovery-item { flex: 1; text-align: center; padding: 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
         .kas-red { background: rgba(255,59,48,0.2); color: #FF3B30; border-left: 4px solid #FF3B30; }
         .kas-orange { background: rgba(255,149,0,0.2); color: #FF9500; border-left: 4px solid #FF9500; }
         .kas-green { background: rgba(52,199,89,0.2); color: #34C759; border-left: 4px solid #34C759; }
@@ -85,7 +80,6 @@
         .before-after { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
         .before-after div { text-align:center; background:#2C2C2E; border-radius:14px; padding:12px; width:45%; }
         .before-after img { max-width:100%; border-radius:12px; margin-top:8px; }
-        /* HAFTA GEÇMİŞİ BUTONU - ORTALI */
         .full-width-bottom-btn { display: block; width: 90%; max-width: 400px; margin: 20px auto 20px auto; background: #34C759; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; }
         .full-width-bottom-btn:active { transform: scale(0.97); }
     </style>
@@ -97,11 +91,7 @@
     <div id="homeGrid" class="grid"></div>
     <button class="full-width-bottom-btn" onclick="openWeekHistory()">📅 HAFTA GEÇMİŞİ</button>
     <div id="dayView" class="day-view hidden">
-        <div class="day-header">
-            <button class="back-btn" onclick="closeDay()">← Geri</button>
-            <div class="day-title" id="dayTitle"></div>
-            <button class="add-item-btn" onclick="showAddItemToDay()">+ Ekle</button>
-        </div>
+        <div class="day-header"><button class="back-btn" onclick="closeDay()">← Geri</button><div class="day-title" id="dayTitle"></div><button class="add-item-btn" onclick="showAddItemToDay()">+ Ekle</button></div>
         <div id="recoveryPanel" class="recovery-panel"></div>
         <div id="macroBar" class="macro-bar"></div>
         <div id="dayItems"></div>
@@ -218,12 +208,146 @@ function restoreData(){ let inp=document.createElement("input"); inp.type="file"
 function saveBodyMeasurements(){ bodyMeasurements.weight=parseFloat(document.getElementById("bodyWeight").value)||0; bodyMeasurements.waist=parseFloat(document.getElementById("bodyWaist").value)||0; bodyMeasurements.chest=parseFloat(document.getElementById("bodyChest").value)||0; bodyMeasurements.arm=parseFloat(document.getElementById("bodyArm").value)||0; bodyMeasurements.leg=parseFloat(document.getElementById("bodyLeg").value)||0; saveDataToLocal(); showToast("Ölçüler kaydedildi"); }
 function uploadPhoto(type){ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ if(type==="before") beforePhoto=ev.target.result; else afterPhoto=ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); showToast(`📸 ${type==="before"?"Önce":"Sonra"} fotoğraf eklendi`); }; reader.readAsDataURL(file); } }; inp.click(); }
 function updateBodyMeasurementsUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("photoContainer"); if(cont) cont.innerHTML=`<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`; let sliderDiv=document.getElementById("sliderContainer"); if(beforePhoto&&afterPhoto){ sliderDiv.style.display="block"; if(!document.getElementById("photoSlider")){ sliderDiv.innerHTML='<input type="range" id="photoSlider" min="0" max="100" value="0" step="1"><div style="display:flex; justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider=document.getElementById("photoSlider"); slider.addEventListener("input",(e)=>{ let val=e.target.value; let imgs=document.querySelectorAll("#photoContainer img"); if(imgs[0]) imgs[0].style.opacity=(100-val)/100; if(imgs[1]) imgs[1].style.opacity=val/100; }); } }else sliderDiv.style.display="none"; }
-function openBarcodeFoodModal(){ let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📷 Barkod ile Besin Ekle</h3><div class="modal-buttons"><button class="modal-btn confirm" onclick="openCameraBarcode()">📷 KAMERA İLE OKU</button><button class="modal-btn cancel" onclick="showManualBarcodeInput()">✏️ MANUEL GİRİŞ</button></div><div id="barcodeManualArea" style="display:none; margin-top:12px;"><input type="text" id="manualBarcode" placeholder="Barkod numarası"><button class="modal-btn confirm" onclick="fetchManualBarcode()">ARA</button></div><div id="barcodeResult"></div><div class="modal-buttons"><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button></div></div>`; document.body.appendChild(modal); }
-function showManualBarcodeInput(){ document.getElementById("barcodeManualArea").style.display="block"; }
-async function fetchManualBarcode(){ let barcode=document.getElementById("manualBarcode").value.trim(); if(!barcode){ showToast("Barkod girin"); return; } await fetchAndShowProduct(barcode); }
-async function fetchAndShowProduct(barcode){ try{ let res=await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let data=await res.json(); let resultDiv=document.getElementById("barcodeResult"); if(data.status===1){ let p=data.product; let name=p.product_name||"Bilinmiyor"; let nut=p.nutriments||{}; let kcal=nut["energy-kcal"]||0; let prot=nut.proteins||0; let carb=nut.carbohydrates||0; let fat=nut.fat||0; let daysHtml=Object.keys(currentWeekData).map(day=>`<option value="${day}">${day}</option>`).join(''); resultDiv.innerHTML=`<div style="margin:12px 0; padding:12px; background:#2C2C2E; border-radius:16px;"><strong>${escapeHtml(name)}</strong><br>🔥 ${kcal} kcal &nbsp; 💪 ${prot}g &nbsp; 🌾 ${carb}g &nbsp; 🥑 ${fat}g</div><select id="targetDaySelect" class="input-number-only">${daysHtml}</select><button class="modal-btn confirm" onclick="addProductToSelectedDay('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">Seçilen Güne Ekle</button>`; }else resultDiv.innerHTML="❌ Ürün bulunamadı"; }catch(e){ document.getElementById("barcodeResult").innerHTML="Hata oluştu"; } }
-function addProductToSelectedDay(name,kcal,prot,carb,fat){ let selectedDay=document.getElementById("targetDaySelect").value; if(!selectedDay||!currentWeekData[selectedDay]){ showToast("Geçerli gün seçin"); return; } let newItem=`${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`; currentWeekData[selectedDay].push(newItem); saveDataToLocal(); if(currentDayOpen===selectedDay){ renderDayItems(selectedDay); updateDailyMacros(); } showToast(`${name} ${selectedDay} gününe eklendi`); document.querySelector(".modal").remove(); }
-function openCameraBarcode(){ let modal=document.querySelector(".modal"); if(modal) modal.remove(); let camModal=document.createElement("div"); camModal.className="modal"; camModal.style.justifyContent="center"; camModal.style.alignItems="center"; camModal.style.flexDirection="column"; camModal.innerHTML=`<div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;"><video id="barcodeCameraVideo" autoplay muted playsinline style="width:100%;"></video></div><button id="closeBarcodeCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white;">✖ KAPAT</button><div id="barcodeCameraStatus" style="color:#ffaa88; margin-top:12px;">📷 KAMERA BAŞLATILIYOR...</div>`; document.body.appendChild(camModal); let video=document.getElementById("barcodeCameraVideo"); let statusDiv=document.getElementById("barcodeCameraStatus"); navigator.mediaDevices.getUserMedia({ video:{facingMode:"environment"} }).then(stream=>{ video.srcObject=stream; currentStream=stream; video.play(); if(quaggaActive) Quagga.stop(); Quagga.init({ inputStream:{ name:"LiveStream", type:"LiveStream", target:video }, decoder:{ readers:["ean_reader","ean_8_reader","upc_reader"] } }, err=>{ if(err){ statusDiv.innerHTML="HATA"; return; } Quagga.start(); quaggaActive=true; statusDiv.innerHTML="🎥 BARKODU GÖSTER..."; }); Quagga.onDetected(async (data)=>{ let code=data.codeResult.code; Quagga.stop(); quaggaActive=false; if(currentStream) currentStream.getTracks().forEach(t=>t.stop()); camModal.remove(); await fetchAndShowProduct(code); }); }).catch(err=>{ statusDiv.innerHTML="❌ KAMERA İZNİ GEREKLİ"; setTimeout(()=>camModal.remove(),2000); }); document.getElementById("closeBarcodeCameraBtn").onclick=()=>{ if(quaggaActive) Quagga.stop(); if(currentStream) currentStream.getTracks().forEach(t=>t.stop()); camModal.remove(); }; }
+
+// ========== DÜZELTİLMİŞ BARKOD KAMERASI ==========
+function openBarcodeFoodModal() {
+    let modal = document.createElement("div");
+    modal.className = "modal";
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>📷 Barkod ile Besin Ekle</h3>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" onclick="openCameraBarcode()">📷 KAMERA İLE OKU</button>
+                <button class="modal-btn cancel" onclick="showManualBarcodeInput()">✏️ MANUEL GİRİŞ</button>
+            </div>
+            <div id="barcodeManualArea" style="display:none; margin-top:12px;">
+                <input type="text" id="manualBarcode" placeholder="Barkod numarası">
+                <button class="modal-btn confirm" onclick="fetchManualBarcode()">ARA</button>
+            </div>
+            <div id="barcodeResult"></div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+function showManualBarcodeInput() { document.getElementById("barcodeManualArea").style.display = "block"; }
+async function fetchManualBarcode() {
+    let barcode = document.getElementById("manualBarcode").value.trim();
+    if (!barcode) { showToast("Barkod girin"); return; }
+    await fetchAndShowProduct(barcode);
+}
+async function fetchAndShowProduct(barcode) {
+    try {
+        let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+        let data = await res.json();
+        let resultDiv = document.getElementById("barcodeResult");
+        if (data.status === 1) {
+            let p = data.product;
+            let name = p.product_name || "Bilinmiyor";
+            let nut = p.nutriments || {};
+            // Farklı anahtar isimlerini dene
+            let kcal = nut["energy-kcal"] || nut["energy_value"] || 0;
+            let prot = nut.proteins || nut["proteins_value"] || 0;
+            let carb = nut.carbohydrates || nut["carbohydrates_value"] || 0;
+            let fat = nut.fat || nut["fat_value"] || 0;
+            // Eğer tüm değerler sıfırsa veya ürün adı "Bilinmiyor" ise uyarı ver
+            if (kcal === 0 && prot === 0 && carb === 0 && fat === 0) {
+                resultDiv.innerHTML = `<div style="margin:12px 0; padding:12px; background:#c0392b; border-radius:16px;">
+                    ⚠️ "${name}" ürünü için besin değeri bulunamadı.<br>Lütfen manuel giriş yapın.
+                </div>`;
+                return;
+            }
+            let daysHtml = Object.keys(currentWeekData).map(day => `<option value="${day}">${day}</option>`).join('');
+            resultDiv.innerHTML = `
+                <div style="margin:12px 0; padding:12px; background:#2C2C2E; border-radius:16px;">
+                    <strong>${escapeHtml(name)}</strong><br>
+                    🔥 ${kcal} kcal &nbsp; 💪 ${prot}g &nbsp; 🌾 ${carb}g &nbsp; 🥑 ${fat}g
+                </div>
+                <select id="targetDaySelect" class="input-number-only">${daysHtml}</select>
+                <button class="modal-btn confirm" onclick="addProductToSelectedDay('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">Seçilen Güne Ekle</button>
+            `;
+        } else {
+            resultDiv.innerHTML = `<div style="margin:12px 0; padding:12px; background:#c0392b; border-radius:16px;">❌ Ürün bulunamadı. Manuel giriş yapmayı deneyin.</div>`;
+        }
+    } catch(e) {
+        document.getElementById("barcodeResult").innerHTML = `<div style="margin:12px 0; padding:12px; background:#c0392b; border-radius:16px;">Hata oluştu. Lütfen manuel giriş yapın.</div>`;
+    }
+}
+function addProductToSelectedDay(name, kcal, prot, carb, fat) {
+    let selectedDay = document.getElementById("targetDaySelect").value;
+    if (!selectedDay || !currentWeekData[selectedDay]) {
+        showToast("Geçerli gün seçin");
+        return;
+    }
+    let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`;
+    currentWeekData[selectedDay].push(newItem);
+    saveDataToLocal();
+    if (currentDayOpen === selectedDay) {
+        renderDayItems(selectedDay);
+        updateDailyMacros();
+    }
+    showToast(`${name} ${selectedDay} gününe eklendi`);
+    document.querySelector(".modal").remove();
+}
+function openCameraBarcode() {
+    let modal = document.querySelector(".modal");
+    if (modal) modal.remove();
+
+    let camModal = document.createElement("div");
+    camModal.className = "modal";
+    camModal.style.justifyContent = "center";
+    camModal.style.alignItems = "center";
+    camModal.style.flexDirection = "column";
+    camModal.innerHTML = `
+        <div style="width:90%; max-width:500px; background:#000; border-radius:40px; overflow:hidden;">
+            <video id="barcodeCameraVideo" autoplay muted playsinline style="width:100%;"></video>
+        </div>
+        <button id="closeBarcodeCameraBtn" style="background:#c0392b; margin-top:20px; padding:12px 25px; border-radius:40px; color:white;">✖ KAPAT</button>
+        <div id="barcodeCameraStatus" style="color:#ffaa88; margin-top:12px;">📷 KAMERA BAŞLATILIYOR...</div>
+    `;
+    document.body.appendChild(camModal);
+
+    let video = document.getElementById("barcodeCameraVideo");
+    let statusDiv = document.getElementById("barcodeCameraStatus");
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then(stream => {
+            video.srcObject = stream;
+            currentStream = stream;
+            video.play();
+            if (quaggaActive) Quagga.stop();
+            Quagga.init({
+                inputStream: { name: "LiveStream", type: "LiveStream", target: video },
+                decoder: { readers: ["ean_reader", "ean_8_reader", "upc_reader"] }
+            }, err => {
+                if (err) { statusDiv.innerHTML = "HATA"; return; }
+                Quagga.start();
+                quaggaActive = true;
+                statusDiv.innerHTML = "🎥 BARKODU GÖSTER...";
+            });
+            Quagga.onDetected(async (data) => {
+                let code = data.codeResult.code;
+                // Hemen durdur ve stream'i kapat
+                Quagga.stop();
+                quaggaActive = false;
+                if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+                camModal.remove();
+                await fetchAndShowProduct(code);
+            });
+        })
+        .catch(err => {
+            statusDiv.innerHTML = "❌ KAMERA İZNİ GEREKLİ";
+            setTimeout(() => camModal.remove(), 2000);
+        });
+    document.getElementById("closeBarcodeCameraBtn").onclick = () => {
+        if (quaggaActive) Quagga.stop();
+        if (currentStream) currentStream.getTracks().forEach(t => t.stop());
+        camModal.remove();
+    };
+}
+
 function showToast(msg){ let t=document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
 function playBeep(){ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); o.frequency.value=880; let g=ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); }catch(e){} }
 function stopTimer(){ if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
