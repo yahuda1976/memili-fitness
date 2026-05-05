@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Kameralı Barkod Düzeltildi</title>
+    <title>Fitness Pro - AI Analiz ve Yemek Önerisi</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 120px; font-weight: 500; }
@@ -42,7 +42,7 @@
         .score-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; margin-top: 6px; overflow: hidden; }
         .score-fill { height: 100%; background: #34C759; }
         .modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); backdrop-filter: blur(8px); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; }
-        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:500px; width:100%; color:white; max-height:80vh; overflow-y:auto; }
+        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:550px; width:100%; color:white; max-height:80vh; overflow-y:auto; }
         .modal-content input, .modal-content select, .modal-content textarea { width:100%; padding:12px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; }
         .modal-buttons { display:flex; gap:12px; margin-top:20px; }
         .modal-btn { flex:1; padding:12px; border:none; border-radius:40px; font-weight:600; cursor:pointer; }
@@ -82,6 +82,8 @@
         .before-after img { max-width:100%; border-radius:12px; margin-top:8px; }
         .full-width-bottom-btn { display: block; width: 90%; max-width: 400px; margin: 20px auto 20px auto; background: #34C759; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; }
         .full-width-bottom-btn:active { transform: scale(0.97); }
+        .ai-analysis-box { background: #2C2C2E; border-radius: 16px; padding: 12px; margin: 12px 0; border-left: 5px solid #FFCC33; }
+        .ai-tag { display: inline-block; background: #1C1C1E; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; margin: 4px 4px 0 0; }
     </style>
     <script src="https://unpkg.com/@ericblade/quagga2@1.8.2/dist/quagga.min.js"></script>
 </head>
@@ -158,6 +160,53 @@ const offMeals=["07:00 Yulaf + sut + Skyr | Kalori: 350 | Protein: 25 g | Karb: 
 const workoutPlans={ "PAZARTESI":{ title:"🏋️ AĞIR GÖĞÜS + TRICEPS", muscleGroups:[{ name:"🟥 GÖĞÜS", exercises:[{ ex:"Incline Dumbbell Press", sets:4 },{ ex:"Flat Dumbbell Press", sets:4 },{ ex:"Cable Crossover", sets:3 },{ ex:"Chest Press", sets:3 }] },{ name:"🔥 TRICEPS", exercises:[{ ex:"Pushdown", sets:3 },{ ex:"Overhead Extension", sets:3 }] }] },"SALI":{ title:"🏋️ SIRT + TRAPEZ", muscleGroups:[{ name:"🔵 SIRT", exercises:[{ ex:"Lat Pulldown", sets:4 },{ ex:"Seated Row", sets:3 },{ ex:"One-Arm Row", sets:3 },{ ex:"Face Pull", sets:3 },{ ex:"Shrug", sets:4 },{ ex:"Rack Pull", sets:3 }] }] },"CARSAMBA":{ title:"🏋️ BACAK", muscleGroups:[{ name:"🟦 BACAK", exercises:[{ ex:"Squat", sets:4 },{ ex:"Deadlift", sets:3 },{ ex:"Leg Extension", sets:3 },{ ex:"Leg Curl", sets:3 },{ ex:"Calf Raise", sets:4 }] }] },"PERSEMBE":{ title:"🏋️ GÖĞÜS 2 + TRICEPS", muscleGroups:[{ name:"🟪 GÖĞÜS", exercises:[{ ex:"Incline Fly", sets:3 },{ ex:"Neutral Press", sets:3 },{ ex:"Pec Deck", sets:3 },{ ex:"Chest Press", sets:3 }] },{ name:"🔥 TRICEPS", exercises:[{ ex:"Close-Grip Press", sets:3 },{ ex:"Skull Crusher", sets:3 }] }] },"CUMA":{ title:"🏋️ OMUZ + BICEPS", muscleGroups:[{ name:"🟩 OMUZ", exercises:[{ ex:"Lateral Raise", sets:4 },{ ex:"Bent-Over Raise", sets:3 },{ ex:"Cable Raise", sets:3 },{ ex:"Face Pull", sets:3 }] },{ name:"💪 BICEPS", exercises:[{ ex:"Barbell Curl", sets:3 },{ ex:"Incline Curl", sets:3 },{ ex:"Hammer Curl", sets:3 }] }] } };
 let currentWeekData={}, weekArchive={}, currentWeekKey=null, doneState={}, waterIntake={}, totalSetCount=0, timerInterval=null, currentDayOpen=null, currentSound=null, soundStopFlag=false, setLogs={}, muscleLastTrained={}, supplements=[{ name:"Omega-3", time:"Sabah" },{ name:"Whey", time:"Antrenman sonrası" },{ name:"Kreatin", time:"Antrenman öncesi" }], quaggaActive=false, currentStream=null, bodyMeasurements={ weight:0, waist:0, chest:0, arm:0, leg:0 }, beforePhoto=null, afterPhoto=null;
 const muscleGroupMap={"Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs","Pushdown":"Triceps","Overhead Extension":"Triceps","Lat Pulldown":"Sırt","Seated Row":"Sırt","One-Arm Row":"Sırt","Face Pull":"Omuz","Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak","Leg Curl":"Bacak","Calf Raise":"Bacak","Incline Fly":"Göğüs","Neutral Press":"Göğüs","Pec Deck":"Göğüs","Close-Grip Press":"Triceps","Skull Crusher":"Triceps","Lateral Raise":"Omuz","Bent-Over Raise":"Omuz","Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps"};
+const DAILY_TARGET = { protein: 160, carbs: 250, fat: 70 };
+// AI ANALİZ ve ÖNERİ FONKSİYONLARI
+function analyzeProduct(product) {
+    let score = 0;
+    let tags = [];
+    if (product.protein >= 10) { score += 2; tags.push("💪 Yüksek protein"); }
+    else if (product.protein >= 5) { score += 1; tags.push("👍 Orta protein"); }
+    else tags.push("❌ Düşük protein");
+    if (product.carbs > 20) tags.push("⚡ Yüksek karbonhidrat");
+    else tags.push("🥗 Düşük karbonhidrat");
+    if (product.fat > 15) { score -= 1; tags.push("⚠️ Yüksek yağ"); }
+    else { score += 1; tags.push("👌 Dengeli yağ"); }
+    let verdict = score >= 3 ? "💪 SPORCU ÜRÜNÜ" : (score >= 1 ? "👌 İdare eder" : "❌ Çöp ürün");
+    return { score, tags, verdict };
+}
+function generateMealSuggestion(currentMacros) {
+    let remaining = {
+        protein: DAILY_TARGET.protein - currentMacros.p,
+        carbs: DAILY_TARGET.carbs - currentMacros.k,
+        fat: DAILY_TARGET.fat - currentMacros.f
+    };
+    let priority = "protein";
+    if (remaining.carbs > remaining.protein) priority = "carbs";
+    if (remaining.fat > remaining.protein && remaining.fat > remaining.carbs) priority = "fat";
+    // Basit besin veritabanı (100g başına yaklaşık makro)
+    const foodSuggestions = {
+        protein: [{ name: "Tavuk Göğsü", protein: 31, carbs: 0, fat: 3.6 }, { name: "Ton Balığı", protein: 30, carbs: 0, fat: 1 }, { name: "Yumurta", protein: 13, carbs: 0.6, fat: 11 }, { name: "Whey Protein", protein: 80, carbs: 5, fat: 2 }],
+        carbs: [{ name: "Pirinç", protein: 2.7, carbs: 28, fat: 0.3 }, { name: "Yulaf", protein: 13, carbs: 68, fat: 7 }, { name: "Muz", protein: 1.1, carbs: 23, fat: 0.3 }],
+        fat: [{ name: "Zeytinyağı", protein: 0, carbs: 0, fat: 100 }, { name: "Fındık", protein: 14, carbs: 17, fat: 54 }, { name: "Ceviz", protein: 15, carbs: 14, fat: 65 }]
+    };
+    let best = foodSuggestions[priority][0];
+    let message = priority === "protein" ? "💪 Protein eksiğin var" : (priority === "carbs" ? "⚡ Karbonhidrat lazım" : "🥑 Yağ eksiğin var");
+    return { best, message, remaining };
+}
+function getCurrentMacrosForDay(day) {
+    let total = { cal:0, p:0, k:0, f:0 };
+    let items = currentWeekData[day];
+    if (items) items.forEach((item,idx)=>{
+        let key = `${day}|meal|${idx}`;
+        if (doneState[key] && typeof item === "string" && !item.includes("💧")) {
+            let m = parseFoodMacros(item);
+            total.p += m.p; total.k += m.k; total.f += m.f;
+        }
+    });
+    return total;
+}
+// ========== HAFTA ve VERİ YÖNETİMİ ==========
 function getCurrentWeekKey(){ let now=new Date(); let startOfYear=new Date(now.getFullYear(),0,1); let days=Math.floor((now-startOfYear)/(24*60*60*1000)); let week=Math.ceil((days+startOfYear.getDay()+1)/7); return `${now.getFullYear()}-W${week}`; }
 function initNewWeek(){ let newKey=getCurrentWeekKey(); if(!weekArchive[newKey]){ let weekData={}, days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"], planOrder=[plan1Meals,plan1Meals,plan1Meals,plan2Meals,plan1Meals,offMeals,offMeals]; for(let i=0;i<days.length;i++){ let day=days[i], meals=planOrder[i], workout=workoutPlans[day], dayItems=[]; for(let j=0;j<meals.length;j++){ dayItems.push(meals[j]); if(!meals[j].includes("23:00")) dayItems.push("💧 1 bardak su"); if(meals[j].includes("18:15")&&workout){ dayItems.push(workout.title); for(let g of workout.muscleGroups){ dayItems.push(g.name); for(let ex of g.exercises) dayItems.push({ex:ex.ex, sets:ex.sets, link:"", notes:""}); } } } dayItems.push("💧 4 bardak su"); weekData[day]=dayItems; } weekArchive[newKey]={ weekData:weekData, weekStartDate:new Date().toISOString() }; } currentWeekKey=newKey; currentWeekData=weekArchive[currentWeekKey].weekData; doneState={}; waterIntake={}; totalSetCount=0; setLogs={}; muscleLastTrained={}; saveDataToLocal(); }
 function saveDataToLocal(){ let archiveToSave={}; for(let k in weekArchive) archiveToSave[k]={ weekData:weekArchive[k].weekData, weekStartDate:weekArchive[k].weekStartDate }; localStorage.setItem("weekArchive",JSON.stringify(archiveToSave)); localStorage.setItem("currentWeekKey",currentWeekKey); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("totalSetCount",totalSetCount); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("supplements",JSON.stringify(supplements)); localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); if(beforePhoto) localStorage.setItem("beforePhoto",beforePhoto); if(afterPhoto) localStorage.setItem("afterPhoto",afterPhoto); }
@@ -209,7 +258,7 @@ function saveBodyMeasurements(){ bodyMeasurements.weight=parseFloat(document.get
 function uploadPhoto(type){ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ if(type==="before") beforePhoto=ev.target.result; else afterPhoto=ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); showToast(`📸 ${type==="before"?"Önce":"Sonra"} fotoğraf eklendi`); }; reader.readAsDataURL(file); } }; inp.click(); }
 function updateBodyMeasurementsUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("photoContainer"); if(cont) cont.innerHTML=`<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`; let sliderDiv=document.getElementById("sliderContainer"); if(beforePhoto&&afterPhoto){ sliderDiv.style.display="block"; if(!document.getElementById("photoSlider")){ sliderDiv.innerHTML='<input type="range" id="photoSlider" min="0" max="100" value="0" step="1"><div style="display:flex; justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider=document.getElementById("photoSlider"); slider.addEventListener("input",(e)=>{ let val=e.target.value; let imgs=document.querySelectorAll("#photoContainer img"); if(imgs[0]) imgs[0].style.opacity=(100-val)/100; if(imgs[1]) imgs[1].style.opacity=val/100; }); } }else sliderDiv.style.display="none"; }
 
-// ========== DÜZELTİLMİŞ BARKOD KAMERASI ==========
+// ========== DÜZELTİLMİŞ BARKOD KAMERA + AI ANALİZ ==========
 function openBarcodeFoodModal() {
     let modal = document.createElement("div");
     modal.className = "modal";
@@ -252,21 +301,34 @@ async function fetchAndShowProduct(barcode) {
             let prot = nut.proteins || nut["proteins_value"] || 0;
             let carb = nut.carbohydrates || nut["carbohydrates_value"] || 0;
             let fat = nut.fat || nut["fat_value"] || 0;
-            // Eğer tüm değerler sıfırsa veya ürün adı "Bilinmiyor" ise uyarı ver
-            if (kcal === 0 && prot === 0 && carb === 0 && fat === 0) {
-                resultDiv.innerHTML = `<div style="margin:12px 0; padding:12px; background:#c0392b; border-radius:16px;">
-                    ⚠️ "${name}" ürünü için besin değeri bulunamadı.<br>Lütfen manuel giriş yapın.
-                </div>`;
-                return;
-            }
+            let productObj = { name: name, calories: kcal, protein: prot, carbs: carb, fat: fat };
+            // AI ANALİZ
+            let analysis = analyzeProduct(productObj);
+            // Günlük makro toplamını al (mevcut gün için)
+            let currentMacros = getCurrentMacrosForDay(currentDayOpen || "PAZARTESI");
+            let aiSuggestion = generateMealSuggestion(currentMacros);
+            let suggestionHtml = `
+                <div class="ai-analysis-box">
+                    <strong>🧠 AI Analiz</strong><br>
+                    ${analysis.tags.map(t => `<span class="ai-tag">${t}</span>`).join(' ')}<br>
+                    <strong>🎯 Karar:</strong> ${analysis.verdict}
+                    <hr style="margin:8px 0; border-color:#444;">
+                    <strong>🍽️ AI Yemek Önerisi</strong><br>
+                    ${aiSuggestion.message}<br>
+                    Önerilen: <strong>${aiSuggestion.best.name}</strong> (${aiSuggestion.best.protein}g protein, ${aiSuggestion.best.carbs}g karb, ${aiSuggestion.best.fat}g yağ)<br>
+                    Kalan: Protein ${Math.max(0,aiSuggestion.remaining.protein)}g, Karb ${Math.max(0,aiSuggestion.remaining.carbs)}g, Yağ ${Math.max(0,aiSuggestion.remaining.fat)}g
+                </div>
+            `;
             let daysHtml = Object.keys(currentWeekData).map(day => `<option value="${day}">${day}</option>`).join('');
             resultDiv.innerHTML = `
                 <div style="margin:12px 0; padding:12px; background:#2C2C2E; border-radius:16px;">
                     <strong>${escapeHtml(name)}</strong><br>
                     🔥 ${kcal} kcal &nbsp; 💪 ${prot}g &nbsp; 🌾 ${carb}g &nbsp; 🥑 ${fat}g
                 </div>
+                ${suggestionHtml}
                 <select id="targetDaySelect" class="input-number-only">${daysHtml}</select>
-                <button class="modal-btn confirm" onclick="addProductToSelectedDay('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">Seçilen Güne Ekle</button>
+                <button class="modal-btn confirm" style="margin-top:8px;" onclick="addProductToSelectedDay('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">Seçilen Güne Ekle</button>
+                <button class="modal-btn confirm" style="margin-top:8px; background:#e67e22;" onclick="addProductAndEat('${escapeHtml(name)}', ${kcal}, ${prot}, ${carb}, ${fat})">✅ Yedim Ekle (Bugün)</button>
             `;
         } else {
             resultDiv.innerHTML = `<div style="margin:12px 0; padding:12px; background:#c0392b; border-radius:16px;">❌ Ürün bulunamadı. Manuel giriş yapmayı deneyin.</div>`;
@@ -289,6 +351,24 @@ function addProductToSelectedDay(name, kcal, prot, carb, fat) {
         updateDailyMacros();
     }
     showToast(`${name} ${selectedDay} gününe eklendi`);
+    document.querySelector(".modal").remove();
+}
+// Yedim Ekle (direkt bugünün yemeklerine ekler ve işaretler)
+function addProductAndEat(name, kcal, prot, carb, fat) {
+    let targetDay = currentDayOpen || "PAZARTESI";
+    let newItem = `${name} | Kalori: ${kcal} | Protein: ${prot} g | Karb: ${carb} g | Yag: ${fat} g`;
+    currentWeekData[targetDay].push(newItem);
+    // Otomatik işaretle (tamamlanmış say)
+    let newIdx = currentWeekData[targetDay].length - 1;
+    let key = `${targetDay}|meal|${newIdx}`;
+    doneState[key] = true;
+    // Makro toplamını güncelle (işaretli olduğu için sonraki updateDailyMacros da onu sayar)
+    saveDataToLocal();
+    if (currentDayOpen === targetDay) {
+        renderDayItems(targetDay);
+        updateDailyMacros();
+    }
+    showToast(`✅ ${name} yendi! Makrolar eklendi.`);
     document.querySelector(".modal").remove();
 }
 function openCameraBarcode() {
@@ -329,7 +409,6 @@ function openCameraBarcode() {
             });
             Quagga.onDetected(async (data) => {
                 let code = data.codeResult.code;
-                // Hemen durdur ve stream'i kapat
                 Quagga.stop();
                 quaggaActive = false;
                 if (currentStream) currentStream.getTracks().forEach(t => t.stop());
