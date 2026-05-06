@@ -8,19 +8,20 @@
     </script>
     <style>
         :root {
-            --green: #34C759;
-            --green-bright: #2ecc51;
+            --green: #2ecc51;
+            --green-bright: #34C759;
             --red: #FF3B30;
-            --yellow: #FF9500;
+            --yellow: #FFCC00;
+            --orange: #FF9500;
             --blue: #007AFF;
             --bg: #000;
             --card: #1C1C1E;
             --card2: #2C2C2E;
             --text: #fff;
             --text2: #8E8E93;
-            --radius: 16px;
-            --radius-sm: 12px;
-            --radius-full: 25px;
+            --radius: 14px;
+            --radius-sm: 10px;
+            --radius-full: 22px;
         }
 
         * {
@@ -33,17 +34,17 @@
             background: var(--bg);
             color: var(--text);
             font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-            font-size: 17px;
+            font-size: 16px;
             min-height: 100vh;
             font-weight: 500;
-            max-width: 550px;
+            max-width: 500px;
             margin: 0 auto;
             padding-bottom: 20px;
         }
 
         .app-header {
             background: #000;
-            padding: 16px 20px;
+            padding: 12px 16px;
             text-align: center;
             position: sticky;
             top: 0;
@@ -51,7 +52,7 @@
             border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
         }
         .app-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             letter-spacing: -1px;
             background: linear-gradient(135deg, #2ecc51, #00c853);
@@ -63,28 +64,28 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            padding: 20px;
-            max-width: 550px;
+            gap: 12px;
+            padding: 14px;
+            max-width: 500px;
             margin: 0 auto;
         }
         .card {
             background: var(--card);
             border-radius: var(--radius);
-            padding: 20px 12px;
+            padding: 16px 10px;
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .card:active {
             transform: scale(0.97);
             background: #2C2C2E;
         }
         .card h3 {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #2ecc51;
         }
         .card.settings-card h3 {
@@ -93,23 +94,23 @@
 
         .progress-bar {
             width: 100%;
-            height: 6px;
+            height: 5px;
             background: #2C2C2E;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            margin-top: 12px;
+            margin-top: 8px;
         }
         .progress-fill {
             height: 100%;
             background: #34C759;
             transition: width 0.3s;
-            border-radius: 10px;
+            border-radius: 8px;
         }
         small {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #8E8E93;
             display: block;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .day-view {
@@ -121,13 +122,13 @@
             background: #000;
             z-index: 1000;
             overflow-y: auto;
-            padding-bottom: 120px;
-            max-width: 550px;
+            padding-bottom: 100px;
+            max-width: 500px;
             margin: 0 auto;
         }
         .day-header {
             background: #000;
-            padding: 14px 16px;
+            padding: 10px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -140,44 +141,44 @@
         .add-item-btn {
             background: #34C759;
             border: none;
-            padding: 10px 18px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 22px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #000;
             cursor: pointer;
         }
         .day-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #FFF;
         }
 
-        /* GÜNLÜK HEDEFLER KARTI (GÜN İÇİ) */
+        /* GÜNLÜK HEDEFLER - KOMPAKT */
         .hedef-card {
             background: #1C1C1E;
-            border-radius: 16px;
-            padding: 14px 16px;
-            margin: 12px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .hedef-card .hedef-baslik {
             font-weight: 700;
-            font-size: 0.9em;
+            font-size: 0.78em;
             text-align: center;
             color: #fff;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
         .hedef-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-            font-size: 0.8em;
+            gap: 6px;
+            margin-bottom: 4px;
+            font-size: 0.72em;
         }
         .hedef-label {
-            width: 55px;
+            width: 48px;
             text-align: right;
             font-weight: 600;
             color: #aaa;
@@ -185,14 +186,14 @@
         }
         .hedef-bar-wrap {
             flex: 1;
-            height: 16px;
+            height: 12px;
             background: #2C2C2E;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
         }
         .hedef-bar-fill {
             height: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: width 0.4s;
         }
         .hedef-bar-fill.protein {
@@ -208,53 +209,56 @@
             background: #007AFF;
         }
         .hedef-val {
-            width: 80px;
-            font-size: 0.7em;
+            width: 90px;
+            font-size: 0.68em;
             font-weight: 600;
-            color: #ccc;
+            color: #bbb;
             flex-shrink: 0;
+            text-align: left;
+            white-space: nowrap;
         }
         .hedef-uyari {
-            font-size: 0.7em;
+            font-size: 0.65em;
             color: #FF9500;
             text-align: center;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         /* KAS DURUM */
         .kas-durum-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin: 8px 16px 0;
+            gap: 6px;
+            margin: 6px 12px 0;
         }
         .kas-durum-item {
             background: #1C1C1E;
-            border-radius: 12px;
-            padding: 10px 6px;
+            border-radius: 10px;
+            padding: 8px 4px;
             text-align: center;
-            font-size: 0.7em;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.68em;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .kas-durum-item .saat {
-            color: #34C759;
             font-weight: 700;
+            font-size: 0.85em;
         }
 
         .item,
         .set {
             background: #1C1C1E;
-            margin: 8px 16px;
-            padding: 14px;
+            margin: 6px 12px;
+            padding: 10px 12px;
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.85em;
         }
         .set {
             cursor: pointer;
-            border-left: 4px solid #34C759;
+            border-left: 3px solid #34C759;
         }
         .set.done,
         .item.done {
@@ -262,14 +266,12 @@
             border-color: #34C759;
             color: #34C759;
             text-decoration: line-through;
-            opacity: 1;
         }
         .set.done::after,
         .item.done::after {
-            content: "✓";
+            content: " ✓";
             color: #34C759;
             font-weight: 600;
-            margin-left: 8px;
         }
         .set span,
         .item span {
@@ -281,62 +283,66 @@
         .ex-title {
             background: #1C1C1E;
             border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            margin: 12px 16px 4px;
+            padding: 8px 12px;
+            margin: 8px 12px 2px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .ex-title>span {
             flex: 1;
             font-weight: 600;
             color: #34C759;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .ex-title-buttons {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
+            gap: 5px;
             width: 100%;
-            margin-top: 6px;
+            margin-top: 4px;
         }
         .ex-title-buttons button {
             background: #2C2C2E;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 7px 0;
-            border-radius: 25px;
-            color: #FFCC33;
-            font-size: 0.65rem;
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            padding: 6px 0;
+            border-radius: 20px;
+            color: #FFCC00;
+            font-size: 0.62rem;
             font-weight: 700;
             cursor: pointer;
+            white-space: nowrap;
+        }
+        .ex-title-buttons button:active {
+            background: #3a3a3c;
         }
 
         .move-buttons {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
         .move-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
             border: none;
-            font-size: 1rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 10px;
+            padding: 3px 5px;
+            border-radius: 8px;
             color: #FFF;
         }
 
         .set-info {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #FF9500;
             background: #2C2C2E;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-left: 6px;
+            padding: 3px 8px;
+            border-radius: 16px;
+            margin-left: 4px;
         }
 
         .modal {
@@ -355,9 +361,9 @@
         }
         .modal-content {
             background: #1C1C1E;
-            border-radius: 20px;
-            padding: 24px;
-            max-width: 500px;
+            border-radius: 18px;
+            padding: 20px;
+            max-width: 450px;
             width: 100%;
             color: white;
             max-height: 80vh;
@@ -367,26 +373,28 @@
         .modal-content select,
         .modal-content textarea {
             width: 100%;
-            padding: 14px;
-            margin: 8px 0;
+            padding: 12px;
+            margin: 6px 0;
             background: #2C2C2E;
             border: none;
-            border-radius: 25px;
+            border-radius: 22px;
             color: white;
             font-family: inherit;
+            font-size: 0.9em;
         }
         .modal-buttons {
             display: flex;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 10px;
+            margin-top: 16px;
         }
         .modal-btn {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             border: none;
-            border-radius: 25px;
+            border-radius: 22px;
             font-weight: 600;
             cursor: pointer;
+            font-size: 0.9em;
         }
         .modal-btn.confirm {
             background: #34C759;
@@ -408,12 +416,12 @@
             transform: translateX(-50%);
             background: #1c1c1e;
             color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
+            padding: 10px 20px;
+            border-radius: 22px;
             font-weight: 600;
             z-index: 2000;
             animation: fadeOut 1.5s forwards;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             border: 1px solid #34C759;
         }
         @keyframes fadeOut {
@@ -433,100 +441,104 @@
 
         .input-number-only {
             width: 100%;
-            padding: 14px;
-            font-size: 1rem;
+            padding: 12px;
+            font-size: 0.95rem;
             text-align: center;
             background: #2C2C2E;
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 22px;
         }
 
+        /* SETTINGS KOMPAKT */
         .body-stats {
             background: #1C1C1E;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .body-stats h3 {
             color: #34C759;
+            font-size: 0.82em;
+            margin-bottom: 6px;
         }
         .measure-input {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 10px 0;
+            margin: 6px 0;
         }
         .measure-input label {
             flex: 1;
             font-weight: 500;
-            font-size: 0.85em;
+            font-size: 0.78em;
         }
         .measure-input input {
             flex: 2;
-            padding: 10px;
+            padding: 8px;
             background: #2C2C2E;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             color: white;
             text-align: center;
+            font-size: 0.82em;
         }
 
         .photo-upload button {
             background: #34C759;
             border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 20px;
             color: #000;
             font-weight: 600;
-            margin: 5px;
+            margin: 4px;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         .before-after {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 8px;
         }
         .before-after div {
             text-align: center;
             background: #2C2C2E;
-            border-radius: 12px;
-            padding: 10px;
+            border-radius: 10px;
+            padding: 8px;
             width: 45%;
-            font-size: 0.8em;
+            font-size: 0.75em;
         }
         .before-after img {
             max-width: 100%;
-            border-radius: 12px;
-            margin-top: 6px;
+            border-radius: 10px;
+            margin-top: 4px;
         }
 
         .settings-card {
             background: #1C1C1E;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .settings-card h3 {
             color: #34C759;
-            font-size: 0.9em;
+            font-size: 0.82em;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .settings-btn {
-            padding: 12px;
-            border-radius: 25px;
+            padding: 10px;
+            border-radius: 22px;
             font-weight: 700;
             border: none;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.82em;
             width: 100%;
-            margin-top: 6px;
+            margin-top: 5px;
             transition: all 0.2s;
         }
         .settings-btn.green {
@@ -543,90 +555,89 @@
         }
         .settings-input {
             width: 100%;
-            padding: 12px;
-            border-radius: 25px;
+            padding: 10px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: #1f1f1f;
             color: #fff;
-            font-size: 0.85em;
+            font-size: 0.82em;
             outline: none;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             text-align: center;
         }
         .settings-input:focus {
             border-color: #34C759;
-            box-shadow: 0 0 8px rgba(52, 199, 89, 0.3);
+            box-shadow: 0 0 6px rgba(52, 199, 89, 0.3);
         }
         .liste-item {
             background: #2C2C2E;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 8px;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85em;
+            font-size: 0.82em;
         }
         .takviye-row {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: #1f1f1f;
-            border-radius: 25px;
-            padding: 8px 8px 8px 14px;
-            margin-bottom: 6px;
+            border-radius: 20px;
+            padding: 6px 6px 6px 12px;
+            margin-bottom: 4px;
+            font-size: 0.8em;
         }
         .takviye-ad {
             flex: 1;
-            font-size: 0.82em;
             color: #ddd;
         }
         .takviye-zaman {
-            font-size: 0.75em;
             color: #34C759;
             font-weight: 600;
-            margin-right: 4px;
+            margin-right: 2px;
+            font-size: 0.75em;
         }
         .sil-btn {
             background: transparent;
             border: none;
             color: #FF3B30;
             font-weight: 700;
-            padding: 6px 10px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 16px;
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 0.75em;
         }
         .urun-card {
             background: #2C2C2E;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 12px;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
         }
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-top: 12px;
+            gap: 8px;
+            margin-top: 10px;
         }
         video {
             width: 100%;
-            border-radius: 20px;
-            margin-top: 12px;
+            border-radius: 16px;
+            margin-top: 10px;
             background: #000;
         }
 
-        /* Hafta geçmişi butonu */
         .hafta-btn {
             display: block;
-            width: calc(100% - 32px);
-            margin: 8px 16px 16px;
+            width: calc(100% - 28px);
+            margin: 6px 14px 14px;
             background: #34C759;
             border: none;
-            padding: 14px;
-            border-radius: 25px;
+            padding: 12px;
+            border-radius: 22px;
             color: #000;
             font-weight: 700;
-            font-size: 0.95em;
+            font-size: 0.9em;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -659,43 +670,38 @@
                 <div class="day-title">AYARLAR</div>
                 <div style="width:50px;"></div>
             </div>
-            <div style="padding:14px;">
-                <!-- YEMEK LİSTEM -->
+            <div style="padding:12px;">
                 <div class="settings-card">
                     <h3>📋 YEMEK LİSTEM</h3>
                     <div id="listeContainer"></div>
-                    <button id="yeniListeBtn" class="settings-btn blue">➕ Yeni Liste Oluştur</button>
-                    <div id="aktifGosterge" style="margin-top:10px;padding:8px;background:#2C2C2E;border-radius:25px;text-align:center;font-size:0.85em;"></div>
+                    <button id="yeniListeBtn" class="settings-btn blue">➕ Yeni Liste</button>
+                    <div id="aktifGosterge" style="margin-top:8px;padding:6px;background:#2C2C2E;border-radius:20px;text-align:center;font-size:0.8em;"></div>
                 </div>
 
-                <!-- KAMERA İLE BARKOD OKU -->
                 <div class="settings-card">
                     <h3>📷 KAMERA İLE BARKOD OKU</h3>
                     <button id="kameraAcBtn" class="settings-btn blue">📷 Kamerayı Aç</button>
-                    <button id="kameraKapatBtn" class="settings-btn red hidden">⏹️ Kamerayı Kapat</button>
-                    <video id="barcodeVideo" autoplay playsinline muted style="display:none;margin-top:10px;"></video>
-                    <div id="kameraDurum" style="font-size:12px;color:#FF9500;margin-top:8px;"></div>
-                    <div id="urunSonuc" style="margin-top:10px;"></div>
+                    <button id="kameraKapatBtn" class="settings-btn red hidden">⏹️ Kapat</button>
+                    <video id="barcodeVideo" autoplay playsinline style="display:none;margin-top:8px;"></video>
+                    <div id="kameraDurum" style="font-size:11px;color:#FF9500;margin-top:6px;"></div>
+                    <div id="urunSonuc" style="margin-top:8px;"></div>
                 </div>
 
-                <!-- SEÇİLİ LİSTEDEKİLER -->
                 <div class="settings-card">
                     <h3>🍽️ SEÇİLİ LİSTEDEKİLER</h3>
                     <div id="secilenUrunler"></div>
-                    <div id="secilenToplam" style="margin-top:10px;font-size:12px;color:#aaa;"></div>
+                    <div id="secilenToplam" style="margin-top:8px;font-size:11px;color:#aaa;"></div>
                 </div>
 
-                <!-- GÜNLÜK HEDEFLER -->
                 <div class="settings-card">
                     <h3>🎯 GÜNLÜK HEDEFLER</h3>
-                    <div><label style="color:#ccc;font-size:0.8em;">Protein (g)</label><input type="number" id="targetProtein" value="160" class="settings-input"></div>
-                    <div><label style="color:#ccc;font-size:0.8em;">Karbonhidrat (g)</label><input type="number" id="targetCarbs" value="250" class="settings-input"></div>
-                    <div><label style="color:#ccc;font-size:0.8em;">Yağ (g)</label><input type="number" id="targetFat" value="70" class="settings-input"></div>
-                    <div><label style="color:#ccc;font-size:0.8em;">Kalori</label><input type="number" id="targetCal" value="2500" class="settings-input"></div>
+                    <div><label style="color:#ccc;font-size:0.75em;">Protein (g)</label><input type="number" id="targetProtein" value="160" class="settings-input"></div>
+                    <div><label style="color:#ccc;font-size:0.75em;">Karbonhidrat (g)</label><input type="number" id="targetCarbs" value="250" class="settings-input"></div>
+                    <div><label style="color:#ccc;font-size:0.75em;">Yağ (g)</label><input type="number" id="targetFat" value="70" class="settings-input"></div>
+                    <div><label style="color:#ccc;font-size:0.75em;">Kalori</label><input type="number" id="targetCal" value="2500" class="settings-input"></div>
                     <button id="hedefKaydetBtn" class="settings-btn green">💾 Kaydet</button>
                 </div>
 
-                <!-- VÜCUT ÖLÇÜLERİ + FOTOĞRAF -->
                 <div class="body-stats">
                     <h3>📏 VÜCUT ÖLÇÜLERİ</h3>
                     <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1" placeholder="kg"></div>
@@ -703,55 +709,49 @@
                     <div class="measure-input"><label>Göğüs (cm)</label><input type="number" id="bodyChest" step="0.5" placeholder="cm"></div>
                     <div class="measure-input"><label>Kol (cm)</label><input type="number" id="bodyArm" step="0.5" placeholder="cm"></div>
                     <div class="measure-input"><label>Bacak (cm)</label><input type="number" id="bodyLeg" step="0.5" placeholder="cm"></div>
-                    <button onclick="saveBodyMeasurements()" class="settings-btn green">💾 Ölçüleri Kaydet</button>
-                    <h3 style="margin-top:18px;">📸 FOTOĞRAF TAKİBİ</h3>
+                    <button onclick="saveBodyMeasurements()" class="settings-btn green">💾 Kaydet</button>
+                    <h3 style="margin-top:14px;">📸 FOTOĞRAF TAKİBİ</h3>
                     <div class="photo-upload">
                         <button onclick="uploadPhoto('before')">📷 ÖNCE</button>
                         <button onclick="uploadPhoto('after')">📷 SONRA</button>
                     </div>
                     <div class="before-after" id="photoContainer"></div>
-                    <div id="sliderContainer" style="margin-top:10px;"></div>
+                    <div id="sliderContainer" style="margin-top:8px;"></div>
                 </div>
 
-                <!-- SUPPLEMENT -->
                 <div class="settings-card">
-                    <h3>💊 SUPPLEMENT TAKVİYE</h3>
-                    <div id="supplementList" style="margin-bottom:10px;"></div>
+                    <h3>💊 SUPPLEMENT</h3>
+                    <div id="supplementList" style="margin-bottom:8px;"></div>
                     <input type="text" id="newSupplementName" placeholder="Takviye adı" class="settings-input">
                     <input type="text" id="newSupplementTime" placeholder="Zaman" class="settings-input">
-                    <button onclick="addSupplement()" class="settings-btn green">+ Takviye Ekle</button>
+                    <button onclick="addSupplement()" class="settings-btn green">+ Ekle</button>
                 </div>
 
-                <!-- YEMEK YÖNETİMİ -->
                 <div class="settings-card">
                     <h3>🍽️ Yemek Yönetimi</h3>
                     <select id="mealManageDay" class="settings-input" style="color:white;"><option value="">Gün Seç</option></select>
-                    <div id="mealList" style="max-height:250px;overflow-y:auto;margin:8px 0;"></div>
-                    <input type="text" id="newMealName" placeholder="Yeni yemek adı" class="settings-input">
-                    <button onclick="addMealToDay()" class="settings-btn green">+ Yemek Ekle</button>
+                    <div id="mealList" style="max-height:200px;overflow-y:auto;margin:6px 0;"></div>
+                    <input type="text" id="newMealName" placeholder="Yeni yemek" class="settings-input">
+                    <button onclick="addMealToDay()" class="settings-btn green">+ Ekle</button>
                 </div>
 
-                <!-- EGZERSİZ YÖNETİMİ -->
                 <div class="settings-card">
                     <h3>💪 Egzersiz Yönetimi</h3>
                     <select id="exerciseManageDay" class="settings-input" style="color:white;"><option value="">Gün Seç</option></select>
-                    <div id="exerciseList" style="max-height:250px;overflow-y:auto;margin:8px 0;"></div>
+                    <div id="exerciseList" style="max-height:200px;overflow-y:auto;margin:6px 0;"></div>
                     <input type="text" id="newExerciseName" placeholder="Hareket adı" class="settings-input">
                     <input type="number" id="newExerciseSets" placeholder="Set sayısı" class="settings-input">
-                    <button onclick="addExerciseToDay()" class="settings-btn green">+ Hareket Ekle</button>
+                    <button onclick="addExerciseToDay()" class="settings-btn green">+ Ekle</button>
                 </div>
 
-                <!-- HAFTA YÖNETİMİ -->
                 <div class="settings-card">
-                    <h3>⚠️ HAFTA YÖNETİMİ</h3>
-                    <button onclick="resetWeek()" class="settings-btn red">🔄 Tüm Haftayı Sıfırla</button>
-                    <p style="font-size:0.7rem;margin-top:8px;color:#8E8E93;">Sadece işaretler sıfırlanır, içerikler aynı kalır</p>
+                    <h3>⚠️ HAFTA SIFIRLA</h3>
+                    <button onclick="resetWeek()" class="settings-btn red">🔄 Sıfırla</button>
                 </div>
 
-                <!-- YEDEKLEME -->
                 <div class="settings-card">
-                    <h3>💾 VERİ YEDEKLEME</h3>
-                    <button onclick="backupData()" class="settings-btn blue" style="margin-bottom:8px;">💾 YEDEK AL</button>
+                    <h3>💾 YEDEKLEME</h3>
+                    <button onclick="backupData()" class="settings-btn blue" style="margin-bottom:6px;">💾 YEDEK AL</button>
                     <button onclick="restoreData()" class="settings-btn green">📂 GERİ YÜKLE</button>
                 </div>
             </div>
@@ -760,26 +760,17 @@
 
     <script>
         const foodDatabase = {
-            "yulaf": { p: 5, k: 27, f: 2.5, cal: 150 },
-            "süt": { p: 3.4, k: 5, f: 3.6, cal: 61 },
-            "skyr": { p: 11, k: 4, f: 0.2, cal: 64 },
-            "muz": { p: 1.1, k: 23, f: 0.3, cal: 89 },
-            "ekmek": { p: 4, k: 15, f: 1, cal: 80 },
-            "peynir": { p: 7, k: 1, f: 6, cal: 90 },
-            "tavuk": { p: 25, k: 0, f: 3, cal: 130 },
-            "pilav": { p: 2, k: 22, f: 0.2, cal: 100 },
-            "yoğurt": { p: 5, k: 6, f: 3, cal: 61 },
-            "ton balığı": { p: 22, k: 0, f: 1, cal: 120 },
-            "et döner": { p: 18, k: 5, f: 12, cal: 200 },
-            "yumurta": { p: 6, k: 0.6, f: 5, cal: 68 },
-            "köfte": { p: 18, k: 4, f: 12, cal: 200 },
-            "patates": { p: 2, k: 15, f: 0.1, cal: 70 },
-            "salata": { p: 1, k: 2, f: 0.2, cal: 15 },
-            "whey": { p: 24, k: 3, f: 1, cal: 120 },
-            "kreatin": { p: 0, k: 0, f: 0, cal: 0 },
-            "omega-3": { p: 0, k: 0, f: 1, cal: 10 },
-            "meyve": { p: 0.5, k: 15, f: 0.2, cal: 60 },
-            "kuruyemiş": { p: 6, k: 5, f: 12, cal: 150 }
+            "yulaf": { p: 5, k: 27, f: 2.5, cal: 150 }, "süt": { p: 3.4, k: 5, f: 3.6, cal: 61 },
+            "skyr": { p: 11, k: 4, f: 0.2, cal: 64 }, "muz": { p: 1.1, k: 23, f: 0.3, cal: 89 },
+            "ekmek": { p: 4, k: 15, f: 1, cal: 80 }, "peynir": { p: 7, k: 1, f: 6, cal: 90 },
+            "tavuk": { p: 25, k: 0, f: 3, cal: 130 }, "pilav": { p: 2, k: 22, f: 0.2, cal: 100 },
+            "yoğurt": { p: 5, k: 6, f: 3, cal: 61 }, "ton balığı": { p: 22, k: 0, f: 1, cal: 120 },
+            "et döner": { p: 18, k: 5, f: 12, cal: 200 }, "yumurta": { p: 6, k: 0.6, f: 5, cal: 68 },
+            "köfte": { p: 18, k: 4, f: 12, cal: 200 }, "patates": { p: 2, k: 15, f: 0.1, cal: 70 },
+            "salata": { p: 1, k: 2, f: 0.2, cal: 15 }, "whey": { p: 24, k: 3, f: 1, cal: 120 },
+            "kreatin": { p: 0, k: 0, f: 0, cal: 0 }, "omega-3": { p: 0, k: 0, f: 1, cal: 10 },
+            "meyve": { p: 0.5, k: 15, f: 0.2, cal: 60 }, "kuruyemiş": { p: 6, k: 5, f: 12, cal: 150 },
+            "kinoa": { p: 4, k: 21, f: 1.9, cal: 120 }, "kiyma": { p: 18, k: 0, f: 12, cal: 180 }
         };
 
         function parseFoodAndCalcMacros(text) {
@@ -802,49 +793,43 @@
             "PAZARTESI": ["07:45 Yulaf ezmesi + süt + Skyr + muz - Omega-3", "💧 1 bardak su", "09:30 ekmek + peynir",
                 "💧 1 bardak su", "10:30 💧 1 bardak su", "12:30 💧 1 bardak su", "14:00 tavuk + pilav + yoğurt",
                 "💧 1 bardak su", "15:30 💧 1 bardak su", "16:30 💧 1 bardak su", "17:30 💧 1 bardak su",
-                "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ GÖĞÜS 1 (AĞIR) + TRICEPS", "🟥 GÖĞÜS 1",
-                { ex: "Incline Dumbbell Press", sets: 4, link: "", notes: "" }, { ex: "Flat Dumbbell Press", sets: 4,
-                    link: "", notes: "" }, { ex: "Low-to-High Cable Crossover", sets: 3, link: "", notes: "" },
-                { ex: "Chest Press Machine (yatay)", sets: 3, link: "", notes: "" }, "🔥 TRICEPS",
-                { ex: "Triceps Pushdown (halat)", sets: 3, link: "", notes: "" }, { ex: "Overhead Dumbbell Extension",
-                    sets: 3, link: "", notes: "" }, "💧 4 bardak su", "20:30 whey protein", "💧 1 bardak su",
-                "21:00 tavuk + patates + salata + Skyr", "💧 1 bardak su"
+                "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ GÖĞÜS 1 + TRICEPS",
+                { ex: "Incline Dumbbell Press", sets: 4, link: "", notes: "" }, { ex: "Flat Dumbbell Press", sets: 4, link: "", notes: "" },
+                { ex: "Low-to-High Cable Crossover", sets: 3, link: "", notes: "" }, { ex: "Chest Press Machine (yatay)", sets: 3, link: "", notes: "" },
+                { ex: "Triceps Pushdown (halat)", sets: 3, link: "", notes: "" }, { ex: "Overhead Dumbbell Extension", sets: 3, link: "", notes: "" },
+                "💧 4 bardak su", "20:30 whey protein", "💧 1 bardak su", "21:00 tavuk + patates + salata + Skyr", "💧 1 bardak su"
             ],
             "SALI": ["07:45 yulaf + Omega-3", "💧 1 bardak su", "09:30 ton balığı + ekmek", "💧 1 bardak su",
                 "10:30 💧 1 bardak su", "12:30 💧 1 bardak su", "14:00 et döner + pilav", "💧 1 bardak su",
                 "15:30 💧 1 bardak su", "16:30 💧 1 bardak su", "17:30 💧 1 bardak su", "18:00 whey + kreatin",
-                "💧 1 bardak su", "🏋️ SIRT + TRAPEZ", "🔵 SIRT", { ex: "Lat Pulldown", sets: 4, link: "", notes: "" },
-                { ex: "Seated Cable Row", sets: 3, link: "", notes: "" }, { ex: "One-Arm Dumbbell Row", sets: 3,
-                    link: "", notes: "" }, { ex: "Face Pull", sets: 3, link: "", notes: "" }, "🦍 TRAPEZ",
-                { ex: "Dumbbell Shrug", sets: 4, link: "", notes: "" }, { ex: "Rack Pull (diz altı)", sets: 3, link: "",
-                    notes: "" }, "💧 4 bardak su", "20:30 whey protein", "💧 1 bardak su",
-                "21:00 yumurta + ekmek + Skyr", "💧 1 bardak su"
+                "💧 1 bardak su", "🏋️ SIRT + TRAPEZ",
+                { ex: "Lat Pulldown", sets: 4, link: "", notes: "" }, { ex: "Seated Cable Row", sets: 3, link: "", notes: "" },
+                { ex: "One-Arm Dumbbell Row", sets: 3, link: "", notes: "" }, { ex: "Face Pull", sets: 3, link: "", notes: "" },
+                { ex: "Dumbbell Shrug", sets: 4, link: "", notes: "" }, { ex: "Rack Pull (diz altı)", sets: 3, link: "", notes: "" },
+                "💧 4 bardak su", "20:30 whey protein", "💧 1 bardak su", "21:00 yumurta + ekmek + Skyr", "💧 1 bardak su"
             ],
             "CARSAMBA": ["07:45 hafif yulaf + Omega-3", "💧 1 bardak su", "09:30 meyve + kuruyemiş", "💧 1 bardak su",
                 "10:30 💧 1 bardak su", "12:30 💧 1 bardak su", "14:00 ton balığı + salata", "💧 1 bardak su",
-                "16:30 💧 1 bardak su", "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ BACAK (KÜTLE)", "🟩 BACAK",
+                "16:30 💧 1 bardak su", "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ BACAK (KÜTLE)",
                 { ex: "Squat", sets: 4, link: "", notes: "" }, { ex: "Deadlift", sets: 3, link: "", notes: "" },
-                { ex: "Leg Extension", sets: 3, link: "", notes: "" }, { ex: "Lying Leg Curl", sets: 3, link: "",
-                    notes: "" }, { ex: "Calf Machine", sets: 4, link: "", notes: "" }, "💧 4 bardak su",
-                "20:30 whey protein", "💧 1 bardak su", "21:00 yumurta + yoğurt", "💧 1 bardak su"
+                { ex: "Leg Extension", sets: 3, link: "", notes: "" }, { ex: "Lying Leg Curl", sets: 3, link: "", notes: "" },
+                { ex: "Calf Machine", sets: 4, link: "", notes: "" }, "💧 4 bardak su", "20:30 whey protein",
+                "💧 1 bardak su", "21:00 yumurta + yoğurt", "💧 1 bardak su"
             ],
             "PERSEMBE": ["07:45 yulaf + Omega-3", "💧 1 bardak su", "09:30 ekmek + peynir", "💧 1 bardak su",
                 "10:30 💧 1 bardak su", "12:30 💧 1 bardak su", "14:00 tavuk + pilav", "💧 1 bardak su",
-                "16:30 💧 1 bardak su", "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ GÖĞÜS 2 (İZOLE) + TRICEPS",
-                "🟪 GÖĞÜS 2", { ex: "Incline Dumbbell Fly", sets: 3, link: "", notes: "" },
-                { ex: "Flat Dumbbell Neutral Press", sets: 3, link: "", notes: "" }, { ex: "Pec Deck Machine",
-                sets: 3, link: "", notes: "" }, { ex: "Chest Press Machine (yatay)", sets: 3, link: "", notes: "" },
-                "🔥 TRICEPS", { ex: "Close-Grip Dumbbell Press", sets: 3, link: "", notes: "" },
-                { ex: "Skull Crusher (dumbbell)", sets: 3, link: "", notes: "" }, "💧 4 bardak su",
-                "20:30 whey protein", "💧 1 bardak su", "21:00 köfte + patates + Skyr", "💧 1 bardak su"
+                "16:30 💧 1 bardak su", "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ GÖĞÜS 2 + TRICEPS",
+                { ex: "Incline Dumbbell Fly", sets: 3, link: "", notes: "" }, { ex: "Flat Dumbbell Neutral Press", sets: 3, link: "", notes: "" },
+                { ex: "Pec Deck Machine", sets: 3, link: "", notes: "" }, { ex: "Chest Press Machine (yatay)", sets: 3, link: "", notes: "" },
+                { ex: "Close-Grip Dumbbell Press", sets: 3, link: "", notes: "" }, { ex: "Skull Crusher (dumbbell)", sets: 3, link: "", notes: "" },
+                "💧 4 bardak su", "20:30 whey protein", "💧 1 bardak su", "21:00 köfte + patates + Skyr", "💧 1 bardak su"
             ],
             "CUMA": ["07:45 yulaf + Omega-3", "💧 1 bardak su", "09:30 peynir + ekmek", "💧 1 bardak su",
                 "12:30 💧 1 bardak su", "14:00 et + pilav", "💧 1 bardak su", "16:30 💧 1 bardak su",
-                "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ OMUZ (AĞRISIZ) + BICEPS", "🟧 OMUZ",
-                { ex: "Dumbbell Lateral Raise", sets: 4, link: "", notes: "" }, { ex: "Bent-Over Lateral Raise",
-                sets: 3, link: "", notes: "" }, { ex: "Cable Lateral Raise", sets: 3, link: "", notes: "" },
-                { ex: "Face Pull", sets: 3, link: "", notes: "" }, "💪 BICEPS", { ex: "Barbell Curl", sets: 3,
-                    link: "", notes: "" }, { ex: "Incline Dumbbell Curl", sets: 3, link: "", notes: "" },
+                "18:00 whey + kreatin", "💧 1 bardak su", "🏋️ OMUZ + BICEPS",
+                { ex: "Dumbbell Lateral Raise", sets: 4, link: "", notes: "" }, { ex: "Bent-Over Lateral Raise", sets: 3, link: "", notes: "" },
+                { ex: "Cable Lateral Raise", sets: 3, link: "", notes: "" }, { ex: "Face Pull", sets: 3, link: "", notes: "" },
+                { ex: "Barbell Curl", sets: 3, link: "", notes: "" }, { ex: "Incline Dumbbell Curl", sets: 3, link: "", notes: "" },
                 { ex: "Hammer Curl", sets: 3, link: "", notes: "" }, "💧 4 bardak su", "20:30 whey", "💧 1 bardak su",
                 "21:00 tavuk + patates + yoğurt", "💧 1 bardak su"
             ],
@@ -868,26 +853,22 @@
         let setLogs = {};
         let muscleLastTrained = {};
         let bodyMeasurements = { weight: 72, waist: 0, chest: 0, arm: 0, leg: 0 };
-        let beforePhoto = null,
-            afterPhoto = null;
-        let supplements = [{ name: "Omega-3", time: "Sabah" }, { name: "Whey Protein",
-            time: "Sabah & Antrenman sonrası" }, { name: "Kreatin", time: "Antrenman öncesi (5g)" }];
+        let beforePhoto = null, afterPhoto = null;
+        let supplements = [{ name: "Omega-3", time: "Sabah" }, { name: "Whey Protein", time: "Sabah & Antrenman" }, { name: "Kreatin", time: "Antrenman öncesi" }];
         let listeler = [];
         let aktifListeId = null;
         let scanner = null;
 
         const muscleGroupMap = {
             "Incline Dumbbell Press": "Göğüs", "Flat Dumbbell Press": "Göğüs", "Low-to-High Cable Crossover": "Göğüs",
-            "Chest Press Machine (yatay)": "Göğüs", "Triceps Pushdown (halat)": "Triceps",
-            "Overhead Dumbbell Extension": "Triceps", "Lat Pulldown": "Sırt", "Seated Cable Row": "Sırt",
-            "One-Arm Dumbbell Row": "Sırt", "Face Pull": "Omuz", "Dumbbell Shrug": "Trapez",
-            "Rack Pull (diz altı)": "Sırt", "Incline Dumbbell Fly": "Göğüs",
-            "Flat Dumbbell Neutral Press": "Göğüs", "Pec Deck Machine": "Göğüs",
-            "Close-Grip Dumbbell Press": "Triceps", "Skull Crusher (dumbbell)": "Triceps",
-            "Dumbbell Lateral Raise": "Omuz", "Bent-Over Lateral Raise": "Omuz", "Cable Lateral Raise": "Omuz",
-            "Barbell Curl": "Biceps", "Incline Dumbbell Curl": "Biceps", "Hammer Curl": "Biceps",
-            "Squat": "Bacak", "Deadlift": "Bacak", "Leg Extension": "Bacak", "Lying Leg Curl": "Bacak",
-            "Calf Machine": "Bacak"
+            "Chest Press Machine (yatay)": "Göğüs", "Triceps Pushdown (halat)": "Triceps", "Overhead Dumbbell Extension": "Triceps",
+            "Lat Pulldown": "Sırt", "Seated Cable Row": "Sırt", "One-Arm Dumbbell Row": "Sırt", "Face Pull": "Omuz",
+            "Dumbbell Shrug": "Trapez", "Rack Pull (diz altı)": "Sırt", "Incline Dumbbell Fly": "Göğüs",
+            "Flat Dumbbell Neutral Press": "Göğüs", "Pec Deck Machine": "Göğüs", "Close-Grip Dumbbell Press": "Triceps",
+            "Skull Crusher (dumbbell)": "Triceps", "Dumbbell Lateral Raise": "Omuz", "Bent-Over Lateral Raise": "Omuz",
+            "Cable Lateral Raise": "Omuz", "Barbell Curl": "Biceps", "Incline Dumbbell Curl": "Biceps",
+            "Hammer Curl": "Biceps", "Squat": "Bacak", "Deadlift": "Bacak", "Leg Extension": "Bacak",
+            "Lying Leg Curl": "Bacak", "Calf Machine": "Bacak"
         };
 
         function saveDataToLocal() {
@@ -905,26 +886,16 @@
 
         function loadDataFromLocal() {
             try {
-                let sd = localStorage.getItem("fitnessDataUltimate");
-                if (sd) data = JSON.parse(sd);
-                let s = localStorage.getItem("fitnessDoneUltimate");
-                if (s) doneState = JSON.parse(s);
-                let sw = localStorage.getItem("fitnessWaterUltimate");
-                if (sw) waterIntake = JSON.parse(sw);
-                let logs = localStorage.getItem("fitnessSetLogs");
-                if (logs) setLogs = JSON.parse(logs);
-                let ml = localStorage.getItem("muscleLastTrained");
-                if (ml) muscleLastTrained = JSON.parse(ml);
-                let bm = localStorage.getItem("bodyMeasurements");
-                if (bm) bodyMeasurements = JSON.parse(bm);
-                let bf = localStorage.getItem("beforePhoto");
-                if (bf) beforePhoto = bf;
-                let af = localStorage.getItem("afterPhoto");
-                if (af) afterPhoto = af;
-                let sup = localStorage.getItem("fitnessSupplements");
-                if (sup) supplements = JSON.parse(sup);
-                let dt = localStorage.getItem("dailyTargets");
-                if (dt) dailyTargets = JSON.parse(dt);
+                let sd = localStorage.getItem("fitnessDataUltimate"); if (sd) data = JSON.parse(sd);
+                let s = localStorage.getItem("fitnessDoneUltimate"); if (s) doneState = JSON.parse(s);
+                let sw = localStorage.getItem("fitnessWaterUltimate"); if (sw) waterIntake = JSON.parse(sw);
+                let logs = localStorage.getItem("fitnessSetLogs"); if (logs) setLogs = JSON.parse(logs);
+                let ml = localStorage.getItem("muscleLastTrained"); if (ml) muscleLastTrained = JSON.parse(ml);
+                let bm = localStorage.getItem("bodyMeasurements"); if (bm) bodyMeasurements = JSON.parse(bm);
+                let bf = localStorage.getItem("beforePhoto"); if (bf) beforePhoto = bf;
+                let af = localStorage.getItem("afterPhoto"); if (af) afterPhoto = af;
+                let sup = localStorage.getItem("fitnessSupplements"); if (sup) supplements = JSON.parse(sup);
+                let dt = localStorage.getItem("dailyTargets"); if (dt) dailyTargets = JSON.parse(dt);
                 document.getElementById("bodyWeight").value = bodyMeasurements.weight || 72;
                 document.getElementById("bodyWaist").value = bodyMeasurements.waist || "";
                 document.getElementById("bodyChest").value = bodyMeasurements.chest || "";
@@ -937,566 +908,264 @@
             } catch (e) { console.warn(e); }
         }
 
-        function showToast(msg) { let t = document.createElement("div");
-            t.className = "toast";
-            t.innerText = msg;
-            document.body.appendChild(t);
-            setTimeout(() => t.remove(), 1600); }
+        function showToast(msg) { let t = document.createElement("div"); t.className = "toast"; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 1600); }
 
         function getSetLog(day, ex, setNo) { return setLogs[day]?.[ex]?.[setNo] || null; }
 
-        function saveSetLog(day, ex, setNo, weight, reps) { if (!setLogs[day]) setLogs[day] = {}; if (!setLogs[day][ex])
-                setLogs[day][ex] = {};
+        function saveSetLog(day, ex, setNo, weight, reps) {
+            if (!setLogs[day]) setLogs[day] = {}; if (!setLogs[day][ex]) setLogs[day][ex] = {};
             setLogs[day][ex][setNo] = { weight, reps };
-            localStorage.setItem("fitnessSetLogs", JSON.stringify(setLogs)); let m = muscleGroupMap[ex]; if (m) {
+            localStorage.setItem("fitnessSetLogs", JSON.stringify(setLogs));
+            let m = muscleGroupMap[ex];
+            if (m) {
                 muscleLastTrained[m] = new Date().toISOString();
-                localStorage.setItem("muscleLastTrained", JSON.stringify(muscleLastTrained)); } }
+                localStorage.setItem("muscleLastTrained", JSON.stringify(muscleLastTrained));
+                if (currentDayOpen) renderKasDurum(currentDayOpen);
+            }
+        }
 
-        function promptWeightAndReps(day, ex, setNo, defaultW, defaultR, onSave) { let sugg = getSetLog(day, ex, setNo); let defW =
-                defaultW || (sugg ? sugg.weight : 0); let defR = defaultR || (sugg ? sugg.reps : 8); let modal = document
-                .createElement("div");
-            modal.className = "modal";
-            modal.innerHTML =
-                `<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>🔄 Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}" min="1"></div><div><label>⚖️ Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}" min="0"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
+        function promptWeightAndReps(day, ex, setNo, defaultW, defaultR, onSave) {
+            let sugg = getSetLog(day, ex, setNo); let defW = defaultW || (sugg ? sugg.weight : 0); let defR = defaultR || (sugg ? sugg.reps : 8);
+            let modal = document.createElement("div"); modal.className = "modal";
+            modal.innerHTML = `<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>🔄 Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}" min="1"></div><div><label>⚖️ Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}" min="0"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
             document.body.appendChild(modal);
-            modal.querySelector("#saveBtn").onclick = () => { let w = parseInt(modal.querySelector("#weightInput").value) ||
-                    0; let r = parseInt(modal.querySelector("#repsInput").value) || 1;
+            modal.querySelector("#saveBtn").onclick = () => {
+                let w = parseInt(modal.querySelector("#weightInput").value) || 0;
+                let r = parseInt(modal.querySelector("#repsInput").value) || 1;
                 saveSetLog(day, ex, setNo, w, r);
                 modal.remove(); if (onSave) onSave(w, r);
-                showToast(`✅ Set ${setNo}: ${r} tekrar x ${w} kg`); let setKey = `${day}|set|${ex}|${setNo}`; if (!
-                    doneState[setKey]) { doneState[setKey] = true;
-                    totalSetCount++;
-                    saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day);
-                    buildHome(); } else { saveDataToLocal(); if (currentDayOpen === day) renderDayItems(
-                    day); } }; }
+                showToast(`✅ Set ${setNo}: ${r}x${w}kg`);
+                let setKey = `${day}|set|${ex}|${setNo}`;
+                if (!doneState[setKey]) { doneState[setKey] = true; totalSetCount++; saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day); buildHome(); }
+                else { saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day); }
+            };
+        }
 
-        function getDayStats(day) { let total = 0,
-                comp = 0; let items = data[day]; if (!items) return { total, comp, percent: 0 };
-            items.forEach((item, idx) => { if (typeof item === "string") { total++; if (doneState[
-                        `${day}|meal|${idx}`]) comp++; } else if (item && typeof item === "object" && item.sets) { for (
-                        let s = 1; s <= item.sets; s++) { total++; if (doneState[
-                            `${day}|set|${item.ex}|${s}`]) comp++; } } }); return { total, comp, percent: total ===
-                    0 ? 0 : Math.round((comp / total) * 100) }; }
+        function getDayStats(day) { let total = 0, comp = 0; let items = data[day]; if (!items) return { total, comp, percent: 0 };
+            items.forEach((item, idx) => { if (typeof item === "string") { total++; if (doneState[`${day}|meal|${idx}`]) comp++; }
+                else if (item && typeof item === "object" && item.sets) { for (let s = 1; s <= item.sets; s++) { total++; if (doneState[`${day}|set|${item.ex}|${s}`]) comp++; } } });
+            return { total, comp, percent: total === 0 ? 0 : Math.round((comp / total) * 100) }; }
 
-        function buildHome() { let grid = document.getElementById("homeGrid");
-            grid.innerHTML = "";
+        function buildHome() { let grid = document.getElementById("homeGrid"); grid.innerHTML = "";
             Object.keys(data).forEach(day => { let stats = getDayStats(day); let card = document.createElement("div");
-                card.className = "card";
-                card.innerHTML =
-                    `<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.comp}/${stats.total}</small>`;
-                card.onclick = () => openDay(day);
-                grid.appendChild(card); }); let setCard = document.createElement("div");
-            setCard.className = "card settings-card";
-            setCard.innerHTML = `<h3>AYARLAR</h3><small>Yönetim & Yedekleme</small>`;
-            setCard.onclick = () => openSettings();
-            grid.appendChild(setCard); }
+                card.className = "card"; card.innerHTML = `<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.comp}/${stats.total}</small>`;
+                card.onclick = () => openDay(day); grid.appendChild(card); });
+            let setCard = document.createElement("div"); setCard.className = "card settings-card";
+            setCard.innerHTML = `<h3>AYARLAR</h3><small>Yönetim</small>`; setCard.onclick = () => openSettings(); grid.appendChild(setCard); }
 
         function openDay(day) { currentDayOpen = day;
-            document.getElementById("homeGrid").style.display = "none";
-            document.querySelector(".hafta-btn").style.display = "none";
-            document.getElementById("dayView").classList.remove("hidden");
-            document.getElementById("settingsView").classList.add("hidden");
-            document.getElementById("dayTitle").innerText = day;
-            renderDayItems(day);
-            renderDayHedefKart(day);
-            renderKasDurum(day); }
+            document.getElementById("homeGrid").style.display = "none"; document.querySelector(".hafta-btn").style.display = "none";
+            document.getElementById("dayView").classList.remove("hidden"); document.getElementById("settingsView").classList.add("hidden");
+            document.getElementById("dayTitle").innerText = day; renderDayItems(day); renderDayHedefKart(day); renderKasDurum(day); }
 
-        function closeDay() {
-            document.getElementById("dayView").classList.add("hidden");
-            document.getElementById("homeGrid").style.display = "grid";
-            document.querySelector(".hafta-btn").style.display = "block";
-            buildHome();
-        }
+        function closeDay() { document.getElementById("dayView").classList.add("hidden");
+            document.getElementById("homeGrid").style.display = "grid"; document.querySelector(".hafta-btn").style.display = "block"; buildHome(); }
 
-        function openSettings() {
-            document.getElementById("homeGrid").style.display = "none";
-            document.querySelector(".hafta-btn").style.display = "none";
-            document.getElementById("dayView").classList.add("hidden");
-            document.getElementById("settingsView").classList.remove("hidden");
-            populateManageSelects();
-            refreshMealList();
-            refreshExerciseList();
-            updateSupplementsDisplay();
-            updateBodyMeasurementsUI();
-            renderListeler();
-            renderAktifGosterge();
-            renderSecilenUrunler();
-        }
+        function openSettings() { document.getElementById("homeGrid").style.display = "none"; document.querySelector(".hafta-btn").style.display = "none";
+            document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden");
+            populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay();
+            updateBodyMeasurementsUI(); renderListeler(); renderAktifGosterge(); renderSecilenUrunler(); }
 
-        function closeSettings() {
-            document.getElementById("settingsView").classList.add("hidden");
-            document.getElementById("homeGrid").style.display = "grid";
-            document.querySelector(".hafta-btn").style.display = "block";
-            buildHome();
-        }
+        function closeSettings() { document.getElementById("settingsView").classList.add("hidden");
+            document.getElementById("homeGrid").style.display = "grid"; document.querySelector(".hafta-btn").style.display = "block"; buildHome(); }
 
         function renderDayHedefKart(day) {
-            let cont = document.getElementById("dayHedefKart");
-            if (!cont) return;
-            let items = data[day];
-            let macros = { p: 0, k: 0, f: 0, cal: 0 };
-            items.forEach((item, idx) => {
-                let key = `${day}|meal|${idx}`;
-                if (doneState[key] && typeof item === "string" && !item.includes("💧") && !item.includes("👉") && !item
-                    .includes("🏋️") && !item.includes("🟥") && !item.includes("🔵") && !item.includes("🟩") && !item
-                    .includes("🟪") && !item.includes("🟧") && !item.includes("💪") && !item.includes("🔥")) {
-                    let m = parseFoodAndCalcMacros(item);
-                    macros.p += m.p;
-                    macros.k += m.k;
-                    macros.f += m.f;
-                    macros.cal += m.cal;
-                }
-            });
+            let cont = document.getElementById("dayHedefKart"); if (!cont) return;
+            let items = data[day]; let macros = { p: 0, k: 0, f: 0, cal: 0 };
+            items.forEach((item, idx) => { let key = `${day}|meal|${idx}`;
+                if (doneState[key] && typeof item === "string" && !item.includes("💧") && !item.includes("👉") && !item.includes("🏋️") && !item.includes("🟥") && !item.includes("🔵") && !item.includes("🟩") && !item.includes("🟪") && !item.includes("🟧") && !item.includes("💪") && !item.includes("🔥")) { let m = parseFoodAndCalcMacros(item); macros.p += m.p; macros.k += m.k; macros.f += m.f; macros.cal += m.cal; } });
             let pPct = Math.min(100, Math.round((macros.p / dailyTargets.protein) * 100));
             let kPct = Math.min(100, Math.round((macros.k / dailyTargets.carbs) * 100));
             let fPct = Math.min(100, Math.round((macros.f / dailyTargets.fat) * 100));
             let calPct = Math.min(100, Math.round((macros.cal / dailyTargets.calories) * 100));
-            let pFark = macros.p - dailyTargets.protein;
-            let kFark = macros.k - dailyTargets.carbs;
-            let fFark = macros.f - dailyTargets.fat;
-            let calFark = macros.cal - dailyTargets.calories;
-
+            let pFark = macros.p - dailyTargets.protein, kFark = macros.k - dailyTargets.carbs, fFark = macros.f - dailyTargets.fat, calFark = macros.cal - dailyTargets.calories;
             let uyari = "";
-            if (pFark > 0) uyari += `⚠ Protein hedefini ${pFark}g aştın. `;
-            if (kFark > 0) uyari += `⚠ Karb hedefini ${kFark}g aştın. `;
-            if (calFark > 0 && uyari === "") uyari = `⚠ Kalori hedefini ${calFark} kcal aştın.`;
-
-            cont.innerHTML = `
-                <div class="hedef-baslik">GÜNLÜK HEDEFLER</div>
-                <div class="hedef-row">
-                    <span class="hedef-label">Protein</span>
-                    <div class="hedef-bar-wrap"><div class="hedef-bar-fill protein" style="width:${pPct}%"></div></div>
-                    <span class="hedef-val">${macros.p}/${dailyTargets.protein}g ${pFark>0? '⚠ Aşım: '+pFark+'g' : (pFark<0? 'Kalan: '+Math.abs(pFark)+'g' : '✅')}</span>
-                </div>
-                <div class="hedef-row">
-                    <span class="hedef-label">Karb</span>
-                    <div class="hedef-bar-wrap"><div class="hedef-bar-fill karb" style="width:${kPct}%"></div></div>
-                    <span class="hedef-val">${macros.k}/${dailyTargets.carbs}g ${kFark>0? '⚠ Aşım: '+kFark+'g' : (kFark<0? 'Kalan: '+Math.abs(kFark)+'g' : '✅')}</span>
-                </div>
-                <div class="hedef-row">
-                    <span class="hedef-label">Yağ</span>
-                    <div class="hedef-bar-wrap"><div class="hedef-bar-fill yag" style="width:${fPct}%"></div></div>
-                    <span class="hedef-val">${macros.f}/${dailyTargets.fat}g ${fFark>0? '⚠ Aşım: '+fFark+'g' : (fFark<0? 'Kalan: '+Math.abs(fFark)+'g' : '✅')}</span>
-                </div>
-                <div class="hedef-row">
-                    <span class="hedef-label">Kalori</span>
-                    <div class="hedef-bar-wrap"><div class="hedef-bar-fill kalori" style="width:${calPct}%"></div></div>
-                    <span class="hedef-val">${macros.cal}/${dailyTargets.calories} ${calFark>0? '⚠ Aşım: '+calFark : (calFark<0? 'Kalan: '+Math.abs(calFark) : '✅')}</span>
-                </div>
-                ${uyari ? `<div class="hedef-uyari">${uyari}</div>` : ''}
-            `;
+            if (pFark > 0) uyari += `⚠ Protein: +${pFark}g `; if (kFark > 0) uyari += `⚠ Karb: +${kFark}g `;
+            if (calFark > 0 && uyari === "") uyari = `⚠ Kalori: +${calFark}`;
+            cont.innerHTML = `<div class="hedef-baslik">GÜNLÜK HEDEFLER</div>
+                <div class="hedef-row"><span class="hedef-label">Protein</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill protein" style="width:${pPct}%"></div></div><span class="hedef-val">${macros.p}/${dailyTargets.protein}g ${pFark>0?'⚠':pFark<0?'◁':''}</span></div>
+                <div class="hedef-row"><span class="hedef-label">Karb</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill karb" style="width:${kPct}%"></div></div><span class="hedef-val">${macros.k}/${dailyTargets.carbs}g ${kFark>0?'⚠':kFark<0?'◁':''}</span></div>
+                <div class="hedef-row"><span class="hedef-label">Yağ</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill yag" style="width:${fPct}%"></div></div><span class="hedef-val">${macros.f}/${dailyTargets.fat}g ${fFark>0?'⚠':fFark<0?'◁':''}</span></div>
+                <div class="hedef-row"><span class="hedef-label">Kalori</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill kalori" style="width:${calPct}%"></div></div><span class="hedef-val">${macros.cal}/${dailyTargets.calories} ${calFark>0?'⚠':calFark<0?'◁':''}</span></div>
+                ${uyari?`<div class="hedef-uyari">${uyari}</div>`:''}`;
         }
 
         function renderKasDurum(day) {
-            let cont = document.getElementById("dayKasDurum");
-            if (!cont) return;
+            let cont = document.getElementById("dayKasDurum"); if (!cont) return;
             let kaslar = ["Göğüs", "Sırt", "Bacak", "Omuz", "Biceps", "Triceps"];
             cont.innerHTML = kaslar.map(k => {
                 let last = muscleLastTrained[k];
                 let saat = last ? Math.floor((new Date() - new Date(last)) / (1000 * 3600)) : null;
-                let txt = saat !== null ? (saat + " saat önce") : "yok";
-                let cls = saat !== null && saat < 48 ? (saat < 24 ? "#FF3B30" : "#FF9500") : "#34C759";
-                return `<div class="kas-durum-item"><span>${k}</span><br><span class="saat" style="color:${cls}">${txt}</span></div>`;
+                let txt = saat !== null ? (saat + " saat") : "yok";
+                let renk = "#34C759";
+                if (saat === null) renk = "#666";
+                else if (saat < 24) renk = "#FF3B30";
+                else if (saat < 48) renk = "#FF9500";
+                else renk = "#34C759";
+                return `<div class="kas-durum-item"><span>${k}</span><br><span class="saat" style="color:${renk}">${txt}</span></div>`;
             }).join('');
         }
 
-        function renderDayItems(day) { let cont = document.getElementById("dayItems");
-            cont.innerHTML = ""; let items = data[day]; if (!items) return;
-            items.forEach((item, idx) => { if (typeof item === "string") { let div = document.createElement("div");
-                    div.className = "item";
-                    div.innerHTML =
-                        `<div class="move-buttons"><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button></div><span>${item}</span>`;
+        function renderDayItems(day) { let cont = document.getElementById("dayItems"); cont.innerHTML = ""; let items = data[day]; if (!items) return;
+            items.forEach((item, idx) => { if (typeof item === "string") { let div = document.createElement("div"); div.className = "item";
+                    div.innerHTML = `<div class="move-buttons"><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button></div><span>${item}</span>`;
                     let key = `${day}|meal|${idx}`; if (doneState[key]) div.classList.add("done");
-                    div.onclick = (e) => { if (e.target.classList.contains('move-btn')) return; if (doneState[
-                            key]) { delete doneState[key];
-                            div.classList.remove("done");
-                            showToast("❌ Kaldırıldı"); } else { doneState[key] = true;
-                            div.classList.add("done"); if (item.includes("💧")) { let wk = `${day}_water`;
-                                waterIntake[wk] = (waterIntake[wk] || 0) + 1;
-                                showToast("💧 +1 bardak su!"); } else showToast("✅ Tamamlandı!"); }
-                        saveDataToLocal();
-                        renderDayHedefKart(day);
-                        buildHome(); };
-                    cont.appendChild(div); } else if (item && typeof item === "object" && item.ex) { let titleDiv =
-                    document.createElement("div");
-                titleDiv.className = "ex-title";
-                titleDiv.innerHTML =
-                    `<span>💪 ${item.ex}</span><div class="ex-title-buttons"><button onclick="openExerciseVideo('${item.ex}','${item.link||""}')">📹 Video</button><button onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button><button onclick="showAlternatives('${item.ex}')">🔄 Diğer</button><button onclick="showExerciseNote('${item.ex}','${day}',${idx})">📝 Not</button></div>`;
-                cont.appendChild(titleDiv); for (let s = 1; s <= item.sets; s++) { let setDiv = document.createElement(
-                        "div");
-                    setDiv.className = "set"; let log = getSetLog(day, item.ex, s); let weightInfo = log ?
-                        `${log.reps}x${log.weight}kg` : "Ağırlık gir";
-                    setDiv.innerHTML = `<span>Set ${s}</span><span class="set-info">${weightInfo}</span>`;
-                    let setKey = `${day}|set|${item.ex}|${s}`; if (doneState[setKey]) setDiv.classList.add("done");
-                    setDiv.onclick = (function(snum, exName) { return function(ev) { if (doneState[setKey]) { if (
-                                    confirm("Seti tamamlanmamış say?")) { delete doneState[
-                                    setKey];
-                                totalSetCount--;
-                                saveDataToLocal();
-                                renderDayItems(day);
-                                buildHome(); } return; } let existing = getSetLog(day, exName,
-                                snum);
-                            promptWeightAndReps(day, exName, snum, existing?.weight, existing?.reps || 8,
-                                () => { renderDayItems(day);
-                                    buildHome(); }); }; })(s, item.ex);
-                    cont.appendChild(setDiv); } } }); }
-
-        function moveItemUp(day, idx) { if (idx > 0) { [data[day][idx], data[day][idx - 1]] = [data[day][idx - 1], data[day][
-                idx]]; saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day);
-            buildHome(); } }
-
-        function moveItemDown(day, idx) { if (idx < data[day].length - 1) { [data[day][idx], data[day][idx + 1]] = [data[day][
-                    idx + 1], data[day][idx]
-                ]; saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day);
-            buildHome(); } }
-
-        function showAddItemToDay() { if (!currentDayOpen) return; let modal = document.createElement("div");
-            modal.className = "modal";
-            modal.innerHTML =
-                `<div class="modal-content"><h3>➕ ${currentDayOpen}</h3><select id="itemTypeSelect"><option value="meal">🍽️ Yemek</option><option value="exercise">💪 Hareket</option></select><input id="itemNameInput" placeholder="Ad"><div id="setsContainer" style="display:none"><input id="itemSetsInput" type="number" placeholder="Set sayısı"></div><div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
-            document.body.appendChild(modal); let typeSel = document.getElementById("itemTypeSelect"),
-                setsCont = document.getElementById("setsContainer");
-            typeSel.onchange = () => { setsCont.style.display = typeSel.value === "exercise" ? "block" : "none"; }; }
-
-        function addItemToCurrentDay() { let type = document.getElementById("itemTypeSelect").value,
-                name = document.getElementById("itemNameInput").value; if (!name) { showToast("Ad girin"); return; } if (
-                type === "meal") { data[currentDayOpen].push(name); } else { let sets = parseInt(document.getElementById(
-                    "itemSetsInput").value); if (!sets) { showToast("Set sayısı girin"); return; }
-                data[currentDayOpen].push({ ex: name, sets: sets, link: "", notes: "" }); }
-            saveDataToLocal();
-            renderDayItems(currentDayOpen);
-            renderDayHedefKart(currentDayOpen);
-            buildHome();
-            document.querySelector(".modal").remove(); }
-
-        function openExerciseVideo(ex, link) { let url = link || `https://www.youtube.com/results?search_query=${
-        encodeURIComponent(ex+" egzersizi")}`; window.open(url, '_blank'); }
-
-        function setVideoLink(ex, day, idx) { let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || ""); if (link !==
-                null) { data[day][idx].link = link;
-                saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day);
-                showToast("✅ Link kaydedildi!"); } }
-
-        function showAlternatives(ex) { let altList = { "Incline Dumbbell Press": ["Incline Barbell Press",
-                    "Smith Machine Incline"], "Flat Dumbbell Press": ["Barbell Bench Press", "Chest Press Machine"],
-                "Lat Pulldown": ["Pull-Up", "Assisted Pull-Up"], "Seated Cable Row": ["Machine Row", "Dumbbell Row"],
-                "Squat": ["Hack Squat", "Leg Press"], "Deadlift": ["Rack Pull", "Hyperextension"],
-                "Dumbbell Lateral Raise": ["Cable Lateral Raise", "Machine Lateral"],
-                "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl"],
-                "Triceps Pushdown (halat)": ["Straight Bar Pushdown", "V-Bar"] }; let alts = altList[ex]; if (!alts || alts
-                    .length === 0) { showToast("Alternatif bulunamadı"); return; }
-            alert("Alternatifler:\n" + alts.join("\n")); }
-
-        function showExerciseNote(ex, day, idx) { let note = data[day][idx].notes || ""; let modal = document.createElement(
-                "div");
-            modal.className = "modal";
-            modal.innerHTML =
-                `<div class="modal-content"><h3>📝 ${ex} - Notlar</h3><textarea id="exerciseNoteText" rows="6">${note}</textarea><div class="modal-buttons"><button class="modal-btn confirm" onclick="saveExerciseNote('${day}',${idx},'${ex}')">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
-            document.body.appendChild(modal); }
-
-        function saveExerciseNote(day, idx, ex) { let note = document.getElementById("exerciseNoteText").value;
-            data[day][idx].notes = note;
-            saveDataToLocal();
-            document.querySelector(".modal").remove();
-            showToast(`✅ ${ex} notu kaydedildi`); }
-
-        function resetWeek() { if (confirm("⚠️ Tüm haftayı sıfırla? İşaretler gider, içerikler kalır.")) { doneState = {};
-                waterIntake = {};
-                totalSetCount = 0;
-                saveDataToLocal(); if (currentDayOpen) { renderDayItems(currentDayOpen);
-                    renderDayHedefKart(currentDayOpen);
-                    renderKasDurum(currentDayOpen); }
-                buildHome();
-                showToast("✅ Hafta sıfırlandı"); } }
-
-        function backupData() { let exp = { data, doneState, waterIntake, totalSetCount, setLogs, muscleLastTrained,
-                bodyMeasurements, beforePhoto, afterPhoto, supplements, dailyTargets, listeler, aktifListeId }; let str =
-                JSON.stringify(exp, null, 2); let a = document.createElement("a");
-            a.href = URL.createObjectURL(new Blob([str]));
-            a.download = `fitness_backup_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json`;
-            a.click();
-            showToast("💾 Yedek alındı"); }
-
-        function restoreData() { let inp = document.createElement("input");
-            inp.type = "file";
-            inp.accept = ".json";
-            inp.onchange = e => { let file = e.target.files[0]; if (!file) return; let reader = new FileReader();
-                reader.onload = ev => { try { let imp = JSON.parse(ev.target.result); if (imp.data) data = imp.data; if (
-                            imp.doneState) doneState = imp.doneState; if (imp.waterIntake) waterIntake = imp
-                        .waterIntake; if (imp.totalSetCount !== undefined) totalSetCount = imp.totalSetCount; if (
-                            imp.setLogs) setLogs = imp.setLogs; if (imp.muscleLastTrained) muscleLastTrained =
-                        imp.muscleLastTrained; if (imp.bodyMeasurements) bodyMeasurements = imp.bodyMeasurements; if (
-                            imp.beforePhoto) beforePhoto = imp.beforePhoto; if (imp.afterPhoto) afterPhoto = imp
-                        .afterPhoto; if (imp.supplements) supplements = imp.supplements; if (imp.dailyTargets)
-                        dailyTargets = imp.dailyTargets; if (imp.listeler) listeler = imp.listeler; if (imp
-                        .aktifListeId) aktifListeId = imp.aktifListeId;
-                    saveDataToLocal();
-                    saveListeler();
-                    location.reload(); } catch (err) { alert("Hatalı dosya!"); } };
-                reader.readAsText(file); };
-            inp.click(); }
-
-        function populateManageSelects() { let days = Object.keys(data); let mealSel = document.getElementById(
-                "mealManageDay"),
-                exSel = document.getElementById("exerciseManageDay");
-            mealSel.innerHTML = '<option value="">Gün Seç</option>';
-            exSel.innerHTML = '<option value="">Gün Seç</option>';
-            days.forEach(d => { mealSel.innerHTML += `<option value="${d}">${d}</option>`;
-                exSel.innerHTML += `<option value="${d}">${d}</option>`; });
-            mealSel.onchange = () => refreshMealList();
-            exSel.onchange = () => refreshExerciseList(); }
-
-        function refreshMealList() { let day = document.getElementById("mealManageDay").value,
-                cont = document.getElementById("mealList"); if (!day || !data[day]) { cont.innerHTML = ""; return; }
-            cont.innerHTML = "";
-            data[day].forEach((it, idx) => { if (typeof it === "string" && !it.includes("🏋️") && !it.includes("👉") && !it
-                    .includes("🟥") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes(
-                        "🟧") && !it.includes("💪") && !it.includes("🔥")) { let div = document.createElement("div");
-                    div.style.cssText =
-                        "display:flex;justify-content:space-between;align-items:center;padding:10px;margin:5px 0;background:#2C2C2E;border-radius:12px;";
-                    div.innerHTML =
-                        `<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30;border:none;padding:4px 8px;border-radius:8px;color:#fff;">Sil</button></div>`;
-                    cont.appendChild(div); } }); }
-
-        function deleteMeal(day, idx) { if (confirm("Sil?")) { data[day].splice(idx, 1);
-                saveDataToLocal();
-                refreshMealList(); if (currentDayOpen === day) { renderDayItems(day);
-                    renderDayHedefKart(day); }
-                buildHome(); } }
-
-        function addMealToDay() { let day = document.getElementById("mealManageDay").value,
-                name = document.getElementById("newMealName").value; if (!day || !name) { showToast(
-                    "Gün ve ad girin"); return; }
-            data[day].push(name);
-            saveDataToLocal();
-            document.getElementById("newMealName").value = "";
-            refreshMealList(); if (currentDayOpen === day) { renderDayItems(day);
-                renderDayHedefKart(day); }
-            buildHome(); }
-
-        function refreshExerciseList() { let day = document.getElementById("exerciseManageDay").value,
-                cont = document.getElementById("exerciseList"); if (!day || !data[day]) { cont.innerHTML = ""; return; }
-            cont.innerHTML = "";
-            data[day].forEach((it, idx) => { if (it && typeof it === "object" && it.ex) { let div = document
-                        .createElement("div");
-                    div.style.cssText =
-                        "display:flex;justify-content:space-between;align-items:center;padding:10px;margin:5px 0;background:#2C2C2E;border-radius:12px;";
-                    div.innerHTML =
-                        `<span style="flex:1;">💪 ${it.ex} (${it.sets} set)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button onclick="deleteExercise('${day}',${idx})" style="background:#FF3B30;border:none;padding:4px 8px;border-radius:8px;color:#fff;">Sil</button><button onclick="setVideoLinkFromSettings('${day}',${idx})" style="background:#34C759;border:none;padding:4px 8px;border-radius:8px;color:#000;margin-left:4px;">🔗</button></div>`;
-                    cont.appendChild(div); } }); }
-
-        function setVideoLinkFromSettings(day, idx) { let ex = data[day][idx].ex; let link = prompt(`${ex} için YouTube linki:`,
-                data[day][idx].link || ""); if (link !== null) { data[day][idx].link = link;
-                saveDataToLocal();
-                refreshExerciseList(); if (currentDayOpen === day) renderDayItems(day); } }
-
-        function deleteExercise(day, idx) { if (confirm("Sil?")) { data[day].splice(idx, 1);
-                saveDataToLocal();
-                refreshExerciseList(); if (currentDayOpen === day) renderDayItems(day);
-                buildHome(); } }
-
-        function addExerciseToDay() { let day = document.getElementById("exerciseManageDay").value,
-                name = document.getElementById("newExerciseName").value,
-                sets = parseInt(document.getElementById("newExerciseSets").value); if (!day || !name || !sets) { showToast(
-                    "Gün, hareket ve set sayısı girin"); return; }
-            data[day].push({ ex: name, sets: sets, link: "", notes: "" });
-            saveDataToLocal();
-            document.getElementById("newExerciseName").value = "";
-            document.getElementById("newExerciseSets").value = "";
-            refreshExerciseList(); if (currentDayOpen === day) renderDayItems(day);
-            buildHome(); }
-
-        function updateSupplementsDisplay() { let cont = document.getElementById("supplementList"); if (!cont) return;
-            cont.innerHTML = "";
-            supplements.forEach((sup, idx) => { let div = document.createElement("div");
-                div.className = "takviye-row";
-                div.innerHTML =
-                    `<span class="takviye-ad">💊 ${sup.name}</span><span class="takviye-zaman">${sup.time}</span><button class="sil-btn" onclick="deleteSupplement(${idx})">SİL</button>`;
-                cont.appendChild(div); }); }
-
-        function deleteSupplement(idx) { if (confirm("Sil?")) { supplements.splice(idx, 1);
-                saveDataToLocal();
-                updateSupplementsDisplay(); } }
-
-        function addSupplement() { let name = document.getElementById("newSupplementName").value.trim(),
-                time = document.getElementById("newSupplementTime").value.trim(); if (!name || !time) { showToast(
-                    "Ad ve zaman girin"); return; }
-            supplements.push({ name, time });
-            saveDataToLocal();
-            document.getElementById("newSupplementName").value = "";
-            document.getElementById("newSupplementTime").value = "";
-            updateSupplementsDisplay();
-            showToast(`✅ "${name}" eklendi`); }
-
-        function saveBodyMeasurements() { bodyMeasurements.weight = parseFloat(document.getElementById("bodyWeight").value) ||
-                0;
-            bodyMeasurements.waist = parseFloat(document.getElementById("bodyWaist").value) || 0;
-            bodyMeasurements.chest = parseFloat(document.getElementById("bodyChest").value) || 0;
-            bodyMeasurements.arm = parseFloat(document.getElementById("bodyArm").value) || 0;
-            bodyMeasurements.leg = parseFloat(document.getElementById("bodyLeg").value) || 0;
-            saveDataToLocal();
-            showToast("📏 Ölçüler kaydedildi"); }
-
-        function uploadPhoto(type) { let inp = document.createElement("input");
-            inp.type = "file";
-            inp.accept = "image/*";
-            inp.onchange = e => { let file = e.target.files[0]; if (file) { let reader = new FileReader();
-                    reader.onload = ev => { if (type === "before") beforePhoto = ev.target.result; else
-                        afterPhoto = ev.target.result;
-                    saveDataToLocal();
-                    updateBodyMeasurementsUI(); };
-                    reader.readAsDataURL(file); } };
-            inp.click(); }
-
-        function updateBodyMeasurementsUI() { document.getElementById("bodyWeight").value = bodyMeasurements.weight || "";
-            document.getElementById("bodyWaist").value = bodyMeasurements.waist || "";
-            document.getElementById("bodyChest").value = bodyMeasurements.chest || "";
-            document.getElementById("bodyArm").value = bodyMeasurements.arm || "";
-            document.getElementById("bodyLeg").value = bodyMeasurements.leg || ""; let cont = document.getElementById(
-                "photoContainer"); if (cont) cont.innerHTML =
-                `<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%;border-radius:12px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')" style="background:#34C759;border:none;padding:6px 12px;border-radius:20px;color:#000;margin-top:4px;cursor:pointer;">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%;border-radius:12px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')" style="background:#34C759;border:none;padding:6px 12px;border-radius:20px;color:#000;margin-top:4px;cursor:pointer;">Değiştir</button></div>`;
-            let sliderDiv = document.getElementById("sliderContainer"); if (beforePhoto && afterPhoto) { sliderDiv.style
-                    .display = "block"; if (!document.getElementById("photoSlider")) { sliderDiv.innerHTML =
-                        '<input type="range" id="photoSlider" min="0" max="100" value="50" step="1" style="width:100%;"><div style="display:flex;justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>';
-                    let slider = document.getElementById("photoSlider");
-                    slider.addEventListener("input", e => { let val = e.target.value; let imgs = document
-                            .querySelectorAll("#photoContainer img"); if (imgs[0]) imgs[0].style.opacity = (
-                                100 - val) / 100; if (imgs[1]) imgs[1].style.opacity = val / 100; }); } } else {
-                sliderDiv.style.display = "none"; } }
-
-        // ========== LİSTE YÖNETİMİ ==========
-        function initListeler() {
-            let kayit = localStorage.getItem("fitness_listeler_v5");
-            if (kayit) { listeler = JSON.parse(kayit); } else {
-                listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0,
-                        kalori: 0 } }, { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: { protein: 0,
-                        karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l3", ad: "🍽️ Liste 3", urunler: [], toplam: {
-                        protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }];
-            }
-            aktifListeId = localStorage.getItem("fitness_aktif_liste_v5");
-            if (!aktifListeId || !listeler.find(l => l.id === aktifListeId)) aktifListeId = listeler[0]?.id;
+                    div.onclick = (e) => { if (e.target.classList.contains('move-btn')) return; if (doneState[key]) { delete doneState[key]; div.classList.remove("done"); }
+                        else { doneState[key] = true; div.classList.add("done"); if (item.includes("💧")) { let wk = `${day}_water`; waterIntake[wk] = (waterIntake[wk] || 0) + 1; } }
+                        saveDataToLocal(); renderDayHedefKart(day); buildHome(); };
+                    cont.appendChild(div);
+                } else if (item && typeof item === "object" && item.ex) {
+                    let titleDiv = document.createElement("div"); titleDiv.className = "ex-title";
+                    titleDiv.innerHTML = `<span>💪 ${item.ex}</span>
+                        <div class="ex-title-buttons">
+                            <button onclick="openExerciseVideo('${item.ex}','${item.link||""}')">📹 Video</button>
+                            <button onclick="promptYouTubeLink('${item.ex}','${day}',${idx})">📹 Y.Video</button>
+                            <button onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button>
+                            <button onclick="showAlternatives('${item.ex}')">🔄 Diğer</button>
+                            <button onclick="showExerciseNote('${item.ex}','${day}',${idx})">📝 Not</button>
+                            <button onclick="addLocalVideo('${item.ex}','${day}',${idx})">📂 Yerel</button>
+                            <button onclick="playLocalVideo('${item.ex}','${day}',${idx})">▶️ Oynat</button>
+                            <button onclick="removeLocalVideo('${item.ex}','${day}',${idx})">🗑️ Sil</button>
+                        </div>`;
+                    cont.appendChild(titleDiv);
+                    for (let s = 1; s <= item.sets; s++) {
+                        let setDiv = document.createElement("div"); setDiv.className = "set";
+                        let log = getSetLog(day, item.ex, s); let weightInfo = log ? `${log.reps}x${log.weight}kg` : "Ağırlık gir";
+                        setDiv.innerHTML = `<span>Set ${s}</span><span class="set-info">${weightInfo}</span>`;
+                        let setKey = `${day}|set|${item.ex}|${s}`; if (doneState[setKey]) setDiv.classList.add("done");
+                        setDiv.onclick = (function(snum, exName) { return function(ev) { if (doneState[setKey]) { if (confirm("Seti tamamlanmamış say?")) { delete doneState[setKey]; totalSetCount--; saveDataToLocal(); renderDayItems(day); buildHome(); } return; }
+                                let existing = getSetLog(day, exName, snum);
+                                promptWeightAndReps(day, exName, snum, existing?.weight, existing?.reps || 8, () => { renderDayItems(day); buildHome(); }); }; })(s, item.ex);
+                        cont.appendChild(setDiv);
+                    }
+                }
+            });
         }
 
-        function saveListeler() { localStorage.setItem("fitness_listeler_v5", JSON.stringify(listeler)); if (aktifListeId)
-                localStorage.setItem("fitness_aktif_liste_v5", aktifListeId); }
+        function moveItemUp(day, idx) { if (idx > 0) { [data[day][idx], data[day][idx - 1]] = [data[day][idx - 1], data[day][idx]]; saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day); buildHome(); } }
+        function moveItemDown(day, idx) { if (idx < data[day].length - 1) { [data[day][idx], data[day][idx + 1]] = [data[day][idx + 1], data[day][idx]]; saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day); buildHome(); } }
 
-        function renderListeler() { let container = document.getElementById("listeContainer"); if (!container) return; if (!
-                listeler.length) { container.innerHTML = "<div style='color:#aaa;'>Liste yok</div>"; return; }
-            container.innerHTML = "";
-            listeler.forEach(l => { let div = document.createElement("div");
-                div.className = "liste-item";
-                div.innerHTML =
-                    `<div><strong>${l.ad}</strong><br><small>${l.urunler.length} ürün</small></div><div><button class="secButon" data-id="${l.id}" style="background:${aktifListeId===l.id?'#34C759':'#007AFF'};border:none;padding:6px 12px;border-radius:25px;color:white;font-size:0.8em;">${aktifListeId===l.id?'✅ Seçili':'Seç'}</button><button class="silButon" data-id="${l.id}" style="background:#FF3B30;border:none;padding:6px 10px;border-radius:25px;margin-left:6px;font-size:0.8em;color:white;">Sil</button></div>`;
-                div.querySelector('.secButon').addEventListener("click", function() { aktifListeId = this.dataset.id;
-                    saveListeler();
-                    renderListeler();
-                    renderAktifGosterge();
-                    renderSecilenUrunler(); });
-                div.querySelector('.silButon').addEventListener("click", function() { if (listeler.length === 1) {
-                        showToast("En az 1 liste olmalı"); return; }
-                    listeler = listeler.filter(ll => ll.id !== this.dataset.id); if (aktifListeId === this
-                        .dataset.id) aktifListeId = listeler[0]?.id;
-                    saveListeler();
-                    renderListeler();
-                    renderAktifGosterge();
-                    renderSecilenUrunler(); });
-                container.appendChild(div); }); }
+        function showAddItemToDay() { if (!currentDayOpen) return; let modal = document.createElement("div"); modal.className = "modal";
+            modal.innerHTML = `<div class="modal-content"><h3>➕ ${currentDayOpen}</h3><select id="itemTypeSelect"><option value="meal">🍽️ Yemek</option><option value="exercise">💪 Hareket</option></select><input id="itemNameInput" placeholder="Ad"><div id="setsContainer" style="display:none"><input id="itemSetsInput" type="number" placeholder="Set sayısı"></div><div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`;
+            document.body.appendChild(modal); let typeSel = document.getElementById("itemTypeSelect"), setsCont = document.getElementById("setsContainer");
+            typeSel.onchange = () => { setsCont.style.display = typeSel.value === "exercise" ? "block" : "none"; }; }
 
-        function renderAktifGosterge() { let aktif = listeler.find(l => l.id === aktifListeId); let el = document.getElementById(
-                "aktifGosterge"); if (el) el.innerHTML = aktif ? `✅ AKTİF: ${aktif.ad}` : "❌ Liste seçilmedi"; }
+        function addItemToCurrentDay() { let type = document.getElementById("itemTypeSelect").value, name = document.getElementById("itemNameInput").value; if (!name) { showToast("Ad girin"); return; }
+            if (type === "meal") { data[currentDayOpen].push(name); } else { let sets = parseInt(document.getElementById("itemSetsInput").value); if (!sets) { showToast("Set sayısı girin"); return; } data[currentDayOpen].push({ ex: name, sets: sets, link: "", notes: "" }); }
+            saveDataToLocal(); renderDayItems(currentDayOpen); renderDayHedefKart(currentDayOpen); buildHome(); document.querySelector(".modal").remove(); }
 
-        function hesaplaToplam(liste) { let t = { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 };
-            liste.urunler.forEach(u => { t.protein += u.protein;
-                t.karbonhidrat += u.karbonhidrat;
-                t.yag += u.yag;
-                t.kalori += u.kalori; });
-            liste.toplam = t; }
+        function openExerciseVideo(ex, link) { let url = link || `https://www.youtube.com/results?search_query=${encodeURIComponent(ex+" egzersizi")}`; window.open(url, '_blank'); }
+        function promptYouTubeLink(ex, day, idx) { let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || ""); if (link !== null) { data[day][idx].link = link; saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day); showToast("✅ Link kaydedildi!"); } }
+        function setVideoLink(ex, day, idx) { promptYouTubeLink(ex, day, idx); }
+        function showAlternatives(ex) { let altList = { "Incline Dumbbell Press": ["Incline Barbell Press", "Smith Machine Incline"], "Flat Dumbbell Press": ["Barbell Bench", "Chest Press"], "Lat Pulldown": ["Pull-Up", "Assisted Pull-Up"], "Seated Cable Row": ["Machine Row", "Dumbbell Row"], "Squat": ["Hack Squat", "Leg Press"], "Deadlift": ["Rack Pull", "Hyperextension"], "Dumbbell Lateral Raise": ["Cable Lateral", "Machine Lateral"], "Barbell Curl": ["EZ Bar Curl", "Dumbbell Curl"], "Triceps Pushdown (halat)": ["Straight Bar", "V-Bar"] }; let alts = altList[ex]; if (!alts || alts.length === 0) { showToast("Alternatif yok"); return; } alert("Alternatifler:\n" + alts.join("\n")); }
+        function showExerciseNote(ex, day, idx) { let note = data[day][idx].notes || ""; let modal = document.createElement("div"); modal.className = "modal";
+            modal.innerHTML = `<div class="modal-content"><h3>📝 ${ex}</h3><textarea id="exerciseNoteText" rows="5">${note}</textarea><div class="modal-buttons"><button class="modal-btn confirm" onclick="saveExerciseNote('${day}',${idx},'${ex}')">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); }
+        function saveExerciseNote(day, idx, ex) { let note = document.getElementById("exerciseNoteText").value; data[day][idx].notes = note; saveDataToLocal(); document.querySelector(".modal").remove(); showToast("✅ Not kaydedildi"); }
 
-        function urunEkle(listeId, urun) { let liste = listeler.find(l => l.id === listeId); if (!liste) return false;
-            liste.urunler.push(urun);
-            hesaplaToplam(liste);
-            saveListeler();
-            renderSecilenUrunler(); return true; }
+        // IndexedDB
+        function openDB() { return new Promise((res, rej) => { let req = indexedDB.open("FitVideoDB", 1); req.onerror = rej; req.onsuccess = e => { res(e.target.result); }; req.onupgradeneeded = e => { e.target.result.createObjectStore("videos", { keyPath: "id" }); }; }); }
+        async function saveVideoToDB(id, blob) { let db = await openDB(); return new Promise((res, rej) => { let tx = db.transaction("videos", "readwrite"); tx.objectStore("videos").put({ id, video: blob }).onsuccess = res; tx.onerror = rej; }); }
+        async function getVideoFromDB(id) { let db = await openDB(); return new Promise(res => { db.transaction("videos", "readonly").objectStore("videos").get(id).onsuccess = e => res(e.target.result?.video || null); }); }
+        async function deleteVideoFromDB(id) { let db = await openDB(); return new Promise(res => { db.transaction("videos", "readwrite").objectStore("videos").delete(id).onsuccess = res; }); }
 
-        function renderSecilenUrunler() { let aktif = listeler.find(l => l.id === aktifListeId); let container = document
-                .getElementById("secilenUrunler"); let toplamDiv = document.getElementById("secilenToplam"); if (!aktif) { if (
-                    container) container.innerHTML = "<div style='color:#aaa;'>Liste seçilmedi</div>"; return; } if (!aktif
-                .urunler.length) { if (container) container.innerHTML =
-                "<div style='color:#aaa;'>Henüz ürün yok</div>"; } else { if (container) { container.innerHTML = "";
-                    aktif.urunler.forEach((u, idx) => { let div = document.createElement("div");
-                        div.className = "liste-item";
-                        div.style.flexDirection = "column";
-                        div.style.alignItems = "flex-start";
-                        div.innerHTML =
-                            `<div style="display:flex;justify-content:space-between;width:100%;"><strong>${u.isim}</strong><button class="urunSil" data-idx="${idx}" style="background:#FF3B30;border:none;padding:4px 12px;border-radius:25px;color:white;">Sil</button></div><small>🔥 ${u.kalori} kcal | 💪 ${u.protein}g | 🌾 ${u.karbonhidrat}g | 🥑 ${u.yag}g</small>`;
-                        div.querySelector('.urunSil').addEventListener("click", function() { aktif.urunler
-                            .splice(idx, 1);
-                            hesaplaToplam(aktif);
-                            saveListeler();
-                            renderSecilenUrunler(); });
-                        container.appendChild(div); }); } } if (toplamDiv) toplamDiv.innerHTML =
-                `📊 Toplam: 🔥 ${aktif.toplam.kalori} kcal | 💪 ${aktif.toplam.protein}g | 🌾 ${aktif.toplam.karbonhidrat}g | 🥑 ${aktif.toplam.yag}g`; }
-        document.getElementById("yeniListeBtn")?.addEventListener("click", () => { let ad = prompt("Liste adı:",
-                `Liste ${listeler.length+1}`); if (ad) { listeler.push({ id: "l" + Date.now(), ad: ad, urunler: [],
-                    toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } });
-                saveListeler();
-                renderListeler();
-                renderAktifGosterge();
-                showToast("Liste oluşturuldu"); } });
+        async function addLocalVideo(ex, day, idx) { let inp = document.createElement("input"); inp.type = "file"; inp.accept = "video/*";
+            inp.onchange = async (e) => { let file = e.target.files[0]; if (file && file.type.startsWith("video/")) { try { await saveVideoToDB(`${day}_${ex}`, file); showToast("✅ Video kaydedildi"); } catch (err) { showToast("Hata!"); } } else { showToast("Geçerli video seçin"); } }; inp.click(); }
+        async function playLocalVideo(ex, day, idx) { let blob = await getVideoFromDB(`${day}_${ex}`); if (blob) { let url = URL.createObjectURL(blob); let modal = document.createElement("div"); modal.className = "modal"; modal.innerHTML = `<div class="modal-content"><video controls autoplay src="${url}" style="width:100%;border-radius:12px;"></video><button class="modal-btn cancel" onclick="this.closest('.modal').remove();URL.revokeObjectURL('${url}');">Kapat</button></div>`; document.body.appendChild(modal); modal.addEventListener('click', function(e) { if (e.target === modal) { modal.remove(); URL.revokeObjectURL(url); } }); } else { showToast("Kayıtlı video yok"); } }
+        async function removeLocalVideo(ex, day, idx) { let existing = await getVideoFromDB(`${day}_${ex}`); if (!existing) { showToast("Video yok"); return; } if (confirm("Sil?")) { await deleteVideoFromDB(`${day}_${ex}`); showToast("✅ Silindi"); } }
 
-        // ========== KAMERA BARKOD ==========
+        function resetWeek() { if (confirm("⚠️ Sıfırla?")) { doneState = {}; waterIntake = {}; totalSetCount = 0; saveDataToLocal(); if (currentDayOpen) { renderDayItems(currentDayOpen); renderDayHedefKart(currentDayOpen); renderKasDurum(currentDayOpen); } buildHome(); showToast("✅ Sıfırlandı"); } }
+        function backupData() { let exp = { data, doneState, waterIntake, setLogs, muscleLastTrained, bodyMeasurements, beforePhoto, afterPhoto, supplements, dailyTargets, listeler, aktifListeId }; let a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(exp)])); a.download = `fitness_${new Date().toISOString().slice(0,10)}.json`; a.click(); showToast("💾 Yedek alındı"); }
+        function restoreData() { let inp = document.createElement("input"); inp.type = "file"; inp.accept = ".json"; inp.onchange = e => { let f = e.target.files[0]; if (!f) return; let r = new FileReader(); r.onload = ev => { try { let imp = JSON.parse(ev.target.result); if (imp.data) data = imp.data; if (imp.doneState) doneState = imp.doneState; if (imp.waterIntake) waterIntake = imp.waterIntake; if (imp.setLogs) setLogs = imp.setLogs; if (imp.muscleLastTrained) muscleLastTrained = imp.muscleLastTrained; if (imp.bodyMeasurements) bodyMeasurements = imp.bodyMeasurements; if (imp.beforePhoto) beforePhoto = imp.beforePhoto; if (imp.afterPhoto) afterPhoto = imp.afterPhoto; if (imp.supplements) supplements = imp.supplements; if (imp.dailyTargets) dailyTargets = imp.dailyTargets; if (imp.listeler) listeler = imp.listeler; if (imp.aktifListeId) aktifListeId = imp.aktifListeId; saveDataToLocal(); saveListeler(); location.reload(); } catch (err) { alert("Hatalı dosya!"); } }; r.readAsText(f); }; inp.click(); }
+
+        function populateManageSelects() { let days = Object.keys(data); let mealSel = document.getElementById("mealManageDay"), exSel = document.getElementById("exerciseManageDay"); mealSel.innerHTML = '<option value="">Gün Seç</option>'; exSel.innerHTML = '<option value="">Gün Seç</option>'; days.forEach(d => { mealSel.innerHTML += `<option value="${d}">${d}</option>`; exSel.innerHTML += `<option value="${d}">${d}</option>`; }); mealSel.onchange = () => refreshMealList(); exSel.onchange = () => refreshExerciseList(); }
+        function refreshMealList() { let day = document.getElementById("mealManageDay").value, cont = document.getElementById("mealList"); if (!day || !data[day]) { cont.innerHTML = ""; return; } cont.innerHTML = ""; data[day].forEach((it, idx) => { if (typeof it === "string" && !it.includes("🏋️") && !it.includes("👉") && !it.includes("🟥") && !it.includes("🔵") && !it.includes("🟩") && !it.includes("🟪") && !it.includes("🟧") && !it.includes("💪") && !it.includes("🔥")) { let div = document.createElement("div"); div.style.cssText = "display:flex;justify-content:space-between;align-items:center;padding:8px;margin:4px 0;background:#2C2C2E;border-radius:10px;font-size:0.8em;"; div.innerHTML = `<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30;border:none;padding:3px 7px;border-radius:8px;color:#fff;font-size:0.75em;">Sil</button></div>`; cont.appendChild(div); } }); }
+        function deleteMeal(day, idx) { if (confirm("Sil?")) { data[day].splice(idx, 1); saveDataToLocal(); refreshMealList(); if (currentDayOpen === day) { renderDayItems(day); renderDayHedefKart(day); } buildHome(); } }
+        function addMealToDay() { let day = document.getElementById("mealManageDay").value, name = document.getElementById("newMealName").value; if (!day || !name) { showToast("Gün ve ad girin"); return; } data[day].push(name); saveDataToLocal(); document.getElementById("newMealName").value = ""; refreshMealList(); if (currentDayOpen === day) { renderDayItems(day); renderDayHedefKart(day); } buildHome(); }
+        function refreshExerciseList() { let day = document.getElementById("exerciseManageDay").value, cont = document.getElementById("exerciseList"); if (!day || !data[day]) { cont.innerHTML = ""; return; } cont.innerHTML = ""; data[day].forEach((it, idx) => { if (it && typeof it === "object" && it.ex) { let div = document.createElement("div"); div.style.cssText = "display:flex;justify-content:space-between;align-items:center;padding:8px;margin:4px 0;background:#2C2C2E;border-radius:10px;font-size:0.8em;"; div.innerHTML = `<span style="flex:1;">💪 ${it.ex} (${it.sets}s)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button onclick="deleteExercise('${day}',${idx})" style="background:#FF3B30;border:none;padding:3px 7px;border-radius:8px;color:#fff;font-size:0.75em;">Sil</button></div>`; cont.appendChild(div); } }); }
+        function deleteExercise(day, idx) { if (confirm("Sil?")) { data[day].splice(idx, 1); saveDataToLocal(); refreshExerciseList(); if (currentDayOpen === day) renderDayItems(day); buildHome(); } }
+        function addExerciseToDay() { let day = document.getElementById("exerciseManageDay").value, name = document.getElementById("newExerciseName").value, sets = parseInt(document.getElementById("newExerciseSets").value); if (!day || !name || !sets) { showToast("Eksik bilgi"); return; } data[day].push({ ex: name, sets: sets, link: "", notes: "" }); saveDataToLocal(); document.getElementById("newExerciseName").value = ""; document.getElementById("newExerciseSets").value = ""; refreshExerciseList(); if (currentDayOpen === day) renderDayItems(day); buildHome(); }
+
+        function updateSupplementsDisplay() { let cont = document.getElementById("supplementList"); if (!cont) return; cont.innerHTML = ""; supplements.forEach((sup, idx) => { let div = document.createElement("div"); div.className = "takviye-row"; div.innerHTML = `<span class="takviye-ad">💊 ${sup.name}</span><span class="takviye-zaman">${sup.time}</span><button class="sil-btn" onclick="deleteSupplement(${idx})">SİL</button>`; cont.appendChild(div); }); }
+        function deleteSupplement(idx) { if (confirm("Sil?")) { supplements.splice(idx, 1); saveDataToLocal(); updateSupplementsDisplay(); } }
+        function addSupplement() { let name = document.getElementById("newSupplementName").value.trim(), time = document.getElementById("newSupplementTime").value.trim(); if (!name || !time) { showToast("Eksik bilgi"); return; } supplements.push({ name, time }); saveDataToLocal(); document.getElementById("newSupplementName").value = ""; document.getElementById("newSupplementTime").value = ""; updateSupplementsDisplay(); showToast("✅ Eklendi"); }
+        function saveBodyMeasurements() { bodyMeasurements.weight = parseFloat(document.getElementById("bodyWeight").value) || 0; bodyMeasurements.waist = parseFloat(document.getElementById("bodyWaist").value) || 0; bodyMeasurements.chest = parseFloat(document.getElementById("bodyChest").value) || 0; bodyMeasurements.arm = parseFloat(document.getElementById("bodyArm").value) || 0; bodyMeasurements.leg = parseFloat(document.getElementById("bodyLeg").value) || 0; saveDataToLocal(); showToast("📏 Kaydedildi"); }
+        function uploadPhoto(type) { let inp = document.createElement("input"); inp.type = "file"; inp.accept = "image/*"; inp.onchange = e => { let file = e.target.files[0]; if (file) { let reader = new FileReader(); reader.onload = ev => { if (type === "before") beforePhoto = ev.target.result; else afterPhoto = ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); }; reader.readAsDataURL(file); } }; inp.click(); }
+        function updateBodyMeasurementsUI() { document.getElementById("bodyWeight").value = bodyMeasurements.weight || ""; document.getElementById("bodyWaist").value = bodyMeasurements.waist || ""; document.getElementById("bodyChest").value = bodyMeasurements.chest || ""; document.getElementById("bodyArm").value = bodyMeasurements.arm || ""; document.getElementById("bodyLeg").value = bodyMeasurements.leg || ""; let cont = document.getElementById("photoContainer"); if (cont) cont.innerHTML = `<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%;border-radius:10px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')" style="background:#34C759;border:none;padding:5px 10px;border-radius:16px;color:#000;margin-top:4px;cursor:pointer;font-size:0.75em;">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%;border-radius:10px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')" style="background:#34C759;border:none;padding:5px 10px;border-radius:16px;color:#000;margin-top:4px;cursor:pointer;font-size:0.75em;">Değiştir</button></div>`; let sliderDiv = document.getElementById("sliderContainer"); if (beforePhoto && afterPhoto) { sliderDiv.style.display = "block"; if (!document.getElementById("photoSlider")) { sliderDiv.innerHTML = '<input type="range" id="photoSlider" min="0" max="100" value="50" style="width:100%;"><div style="display:flex;justify-content:space-between;font-size:0.7em;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider = document.getElementById("photoSlider"); slider.addEventListener("input", e => { let val = e.target.value; let imgs = document.querySelectorAll("#photoContainer img"); if (imgs[0]) imgs[0].style.opacity = (100 - val) / 100; if (imgs[1]) imgs[1].style.opacity = val / 100; }); } } else { sliderDiv.style.display = "none"; } }
+
+        // LİSTE
+        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v6"); if (kayit) { listeler = JSON.parse(kayit); } else { listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l3", ad: "🍽️ Liste 3", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }]; } aktifListeId = localStorage.getItem("fitness_aktif_liste_v6"); if (!aktifListeId || !listeler.find(l => l.id === aktifListeId)) aktifListeId = listeler[0]?.id; }
+        function saveListeler() { localStorage.setItem("fitness_listeler_v6", JSON.stringify(listeler)); if (aktifListeId) localStorage.setItem("fitness_aktif_liste_v6", aktifListeId); }
+        function renderListeler() { let container = document.getElementById("listeContainer"); if (!container) return; if (!listeler.length) { container.innerHTML = "<div style='color:#aaa;font-size:0.8em;'>Liste yok</div>"; return; } container.innerHTML = ""; listeler.forEach(l => { let div = document.createElement("div"); div.className = "liste-item"; div.innerHTML = `<div><strong>${l.ad}</strong><br><small>${l.urunler.length} ürün</small></div><div><button class="secButon" data-id="${l.id}" style="background:${aktifListeId===l.id?'#34C759':'#007AFF'};border:none;padding:5px 10px;border-radius:20px;color:white;font-size:0.75em;">${aktifListeId===l.id?'✅ Seçili':'Seç'}</button><button class="silButon" data-id="${l.id}" style="background:#FF3B30;border:none;padding:5px 8px;border-radius:20px;margin-left:4px;font-size:0.75em;color:white;">Sil</button></div>`; div.querySelector('.secButon').addEventListener("click", function() { aktifListeId = this.dataset.id; saveListeler(); renderListeler(); renderAktifGosterge(); renderSecilenUrunler(); }); div.querySelector('.silButon').addEventListener("click", function() { if (listeler.length === 1) { showToast("En az 1 liste olmalı"); return; } listeler = listeler.filter(ll => ll.id !== this.dataset.id); if (aktifListeId === this.dataset.id) aktifListeId = listeler[0]?.id; saveListeler(); renderListeler(); renderAktifGosterge(); renderSecilenUrunler(); }); container.appendChild(div); }); }
+        function renderAktifGosterge() { let aktif = listeler.find(l => l.id === aktifListeId); let el = document.getElementById("aktifGosterge"); if (el) el.innerHTML = aktif ? `✅ AKTİF: ${aktif.ad}` : "❌ Liste seçilmedi"; }
+        function hesaplaToplam(liste) { let t = { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 }; liste.urunler.forEach(u => { t.protein += u.protein; t.karbonhidrat += u.karbonhidrat; t.yag += u.yag; t.kalori += u.kalori; }); liste.toplam = t; }
+        function urunEkle(listeId, urun) { let liste = listeler.find(l => l.id === listeId); if (!liste) return false; liste.urunler.push(urun); hesaplaToplam(liste); saveListeler(); renderSecilenUrunler(); return true; }
+        function renderSecilenUrunler() { let aktif = listeler.find(l => l.id === aktifListeId); let container = document.getElementById("secilenUrunler"); let toplamDiv = document.getElementById("secilenToplam"); if (!aktif) { if (container) container.innerHTML = "<div style='color:#aaa;font-size:0.8em;'>Liste seçilmedi</div>"; return; } if (!aktif.urunler.length) { if (container) container.innerHTML = "<div style='color:#aaa;font-size:0.8em;'>Henüz ürün yok</div>"; } else { if (container) { container.innerHTML = ""; aktif.urunler.forEach((u, idx) => { let div = document.createElement("div"); div.className = "liste-item"; div.style.flexDirection = "column"; div.style.alignItems = "flex-start"; div.innerHTML = `<div style="display:flex;justify-content:space-between;width:100%;"><strong>${u.isim}</strong><button class="urunSil" data-idx="${idx}" style="background:#FF3B30;border:none;padding:4px 10px;border-radius:20px;color:white;font-size:0.7em;">Sil</button></div><small>🔥 ${u.kalori} | 💪 ${u.protein}g | 🌾 ${u.karbonhidrat}g | 🥑 ${u.yag}g</small>`; div.querySelector('.urunSil').addEventListener("click", function() { aktif.urunler.splice(idx, 1); hesaplaToplam(aktif); saveListeler(); renderSecilenUrunler(); }); container.appendChild(div); }); } } if (toplamDiv) toplamDiv.innerHTML = `📊 Toplam: 🔥 ${aktif.toplam.kalori} kcal | 💪 ${aktif.toplam.protein}g | 🌾 ${aktif.toplam.karbonhidrat}g | 🥑 ${aktif.toplam.yag}g`; }
+        document.getElementById("yeniListeBtn")?.addEventListener("click", () => { let ad = prompt("Liste adı:", `Liste ${listeler.length+1}`); if (ad) { listeler.push({ id: "l" + Date.now(), ad: ad, urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }); saveListeler(); renderListeler(); renderAktifGosterge(); showToast("Liste oluşturuldu"); } });
+
+        // KAMERA BARKOD
         const kameraAcBtn = document.getElementById("kameraAcBtn");
         const kameraKapatBtn = document.getElementById("kameraKapatBtn");
         const videoEl = document.getElementById("barcodeVideo");
         const kameraDurum = document.getElementById("kameraDurum");
         const urunSonuc = document.getElementById("urunSonuc");
 
-        async function kamerayiBaslat() { if (!aktifListeId) { kameraDurum.innerHTML = "❌ Önce bir liste seçin!"; return; }
+        async function kamerayiBaslat() {
+            if (!aktifListeId) { kameraDurum.innerHTML = "❌ Önce bir liste seçin!"; return; }
             kameraAcBtn.classList.add("hidden");
             kameraKapatBtn.classList.remove("hidden");
             videoEl.style.display = "block";
-            kameraDurum.innerHTML = "📱 Barkodu göster...";
-            urunSonuc.innerHTML = ""; try { scanner = new ZXing.BrowserMultiFormatReader();
-            await scanner.decodeFromVideoDevice(null, videoEl, async (result, err) => { if (result) { let barcode =
-                        result.getText();
-                    kameraDurum.innerHTML = `✅ Barkod: ${barcode}`;
-                    urunSonuc.innerHTML = '<div style="color:#FF9500;">⏳ Aranıyor...</div>'; try { let res =
-                            await fetch(
-                                `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`); let dataF =
-                            await res.json(); if (dataF.status === 1 && dataF.product) { let p = dataF.product;
-                            let isim = p.product_name || "Ürün"; let nut = p.nutriments || {}; let kalori = Math
-                                .round(nut['energy-kcal'] || 0); let protein = Math.round(nut.proteins || 0);
-                            let karbonhidrat = Math.round(nut.carbohydrates || 0); let yag = Math.round(nut.fat ||
-                                0);
-                            urunSonuc.innerHTML = `<div class="urun-card"><strong>📦 ${isim}</strong><br>🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g<div class="button-group"><button id="ekleBtnKamera" class="settings-btn green" style="flex:1;">✅ Ekle</button><button id="iptalBtnKamera" class="settings-btn red" style="flex:1;">❌ İptal</button></div></div>`;
-                            document.getElementById("ekleBtnKamera")?.addEventListener("click", () => { urunEkle(
-                                    aktifListeId, { isim, kalori, protein, karbonhidrat, yag });
-                                urunSonuc.innerHTML =
-                                `<div style="color:#34C759;">✅ "${isim}" eklendi!</div>`; setTimeout(
-                                    () => urunSonuc.innerHTML = "", 2000); });
-                            document.getElementById("iptalBtnKamera")?.addEventListener("click", () => {
-                                urunSonuc.innerHTML =
-                                    `<div style="color:#FF9500;">İptal edildi</div>`; setTimeout(() =>
-                                    urunSonuc.innerHTML = "", 1500); }); } else { urunSonuc.innerHTML =
-                                `<div style="color:#FF3B30;">❌ Ürün bulunamadı</div>`; } } catch (e) { urunSonuc
-                            .innerHTML = `<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>`; } } }); } catch (
-                e) { kameraDurum.innerHTML = "❌ Kamera izni gerekli";
-                kamerayiKapat(); } }
+            kameraDurum.innerHTML = "📱 Kameraya barkodu gösterin...";
+            urunSonuc.innerHTML = "";
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                videoEl.srcObject = stream;
+                await videoEl.play();
+                scanner = new ZXing.BrowserMultiFormatReader();
+                scanner.decodeFromVideoDevice(null, videoEl, async (result, err) => {
+                    if (result) {
+                        let barcode = result.getText();
+                        kameraDurum.innerHTML = `✅ Barkod: ${barcode}`;
+                        urunSonuc.innerHTML = '<div style="color:#FF9500;">⏳ Ürün aranıyor...</div>';
+                        try {
+                            let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+                            let dataF = await res.json();
+                            if (dataF.status === 1 && dataF.product) {
+                                let p = dataF.product;
+                                let isim = p.product_name || "Ürün";
+                                let nut = p.nutriments || {};
+                                let kalori = Math.round(nut['energy-kcal'] || 0);
+                                let protein = Math.round(nut.proteins || 0);
+                                let karbonhidrat = Math.round(nut.carbohydrates || 0);
+                                let yag = Math.round(nut.fat || 0);
+                                urunSonuc.innerHTML = `<div class="urun-card"><strong>📦 ${isim}</strong><br>🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g<div class="button-group"><button id="ekleBtnKamera" class="settings-btn green" style="flex:1;">✅ Ekle</button><button id="iptalBtnKamera" class="settings-btn red" style="flex:1;">❌ İptal</button></div></div>`;
+                                document.getElementById("ekleBtnKamera")?.addEventListener("click", () => { urunEkle(aktifListeId, { isim, kalori, protein, karbonhidrat, yag }); urunSonuc.innerHTML = `<div style="color:#34C759;">✅ "${isim}" eklendi!</div>`; setTimeout(() => urunSonuc.innerHTML = "", 2000); });
+                                document.getElementById("iptalBtnKamera")?.addEventListener("click", () => { urunSonuc.innerHTML = ""; });
+                                if (scanner) { try { scanner.reset(); } catch (e) {} }
+                                if (videoEl.srcObject) { videoEl.srcObject.getTracks().forEach(t => t.stop()); videoEl.srcObject = null; }
+                                videoEl.style.display = "none"; kameraAcBtn.classList.remove("hidden"); kameraKapatBtn.classList.add("hidden");
+                            } else { urunSonuc.innerHTML = `<div style="color:#FF3B30;">❌ Ürün bulunamadı</div>`; }
+                        } catch (e) { urunSonuc.innerHTML = `<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>`; }
+                    }
+                });
+            } catch (e) {
+                kameraDurum.innerHTML = "❌ Kamera izni gerekli!";
+                kamerayiKapat();
+            }
+        }
 
-        function kamerayiKapat() { if (scanner) { try { scanner.reset(); } catch (e) {} scanner = null; }
+        function kamerayiKapat() {
+            if (scanner) { try { scanner.reset(); } catch (e) {} scanner = null; }
+            if (videoEl.srcObject) { videoEl.srcObject.getTracks().forEach(t => t.stop()); videoEl.srcObject = null; }
             videoEl.style.display = "none";
             kameraAcBtn.classList.remove("hidden");
             kameraKapatBtn.classList.add("hidden");
-            kameraDurum.innerHTML = ""; }
+            kameraDurum.innerHTML = "";
+            urunSonuc.innerHTML = "";
+        }
         kameraAcBtn?.addEventListener("click", kamerayiBaslat);
         kameraKapatBtn?.addEventListener("click", kamerayiKapat);
 
-        document.getElementById("hedefKaydetBtn")?.addEventListener("click", () => { dailyTargets = { protein: parseInt(
-                    document.getElementById("targetProtein").value) || 160, carbs: parseInt(document.getElementById(
-                    "targetCarbs").value) || 250, fat: parseInt(document.getElementById("targetFat").value) || 70, calories: parseInt(
-                    document.getElementById("targetCal").value) || 2500 };
-            localStorage.setItem("dailyTargets", JSON.stringify(dailyTargets));
-            showToast("✅ Hedefler kaydedildi"); if (currentDayOpen) renderDayHedefKart(currentDayOpen); });
+        document.getElementById("hedefKaydetBtn")?.addEventListener("click", () => { dailyTargets = { protein: parseInt(document.getElementById("targetProtein").value) || 160, carbs: parseInt(document.getElementById("targetCarbs").value) || 250, fat: parseInt(document.getElementById("targetFat").value) || 70, calories: parseInt(document.getElementById("targetCal").value) || 2500 }; localStorage.setItem("dailyTargets", JSON.stringify(dailyTargets)); showToast("✅ Hedefler kaydedildi"); if (currentDayOpen) renderDayHedefKart(currentDayOpen); });
 
         loadDataFromLocal();
         initListeler();
