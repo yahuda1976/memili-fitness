@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Kameralı Barkod Çalışıyor</title>
+    <title>Fitness Pro - Kameralı Barkod (SON)</title>
     <script type="text/javascript" src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -122,7 +122,7 @@
                 <button onclick="createNewMealList()" class="modal-btn confirm" style="width:100%; background:#e67e22;">➕ Yeni Liste Oluştur</button>
                 <div id="mealListsContainer" style="margin-top:12px;"></div>
             </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;"><h3 style="color:#FF9500;">📷 BARKOD İLE BESİN EKLE</h3><button onclick="openCameraDirectly()" style="width:100%; background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📷 KAMERA İLE BARKOD OKU</button></div>
+            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;"><h3 style="color:#FF9500;">📷 BARKOD İLE BESİN EKLE</h3><button onclick="openCameraWithListCheck()" style="width:100%; background:#2C2C2E; border:none; padding:12px; border-radius:12px; color:#fff;">📷 KAMERA İLE BARKOD OKU</button></div>
             <div class="body-stats"><h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
                 <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1"></div>
                 <div class="measure-input"><label>Bel (cm)</label><input type="number" id="bodyWaist" step="0.5"></div>
@@ -277,7 +277,14 @@ function completeAndSaveList(listId) {
     document.querySelector(".modal")?.remove();
     renderMealLists();
 }
-// ========== KAMERA (DOĞRUDAN, STABİL) ==========
+// ========== KAMERA (SAĞLAM, KESİN ÇALIŞIR) ==========
+function openCameraWithListCheck() {
+    if (!currentListId) {
+        showToast("Lütfen önce bir yemek listesi seçin (Ayarlar -> Yemek Listesi Oluştur)");
+        return;
+    }
+    openCameraDirectly();
+}
 function openCameraDirectly() {
     if (zxingReader) { 
         try { zxingReader.reset(); } catch(e) {}
@@ -344,9 +351,11 @@ async function showProductAndConfirm(barcode) {
             `;
             document.body.appendChild(confirmModal);
         } else {
-            showToast("Ürün bulunamadı");
+            showToast("❌ Ürün bulunamadı. Lütfen manuel giriş yapın.");
         }
-    } catch(e) { showToast("Hata oluştu"); }
+    } catch(e) { 
+        showToast("Hata oluştu. Lütfen tekrar deneyin."); 
+    }
 }
 function addProductToCurrentListConfirmed(name, kcal, prot, carb, fat) {
     if (!currentListId) { showToast("Önce bir liste seçin"); return; }
