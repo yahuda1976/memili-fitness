@@ -3,527 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - KAMERALI BARKOD (ÇALIŞIR)</title>
-    <script type="text/javascript" src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
+    <title>Fitness Pro - Kameralı Barkod (TAM ENTEGRE)</title>
+    <script src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 17px; padding-bottom: 120px; font-weight: 500; }
-        .app-header { background: #000; padding: 16px 20px; text-align: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
-        .app-header h1 { font-size: 1.8rem; background: linear-gradient(135deg,#007aff,#5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; max-width: 550px; margin: 0 auto; }
-        .card { background: #1C1C1E; border-radius: 16px; padding: 16px 8px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
-        .card:active { transform: scale(0.97); background: #2C2C2E; }
-        .card h3 { font-size: 1.5rem; font-weight: 900; color: #34C759; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .card.settings-card h3 { color: #007AFF; }
-        .progress-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .progress-fill { height: 100%; background: #34C759; transition: width 0.3s; }
-        small { font-size: 0.7rem; color: #8E8E93; display: block; margin-top: 6px; }
-        .day-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 1000; overflow-y: auto; padding-bottom: 120px; }
-        .day-header { background: #000; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
-        .back-btn, .add-item-btn { background: #007AFF; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 600; font-size: 1rem; color: white; cursor: pointer; }
-        .day-title { font-size: 1.4rem; font-weight: 700; color: #fff; }
-        .item, .set { background: #1C1C1E; margin: 10px 16px; padding: 14px; border-radius: 14px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.1); }
-        .set { cursor: pointer; border-left: 4px solid #34C759; }
-        .set.done, .item.done { background: #007AFF; text-decoration: line-through; opacity: 0.9; }
-        .set.done::after, .item.done::after { content: "✓"; margin-left: 8px; }
-        .set span, .item span { font-weight: 600; flex: 1; color: #fff; }
-        .ex-title { background: #1C1C1E; border-radius: 12px; padding: 12px 16px; margin: 16px 16px 8px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .ex-title > span { flex: 1; font-weight: 600; color: #34C759; font-size: 1.1rem; }
-        .ex-title-buttons { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; width: 100%; margin-top: 8px; }
-        .ex-title-buttons button { background: #2C2C2E; border: 1px solid rgba(255,255,255,0.2); padding: 8px 0; border-radius: 40px; color: #FFCC33; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
-        .move-buttons { display: flex; flex-direction: column; gap: 4px; }
-        .move-btn { background: rgba(255,255,255,0.15); border: none; font-size: 1rem; cursor: pointer; padding: 4px 6px; border-radius: 10px; color: #FFF; }
-        .bottom-quest { position: fixed; bottom: 0; left: 0; right: 0; background: #1C1C1E; padding: 12px 20px; border-top: 0.5px solid rgba(255,255,255,0.1); }
-        .quest-title { font-size: 0.9rem; font-weight: 600; text-align: center; color: #007AFF; }
-        .quest-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 10px 0; }
-        .quest-item { text-align: center; background: #2C2C2E; padding: 8px; border-radius: 12px; }
-        .quest-icon { font-size: 1.3rem; }
-        .quest-progress { font-size: 0.8rem; font-weight: 600; }
-        .daily-score { text-align: center; font-size: 0.8rem; color: #8E8E93; }
-        .score-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; margin-top: 6px; overflow: hidden; }
-        .score-fill { height: 100%; background: #34C759; }
-        .modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); backdrop-filter: blur(8px); z-index:3000; display:flex; align-items:center; justify-content:center; padding:20px; }
-        .modal-content { background:#1C1C1E; border-radius:20px; padding:24px; max-width:550px; width:100%; color:white; max-height:80vh; overflow-y:auto; }
-        .modal-content input, .modal-content select, .modal-content textarea { width:100%; padding:12px; margin:8px 0; background:#2C2C2E; border:none; border-radius:10px; color:white; }
-        .modal-buttons { display:flex; gap:12px; margin-top:20px; }
-        .modal-btn { flex:1; padding:12px; border:none; border-radius:40px; font-weight:600; cursor:pointer; }
-        .modal-btn.confirm { background:#007AFF; color:white; }
-        .modal-btn.cancel { background:#FF3B30; color:white; }
-        .timer-box { position:fixed; bottom:180px; right:20px; background:rgba(28,28,30,0.98); border-radius:20px; padding:16px 20px; text-align:center; z-index:2000; min-width:140px; }
-        .timer-num { font-size:40px; font-weight:700; font-family:monospace; color:#007AFF; }
-        .timer-buttons { display:flex; gap:12px; margin-top:10px; justify-content:center; }
-        .timer-btn { background:#3a3a3c; border:none; padding:6px 16px; border-radius:20px; font-weight:600; color:#007AFF; cursor:pointer; }
-        .stop-sound-btn { background:#FF3B30; color:white; border:none; padding:6px 12px; border-radius:20px; font-size:0.7rem; cursor:pointer; margin-top:8px; }
-        .hidden { display:none; }
-        .toast { position:fixed; bottom:30%; left:50%; transform:translateX(-50%); background:#1c1c1e; color:white; padding:12px 24px; border-radius:60px; font-weight:600; z-index:2000; animation:fadeOut 1.5s forwards; }
-        @keyframes fadeOut { 0% { opacity:1; } 70% { opacity:1; } 100% { opacity:0; display:none; } }
-        .input-number-only { width:100%; padding:12px; text-align:center; background:#2C2C2E; color:white; border:none; border-radius:10px; }
-        .set-info { font-size:0.8rem; color:#FF9500; background:#2C2C2E; padding:4px 10px; border-radius:20px; margin-left:8px; }
-        .macro-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; background: #1C1C1E; border-radius: 14px; padding: 12px; margin: 12px 16px; border: 1px solid rgba(255,255,255,0.1); }
-        .macro-item { text-align: center; }
-        .macro-item span { font-size: 1.2rem; display: block; }
-        .macro-item b { display: block; font-size: 1rem; font-weight: 700; margin: 2px 0; color: #FFF; }
-        .macro-item small { color: #8E8E93; font-size: 0.6rem; text-transform: uppercase; }
-        .recovery-panel { background: #1C1C1E; border-radius: 14px; padding: 12px; margin: 12px 16px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
-        .recovery-item { flex: 1; text-align: center; padding: 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
-        .kas-red { background: rgba(255,59,48,0.2); color: #FF3B30; border-left: 4px solid #FF3B30; }
-        .kas-orange { background: rgba(255,149,0,0.2); color: #FF9500; border-left: 4px solid #FF9500; }
-        .kas-green { background: rgba(52,199,89,0.2); color: #34C759; border-left: 4px solid #34C759; }
-        .kas-no-data { background: rgba(150,150,150,0.2); color: #aaa; }
-        .weekly-history-list { background: #1C1C1E; border-radius: 14px; padding: 12px; margin: 12px; }
-        .week-item { background: #2C2C2E; border-radius: 12px; padding: 10px; margin-bottom: 8px; cursor: pointer; }
-        .week-date { font-weight: bold; color: #007AFF; }
-        .body-stats { background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px; }
-        .measure-input { display:flex; justify-content:space-between; align-items:center; margin:12px 0; }
-        .measure-input label { flex:1; }
-        .measure-input input { flex:2; padding:10px; background:#2C2C2E; border:none; border-radius:10px; color:white; text-align:center; }
-        .photo-upload button { background:#007AFF; border:none; padding:10px 20px; border-radius:12px; color:white; font-weight:600; margin:5px; cursor:pointer; }
-        .before-after { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px; }
-        .before-after div { text-align:center; background:#2C2C2E; border-radius:14px; padding:12px; width:45%; }
-        .before-after img { max-width:100%; border-radius:12px; margin-top:8px; }
-        .full-width-bottom-btn { display: block; width: 90%; max-width: 400px; margin: 20px auto 20px auto; background: #34C759; border: none; padding: 14px; border-radius: 40px; color: white; font-weight: bold; font-size: 1rem; cursor: pointer; text-align: center; }
-        .target-panel { background: #1C1C1E; border-radius: 16px; padding: 12px; margin: 12px 16px; border-left: 5px solid #007AFF; }
-        .target-progress-bar { width: 100%; height: 8px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin: 4px 0; }
-        .target-progress-fill { height: 100%; background: #34C759; width: 0%; transition: width 0.3s; }
-        .target-status { font-size: 0.75rem; color: #aaa; }
-        .list-card { background: #2C2C2E; border-radius: 16px; padding: 12px; margin: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .list-card:active { transform: scale(0.98); }
-        .delete-list-btn { background: #c0392b; border: none; padding: 6px 12px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; margin-left: 8px; }
-        .delete-item-btn { background: #c0392b; border: none; padding: 4px 8px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-left: 8px; font-size: 0.7rem; }
-        .list-item { background: #1C1C1E; margin: 8px; padding: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .barcode-scanner-area { background: #1C1C1E; border-radius: 20px; padding: 16px; margin: 12px; }
-        .barcode-scanner-area button { margin-top: 8px; }
-        video { width: 100%; border-radius: 20px; margin-top: 12px; transform: scaleX(-1); }
+        body { background: #000; color: #fff; font-family: system-ui, sans-serif; font-size: 16px; padding-bottom: 120px; }
+        .header { background: #000; padding: 16px; text-align: center; border-bottom: 1px solid #222; }
+        .header h1 { background: linear-gradient(135deg,#34C759,#007AFF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; padding: 16px; max-width: 550px; margin: auto; }
+        .card { background: #1C1C1E; border-radius: 16px; padding: 16px 8px; text-align: center; cursor: pointer; border: 1px solid #2C2C2E; }
+        .card h3 { color: #34C759; }
+        .day-view { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 100; overflow-y: auto; }
+        .day-header { display: flex; justify-content: space-between; padding: 16px; background: #000; border-bottom: 1px solid #222; }
+        .btn-back, .btn-add { background: #007AFF; border: none; padding: 8px 16px; border-radius: 12px; color: white; cursor: pointer; }
+        .item, .set { background: #1C1C1E; margin: 8px 12px; padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 8px; }
+        .set { border-left: 4px solid #34C759; }
+        .done { background: #007AFF; text-decoration: line-through; }
+        .hidden { display: none; }
+        .toast { position: fixed; bottom: 30%; left: 50%; transform: translateX(-50%); background: #1C1C1E; padding: 10px 20px; border-radius: 40px; z-index: 1000; animation: fadeOut 1.5s forwards; }
+        @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; display: none; } }
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: #1C1C1E; border-radius: 24px; padding: 24px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; }
+        .modal-content input, .modal-content select { width: 100%; padding: 12px; margin: 8px 0; background: #2C2C2E; border: none; border-radius: 12px; color: white; }
+        .modal-btn { padding: 12px; border-radius: 40px; font-weight: bold; border: none; margin: 4px; cursor: pointer; }
+        .confirm-btn { background: #007AFF; color: white; flex: 1; }
+        .cancel-btn { background: #FF3B30; color: white; flex: 1; }
+        video { width: 100%; border-radius: 20px; margin-top: 12px; background: #000; }
+        .liste-item { background: #2C2C2E; border-radius: 12px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .aktif-badge { background: #34C759; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+        .urun-card { background: #2C2C2E; border-radius: 12px; padding: 12px; margin-top: 12px; }
+        .button-group { display: flex; gap: 12px; margin-top: 12px; }
+        macro-bar { display: flex; gap: 8px; background: #1C1C1E; padding: 12px; margin: 12px; border-radius: 16px; }
+        .progress-bar { height: 4px; background: #2C2C2E; border-radius: 4px; margin: 8px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: #34C759; width: 0%; }
     </style>
 </head>
 <body>
-<div id="appContent">
-    <div class="app-header"><h1>🔥 FITNESS PRO</h1></div>
+
+<!-- ANA EKRAN -->
+<div id="homeScreen">
+    <div class="header"><h1>🔥 FITNESS PRO</h1></div>
     <div id="homeGrid" class="grid"></div>
-    <button class="full-width-bottom-btn" onclick="openWeekHistory()">📅 HAFTA GEÇMİŞİ</button>
-    <div id="dayView" class="day-view hidden">
-        <div class="day-header"><button class="back-btn" onclick="closeDay()">← Geri</button><div class="day-title" id="dayTitle"></div><button class="add-item-btn" onclick="showAddItemToDay()">+ Ekle</button></div>
-        <div id="targetPanel" class="target-panel"></div>
-        <div id="recoveryPanel" class="recovery-panel"></div>
-        <div id="macroBar" class="macro-bar"></div>
-        <div id="dayItems"></div>
+    <button id="haftaBtn" style="width:90%; margin:20px auto; display:block; background:#34C759; border:none; padding:14px; border-radius:40px; color:white; font-weight:bold;">📅 HAFTA GEÇMİŞİ</button>
+</div>
+
+<!-- GÜN EKRANI -->
+<div id="dayScreen" class="day-view hidden">
+    <div class="day-header">
+        <button class="btn-back" onclick="closeDay()">← Geri</button>
+        <span id="dayTitle"></span>
+        <button class="btn-add" onclick="showAddItem()">+ Ekle</button>
     </div>
-    <div id="settingsView" class="day-view hidden">
-        <div class="day-header"><button class="back-btn" onclick="closeSettings()">← Geri</button><div class="day-title">AYARLAR</div><div style="width:50px;"></div></div>
-        <div style="padding:16px;">
-            <div class="barcode-scanner-area">
-                <h3 style="color:#34C759; margin-bottom:12px;">📷 KAMERA İLE BARKOD OKU</h3>
-                <button id="startCameraBtn" style="background:#007AFF;">📷 Kamerayı Aç ve Barkod Oku</button>
-                <button id="stopCameraBtn" class="hidden" style="background:#FF3B30;">⏹️ Kamerayı Kapat</button>
-                <video id="barcodeVideo" autoplay playsinline muted style="display:none;"></video>
-                <div id="scanResult" style="margin-top:12px;"></div>
-                <div id="cameraStatus" style="font-size:0.8rem; color:#FF9500; margin-top:8px;"></div>
-                <hr style="margin:16px 0;">
-                <h3 style="color:#FF9500;">✍️ VEYA MANUEL GİRİŞ</h3>
-                <input type="text" id="manualBarcode" placeholder="Barkod numarasını yaz" autocomplete="off">
-                <button id="manualFetchBtn" style="background:#34C759;">🔍 Manuel Getir</button>
-                <div id="manualResult" style="margin-top:12px;"></div>
-            </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
-                <h3 style="color:#FF9500;">🎯 GÜNLÜK HEDEFLER</h3>
-                <div class="measure-input"><label>Protein (g)</label><input type="number" id="targetProtein" value="160" step="5"></div>
-                <div class="measure-input"><label>Karbonhidrat (g)</label><input type="number" id="targetCarbs" value="250" step="5"></div>
-                <div class="measure-input"><label>Yağ (g)</label><input type="number" id="targetFat" value="70" step="5"></div>
-                <div class="measure-input"><label>Kalori (kcal)</label><input type="number" id="targetCalories" value="2500" step="50"></div>
-                <button onclick="saveTargets()" class="modal-btn confirm" style="width:100%; margin-top:8px;">💾 Hedefleri Kaydet</button>
-            </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;">
-                <h3 style="color:#FF9500;">📋 YEMEK LİSTESİ OLUŞTUR</h3>
-                <button onclick="createNewMealList()" class="modal-btn confirm" style="width:100%; background:#e67e22;">➕ Yeni Liste Oluştur</button>
-                <div id="mealListsContainer" style="margin-top:12px;"></div>
-            </div>
-            <div class="body-stats"><h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
-                <div class="measure-input"><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1"></div>
-                <div class="measure-input"><label>Bel (cm)</label><input type="number" id="bodyWaist" step="0.5"></div>
-                <div class="measure-input"><label>Göğüs (cm)</label><input type="number" id="bodyChest" step="0.5"></div>
-                <div class="measure-input"><label>Kol (cm)</label><input type="number" id="bodyArm" step="0.5"></div>
-                <div class="measure-input"><label>Bacak (cm)</label><input type="number" id="bodyLeg" step="0.5"></div>
-                <button onclick="saveBodyMeasurements()" style="background:#34C759; border:none; padding:12px; border-radius:12px; color:white; width:100%;">💾 Ölçüleri Kaydet</button>
-                <h3 style="color:#007AFF; margin-top:20px;">📸 FOTOĞRAF TAKİBİ</h3>
-                <div class="photo-upload"><button onclick="uploadPhoto('before')">📷 ÖNCE FOTOĞRAF EKLE</button><button onclick="uploadPhoto('after')">📷 SONRA FOTOĞRAF EKLE</button></div>
-                <div class="before-after" id="photoContainer"></div><div id="sliderContainer" style="margin-top:12px;"></div>
-            </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;"><h3 style="color:#007AFF;">🍽️ Yemek Yönetimi</h3>
-                <select id="mealManageDay" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white;"></select>
-                <div id="mealList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div>
-                <input type="text" id="newMealName" placeholder="Yeni yemek adı" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white;">
-                <button onclick="addMealToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white;">+ Yemek Ekle</button>
-            </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;"><h3 style="color:#007AFF;">💪 Egzersiz Yönetimi</h3>
-                <select id="exerciseManageDay" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white;"></select>
-                <div id="exerciseList" style="max-height:300px; overflow-y:auto; margin:12px 0;"></div>
-                <input type="text" id="newExerciseName" placeholder="Hareket adı" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white; margin-bottom:8px;">
-                <input type="number" id="newExerciseSets" placeholder="Set sayısı" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white;">
-                <button onclick="addExerciseToDay()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white;">+ Hareket Ekle</button>
-            </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;"><h3 style="color:#007AFF;">💊 Supplement Takviye</h3>
-                <div id="supplementList" style="margin-bottom:12px;"></div>
-                <input type="text" id="newSupplementName" placeholder="Takviye adı" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white; margin-bottom:8px;">
-                <input type="text" id="newSupplementTime" placeholder="Kullanım zamanı" style="width:100%; padding:14px; background:#2C2C2E; border-radius:10px; color:white;">
-                <button onclick="addSupplement()" style="width:100%; margin-top:10px; background:#34C759; border:none; padding:12px; border-radius:12px; color:white;">+ Takviye Ekle</button>
-            </div>
-            <div style="background:#1C1C1E; border-radius:14px; padding:16px; margin-bottom:20px;"><h3 style="color:#007AFF;">💾 VERİ YEDEKLEME</h3>
-                <button onclick="backupData()" style="width:100%; background:#007AFF; border:none; padding:14px; border-radius:12px; color:white; margin-bottom:8px;">💾 YEDEK AL</button>
-                <button onclick="restoreData()" style="width:100%; background:#34C759; border:none; padding:14px; border-radius:12px; color:white;">📂 GERİ YÜKLE</button>
-            </div>
+    <div id="targetPanel" style="background:#1C1C1E; margin:12px; padding:12px; border-radius:16px;"></div>
+    <div id="recoveryPanel" style="display:flex; gap:8px; margin:12px; flex-wrap:wrap;"></div>
+    <div id="macroBar" style="display:flex; gap:8px; background:#1C1C1E; margin:12px; padding:12px; border-radius:16px; justify-content:space-around;"></div>
+    <div id="dayItems"></div>
+</div>
+
+<!-- AYARLAR EKRANI -->
+<div id="settingsScreen" class="day-view hidden">
+    <div class="day-header">
+        <button class="btn-back" onclick="closeSettings()">← Geri</button>
+        <span>AYARLAR</span>
+        <div style="width:50px;"></div>
+    </div>
+    <div style="padding:16px;">
+        <!-- LİSTE BÖLÜMÜ -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#34C759;">📋 YEMEK LİSTEM</h3>
+            <div id="listeContainer"></div>
+            <button id="yeniListeBtn" style="background:#FF9500; border:none; padding:10px; border-radius:40px; color:white; width:100%; margin-top:8px;">➕ Yeni Liste Oluştur</button>
+            <div id="aktifGosterge" style="margin-top:12px; padding:8px; background:#2C2C2E; border-radius:12px; text-align:center;"></div>
+        </div>
+
+        <!-- KAMERA BÖLÜMÜ -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#007AFF;">📷 KAMERA İLE BARKOD OKU</h3>
+            <button id="kameraAcBtn" style="background:#007AFF; border:none; padding:12px; border-radius:40px; color:white; width:100%;">📷 Kamerayı Aç</button>
+            <button id="kameraKapatBtn" class="hidden" style="background:#FF3B30; border:none; padding:12px; border-radius:40px; color:white; width:100%;">⏹️ Kamerayı Kapat</button>
+            <video id="barcodeVideo" autoplay playsinline muted style="display:none; margin-top:12px;"></video>
+            <div id="kameraDurum" style="font-size:12px; color:#FF9500; margin-top:8px;"></div>
+            <div id="urunSonuc" style="margin-top:12px;"></div>
+        </div>
+
+        <!-- SEÇİLİ LİSTEDEKİ ÜRÜNLER -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#34C759;">🍽️ SEÇİLİ LİSTEDEKİLER</h3>
+            <div id="secilenUrunler"></div>
+            <div id="secilenToplam" style="margin-top:12px; font-size:12px; color:#aaa;"></div>
+        </div>
+
+        <!-- HEDEFLER -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#FF9500;">🎯 GÜNLÜK HEDEFLER</h3>
+            <div><label>Protein (g)</label><input type="number" id="targetProtein" value="160"></div>
+            <div><label>Karbonhidrat (g)</label><input type="number" id="targetCarbs" value="250"></div>
+            <div><label>Yağ (g)</label><input type="number" id="targetFat" value="70"></div>
+            <div><label>Kalori</label><input type="number" id="targetCal" value="2500"></div>
+            <button id="hedefKaydetBtn" class="confirm-btn" style="width:100%; margin-top:12px;">Kaydet</button>
+        </div>
+
+        <!-- VÜCUT ÖLÇÜLERİ -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#007AFF;">📏 VÜCUT ÖLÇÜLERİ</h3>
+            <div><label>Kilo (kg)</label><input type="number" id="bodyWeight" step="0.1"></div>
+            <div><label>Bel (cm)</label><input type="number" id="bodyWaist" step="0.5"></div>
+            <div><label>Göğüs (cm)</label><input type="number" id="bodyChest" step="0.5"></div>
+            <div><label>Kol (cm)</label><input type="number" id="bodyArm" step="0.5"></div>
+            <div><label>Bacak (cm)</label><input type="number" id="bodyLeg" step="0.5"></div>
+            <button id="vucutKaydetBtn" class="confirm-btn" style="width:100%; margin-top:12px;">Kaydet</button>
+        </div>
+
+        <!-- FOTOĞRAF -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#007AFF;">📸 FOTOĞRAF</h3>
+            <button id="onceFotoBtn" style="background:#007AFF; border:none; padding:10px; border-radius:40px; color:white;">Önce</button>
+            <button id="sonraFotoBtn" style="background:#007AFF; border:none; padding:10px; border-radius:40px; color:white;">Sonra</button>
+            <div id="fotoContainer" style="display:flex; gap:12px; margin-top:12px;"></div>
+        </div>
+
+        <!-- TAKVİYELER -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px; margin-bottom:16px;">
+            <h3 style="color:#007AFF;">💊 TAKVİYELER</h3>
+            <div id="supplementList"></div>
+            <input type="text" id="newSupName" placeholder="Takviye adı"><input type="text" id="newSupTime" placeholder="Zaman">
+            <button id="supEkleBtn" class="confirm-btn" style="width:100%; margin-top:8px;">Ekle</button>
+        </div>
+
+        <!-- YEDEK -->
+        <div style="background:#1C1C1E; border-radius:20px; padding:16px;">
+            <h3 style="color:#007AFF;">💾 YEDEKLEME</h3>
+            <button id="yedekAlBtn" style="background:#007AFF; border:none; padding:12px; border-radius:40px; color:white; width:100%; margin-bottom:8px;">Yedek Al</button>
+            <button id="yedekYukleBtn" style="background:#34C759; border:none; padding:12px; border-radius:40px; color:white; width:100%;">Geri Yükle</button>
         </div>
     </div>
-    <div id="weekHistoryModal" class="modal hidden"><div class="modal-content"><div class="modal-header"><span class="modal-title">📅 HAFTA GEÇMİŞİ</span><button class="close-modal-btn" onclick="closeWeekHistory()">✖</button></div><div id="weekHistoryList" class="weekly-history-list"></div></div></div>
-    <div class="bottom-quest"><div class="quest-title">✨ GÜNLÜK GÖREVLER ✨</div><div class="quest-grid"><div class="quest-item"><div class="quest-icon">💧</div><div class="quest-progress" id="questWater">0/8</div></div><div class="quest-item"><div class="quest-icon">🍽️</div><div class="quest-progress" id="questMeal">0/12</div></div><div class="quest-item"><div class="quest-icon">🏋️</div><div class="quest-progress" id="questSet">0/20</div></div><div class="quest-item"><div class="quest-icon">⭐</div><div class="quest-progress" id="questScore">0/100</div></div></div>
-    <div class="daily-score">🎯 Günlük Puan: <span id="dailyScoreText">0</span>/100<div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div></div></div>
-    <div id="timerBox" class="timer-box" style="display:none;"><div class="timer-num" id="timerNum">90</div><div style="font-size:10px;">⏱️ Dinlenme</div><div class="timer-buttons"><button class="timer-btn" id="timerCloseBtn">Kapat</button><button class="timer-btn" id="timerCustomBtn">Ayarla</button><button class="stop-sound-btn" id="stopSoundBtn">🔇 Sesi Durdur</button></div></div>
 </div>
 
 <script>
-// ========== KAMERALI BARKOD (ZXing) ==========
-let currentBarcode = null;
-let cameraActive = false;
-let zxingReader = null;
+// ========== 1. LİSTE YÖNETİMİ (BASİT) ==========
+let listeler = [];
+let aktifListeId = null;
+let scanner = null;
 
-function initCameraBarcode() {
-    const startBtn = document.getElementById('startCameraBtn');
-    const stopBtn = document.getElementById('stopCameraBtn');
-    const video = document.getElementById('barcodeVideo');
-    const scanResult = document.getElementById('scanResult');
-    const cameraStatus = document.getElementById('cameraStatus');
-    
-    if (!startBtn) return;
-    
-    startBtn.onclick = async () => {
-        startBtn.classList.add('hidden');
-        stopBtn.classList.remove('hidden');
-        video.style.display = 'block';
-        cameraStatus.innerHTML = '📱 Kameraya barkodu göster... otomatik okunacak';
-        scanResult.innerHTML = '';
-        
-        try {
-            zxingReader = new ZXing.BrowserMultiFormatReader();
-            await zxingReader.decodeFromVideoDevice(null, video, (result, err) => {
-                if (result) {
-                    currentBarcode = result.getText();
-                    cameraStatus.innerHTML = '✅ Barkod okundu! Ürün bilgisi getiriliyor...';
-                    scanResult.innerHTML = `<div style="background:#2C2C2E; border-radius:16px; padding:12px;">
-                        <strong>📷 Okunan Barkod:</strong><br>
-                        <span style="font-size:1.2rem; letter-spacing:2px;">${currentBarcode}</span>
-                        <button id="addFromCameraBtn" style="background:#34C759; margin-top:10px; width:100%; padding:10px; border:none; border-radius:40px;">➕ Listeye Ekle</button>
-                    </div>`;
-                    
-                    // Kamera kapat
-                    if (zxingReader) {
-                        try { zxingReader.reset(); } catch(e) {}
-                        zxingReader = null;
-                    }
-                    video.style.display = 'none';
-                    startBtn.classList.remove('hidden');
-                    stopBtn.classList.add('hidden');
-                    cameraActive = false;
-                    
-                    // Ürün bilgilerini getir ve ekle
-                    fetchAndAddProduct(currentBarcode, 'camera');
-                    
-                    const addBtn = document.getElementById('addFromCameraBtn');
-                    if (addBtn) {
-                        addBtn.onclick = () => {
-                            fetchAndAddProduct(currentBarcode, 'camera');
-                        };
-                    }
-                }
-                if (err && !err.message.includes('NotFoundException')) {
-                    cameraStatus.innerHTML = '❌ Kamera hatası: ' + err.message;
-                }
-            });
-            cameraActive = true;
-        } catch(err) {
-            cameraStatus.innerHTML = '❌ Kamera başlatılamadı: ' + err.message;
-            startBtn.classList.remove('hidden');
-            stopBtn.classList.add('hidden');
-            video.style.display = 'none';
-        }
-    };
-    
-    stopBtn.onclick = () => {
-        if (zxingReader) {
-            try { zxingReader.reset(); } catch(e) {}
-            zxingReader = null;
-        }
-        video.style.display = 'none';
-        startBtn.classList.remove('hidden');
-        stopBtn.classList.add('hidden');
-        cameraStatus.innerHTML = '';
-        cameraActive = false;
-    };
-}
-
-// ========== ÜRÜN GETİR VE LİSTEYE EKLE ==========
-async function fetchAndAddProduct(barcode, source) {
-    if (!currentListId) {
-        showToast("Önce bir yemek listesi seçin (Yemek Listesi Oluştur)");
-        return;
+function initListeler() {
+    let kayit = localStorage.getItem("fitness_listeler_v2");
+    if (kayit) {
+        listeler = JSON.parse(kayit);
+    } else {
+        listeler = [
+            { id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein:0, karbonhidrat:0, yag:0, kalori:0 } },
+            { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: { protein:0, karbonhidrat:0, yag:0, kalori:0 } },
+            { id: "l3", ad: "🍽️ Liste 3", urunler: [], toplam: { protein:0, karbonhidrat:0, yag:0, kalori:0 } }
+        ];
     }
-    showToast("⏳ Ürün aranıyor...");
-    try {
-        const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
-        const data = await res.json();
-        if (data.status === 1 && data.product) {
-            const p = data.product;
-            const name = p.product_name || "Ürün adı yok";
-            const nut = p.nutriments || {};
-            const kcal = nut['energy-kcal'] || nut['energy_value'] || 0;
-            const protein = nut.proteins || nut['proteins_value'] || 0;
-            const carbs = nut.carbohydrates || nut['carbohydrates_value'] || 0;
-            const fat = nut.fat || nut['fat_value'] || 0;
-            
-            addToCurrentMealList(name, Math.round(kcal), Math.round(protein), Math.round(carbs), Math.round(fat));
-            showToast(`✅ "${name}" listeye eklendi`);
-            if (source === 'camera') {
-                document.getElementById('scanResult').innerHTML = `<div style="color:#34C759;">✅ "${name}" listeye eklendi!</div>`;
-                setTimeout(() => {
-                    const sr = document.getElementById('scanResult');
-                    if (sr) sr.innerHTML = '';
-                }, 2000);
-            }
-        } else {
-            showToast("❌ Ürün bulunamadı");
-        }
-    } catch(err) {
-        showToast("⚠️ Bağlantı hatası");
-    }
+    aktifListeId = localStorage.getItem("fitness_aktif_liste_v2");
+    if (!aktifListeId || !listeler.find(l=>l.id===aktifListeId)) aktifListeId = listeler[0]?.id;
+    renderListeler();
+    renderAktifGosterge();
+    renderSecilenUrunler();
 }
-
-// Manuel barkod
-function initManualBarcode() {
-    const manualInput = document.getElementById('manualBarcode');
-    const manualBtn = document.getElementById('manualFetchBtn');
-    const manualResult = document.getElementById('manualResult');
-    
-    if (!manualBtn) return;
-    
-    manualBtn.onclick = async () => {
-        const barcode = manualInput.value.trim();
-        if (!barcode) { showToast("Barkod girin"); return; }
-        if (!currentListId) { showToast("Önce bir yemek listesi seçin"); return; }
-        manualResult.innerHTML = '⏳ Aranıyor...';
-        try {
-            const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
-            const data = await res.json();
-            if (data.status === 1 && data.product) {
-                const p = data.product;
-                const name = p.product_name || "Ürün adı yok";
-                const nut = p.nutriments || {};
-                const kcal = nut['energy-kcal'] || nut['energy_value'] || 0;
-                const protein = nut.proteins || nut['proteins_value'] || 0;
-                const carbs = nut.carbohydrates || nut['carbohydrates_value'] || 0;
-                const fat = nut.fat || nut['fat_value'] || 0;
-                manualResult.innerHTML = `
-                    <div style="background:#2C2C2E; border-radius:16px; padding:12px;">
-                        <strong>${name}</strong><br>
-                        🔥 ${Math.round(kcal)} kcal | 💪 ${Math.round(protein)}g | 🌾 ${Math.round(carbs)}g | 🥑 ${Math.round(fat)}g
-                        <button id="confirmManualAdd" style="background:#34C759; margin-top:10px; width:100%; padding:10px; border:none; border-radius:40px;">➕ Listeye Ekle</button>
-                    </div>
-                `;
-                document.getElementById('confirmManualAdd')?.addEventListener('click', () => {
-                    addToCurrentMealList(name, Math.round(kcal), Math.round(protein), Math.round(carbs), Math.round(fat));
-                    manualResult.innerHTML = '<div style="color:#34C759;">✅ Ürün eklendi!</div>';
-                    manualInput.value = '';
-                    setTimeout(() => { if (manualResult.innerHTML.includes('eklendi')) manualResult.innerHTML = ''; }, 2000);
-                });
-            } else {
-                manualResult.innerHTML = '<div style="color:#FF3B30;">❌ Ürün bulunamadı</div>';
-            }
-        } catch(err) {
-            manualResult.innerHTML = '<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>';
-        }
-    };
+function saveListeler() {
+    localStorage.setItem("fitness_listeler_v2", JSON.stringify(listeler));
+    if (aktifListeId) localStorage.setItem("fitness_aktif_liste_v2", aktifListeId);
 }
-
-// ========== YEMEK LİSTELERİ ==========
-let mealLists = {};
-let currentListId = null;
-let dailyTargets = { protein: 160, carbs: 250, fat: 70, calories: 2500 };
-
-function saveMealLists() { localStorage.setItem("mealLists", JSON.stringify(mealLists)); }
-function loadMealLists() { let ml = localStorage.getItem("mealLists"); if (ml) mealLists = JSON.parse(ml); else mealLists = {}; renderMealLists(); }
-
-function addToCurrentMealList(name, kcal, protein, carbs, fat) {
-    if (!currentListId || !mealLists[currentListId]) {
-        showToast("Önce bir yemek listesi seçin");
-        return false;
-    }
-    let product = { name: name, kcal: kcal, protein: protein, carbs: carbs, fat: fat };
-    let list = mealLists[currentListId];
-    list.items.push(product);
-    list.totals.protein += protein;
-    list.totals.carbs += carbs;
-    list.totals.fat += fat;
-    list.totals.calories += kcal;
-    saveMealLists();
-    renderMealLists();
-    showToast(`"${name}" listeye eklendi`);
-    if (document.querySelector('.modal')) openMealList(currentListId);
+function renderListeler() {
+    const container = document.getElementById("listeContainer");
+    if (!container) return;
+    if (!listeler.length) { container.innerHTML = "<div>Liste yok</div>"; return; }
+    let html = "";
+    listeler.forEach(l => {
+        html += `<div class="liste-item">
+            <div><strong>${l.ad}</strong><br><small>${l.urunler.length} ürün</small></div>
+            <div><button class="secButon" data-id="${l.id}" style="background:${aktifListeId===l.id?'#34C759':'#007AFF'}; border:none; padding:6px 12px; border-radius:20px; color:white;">${aktifListeId===l.id?'✅ Seçili':'Seç'}</button>
+            <button class="silButon" data-id="${l.id}" style="background:#FF3B30; border:none; padding:6px 12px; border-radius:20px; margin-left:8px;">Sil</button></div>
+        </div>`;
+    });
+    container.innerHTML = html;
+    document.querySelectorAll(".secButon").forEach(btn => {
+        btn.addEventListener("click", () => { aktifListeId = btn.dataset.id; saveListeler(); renderListeler(); renderAktifGosterge(); renderSecilenUrunler(); gosterMesaj("Liste seçildi"); });
+    });
+    document.querySelectorAll(".silButon").forEach(btn => {
+        btn.addEventListener("click", () => {
+            if (listeler.length === 1) { gosterMesaj("En az 1 liste olmalı"); return; }
+            listeler = listeler.filter(l => l.id !== btn.dataset.id);
+            if (aktifListeId === btn.dataset.id) aktifListeId = listeler[0]?.id;
+            saveListeler(); renderListeler(); renderAktifGosterge(); renderSecilenUrunler(); gosterMesaj("Liste silindi");
+        });
+    });
+}
+function renderAktifGosterge() {
+    let aktif = listeler.find(l=>l.id===aktifListeId);
+    let el = document.getElementById("aktifGosterge");
+    if(el) el.innerHTML = aktif ? `✅ AKTİF: ${aktif.ad}` : "❌ Liste seçilmedi";
+}
+function hesaplaToplam(liste) {
+    let t = { protein:0, karbonhidrat:0, yag:0, kalori:0 };
+    liste.urunler.forEach(u => { t.protein+=u.protein; t.karbonhidrat+=u.karbonhidrat; t.yag+=u.yag; t.kalori+=u.kalori; });
+    liste.toplam = t;
+}
+function urunEkle(listeId, urun) {
+    let liste = listeler.find(l=>l.id===listeId);
+    if(!liste) return false;
+    liste.urunler.push(urun);
+    hesaplaToplam(liste);
+    saveListeler();
+    renderSecilenUrunler();
     return true;
 }
+function renderSecilenUrunler() {
+    let aktif = listeler.find(l=>l.id===aktifListeId);
+    let container = document.getElementById("secilenUrunler");
+    let toplamDiv = document.getElementById("secilenToplam");
+    if(!aktif) { if(container) container.innerHTML="<div>Liste seçilmedi</div>"; return; }
+    if(!aktif.urunler.length) { container.innerHTML="<div style='color:#aaa'>Henüz ürün yok</div>"; }
+    else {
+        let html = "";
+        aktif.urunler.forEach((u,idx) => {
+            html += `<div class="liste-item" style="flex-direction:column; align-items:flex-start;">
+                <div style="display:flex; justify-content:space-between; width:100%;"><strong>${u.isim}</strong><button class="urunSil" data-idx="${idx}" style="background:#FF3B30; border:none; padding:4px 12px; border-radius:20px;">Sil</button></div>
+                <small>🔥 ${u.kalori} kcal | 💪 ${u.protein}g | 🌾 ${u.karbonhidrat}g | 🥑 ${u.yag}g</small>
+            </div>`;
+        });
+        container.innerHTML = html;
+        document.querySelectorAll(".urunSil").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                let idx = parseInt(btn.dataset.idx);
+                aktif.urunler.splice(idx,1);
+                hesaplaToplam(aktif);
+                saveListeler();
+                renderSecilenUrunler();
+                gosterMesaj("Ürün silindi");
+            });
+        });
+    }
+    toplamDiv.innerHTML = `📊 Toplam: 🔥 ${aktif.toplam.kalori} kcal | 💪 ${aktif.toplam.protein}g | 🌾 ${aktif.toplam.karbonhidrat}g | 🥑 ${aktif.toplam.yag}g`;
+}
+document.getElementById("yeniListeBtn")?.addEventListener("click", () => {
+    let ad = prompt("Liste adı:", `Liste ${listeler.length+1}`);
+    if(ad) {
+        listeler.push({ id: "l"+Date.now(), ad: ad, urunler: [], toplam: {protein:0,karbonhidrat:0,yag:0,kalori:0} });
+        saveListeler(); renderListeler(); renderAktifGosterge(); gosterMesaj("Liste oluşturuldu");
+    }
+});
 
-function createNewMealList() {
-    let id = "list_" + Date.now();
-    let name = prompt("Liste adı:", "Yeni Liste " + (Object.keys(mealLists).length+1));
-    if (!name) return;
-    mealLists[id] = { name: name, items: [], totals: { protein:0, carbs:0, fat:0, calories:0 }, completed: false };
-    saveMealLists();
-    renderMealLists();
-    showToast(`"${name}" oluşturuldu`);
+// ========== 2. KAMERALI BARKOD ==========
+const kameraAcBtn = document.getElementById("kameraAcBtn");
+const kameraKapatBtn = document.getElementById("kameraKapatBtn");
+const video = document.getElementById("barcodeVideo");
+const kameraDurum = document.getElementById("kameraDurum");
+const urunSonuc = document.getElementById("urunSonuc");
+async function kamerayiBaslat() {
+    if(!aktifListeId) { kameraDurum.innerHTML = "❌ Önce bir liste seçin!"; return; }
+    kameraAcBtn.classList.add("hidden");
+    kameraKapatBtn.classList.remove("hidden");
+    video.style.display = "block";
+    kameraDurum.innerHTML = "📱 Barkodu göster... otomatik okunacak";
+    urunSonuc.innerHTML = "";
+    try {
+        scanner = new ZXing.BrowserMultiFormatReader();
+        await scanner.decodeFromVideoDevice(null, video, async (result, err) => {
+            if(result) {
+                let barcode = result.getText();
+                kameraDurum.innerHTML = `✅ Barkod: ${barcode} - Ürün aranıyor...`;
+                urunSonuc.innerHTML = '<div style="color:#FF9500;">⏳ OpenFoodFacts aranıyor...</div>';
+                try {
+                    let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+                    let data = await res.json();
+                    if(data.status===1 && data.product) {
+                        let p = data.product;
+                        let isim = p.product_name || "Ürün adı yok";
+                        let nut = p.nutriments || {};
+                        let kalori = Math.round(nut['energy-kcal'] || nut['energy_value'] || 0);
+                        let protein = Math.round(nut.proteins || nut['proteins_value'] || 0);
+                        let karbonhidrat = Math.round(nut.carbohydrates || nut['carbohydrates_value'] || 0);
+                        let yag = Math.round(nut.fat || nut['fat_value'] || 0);
+                        urunSonuc.innerHTML = `
+                            <div class="urun-card">
+                                <strong>📦 ${isim}</strong><br>
+                                🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g
+                                <div class="button-group">
+                                    <button id="ekleBtnKamera" class="confirm-btn">✅ Listeye Ekle</button>
+                                    <button id="iptalBtnKamera" class="cancel-btn">❌ İptal</button>
+                                </div>
+                            </div>
+                        `;
+                        document.getElementById("ekleBtnKamera")?.addEventListener("click", () => {
+                            urunEkle(aktifListeId, { isim, kalori, protein, karbonhidrat, yag });
+                            urunSonuc.innerHTML = `<div style="color:#34C759;">✅ "${isim}" eklendi!</div>`;
+                            setTimeout(() => { if(urunSonuc.innerHTML.includes('eklendi')) urunSonuc.innerHTML=''; }, 2000);
+                        });
+                        document.getElementById("iptalBtnKamera")?.addEventListener("click", () => {
+                            urunSonuc.innerHTML = `<div style="color:#FF9500;">❌ İptal edildi</div>`;
+                            setTimeout(() => { if(urunSonuc.innerHTML.includes('İptal')) urunSonuc.innerHTML=''; }, 1500);
+                        });
+                    } else { urunSonuc.innerHTML = `<div style="color:#FF3B30;">❌ Ürün bulunamadı: ${barcode}</div>`; }
+                } catch(e) { urunSonuc.innerHTML = `<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>`; }
+            }
+        });
+    } catch(e) { kameraDurum.innerHTML = "❌ Kamera izni gerekli"; kamerayiKapat(); }
 }
-function deleteMealList(listId) {
-    if (confirm(`"${mealLists[listId].name}" listesini sil?`)) {
-        delete mealLists[listId];
-        saveMealLists();
-        renderMealLists();
-        showToast("Liste silindi");
-    }
+function kamerayiKapat() {
+    if(scanner) { try{ scanner.reset(); }catch(e){} scanner=null; }
+    video.style.display = "none";
+    kameraAcBtn.classList.remove("hidden");
+    kameraKapatBtn.classList.add("hidden");
+    kameraDurum.innerHTML = "";
 }
-function renderMealLists() {
-    let container = document.getElementById("mealListsContainer");
-    if (!container) return;
-    if (Object.keys(mealLists).length === 0) {
-        container.innerHTML = "<div style='text-align:center;padding:20px;color:#aaa'>Henüz liste yok. Yeni liste oluşturun.</div>";
-        return;
-    }
-    let html = "";
-    for (let id in mealLists) {
-        let list = mealLists[id];
-        let isFull = (list.totals.protein >= dailyTargets.protein && list.totals.carbs >= dailyTargets.carbs && list.totals.fat >= dailyTargets.fat && list.totals.calories >= dailyTargets.calories);
-        html += `<div class="list-card" onclick="openMealList('${id}')">
-            <div><strong>📋 ${list.name}</strong><br>💪 ${list.totals.protein}/${dailyTargets.protein}g &nbsp; 🌾 ${list.totals.carbs}/${dailyTargets.carbs}g &nbsp; 🥑 ${list.totals.fat}/${dailyTargets.fat}g<br>🔥 ${list.totals.calories}/${dailyTargets.calories} kcal<br>${list.completed ? "✅ Tamamlandı" : (isFull ? "<span class='success'>🎯 Hedefe ulaştı!</span>" : "⏳ Devam ediyor")}</div>
-            <button class="delete-list-btn" onclick="event.stopPropagation(); deleteMealList('${id}')">🗑️ Sil</button>
-        </div>`;
-    }
-    container.innerHTML = html;
-}
-function openMealList(listId) {
-    currentListId = listId;
-    let list = mealLists[listId];
-    let itemsHtml = "";
-    for (let i = 0; i < list.items.length; i++) {
-        let item = list.items[i];
-        itemsHtml += `<div class="list-item">
-            <span>${item.name} (${item.kcal} kcal, ${item.protein}g protein, ${item.carbs}g karb, ${item.fat}g yağ)</span>
-            <button class="delete-item-btn" onclick="deleteItemFromList('${listId}', ${i})">🗑️ Sil</button>
-        </div>`;
-    }
-    let modal = document.createElement("div");
-    modal.className = "modal";
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h3>📋 ${list.name}</h3>
-            <div>💪 ${list.totals.protein}/${dailyTargets.protein}g &nbsp; 🌾 ${list.totals.carbs}/${dailyTargets.carbs}g &nbsp; 🥑 ${list.totals.fat}/${dailyTargets.fat}g &nbsp; 🔥 ${list.totals.calories}/${dailyTargets.calories} kcal</div>
-            <div style="max-height:200px; overflow-y:auto; margin:12px 0;">${itemsHtml || "<div>Henüz ürün yok</div>"}</div>
-            <div class="modal-buttons">
-                <button class="modal-btn confirm" onclick="alert('Ayarlar > KAMERA İLE BARKOD OKU kısmını kullanın')">📷 Barkod ile Ekle</button>
-                <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-}
-function deleteItemFromList(listId, itemIndex) {
-    let list = mealLists[listId];
-    if (!list) return;
-    let removed = list.items.splice(itemIndex, 1)[0];
-    if (removed) {
-        list.totals.protein -= removed.protein;
-        list.totals.carbs -= removed.carbs;
-        list.totals.fat -= removed.fat;
-        list.totals.calories -= removed.kcal;
-        saveMealLists();
-        renderMealLists();
-        showToast(`${removed.name} silindi`);
-        document.querySelector(".modal")?.remove();
-        openMealList(listId);
-    }
-}
+kameraAcBtn?.addEventListener("click", kamerayiBaslat);
+kameraKapatBtn?.addEventListener("click", kamerayiKapat);
 
-// ========== ESKİ VERİ YAPISI (Kısaltılmış - tüm özellikler aynen) ==========
-const plan1Meals=["07:00 Yulaf + sut + muz + whey + Skyr | Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g","09:00 Skyr + chia + meyve | Kalori: 250 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Tavuk + pirinc + zeytinyagi + salata | Kalori: 550 | Protein: 40 g | Karb: 60 g | Yag: 15 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","18:15 Muz + lavas | Kalori: 250 | Protein: 5 g | Karb: 55 g | Yag: 2 g","20:15 Whey + meyve | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Kiyma + patates + salata | Kalori: 500 | Protein: 35 g | Karb: 40 g | Yag: 18 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
-const plan2Meals=["07:00 Yulaf + sut + whey | Kalori: 420 | Protein: 30 g | Karb: 50 g | Yag: 10 g","09:00 Skyr + keten + meyve | Kalori: 260 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Kiyma + pirinc + zeytinyagi | Kalori: 600 | Protein: 35 g | Karb: 60 g | Yag: 20 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","18:15 Ton baligi + lavas + meyve | Kalori: 300 | Protein: 25 g | Karb: 40 g | Yag: 5 g","20:15 Whey + meyve | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Tavuk + kinoa + salata | Kalori: 400 | Protein: 35 g | Karb: 35 g | Yag: 10 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
-const offMeals=["07:00 Yulaf + sut + Skyr | Kalori: 350 | Protein: 25 g | Karb: 40 g | Yag: 8 g","09:00 Skyr + keten + meyve | Kalori: 220 | Protein: 20 g | Karb: 25 g | Yag: 7 g","14:00 Tavuk + salata + zeytinyagi | Kalori: 350 | Protein: 40 g | Karb: 10 g | Yag: 15 g","17:00 Ton baligi + salata | Kalori: 250 | Protein: 30 g | Karb: 5 g | Yag: 10 g","18:30 2 yumurta | Kalori: 150 | Protein: 12 g | Karb: 2 g | Yag: 10 g","21:00 Tavuk + salata | Kalori: 400 | Protein: 35 g | Karb: 10 g | Yag: 15 g","23:00 Skyr | Kalori: 150 | Protein: 15 g | Karb: 10 g | Yag: 5 g"];
-const workoutPlans={ "PAZARTESI":{ title:"🏋️ AĞIR GÖĞÜS + TRICEPS", muscleGroups:[{ name:"🟥 GÖĞÜS", exercises:[{ ex:"Incline Dumbbell Press", sets:4 },{ ex:"Flat Dumbbell Press", sets:4 },{ ex:"Cable Crossover", sets:3 },{ ex:"Chest Press", sets:3 }] },{ name:"🔥 TRICEPS", exercises:[{ ex:"Pushdown", sets:3 },{ ex:"Overhead Extension", sets:3 }] }] },"SALI":{ title:"🏋️ SIRT + TRAPEZ", muscleGroups:[{ name:"🔵 SIRT", exercises:[{ ex:"Lat Pulldown", sets:4 },{ ex:"Seated Row", sets:3 },{ ex:"One-Arm Row", sets:3 },{ ex:"Face Pull", sets:3 },{ ex:"Shrug", sets:4 },{ ex:"Rack Pull", sets:3 }] }] },"CARSAMBA":{ title:"🏋️ BACAK", muscleGroups:[{ name:"🟦 BACAK", exercises:[{ ex:"Squat", sets:4 },{ ex:"Deadlift", sets:3 },{ ex:"Leg Extension", sets:3 },{ ex:"Leg Curl", sets:3 },{ ex:"Calf Raise", sets:4 }] }] },"PERSEMBE":{ title:"🏋️ GÖĞÜS 2 + TRICEPS", muscleGroups:[{ name:"🟪 GÖĞÜS", exercises:[{ ex:"Incline Fly", sets:3 },{ ex:"Neutral Press", sets:3 },{ ex:"Pec Deck", sets:3 },{ ex:"Chest Press", sets:3 }] },{ name:"🔥 TRICEPS", exercises:[{ ex:"Close-Grip Press", sets:3 },{ ex:"Skull Crusher", sets:3 }] }] },"CUMA":{ title:"🏋️ OMUZ + BICEPS", muscleGroups:[{ name:"🟩 OMUZ", exercises:[{ ex:"Lateral Raise", sets:4 },{ ex:"Bent-Over Raise", sets:3 },{ ex:"Cable Raise", sets:3 },{ ex:"Face Pull", sets:3 }] },{ name:"💪 BICEPS", exercises:[{ ex:"Barbell Curl", sets:3 },{ ex:"Incline Curl", sets:3 },{ ex:"Hammer Curl", sets:3 }] }] } };
-let currentWeekData={}, weekArchive={}, currentWeekKey=null, doneState={}, waterIntake={}, totalSetCount=0, timerInterval=null, currentDayOpen=null, currentSound=null, soundStopFlag=false, setLogs={}, muscleLastTrained={}, supplements=[{ name:"Omega-3", time:"Sabah" },{ name:"Whey", time:"Antrenman sonrası" },{ name:"Kreatin", time:"Antrenman öncesi" }], bodyMeasurements={ weight:0, waist:0, chest:0, arm:0, leg:0 }, beforePhoto=null, afterPhoto=null;
-const muscleGroupMap={"Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Cable Crossover":"Göğüs","Chest Press":"Göğüs","Pushdown":"Triceps","Overhead Extension":"Triceps","Lat Pulldown":"Sırt","Seated Row":"Sırt","One-Arm Row":"Sırt","Face Pull":"Omuz","Shrug":"Sırt","Rack Pull":"Sırt","Squat":"Bacak","Deadlift":"Bacak","Leg Extension":"Bacak","Leg Curl":"Bacak","Calf Raise":"Bacak","Incline Fly":"Göğüs","Neutral Press":"Göğüs","Pec Deck":"Göğüs","Close-Grip Press":"Triceps","Skull Crusher":"Triceps","Lateral Raise":"Omuz","Bent-Over Raise":"Omuz","Cable Raise":"Omuz","Barbell Curl":"Biceps","Incline Curl":"Biceps","Hammer Curl":"Biceps"};
-function getCurrentWeekKey(){ let now=new Date(); let startOfYear=new Date(now.getFullYear(),0,1); let days=Math.floor((now-startOfYear)/(24*60*60*1000)); let week=Math.ceil((days+startOfYear.getDay()+1)/7); return `${now.getFullYear()}-W${week}`; }
-function initNewWeek(){ let newKey=getCurrentWeekKey(); if(!weekArchive[newKey]){ let weekData={}, days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"], planOrder=[plan1Meals,plan1Meals,plan1Meals,plan2Meals,plan1Meals,offMeals,offMeals]; for(let i=0;i<days.length;i++){ let day=days[i], meals=planOrder[i], workout=workoutPlans[day], dayItems=[]; for(let j=0;j<meals.length;j++){ dayItems.push(meals[j]); if(!meals[j].includes("23:00")) dayItems.push("💧 1 bardak su"); if(meals[j].includes("18:15")&&workout){ dayItems.push(workout.title); for(let g of workout.muscleGroups){ dayItems.push(g.name); for(let ex of g.exercises) dayItems.push({ex:ex.ex, sets:ex.sets, link:"", notes:""}); } } } dayItems.push("💧 4 bardak su"); weekData[day]=dayItems; } weekArchive[newKey]={ weekData:weekData, weekStartDate:new Date().toISOString() }; } currentWeekKey=newKey; currentWeekData=weekArchive[currentWeekKey].weekData; doneState={}; waterIntake={}; totalSetCount=0; setLogs={}; muscleLastTrained={}; saveDataToLocal(); }
-function saveDataToLocal(){ let archiveToSave={}; for(let k in weekArchive) archiveToSave[k]={ weekData:weekArchive[k].weekData, weekStartDate:weekArchive[k].weekStartDate }; localStorage.setItem("weekArchive",JSON.stringify(archiveToSave)); localStorage.setItem("currentWeekKey",currentWeekKey); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("totalSetCount",totalSetCount); localStorage.setItem("setLogs",JSON.stringify(setLogs)); localStorage.setItem("muscleLastTrained",JSON.stringify(muscleLastTrained)); localStorage.setItem("supplements",JSON.stringify(supplements)); localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); if(beforePhoto) localStorage.setItem("beforePhoto",beforePhoto); if(afterPhoto) localStorage.setItem("afterPhoto",afterPhoto); loadTargets(); loadMealLists(); }
-function loadDataFromLocal(){ let archive=localStorage.getItem("weekArchive"); if(archive) weekArchive=JSON.parse(archive); let savedKey=localStorage.getItem("currentWeekKey"); let currentKey=getCurrentWeekKey(); if(savedKey===currentKey&&weekArchive[currentKey]){ currentWeekKey=currentKey; currentWeekData=weekArchive[currentKey].weekData; } else initNewWeek(); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let tsc=localStorage.getItem("totalSetCount"); if(tsc) totalSetCount=parseInt(tsc); let sl=localStorage.getItem("setLogs"); if(sl) setLogs=JSON.parse(sl); let ml=localStorage.getItem("muscleLastTrained"); if(ml) muscleLastTrained=JSON.parse(ml); let sup=localStorage.getItem("supplements"); if(sup) supplements=JSON.parse(sup); let bm=localStorage.getItem("bodyMeasurements"); if(bm) bodyMeasurements=JSON.parse(bm); let bf=localStorage.getItem("beforePhoto"); if(bf) beforePhoto=bf; let af=localStorage.getItem("afterPhoto"); if(af) afterPhoto=af; loadTargets(); loadMealLists(); }
-function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHTML=""; let days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"]; for(let day of days){ let stats=getDayStats(day); let percent=stats.percent; let card=document.createElement("div"); card.className="card"; card.innerHTML=`<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div><small>${stats.completed}/${stats.total} tamamlandı</small>`; card.onclick=()=>openDay(day); grid.appendChild(card); } let settingsCard=document.createElement("div"); settingsCard.className="card settings-card"; settingsCard.innerHTML=`<h3>AYARLAR</h3><div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div><small>Yönetim</small>`; settingsCard.onclick=()=>openSettings(); grid.appendChild(settingsCard); }
-function getDayStats(day){ let items=currentWeekData[day]; if(!items) return {total:0,completed:0,percent:0}; let total=0,comp=0; items.forEach((item,idx)=>{ if(typeof item==="string"){ total++; if(doneState[`${day}|meal|${idx}`]) comp++; }else if(item&&typeof item==="object"&&item.sets){ for(let s=1;s<=item.sets;s++){ total++; if(doneState[`${day}|set|${item.ex}|${s}`]) comp++; } } }); let percent=total===0?0:(comp/total)*100; return {total,completed:comp,percent}; }
-function updateDailyMacros(){ if(!currentDayOpen) return; let total={cal:0,p:0,k:0,f:0}; let items=currentWeekData[currentDayOpen]; if(items) items.forEach((item,idx)=>{ let key=`${currentDayOpen}|meal|${idx}`; if(doneState[key]&&typeof item==="string"&&!item.includes("💧")){ let m=parseFoodMacros(item); total.cal+=m.cal; total.p+=m.p; total.k+=m.k; total.f+=m.f; } }); renderMacroBar(total); if(currentDayOpen) updateTargetPanel(); }
-function renderMacroBar(macros){ let bar=document.getElementById("macroBar"); if(bar) bar.innerHTML=`<div class="macro-item"><span>🔥</span><b>${Math.round(macros.cal)}</b><small>Kalori</small></div><div class="macro-item"><span>💪</span><b>${Math.round(macros.p)}g</b><small>Protein</small></div><div class="macro-item"><span>🌾</span><b>${Math.round(macros.k)}g</b><small>Karb</small></div><div class="macro-item"><span>🥑</span><b>${Math.round(macros.f)}g</b><small>Yağ</small></div>`; }
-function updateQuests(day){ let water=0,meals=0,sets=0; for(let k in doneState){ if(k.includes(day)){ if(k.includes("meal")){ meals++; let idx=parseInt(k.split("|")[2]); let txt=currentWeekData[day]?.[idx]; if(typeof txt==="string"&&txt.includes("💧")) water++; } if(k.includes("set")) sets++; } } let wk=`${day}_water`; let totalWater=(waterIntake[wk]||0)+water; document.getElementById("questWater").innerHTML=`${Math.min(totalWater,8)}/8`; document.getElementById("questMeal").innerHTML=`${Math.min(meals,12)}/12`; document.getElementById("questSet").innerHTML=`${Math.min(sets,20)}/20`; let score=Math.min(totalWater*5+meals*3+sets*2,100); document.getElementById("dailyScoreText").innerText=score; document.getElementById("scoreFill").style.width=score+"%"; document.getElementById("questScore").innerHTML=`${score}/100`; }
-function renderRecoveryPanel(){ let panel=document.getElementById("recoveryPanel"); if(!panel) return; let muscles=["Göğüs","Sırt","Omuz","Biceps","Triceps","Bacak"]; panel.innerHTML=""; for(let m of muscles){ let last=muscleLastTrained[m]; let diffHours=last?(new Date()-new Date(last))/(1000*3600):null; let cls="kas-no-data", text=`${m} (yok)`; if(last){ if(diffHours<24){ cls="kas-red"; text=`${m} (${Math.floor(diffHours)} saat önce)`; }else if(diffHours<48){ cls="kas-orange"; text=`${m} (${Math.floor(diffHours)} saat önce)`; }else{ cls="kas-green"; text=`${m} (${Math.floor(diffHours)} saat önce)`; } } let div=document.createElement("div"); div.className=`recovery-item ${cls}`; div.innerText=text; panel.appendChild(div); } }
-function openDay(day){ currentDayOpen=day; document.getElementById("homeGrid").style.display="none"; document.getElementById("dayView").classList.remove("hidden"); document.getElementById("settingsView").classList.add("hidden"); document.getElementById("dayTitle").innerText=day; renderDayItems(day); updateDailyMacros(); renderRecoveryPanel(); updateTargetPanel(); }
-function closeDay(){ stopTimer(); document.getElementById("dayView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; buildHome(); }
-function openSettings(){ stopTimer(); document.getElementById("homeGrid").style.display="none"; document.getElementById("dayView").classList.add("hidden"); document.getElementById("settingsView").classList.remove("hidden"); populateManageSelects(); refreshMealList(); refreshExerciseList(); updateSupplementsDisplay(); updateBodyMeasurementsUI(); loadTargets(); renderMealLists(); }
-function closeSettings(){ document.getElementById("settingsView").classList.add("hidden"); document.getElementById("homeGrid").style.display="grid"; buildHome(); }
-function renderDayItems(day){ let cont=document.getElementById("dayItems"); cont.innerHTML=""; let items=currentWeekData[day]; if(!items) return; items.forEach((item,idx)=>{ if(typeof item==="string"){ let div=document.createElement("div"); div.className="item"; div.innerHTML=`<div class="move-buttons"><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button></div><span>${item}</span>`; let key=`${day}|meal|${idx}`; if(doneState[key]) div.classList.add("done"); div.onclick=(e)=>{ if(e.target.classList.contains('move-btn')) return; if(doneState[key]){ delete doneState[key]; div.classList.remove("done"); showToast("❌ Kaldırıldı"); }else{ doneState[key]=true; div.classList.add("done"); if(item.includes("💧")){ let wk=`${day}_water`; waterIntake[wk]=(waterIntake[wk]||0)+1; showToast("💧 +1 su!"); }else showToast("✅ Tamamlandı!"); } saveDataToLocal(); updateQuests(day); updateDailyMacros(); buildHome(); }; cont.appendChild(div); }else if(item&&typeof item==="object"&&item.ex){ let titleDiv=document.createElement("div"); titleDiv.className="ex-title"; titleDiv.innerHTML=`<span>💪 ${item.ex}</span><div class="ex-title-buttons"><button onclick="openExerciseVideo('${item.ex}','${item.link||""}')">📹 Video</button><button onclick="addLocalVideo('${item.ex}','${day}',${idx})">📂 Yerel Ekle</button><button onclick="playLocalVideo('${item.ex}','${day}',${idx})">▶️ Yerel Oynat</button><button onclick="removeLocalVideo('${item.ex}','${day}',${idx})">🗑️ Yerel Sil</button><button onclick="setVideoLink('${item.ex}','${day}',${idx})">🔗 Link</button><button onclick="showAlternatives('${item.ex}')">Diğer</button><button class="note-btn" onclick="showExerciseNote('${item.ex}','${day}',${idx})">Not</button><button class="oneRM-btn" onclick="showOneRMForExercise('${item.ex}')">1RM</button></div>`; cont.appendChild(titleDiv); for(let s=1;s<=item.sets;s++){ let setDiv=document.createElement("div"); setDiv.className="set"; let log=getSetLog(day,item.ex,s); let weightInfo=log?`${log.reps} tekrar × ${log.weight} kg`:"Ağırlık gir"; setDiv.innerHTML=`<div class="move-buttons"><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button></div><span>Set ${s}</span><span class="set-info">${weightInfo}</span><span>⏱️ Dinlenme</span>`; let setKey=`${day}|set|${item.ex}|${s}`; if(doneState[setKey]) setDiv.classList.add("done"); setDiv.onclick=(function(snum,exName){ return function(ev){ if(ev.target.classList.contains('move-btn')) return; if(doneState[setKey]){ if(confirm("Set iptal?")){ delete doneState[setKey]; totalSetCount--; saveDataToLocal(); renderDayItems(day); updateQuests(day); updateDailyMacros(); buildHome(); showToast("Set iptal"); } return; } let existing=getSetLog(day,exName,snum); promptWeightAndReps(day,exName,snum,existing?.weight,existing?.reps||8,()=>{ renderDayItems(day); updateQuests(day); updateDailyMacros(); buildHome(); }); }; })(s,item.ex); cont.appendChild(setDiv); } } }); updateQuests(day); updateTargetPanel(); }
-function getSetLog(day,ex,setNo){ return setLogs[day]?.[ex]?.[setNo]||null; }
-function saveSetLog(day,ex,setNo,weight,reps){ if(!setLogs[day]) setLogs[day]={}; if(!setLogs[day][ex]) setLogs[day][ex]={}; setLogs[day][ex][setNo]={weight,reps}; saveDataToLocal(); let m=muscleGroupMap[ex]; if(m){ muscleLastTrained[m]=new Date().toISOString(); renderRecoveryPanel(); saveDataToLocal(); } }
-function promptWeightAndReps(day,ex,setNo,defaultW,defaultR,onSave){ let defW=defaultW||0, defR=defaultR||8; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>⚡ ${ex} - Set ${setNo}</h3><div><label>Tekrar</label><input type="number" id="repsInput" class="input-number-only" value="${defR}"></div><div><label>Ağırlık (kg)</label><input type="number" id="weightInput" class="input-number-only" value="${defW}"></div><div class="modal-buttons"><button class="modal-btn confirm" id="saveBtn">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); modal.querySelector("#saveBtn").onclick=()=>{ let w=parseInt(modal.querySelector("#weightInput").value)||0; let r=parseInt(modal.querySelector("#repsInput").value)||1; saveSetLog(day,ex,setNo,w,r); modal.remove(); let setKey=`${day}|set|${ex}|${setNo}`; if(!doneState[setKey]){ doneState[setKey]=true; totalSetCount++; saveDataToLocal(); startTimer(90); showToast(`✅ Set ${setNo} tamamlandı!`); } if(onSave) onSave(w,r); }; }
-function moveItemUp(day,idx){ if(idx>0){ [currentWeekData[day][idx],currentWeekData[day][idx-1]]=[currentWeekData[day][idx-1],currentWeekData[day][idx]]; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("⬆️ Taşındı"); } }
-function moveItemDown(day,idx){ if(idx<currentWeekData[day].length-1){ [currentWeekData[day][idx],currentWeekData[day][idx+1]]=[currentWeekData[day][idx+1],currentWeekData[day][idx]]; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("⬇️ Taşındı"); } }
-function showAddItemToDay(){ if(!currentDayOpen) return; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>➕ ${currentDayOpen}</h3><select id="itemTypeSelect"><option value="meal">🍽️ Yemek</option><option value="exercise">💪 Hareket</option></select><input id="itemNameInput" placeholder="Ad"><div id="setsContainer" style="display:none"><input id="itemSetsInput" type="number" placeholder="Set sayısı"></div><div class="modal-buttons"><button class="modal-btn confirm" onclick="addItemToCurrentDay()">Ekle</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); let typeSel=document.getElementById("itemTypeSelect"),setsCont=document.getElementById("setsContainer"); typeSel.onchange=()=>{ setsCont.style.display=typeSel.value==="exercise"?"block":"none"; }; }
-function addItemToCurrentDay(){ let type=document.getElementById("itemTypeSelect").value, name=document.getElementById("itemNameInput").value; if(!name){ showToast("Ad girin"); return; } if(type==="meal"){ currentWeekData[currentDayOpen].push(name); showToast(`✅ "${name}" eklendi`); }else{ let sets=parseInt(document.getElementById("itemSetsInput").value); if(!sets){ showToast("Set sayısı girin"); return; } currentWeekData[currentDayOpen].push({ex:name, sets:sets, link:"", notes:""}); showToast(`✅ "${name} (${sets} set)" eklendi`); } saveDataToLocal(); renderDayItems(currentDayOpen); buildHome(); document.querySelector(".modal").remove(); }
-function showExerciseNote(ex,day,idx){ let note=currentWeekData[day][idx].notes||""; let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><h3>📝 ${ex}</h3><textarea id="noteText" rows="4">${note}</textarea><div class="modal-buttons"><button class="modal-btn confirm" onclick="saveExerciseNote('${day}',${idx})">Kaydet</button><button class="modal-btn cancel" onclick="this.closest('.modal').remove()">İptal</button></div></div>`; document.body.appendChild(modal); }
-function saveExerciseNote(day,idx){ let note=document.getElementById("noteText").value; currentWeekData[day][idx].notes=note; saveDataToLocal(); document.querySelector(".modal").remove(); showToast("Not kaydedildi"); }
-function showAlternatives(ex){ let altList={ "Incline Dumbbell Press":"Incline Barbell","Flat Dumbbell Press":"Barbell Bench","Lat Pulldown":"Pull-Up","Face Pull":"Reverse Pec Deck","Squat":"Leg Press","Deadlift":"Rack Pull","Lateral Raise":"Cable Raise","Barbell Curl":"EZ Bar","Hammer Curl":"Rope Curl" }; let alt=altList[ex]; if(alt) alert("Alternatif: "+alt); else showToast("Alternatif yok"); }
-function openExerciseVideo(ex,link){ window.open(link||`https://www.youtube.com/results?search_query=${encodeURIComponent(ex)}`,'_blank'); }
-function openDB(){ return new Promise((res,rej)=>{ let req=indexedDB.open("FitnessVideoDB",1); req.onupgradeneeded=e=>{ if(!e.target.result.objectStoreNames.contains("videos")) e.target.result.createObjectStore("videos",{keyPath:"id"}); }; req.onsuccess=e=>res(e.target.result); req.onerror=rej; }); }
-async function addLocalVideo(ex,day,idx){ let input=document.createElement("input"); input.type="file"; input.accept="video/*"; input.onchange=async(e)=>{ let file=e.target.files[0]; if(file){ let id=`${day}_${ex}_${idx}`; try{ let db=await openDB(); let tx=db.transaction("videos","readwrite"); tx.objectStore("videos").put({id:id, video:file}); showToast("Video kaydedildi"); }catch(e){ showToast("Hata"); } } }; input.click(); }
-async function playLocalVideo(ex,day,idx){ let id=`${day}_${ex}_${idx}`; try{ let db=await openDB(); let res=await new Promise(r=>db.transaction("videos").objectStore("videos").get(id).onsuccess=e=>r(e.target.result)); if(res&&res.video){ let url=URL.createObjectURL(res.video); let modal=document.createElement("div"); modal.className="modal"; modal.innerHTML=`<div class="modal-content"><video controls src="${url}" style="width:100%"></video><button onclick="this.closest('.modal').remove()">Kapat</button></div>`; document.body.appendChild(modal); }else showToast("Video yok"); }catch(e){ showToast("Hata"); } }
-async function removeLocalVideo(ex,day,idx){ let id=`${day}_${ex}_${idx}`; if(confirm("Sil?")){ let db=await openDB(); db.transaction("videos","readwrite").objectStore("videos").delete(id); showToast("Silindi"); } }
-function setVideoLink(ex,day,idx){ let link=prompt("YouTube linki:",currentWeekData[day][idx].link||""); if(link!==null){ currentWeekData[day][idx].link=link; saveDataToLocal(); if(currentDayOpen===day) renderDayItems(day); showToast("Link kaydedildi"); } }
-function showOneRMForExercise(ex){ let last=null; for(let day in setLogs){ for(let e in setLogs[day]){ if(e===ex){ let maxSet=Object.values(setLogs[day][e]).reduce((a,b)=>b.weight>a.weight?b:a,{weight:0}); if(maxSet.weight>0) last=maxSet; } } } if(last&&last.weight>0){ let oneRM=Math.round(last.weight*(36/(37-last.reps))); showToast(`🏆 ${ex} 1RM: ${oneRM} kg (${last.reps} tekrar × ${last.weight} kg)`); }else showToast("Ağırlık kaydı yok"); }
-function openWeekHistory(){ let modal=document.getElementById("weekHistoryModal"); let listDiv=document.getElementById("weekHistoryList"); listDiv.innerHTML=""; let weeks=Object.keys(weekArchive).sort().reverse(); for(let wk of weeks){ let weekDiv=document.createElement("div"); weekDiv.className="week-item"; let date=new Date(weekArchive[wk].weekStartDate); let dateStr=date.toLocaleDateString(); weekDiv.innerHTML=`<div class="week-date">📅 ${wk} (${dateStr})</div><div style="font-size:0.8rem;">${Object.keys(weekArchive[wk].weekData).length} gün</div>`; weekDiv.onclick=()=>loadWeek(wk); listDiv.appendChild(weekDiv); } modal.classList.remove("hidden"); modal.style.display="flex"; }
-function loadWeek(weekKey){ if(weekArchive[weekKey]){ currentWeekKey=weekKey; currentWeekData=weekArchive[weekKey].weekData; saveDataToLocal(); closeWeekHistory(); if(currentDayOpen) openDay(currentDayOpen); else openDay("PAZARTESI"); showToast(`${weekKey} yüklendi`); } }
-function closeWeekHistory(){ let modal=document.getElementById("weekHistoryModal"); modal.classList.add("hidden"); modal.style.display="none"; }
-function populateManageSelects(){ let days=Object.keys(currentWeekData); let mealSel=document.getElementById("mealManageDay"), exSel=document.getElementById("exerciseManageDay"); mealSel.innerHTML='<option value="">Gün Seç</option>'; exSel.innerHTML='<option value="">Gün Seç</option>'; days.forEach(d=>{ mealSel.innerHTML+=`<option value="${d}">${d}</option>`; exSel.innerHTML+=`<option value="${d}">${d}</option>`; }); mealSel.onchange=()=>refreshMealList(); exSel.onchange=()=>refreshExerciseList(); }
-function refreshMealList(){ let day=document.getElementById("mealManageDay").value, cont=document.getElementById("mealList"); if(!day||!currentWeekData[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; currentWeekData[day].forEach((it,idx)=>{ if(typeof it==="string"&&!it.includes("💧")&&!it.includes("🏋️")){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">${it}</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button onclick="deleteMeal('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px;">Sil</button></div>`; cont.appendChild(div); } }); }
-function deleteMeal(day,idx){ if(confirm("Sil?")){ currentWeekData[day].splice(idx,1); saveDataToLocal(); refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("Silindi"); } }
-function addMealToDay(){ let day=document.getElementById("mealManageDay").value, name=document.getElementById("newMealName").value; if(!day||!name){ showToast("Gün ve ad girin"); return; } currentWeekData[day].push(name); saveDataToLocal(); document.getElementById("newMealName").value=""; refreshMealList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
-function refreshExerciseList(){ let day=document.getElementById("exerciseManageDay").value, cont=document.getElementById("exerciseList"); if(!day||!currentWeekData[day]){ cont.innerHTML="<i>Gün seçin</i>"; return; } cont.innerHTML=""; currentWeekData[day].forEach((it,idx)=>{ if(it&&typeof it==="object"&&it.ex){ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="10px"; div.style.margin="5px 0"; div.style.background="#2C2C2E"; div.style.borderRadius="12px"; div.innerHTML=`<span style="flex:1;">💪 ${it.ex} (${it.sets} set)</span><div><button class="move-btn" onclick="moveItemUp('${day}',${idx})">⬆️</button><button class="move-btn" onclick="moveItemDown('${day}',${idx})">⬇️</button><button onclick="deleteExercise('${day}',${idx})" style="background:#FF3B30; border:none; padding:4px 8px;">Sil</button></div>`; cont.appendChild(div); } }); }
-function deleteExercise(day,idx){ if(confirm("Sil?")){ currentWeekData[day].splice(idx,1); saveDataToLocal(); refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast("Silindi"); } }
-function addExerciseToDay(){ let day=document.getElementById("exerciseManageDay").value, name=document.getElementById("newExerciseName").value, sets=parseInt(document.getElementById("newExerciseSets").value); if(!day||!name||!sets){ showToast("Gün, hareket ve set sayısı girin"); return; } currentWeekData[day].push({ex:name, sets:sets, link:"", notes:""}); saveDataToLocal(); document.getElementById("newExerciseName").value=""; document.getElementById("newExerciseSets").value=""; refreshExerciseList(); if(currentDayOpen===day) renderDayItems(day); buildHome(); showToast(`✅ "${name}" eklendi`); }
-function updateSupplementsDisplay(){ let cont=document.getElementById("supplementList"); if(!cont) return; cont.innerHTML=""; supplements.forEach((sup,idx)=>{ let div=document.createElement("div"); div.style.display="flex"; div.style.justifyContent="space-between"; div.style.padding="8px"; div.style.borderBottom="1px solid rgba(255,255,255,0.1)"; div.innerHTML=`<span>💊 ${sup.name} - ${sup.time}</span><button onclick="deleteSupplement(${idx})" style="background:#FF3B30; border:none; padding:4px 8px;">Sil</button>`; cont.appendChild(div); }); }
-function deleteSupplement(idx){ if(confirm("Sil?")){ supplements.splice(idx,1); saveDataToLocal(); updateSupplementsDisplay(); showToast("Silindi"); } }
-function addSupplement(){ let name=document.getElementById("newSupplementName").value, time=document.getElementById("newSupplementTime").value; if(!name||!time){ showToast("Ad ve zaman girin"); return; } supplements.push({name,time}); saveDataToLocal(); document.getElementById("newSupplementName").value=""; document.getElementById("newSupplementTime").value=""; updateSupplementsDisplay(); showToast(`✅ "${name}" eklendi`); }
-function backupData(){ let exp={weekArchive,currentWeekKey,doneState,waterIntake,totalSetCount,setLogs,muscleLastTrained,supplements,bodyMeasurements,beforePhoto,afterPhoto,dailyTargets,mealLists}; let str=JSON.stringify(exp); let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([str])); a.download=`fitness_backup_${new Date().toISOString().slice(0,19)}.json`; a.click(); showToast("Yedek alındı"); }
-function restoreData(){ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let file=e.target.files[0]; let reader=new FileReader(); reader.onload=ev=>{ try{ let imp=JSON.parse(ev.target.result); if(imp.weekArchive) weekArchive=imp.weekArchive; if(imp.currentWeekKey) currentWeekKey=imp.currentWeekKey; if(imp.doneState) doneState=imp.doneState; if(imp.waterIntake) waterIntake=imp.waterIntake; if(imp.totalSetCount!==undefined) totalSetCount=imp.totalSetCount; if(imp.setLogs) setLogs=imp.setLogs; if(imp.muscleLastTrained) muscleLastTrained=imp.muscleLastTrained; if(imp.supplements) supplements=imp.supplements; if(imp.bodyMeasurements) bodyMeasurements=imp.bodyMeasurements; if(imp.beforePhoto) beforePhoto=imp.beforePhoto; if(imp.afterPhoto) afterPhoto=imp.afterPhoto; if(imp.dailyTargets) dailyTargets=imp.dailyTargets; if(imp.mealLists) mealLists=imp.mealLists; if(weekArchive[currentWeekKey]) currentWeekData=weekArchive[currentWeekKey].weekData; else initNewWeek(); saveDataToLocal(); if(currentDayOpen) renderDayItems(currentDayOpen); buildHome(); showToast("Yedek yüklendi"); }catch(err){ alert("Hatalı dosya"); } }; reader.readAsText(file); }; inp.click(); }
-function saveBodyMeasurements(){ bodyMeasurements.weight=parseFloat(document.getElementById("bodyWeight").value)||0; bodyMeasurements.waist=parseFloat(document.getElementById("bodyWaist").value)||0; bodyMeasurements.chest=parseFloat(document.getElementById("bodyChest").value)||0; bodyMeasurements.arm=parseFloat(document.getElementById("bodyArm").value)||0; bodyMeasurements.leg=parseFloat(document.getElementById("bodyLeg").value)||0; saveDataToLocal(); showToast("Ölçüler kaydedildi"); }
-function uploadPhoto(type){ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let file=e.target.files[0]; if(file){ let reader=new FileReader(); reader.onload=ev=>{ if(type==="before") beforePhoto=ev.target.result; else afterPhoto=ev.target.result; saveDataToLocal(); updateBodyMeasurementsUI(); showToast(`📸 ${type==="before"?"Önce":"Sonra"} fotoğraf eklendi`); }; reader.readAsDataURL(file); } }; inp.click(); }
-function updateBodyMeasurementsUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("photoContainer"); if(cont) cont.innerHTML=`<div><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div><div><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}" style="max-width:100%; border-radius:20px;">`:"Fotoğraf yok"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`; let sliderDiv=document.getElementById("sliderContainer"); if(beforePhoto&&afterPhoto){ sliderDiv.style.display="block"; if(!document.getElementById("photoSlider")){ sliderDiv.innerHTML='<input type="range" id="photoSlider" min="0" max="100" value="0" step="1"><div style="display:flex; justify-content:space-between;"><span>🔘 ÖNCE</span><span>🔘 SONRA</span></div>'; let slider=document.getElementById("photoSlider"); slider.addEventListener("input",(e)=>{ let val=e.target.value; let imgs=document.querySelectorAll("#photoContainer img"); if(imgs[0]) imgs[0].style.opacity=(100-val)/100; if(imgs[1]) imgs[1].style.opacity=val/100; }); } }else sliderDiv.style.display="none"; }
-function loadTargets(){ let p=localStorage.getItem("dailyTargets"); if(p) dailyTargets=JSON.parse(p); document.getElementById("targetProtein").value=dailyTargets.protein; document.getElementById("targetCarbs").value=dailyTargets.carbs; document.getElementById("targetFat").value=dailyTargets.fat; document.getElementById("targetCalories").value=dailyTargets.calories; }
-function saveTargets(){ dailyTargets={ protein:parseInt(document.getElementById("targetProtein").value)||160, carbs:parseInt(document.getElementById("targetCarbs").value)||250, fat:parseInt(document.getElementById("targetFat").value)||70, calories:parseInt(document.getElementById("targetCalories").value)||2500 }; localStorage.setItem("dailyTargets",JSON.stringify(dailyTargets)); showToast("Hedefler kaydedildi"); if(currentDayOpen) updateTargetPanel(); }
-function getCurrentDayMacros(){ let total={p:0,k:0,f:0,cal:0}; let items=currentWeekData[currentDayOpen]; if(items) items.forEach((item,idx)=>{ let key=`${currentDayOpen}|meal|${idx}`; if(doneState[key]&&typeof item==="string"&&!item.includes("💧")){ let m=parseFoodMacros(item); total.p+=m.p; total.k+=m.k; total.f+=m.f; total.cal+=m.cal; } }); return total; }
-function updateTargetPanel(){ let panel=document.getElementById("targetPanel"); if(!panel) return; let current=getCurrentDayMacros(); let pPercent=Math.min(100,(current.p/dailyTargets.protein)*100); let cPercent=Math.min(100,(current.k/dailyTargets.carbs)*100); let fPercent=Math.min(100,(current.f/dailyTargets.fat)*100); let calPercent=Math.min(100,(current.cal/dailyTargets.calories)*100); let pRem=dailyTargets.protein-current.p; let cRem=dailyTargets.carbs-current.k; let fRem=dailyTargets.fat-current.f; let calRem=dailyTargets.calories-current.cal; let message=""; if(pRem<=0&&cRem<=0&&fRem<=0&&calRem<=0) message="✅ Tebrikler! Günlük hedefine ulaştın!"; else if(pRem<0) message+=`⚠️ Protein hedefini ${Math.abs(pRem)}g aştın. `; else if(cRem<0) message+=`⚠️ Karbonhidrat hedefini ${Math.abs(cRem)}g aştın. `; else if(fRem<0) message+=`⚠️ Yağ hedefini ${Math.abs(fRem)}g aştın. `; else if(calRem<0) message+=`⚠️ Kalori hedefini ${Math.abs(calRem)} kcal aştın. `; panel.innerHTML=`<div><strong>🎯 GÜNLÜK HEDEFLER</strong></div><div>💪 Protein: ${current.p}/${dailyTargets.protein}g <div class="target-progress-bar"><div class="target-progress-fill" style="width:${pPercent}%"></div></div> ${pRem>0?`Kalan: ${pRem}g`:(pRem<0?`<span class="danger">Aşım: ${-pRem}g</span>`:"Tamam")}</div><div>🌾 Karb: ${current.k}/${dailyTargets.carbs}g <div class="target-progress-bar"><div class="target-progress-fill" style="width:${cPercent}%"></div></div> ${cRem>0?`Kalan: ${cRem}g`:(cRem<0?`<span class="danger">Aşım: ${-cRem}g</span>`:"Tamam")}</div><div>🥑 Yağ: ${current.f}/${dailyTargets.fat}g <div class="target-progress-bar"><div class="target-progress-fill" style="width:${fPercent}%"></div></div> ${fRem>0?`Kalan: ${fRem}g`:(fRem<0?`<span class="danger">Aşım: ${-fRem}g</span>`:"Tamam")}</div><div>🔥 Kalori: ${current.cal}/${dailyTargets.calories} kcal <div class="target-progress-bar"><div class="target-progress-fill" style="width:${calPercent}%"></div></div> ${calRem>0?`Kalan: ${calRem} kcal`:(calRem<0?`<span class="danger">Aşım: ${-calRem} kcal</span>`:"Tamam")}</div><div class="target-status">${message}</div>`; }
-function parseFoodMacros(text){ let kcal=0,prot=0,carb=0,fat=0; let kcalMatch=text.match(/Kalori:\s*(\d+)/i); if(kcalMatch) kcal=parseInt(kcalMatch[1]); let protMatch=text.match(/Protein:\s*(\d+)\s*g/i); if(protMatch) prot=parseInt(protMatch[1]); let carbMatch=text.match(/Karb:\s*(\d+)\s*g/i); if(carbMatch) carb=parseInt(carbMatch[1]); let fatMatch=text.match(/Yag:\s*(\d+)\s*g/i); if(fatMatch) fat=parseInt(fatMatch[1]); return {cal:kcal,p:prot,k:carb,f:fat}; }
-function showToast(msg){ let t=document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1600); }
-function playBeep(){ try{ let ctx=new (window.AudioContext||window.webkitAudioContext)(); let o=ctx.createOscillator(); o.frequency.value=880; let g=ctx.createGain(); g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1); ctx.resume(); }catch(e){} }
-function stopTimer(){ if(timerInterval) clearInterval(timerInterval); let tb=document.getElementById("timerBox"); if(tb) tb.style.display="none"; if(currentSound) currentSound.close(); soundStopFlag=false; }
-function startTimer(sec){ stopTimer(); let rem=sec; let tb=document.getElementById("timerBox"), tn=document.getElementById("timerNum"); if(!tb||!tn) return; tb.style.display="block"; tn.innerText=rem; timerInterval=setInterval(()=>{ if(rem<=1){ clearInterval(timerInterval); tb.style.display="none"; playLongBeep(); showToast("🔔 Dinlenme bitti!"); }else{ rem--; tn.innerText=rem; } },1000); }
-function playLongBeep(){ if(soundStopFlag) return; try{ if(currentSound) currentSound.close(); const ctx=new (window.AudioContext||window.webkitAudioContext)(); currentSound=ctx; const dur=10,int=0.4; let start=ctx.currentTime; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.type="square"; osc.frequency.value=880; gain.gain.value=0.18; osc.connect(gain); gain.connect(ctx.destination); osc.start(); for(let i=0;i<dur/int;i++){ let t=start+i*int; gain.gain.setValueAtTime(0.18,t); gain.gain.setValueAtTime(0.00001,t+0.15); } osc.stop(start+dur); ctx.resume(); currentSound={close:()=>{ try{ osc.stop(); ctx.close(); }catch(e){} } }; }catch(e){} }
-function customTimer(){ let s=prompt("Saniye:","90"); if(s && !isNaN(parseInt(s)) && parseInt(s)>0) startTimer(parseInt(s)); }
-function escapeHtml(s){ if(!s) return ''; return s.replace(/[&<>]/g, m=> m==='&'?'&amp;':m==='<'?'&lt;':'>'?'&gt;':m); }
-
-// ========== BAŞLAT ==========
-loadDataFromLocal(); 
-buildHome(); 
-initCameraBarcode(); 
-initManualBarcode();
-document.getElementById("timerCloseBtn").onclick=stopTimer;
-document.getElementById("timerCustomBtn").onclick=customTimer;
-document.getElementById("stopSoundBtn").onclick=()=>{ soundStopFlag=true; if(currentSound) currentSound.close(); };
+// ========== 3. ESKİ FITNESS VERİLERİ (Haftalık plan, egzersizler vs) ==========
+let dailyTargets = { protein:160, carbs:250, fat:70, calories:2500 };
+let currentWeekData={}, weekArchive={}, currentWeekKey=null, doneState={}, waterIntake={}, totalSetCount=0, timerInterval=null, currentDayOpen=null, setLogs={}, muscleLastTrained={}, supplements=[{name:"Omega-3",time:"Sabah"},{name:"Whey",time:"Antrenman sonrası"},{name:"Kreatin",time:"Antrenman öncesi"}], bodyMeasurements={weight:0,waist:0,chest:0,arm:0,leg:0}, beforePhoto=null, afterPhoto=null;
+const plan1Meals=["07:00 Yulaf + sut + muz + whey | Kalori: 420 | Protein: 30 g | Karb: 55 g | Yag: 10 g","09:00 Skyr + meyve | Kalori: 250 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Tavuk + pirinc | Kalori: 550 | Protein: 40 g | Karb: 60 g | Yag: 15 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","20:15 Whey | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Kiyma + patates | Kalori: 500 | Protein: 35 g | Karb: 40 g | Yag: 18 g"];
+const plan2Meals=["07:00 Yulaf + whey | Kalori: 420 | Protein: 30 g | Karb: 50 g | Yag: 10 g","09:00 Skyr | Kalori: 260 | Protein: 20 g | Karb: 30 g | Yag: 8 g","14:00 Kiyma + pirinc | Kalori: 600 | Protein: 35 g | Karb: 60 g | Yag: 20 g","17:00 Tavuk + pirinc | Kalori: 400 | Protein: 30 g | Karb: 45 g | Yag: 8 g","20:15 Whey | Kalori: 200 | Protein: 25 g | Karb: 20 g | Yag: 2 g","21:00 Tavuk + kinoa | Kalori: 400 | Protein: 35 g | Karb: 35 g | Yag: 10 g"];
+const offMeals=["07:00 Yulaf + Skyr | Kalori: 350 | Protein: 25 g | Karb: 40 g | Yag: 8 g","09:00 Skyr | Kalori: 220 | Protein: 20 g | Karb: 25 g | Yag: 7 g","14:00 Tavuk + salata | Kalori: 350 | Protein: 40 g | Karb: 10 g | Yag: 15 g","17:00 Ton baligi | Kalori: 250 | Protein: 30 g | Karb: 5 g | Yag: 10 g","21:00 Tavuk + salata | Kalori: 400 | Protein: 35 g | Karb: 10 g | Yag: 15 g"];
+const workoutPlans={"PAZARTESI":{title:"🏋️ GÖĞÜS", muscleGroups:[{name:"GÖĞÜS",exercises:[{ex:"Incline Press",sets:4},{ex:"Flat Press",sets:4}]}]},"SALI":{title:"🏋️ SIRT", muscleGroups:[{name:"SIRT",exercises:[{ex:"Lat Pulldown",sets:4},{ex:"Row",sets:4}]}]},"CARSAMBA":{title:"🏋️ BACAK", muscleGroups:[{name:"BACAK",exercises:[{ex:"Squat",sets:4},{ex:"Leg Press",sets:4}]}]}};
+function getCurrentWeekKey(){ let now=new Date(); let start=new Date(now.getFullYear(),0,1); let days=Math.floor((now-start)/(24*3600000)); return `${now.getFullYear()}-W${Math.ceil((days+start.getDay()+1)/7)}`; }
+function initNewWeek(){ let key=getCurrentWeekKey(); if(!weekArchive[key]){ let data={}, days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"]; for(let i=0;i<days.length;i++){ let day=days[i]; let meals= i<3 ? plan1Meals : (i<5 ? plan2Meals : offMeals); let w=workoutPlans[day]; let items=[...meals]; if(w){ items.push(w.title); for(let g of w.muscleGroups) for(let ex of g.exercises) items.push({ex:ex.ex, sets:ex.sets, link:"", notes:""}); } data[day]=items; } weekArchive[key]={weekData:data,weekStartDate:new Date().toISOString()}; } currentWeekKey=key; currentWeekData=weekArchive[key].weekData; doneState={}; waterIntake={}; }
+function loadDataFromLocal(){ let ar=localStorage.getItem("weekArchive"); if(ar) weekArchive=JSON.parse(ar); let saved=localStorage.getItem("currentWeekKey"); if(saved===getCurrentWeekKey() && weekArchive[saved]) currentWeekData=weekArchive[saved].weekData; else initNewWeek(); let ds=localStorage.getItem("doneState"); if(ds) doneState=JSON.parse(ds); let wi=localStorage.getItem("waterIntake"); if(wi) waterIntake=JSON.parse(wi); let sup=localStorage.getItem("supplements"); if(sup) supplements=JSON.parse(sup); let bm=localStorage.getItem("bodyMeasurements"); if(bm) bodyMeasurements=JSON.parse(bm); let bf=localStorage.getItem("beforePhoto"); if(bf) beforePhoto=bf; let af=localStorage.getItem("afterPhoto"); if(af) afterPhoto=af; }
+function saveDataToLocal(){ localStorage.setItem("weekArchive",JSON.stringify(weekArchive)); localStorage.setItem("currentWeekKey",currentWeekKey); localStorage.setItem("doneState",JSON.stringify(doneState)); localStorage.setItem("waterIntake",JSON.stringify(waterIntake)); localStorage.setItem("supplements",JSON.stringify(supplements)); localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); if(beforePhoto) localStorage.setItem("beforePhoto",beforePhoto); if(afterPhoto) localStorage.setItem("afterPhoto",afterPhoto); }
+function buildHome(){ let grid=document.getElementById("homeGrid"); grid.innerHTML=""; let days=["PAZARTESI","SALI","CARSAMBA","PERSEMBE","CUMA","CUMARTESI","PAZAR"]; days.forEach(day=>{ let stats=getDayStats(day); let card=document.createElement("div"); card.className="card"; card.innerHTML=`<h3>${day}</h3><div class="progress-bar"><div class="progress-fill" style="width:${stats.percent}%"></div></div><small>${stats.completed}/${stats.total}</small>`; card.onclick=()=>openDay(day); grid.appendChild(card); }); let setCard=document.createElement("div"); setCard.className="card"; setCard.innerHTML=`<h3>⚙️ AYARLAR</h3>`; setCard.onclick=()=>openSettings(); grid.appendChild(setCard); }
+function getDayStats(day){ let items=currentWeekData[day]; if(!items) return {total:0,completed:0,percent:0}; let total=0,comp=0; items.forEach((it,idx)=>{ if(typeof it==="string"){ total++; if(doneState[`${day}|meal|${idx}`]) comp++; } else if(it.sets){ for(let s=1;s<=it.sets;s++){ total++; if(doneState[`${day}|set|${it.ex}|${s}`]) comp++; } } }); return {total,completed:comp,percent:total? (comp/total*100):0}; }
+function openDay(day){ currentDayOpen=day; document.getElementById("homeScreen").classList.add("hidden"); document.getElementById("settingsScreen").classList.add("hidden"); document.getElementById("dayScreen").classList.remove("hidden"); document.getElementById("dayTitle").innerText=day; renderDayItems(day); updateTargetPanel(); }
+function closeDay(){ document.getElementById("dayScreen").classList.add("hidden"); document.getElementById("homeScreen").classList.remove("hidden"); buildHome(); }
+function openSettings(){ document.getElementById("homeScreen").classList.add("hidden"); document.getElementById("dayScreen").classList.add("hidden"); document.getElementById("settingsScreen").classList.remove("hidden"); loadTargetsToUI(); updateBodyUI(); renderSupplementList(); }
+function closeSettings(){ document.getElementById("settingsScreen").classList.add("hidden"); document.getElementById("homeScreen").classList.remove("hidden"); buildHome(); }
+function renderDayItems(day){ let cont=document.getElementById("dayItems"); if(!cont) return; let items=currentWeekData[day]; if(!items) return; cont.innerHTML=""; items.forEach((it,idx)=>{ if(typeof it==="string"){ let div=document.createElement("div"); div.className="item"; div.innerHTML=`<span>${it}</span><button class="move-btn" onclick="moveItem('${day}',${idx},-1)">⬆️</button><button class="move-btn" onclick="moveItem('${day}',${idx},1)">⬇️</button>`; let key=`${day}|meal|${idx}`; if(doneState[key]) div.classList.add("done"); div.onclick=()=>{ if(doneState[key]) delete doneState[key]; else doneState[key]=true; saveDataToLocal(); renderDayItems(day); updateTargetPanel(); }; cont.appendChild(div); } else if(it.ex){ let title=document.createElement("div"); title.className="ex-title"; title.innerHTML=`<span>💪 ${it.ex}</span>`; cont.appendChild(title); for(let s=1;s<=it.sets;s++){ let setDiv=document.createElement("div"); setDiv.className="set"; setDiv.innerHTML=`<span>Set ${s}</span>`; let key=`${day}|set|${it.ex}|${s}`; if(doneState[key]) setDiv.classList.add("done"); setDiv.onclick=()=>{ if(doneState[key]) delete doneState[key]; else doneState[key]=true; saveDataToLocal(); renderDayItems(day); updateTargetPanel(); }; cont.appendChild(setDiv); } } }); }
+function moveItem(day,idx,dir){ let items=currentWeekData[day]; let newIdx=idx+dir; if(newIdx<0||newIdx>=items.length) return; [items[idx],items[newIdx]]=[items[newIdx],items[idx]]; saveDataToLocal(); renderDayItems(day); }
+function updateTargetPanel(){ let panel=document.getElementById("targetPanel"); if(!panel||!currentDayOpen) return; let total={p:0,k:0,f:0,cal:0}; let items=currentWeekData[currentDayOpen]; items?.forEach((it,idx)=>{ if(typeof it==="string" && doneState[`${currentDayOpen}|meal|${idx}`]){ let kcalMatch=it.match(/Kalori:\s*(\d+)/); let pMatch=it.match(/Protein:\s*(\d+)/); let cMatch=it.match(/Karb:\s*(\d+)/); let fMatch=it.match(/Yag:\s*(\d+)/); total.cal+=kcalMatch?parseInt(kcalMatch[1]):0; total.p+=pMatch?parseInt(pMatch[1]):0; total.k+=cMatch?parseInt(cMatch[1]):0; total.f+=fMatch?parseInt(fMatch[1]):0; } }); panel.innerHTML=`<div>💪 Protein: ${total.p}/${dailyTargets.protein}g</div><div>🌾 Karb: ${total.k}/${dailyTargets.carbs}g</div><div>🥑 Yağ: ${total.f}/${dailyTargets.fat}g</div><div>🔥 Kalori: ${total.cal}/${dailyTargets.calories}kcal</div>`; }
+function loadTargetsToUI(){ let t=localStorage.getItem("dailyTargets"); if(t) dailyTargets=JSON.parse(t); document.getElementById("targetProtein").value=dailyTargets.protein; document.getElementById("targetCarbs").value=dailyTargets.carbs; document.getElementById("targetFat").value=dailyTargets.fat; document.getElementById("targetCal").value=dailyTargets.calories; }
+document.getElementById("hedefKaydetBtn")?.addEventListener("click",()=>{ dailyTargets={ protein:parseInt(document.getElementById("targetProtein").value)||160, carbs:parseInt(document.getElementById("targetCarbs").value)||250, fat:parseInt(document.getElementById("targetFat").value)||70, calories:parseInt(document.getElementById("targetCal").value)||2500 }; localStorage.setItem("dailyTargets",JSON.stringify(dailyTargets)); gosterMesaj("Hedefler kaydedildi"); if(currentDayOpen) updateTargetPanel(); });
+function updateBodyUI(){ document.getElementById("bodyWeight").value=bodyMeasurements.weight||""; document.getElementById("bodyWaist").value=bodyMeasurements.waist||""; document.getElementById("bodyChest").value=bodyMeasurements.chest||""; document.getElementById("bodyArm").value=bodyMeasurements.arm||""; document.getElementById("bodyLeg").value=bodyMeasurements.leg||""; let cont=document.getElementById("fotoContainer"); if(cont) cont.innerHTML=`${beforePhoto?`<img src="${beforePhoto}" style="width:100px; border-radius:12px;">`:"Önce yok"} ${afterPhoto?`<img src="${afterPhoto}" style="width:100px; border-radius:12px;">`:"Sonra yok"}`; }
+document.getElementById("vucutKaydetBtn")?.addEventListener("click",()=>{ bodyMeasurements={ weight:parseFloat(document.getElementById("bodyWeight").value)||0, waist:parseFloat(document.getElementById("bodyWaist").value)||0, chest:parseFloat(document.getElementById("bodyChest").value)||0, arm:parseFloat(document.getElementById("bodyArm").value)||0, leg:parseFloat(document.getElementById("bodyLeg").value)||0 }; localStorage.setItem("bodyMeasurements",JSON.stringify(bodyMeasurements)); gosterMesaj("Ölçüler kaydedildi"); });
+document.getElementById("onceFotoBtn")?.addEventListener("click",()=>{ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let f=e.target.files[0]; if(f){ let r=new FileReader(); r.onload=ev=>{ beforePhoto=ev.target.result; localStorage.setItem("beforePhoto",beforePhoto); updateBodyUI(); }; r.readAsDataURL(f); } }; inp.click(); });
+document.getElementById("sonraFotoBtn")?.addEventListener("click",()=>{ let inp=document.createElement("input"); inp.type="file"; inp.accept="image/*"; inp.onchange=e=>{ let f=e.target.files[0]; if(f){ let r=new FileReader(); r.onload=ev=>{ afterPhoto=ev.target.result; localStorage.setItem("afterPhoto",afterPhoto); updateBodyUI(); }; r.readAsDataURL(f); } }; inp.click(); });
+function renderSupplementList(){ let cont=document.getElementById("supplementList"); if(!cont) return; cont.innerHTML=""; supplements.forEach((s,i)=>{ cont.innerHTML+=`<div style="display:flex; justify-content:space-between; padding:8px; background:#2C2C2E; margin:4px 0; border-radius:12px;"><span>💊 ${s.name} - ${s.time}</span><button class="supSil" data-idx="${i}" style="background:#FF3B30; border:none; padding:4px 12px; border-radius:20px;">Sil</button></div>`; }); document.querySelectorAll(".supSil").forEach(btn=>{ btn.addEventListener("click",()=>{ supplements.splice(parseInt(btn.dataset.idx),1); localStorage.setItem("supplements",JSON.stringify(supplements)); renderSupplementList(); gosterMesaj("Silindi"); }); }); }
+document.getElementById("supEkleBtn")?.addEventListener("click",()=>{ let n=document.getElementById("newSupName").value; let t=document.getElementById("newSupTime").value; if(n&&t){ supplements.push({name:n,time:t}); localStorage.setItem("supplements",JSON.stringify(supplements)); renderSupplementList(); document.getElementById("newSupName").value=""; document.getElementById("newSupTime").value=""; gosterMesaj("Eklendi"); } });
+document.getElementById("yedekAlBtn")?.addEventListener("click",()=>{ let data={listeler,aktifListeId,weekArchive,currentWeekKey,doneState,waterIntake,supplements,bodyMeasurements,beforePhoto,afterPhoto,dailyTargets}; let a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([JSON.stringify(data)])); a.download=`fitness_${Date.now()}.json`; a.click(); gosterMesaj("Yedek alındı"); });
+document.getElementById("yedekYukleBtn")?.addEventListener("click",()=>{ let inp=document.createElement("input"); inp.type="file"; inp.accept="application/json"; inp.onchange=e=>{ let f=e.target.files[0]; let r=new FileReader(); r.onload=ev=>{ try{ let d=JSON.parse(ev.target.result); if(d.listeler) listeler=d.listeler; if(d.aktifListeId) aktifListeId=d.aktifListeId; if(d.weekArchive) weekArchive=d.weekArchive; if(d.currentWeekKey) currentWeekKey=d.currentWeekKey; if(d.doneState) doneState=d.doneState; if(d.waterIntake) waterIntake=d.waterIntake; if(d.supplements) supplements=d.supplements; if(d.bodyMeasurements) bodyMeasurements=d.bodyMeasurements; if(d.beforePhoto) beforePhoto=d.beforePhoto; if(d.afterPhoto) afterPhoto=d.afterPhoto; if(d.dailyTargets) dailyTargets=d.dailyTargets; saveListeler(); saveDataToLocal(); localStorage.setItem("dailyTargets",JSON.stringify(dailyTargets)); location.reload(); }catch(e){ alert("Hatalı dosya"); } }; r.readAsText(f); }; inp.click(); });
+function gosterMesaj(msg){ let t=document.createElement("div"); t.className="toast"; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),1500); }
+loadDataFromLocal(); initListeler(); buildHome();
 </script>
 </body>
 </html>
