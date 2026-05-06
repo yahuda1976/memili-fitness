@@ -17,6 +17,7 @@
             --border-radius: 16px;
             --border-radius-sm: 10px;
             --accent-glow: 0 0 20px rgba(76, 175, 132, 0.3);
+            --blue: #6c8cff;
         }
 
         * {
@@ -32,7 +33,7 @@
             max-width: 500px;
             margin: 0 auto;
             min-height: 100vh;
-            padding: 8px 10px 30px;
+            padding: 8px 10px 40px;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
             -webkit-user-select: none;
@@ -41,12 +42,66 @@
         /* ========== HEADER ========== */
         .header {
             text-align: center;
-            padding: 14px 0 8px;
+            padding: 14px 0 6px;
             font-size: 1.3em;
             font-weight: 700;
             letter-spacing: 1px;
             color: var(--green);
             text-shadow: 0 0 15px rgba(76, 175, 132, 0.5);
+        }
+        .header-date {
+            text-align: center;
+            font-size: 0.75em;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        /* ========== GÜNLER KARTI ========== */
+        .gunler-scroll {
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+            padding: 4px 0 6px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap;
+        }
+        .gunler-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .gun-btn {
+            flex: 0 0 auto;
+            min-width: 62px;
+            padding: 10px 8px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: #1f1f1f;
+            color: #aaa;
+            font-weight: 600;
+            font-size: 0.72em;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+        .gun-btn.active {
+            background: var(--green);
+            color: #000;
+            border-color: var(--green);
+            font-weight: 700;
+            box-shadow: 0 0 14px rgba(76, 175, 132, 0.5);
+        }
+        .gun-btn.today {
+            border-color: var(--green);
+            color: var(--green);
+        }
+        .gun-btn.today.active {
+            background: var(--green);
+            color: #000;
+        }
+        .gun-btn:active {
+            transform: scale(0.95);
         }
 
         /* ========== CARD BASE ========== */
@@ -58,7 +113,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.06);
         }
-
         .card-title {
             font-weight: 700;
             font-size: 0.95em;
@@ -77,8 +131,8 @@
             gap: 8px;
         }
         .macro-label {
-            width: 55px;
-            font-size: 0.8em;
+            width: 50px;
+            font-size: 0.78em;
             font-weight: 600;
             color: var(--text-secondary);
             text-align: right;
@@ -112,32 +166,40 @@
         }
         .macro-val {
             width: 75px;
-            font-size: 0.75em;
+            font-size: 0.73em;
             font-weight: 600;
             color: #ccc;
             flex-shrink: 0;
             text-align: left;
         }
 
-        /* ========== HEDEF KAYDET BUTONU ========== */
-        .save-btn {
-            display: block;
-            width: 100%;
-            background: var(--green);
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.95em;
-            cursor: pointer;
-            margin-top: 8px;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
+        /* ========== ÖĞÜN LİSTESİ ========== */
+        .ogun-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: #1f1f1f;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 6px;
+            font-size: 0.75em;
+            flex-wrap: wrap;
         }
-        .save-btn:active {
-            transform: scale(0.97);
-            opacity: 0.85;
+        .ogun-saat {
+            font-weight: 700;
+            color: var(--green);
+            min-width: 40px;
+            font-size: 0.85em;
+        }
+        .ogun-icerik {
+            flex: 1;
+            color: #ddd;
+            min-width: 140px;
+        }
+        .ogun-makro {
+            color: #999;
+            font-size: 0.9em;
+            white-space: nowrap;
         }
 
         /* ========== BÖLGE BUTONLARI - 3x2 GRID ========== */
@@ -185,9 +247,6 @@
         }
 
         /* ========== ANTRENMAN KARTI ========== */
-        .antrenman-kart {
-            margin-top: 6px;
-        }
         .hareket-ad {
             font-weight: 700;
             font-size: 0.95em;
@@ -197,12 +256,12 @@
         }
         .set-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             margin-bottom: 8px;
         }
         .set-btn {
-            padding: 12px 4px;
+            padding: 13px 8px;
             border-radius: var(--border-radius-sm);
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: #222;
@@ -240,12 +299,41 @@
             gap: 5px;
         }
         .aksiyon-btn.video-btn {
-            color: #6c8cff;
+            color: var(--blue);
             border-color: rgba(108, 140, 255, 0.4);
         }
         .aksiyon-btn.not-btn {
-            color: #e0b855;
+            color: var(--yellow);
             border-color: rgba(224, 184, 85, 0.4);
+        }
+
+        /* ========== FOTO KARŞILAŞTIRMA ========== */
+        .foto-karsilastirma {
+            display: flex;
+            gap: 10px;
+        }
+        .foto-box {
+            flex: 1;
+            aspect-ratio: 1;
+            background: #1f1f1f;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 4px;
+            text-align: center;
+            padding: 10px;
+        }
+        .foto-box .ikon {
+            font-size: 2em;
+        }
+        .foto-box .yazi {
+            font-size: 0.7em;
+            color: #888;
         }
 
         /* ========== VÜCUT ÖLÇÜLERİ ========== */
@@ -256,7 +344,7 @@
             margin-bottom: 7px;
         }
         .olcu-label {
-            width: 55px;
+            width: 50px;
             text-align: right;
             font-size: 0.8em;
             font-weight: 600;
@@ -305,16 +393,13 @@
         .sil-btn {
             background: transparent;
             border: none;
-            color: #e05555;
+            color: var(--red);
             font-weight: 700;
-            font-size: 0.85em;
+            font-size: 0.8em;
             cursor: pointer;
             padding: 6px 10px;
             border-radius: 20px;
             transition: all 0.2s;
-        }
-        .sil-btn:active {
-            background: rgba(224, 85, 85, 0.2);
         }
         .takviye-ekle-row {
             display: flex;
@@ -346,35 +431,25 @@
             font-size: 0.82em;
         }
 
-        /* ========== FOTO KARŞILAŞTIRMA ========== */
-        .foto-karsilastirma {
-            display: flex;
-            gap: 10px;
-        }
-        .foto-box {
-            flex: 1;
-            aspect-ratio: 1;
-            background: #1f1f1f;
-            border-radius: var(--border-radius-sm);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px dashed rgba(255, 255, 255, 0.2);
+        /* ========== SAVE BUTTON ========== */
+        .save-btn {
+            display: block;
+            width: 100%;
+            background: var(--green);
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.95em;
             cursor: pointer;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
             transition: all 0.2s;
-            gap: 4px;
         }
-        .foto-box:active {
-            border-color: var(--green);
-            background: #1a2a1f;
-        }
-        .foto-box .ikon {
-            font-size: 2em;
-        }
-        .foto-box .yazi {
-            font-size: 0.7em;
-            color: #888;
+        .save-btn:active {
+            transform: scale(0.97);
+            opacity: 0.85;
         }
 
         /* ========== YEDEKLEME ========== */
@@ -394,9 +469,6 @@
             cursor: pointer;
             text-align: center;
             transition: all 0.2s;
-        }
-        .yedek-btn:active {
-            background: rgba(76, 175, 132, 0.15);
         }
 
         /* ========== BARKOD ========== */
@@ -418,14 +490,15 @@
         }
         .secililer-ozet {
             text-align: center;
-            font-size: 0.78em;
+            font-size: 0.76em;
             color: #888;
-            padding: 4px 0;
+            padding: 2px 0;
         }
 
-        /* ========== SCROLLBAR ========== */
+        /* ========== SCROLLBAR HIDE ========== */
         ::-webkit-scrollbar {
             width: 0;
+            height: 0;
         }
     </style>
 </head>
@@ -433,6 +506,21 @@
 
     <!-- HEADER -->
     <div class="header">💪 SIRT + TRAPEZ</div>
+    <div class="header-date">📅 06 Mayıs 2026, Çarşamba</div>
+
+    <!-- ==================== GÜNLER KARTI ==================== -->
+    <div class="card">
+        <div class="card-title">📅 GÜNLER</div>
+        <div class="gunler-scroll" id="gunlerScroll">
+            <button class="gun-btn">Pzt<br><small>04 May</small></button>
+            <button class="gun-btn">Sal<br><small>05 May</small></button>
+            <button class="gun-btn today active">Çar<br><small>06 May</small></button>
+            <button class="gun-btn">Per<br><small>07 May</small></button>
+            <button class="gun-btn">Cum<br><small>08 May</small></button>
+            <button class="gun-btn">Cmt<br><small>09 May</small></button>
+            <button class="gun-btn">Paz<br><small>10 May</small></button>
+        </div>
+    </div>
 
     <!-- ==================== GÜNLÜK HEDEFLER ==================== -->
     <div class="card">
@@ -465,10 +553,29 @@
             </div>
             <span class="macro-val">2720 / 2500</span>
         </div>
+
+        <!-- Öğün Listesi -->
+        <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
+            <div style="font-size:0.78em; color:var(--green); font-weight:700; margin-bottom:6px; text-align:center;">🍽️ BUGÜNÜN ÖĞÜNLERİ</div>
+            <div class="ogun-item">
+                <span class="ogun-saat">07:00</span>
+                <span class="ogun-icerik">Yulaf + Süt + Muz + Whey + Skyr</span>
+                <span class="ogun-makro">🔥420 | 🍗30g | 🍞55g | 🧈10g</span>
+            </div>
+            <div class="ogun-item">
+                <span class="ogun-saat">09:00</span>
+                <span class="ogun-icerik">Skyr + Chia + Meyve</span>
+                <span class="ogun-makro">🔥250 | 🍗20g | 🍞30g | 🧈5g</span>
+            </div>
+            <div class="ogun-item" style="color:#666; justify-content:center;">
+                <span style="font-style:italic;">+ 1 bardak su</span>
+            </div>
+        </div>
+
         <button class="save-btn">💾 KAYDET</button>
     </div>
 
-    <!-- ==================== BÖLGE BUTONLARI (3x2) ==================== -->
+    <!-- ==================== BÖLGE SEÇİMİ (3x2) ==================== -->
     <div class="card">
         <div class="card-title">🏋️ BÖLGE SEÇİMİ</div>
         <div class="bolge-grid">
@@ -482,7 +589,7 @@
     </div>
 
     <!-- ==================== ANTRENMAN: Lat Pulldown ==================== -->
-    <div class="card antrenman-kart">
+    <div class="card">
         <div class="hareket-ad">🏋️ Lat Pulldown</div>
         <div class="set-grid">
             <button class="set-btn done">Set-1 ✅</button>
@@ -497,7 +604,7 @@
     </div>
 
     <!-- ==================== ANTRENMAN: Seated Row ==================== -->
-    <div class="card antrenman-kart">
+    <div class="card">
         <div class="hareket-ad">🚣 Seated Row</div>
         <div class="set-grid">
             <button class="set-btn done">Set-1 ✅</button>
@@ -515,15 +622,17 @@
     <div class="card">
         <div class="card-title">📸 ÖNCE & SONRA</div>
         <div class="foto-karsilastirma">
-            <div class="foto-box" onclick="alert('ÖNCE fotoğrafı eklenecek')">
+            <div class="foto-box" onclick="alert('📷 ÖNCE fotoğrafı eklenecek')">
                 <span class="ikon">📷</span>
-                <span class="yazi">ÖNCE</span>
+                <span class="yazi"><strong>ÖNCE</strong></span>
                 <span class="yazi">Fotoğraf yok</span>
+                <span class="yazi" style="color:var(--green);">Değiştir</span>
             </div>
-            <div class="foto-box" onclick="alert('SONRA fotoğrafı eklenecek')">
+            <div class="foto-box" onclick="alert('📸 SONRA fotoğrafı eklenecek')">
                 <span class="ikon">📸</span>
-                <span class="yazi">SONRA</span>
+                <span class="yazi"><strong>SONRA</strong></span>
                 <span class="yazi">Fotoğraf yok</span>
+                <span class="yazi" style="color:var(--green);">Değiştir</span>
             </div>
         </div>
     </div>
@@ -574,8 +683,8 @@
         </div>
         <div class="takviye-ekle-row">
             <input type="text" placeholder="Takviye adı" id="takviyeAd">
-            <input type="text" placeholder="Zaman" id="takviyeZaman" style="max-width:120px;">
-            <button class="ekle-btn" onclick="alert('Takviye eklendi!')">EKLE</button>
+            <input type="text" placeholder="Zaman" id="takviyeZaman" style="max-width:110px;">
+            <button class="ekle-btn" onclick="alert('✅ Takviye eklendi!')">EKLE</button>
         </div>
     </div>
 
@@ -595,6 +704,31 @@
             Henüz ürün yok &nbsp;|&nbsp; 🔥 0 kcal &nbsp;|&nbsp; 🍗 0g &nbsp;|&nbsp; 🍞 0g &nbsp;|&nbsp; 🧈 0g
         </div>
     </div>
+
+    <!-- ==================== GÜN SEÇİMİ SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gunBtns = document.querySelectorAll('.gun-btn');
+            gunBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    gunBtns.forEach(b => {
+                        b.classList.remove('active');
+                        if (b.classList.contains('today')) {
+                            b.classList.add('today');
+                        }
+                    });
+                    this.classList.add('active');
+                    if (this.classList.contains('today')) {
+                        this.classList.add('today');
+                    }
+                    // Gün değişince sayfa başlığını güncelle (simülasyon)
+                    const gunAd = this.textContent.split('\n')[0].trim();
+                    document.querySelector('.header-date').textContent =
+                        '📅 ' + this.querySelector('small').textContent + ' 2026, ' + gunAd;
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
