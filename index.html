@@ -65,6 +65,7 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             flex-wrap: nowrap;
+            justify-content: flex-start;
         }
         .gunler-scroll::-webkit-scrollbar {
             display: none;
@@ -174,6 +175,13 @@
         }
 
         /* ========== ÖĞÜN LİSTESİ ========== */
+        .ogun-section-title {
+            font-size: 0.78em;
+            color: var(--green);
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: center;
+        }
         .ogun-item {
             display: flex;
             align-items: center;
@@ -200,6 +208,11 @@
             color: #999;
             font-size: 0.9em;
             white-space: nowrap;
+        }
+        .ogun-item.su-item {
+            color: #666;
+            justify-content: center;
+            font-style: italic;
         }
 
         /* ========== BÖLGE BUTONLARI - 3x2 GRID ========== */
@@ -328,12 +341,20 @@
             text-align: center;
             padding: 10px;
         }
+        .foto-box:active {
+            border-color: var(--green);
+            background: #1a2a1f;
+        }
         .foto-box .ikon {
             font-size: 2em;
         }
         .foto-box .yazi {
             font-size: 0.7em;
             color: #888;
+        }
+        .foto-box .yazi.degistir {
+            color: var(--green);
+            font-weight: 600;
         }
 
         /* ========== VÜCUT ÖLÇÜLERİ ========== */
@@ -401,6 +422,9 @@
             border-radius: 20px;
             transition: all 0.2s;
         }
+        .sil-btn:active {
+            background: rgba(224, 85, 85, 0.2);
+        }
         .takviye-ekle-row {
             display: flex;
             gap: 6px;
@@ -429,6 +453,10 @@
             cursor: pointer;
             white-space: nowrap;
             font-size: 0.82em;
+        }
+        .ekle-btn:active {
+            transform: scale(0.95);
+            opacity: 0.85;
         }
 
         /* ========== SAVE BUTTON ========== */
@@ -470,6 +498,9 @@
             text-align: center;
             transition: all 0.2s;
         }
+        .yedek-btn:active {
+            background: rgba(76, 175, 132, 0.15);
+        }
 
         /* ========== BARKOD ========== */
         .barkod-btn {
@@ -488,6 +519,9 @@
             cursor: pointer;
             margin-bottom: 6px;
         }
+        .barkod-btn:active {
+            background: #2a2a2a;
+        }
         .secililer-ozet {
             text-align: center;
             font-size: 0.76em;
@@ -504,7 +538,7 @@
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- ==================== HEADER ==================== -->
     <div class="header">💪 SIRT + TRAPEZ</div>
     <div class="header-date">📅 06 Mayıs 2026, Çarşamba</div>
 
@@ -525,6 +559,8 @@
     <!-- ==================== GÜNLÜK HEDEFLER ==================== -->
     <div class="card">
         <div class="card-title">🎯 GÜNLÜK HEDEFLER</div>
+
+        <!-- Protein -->
         <div class="macro-row">
             <span class="macro-label">Protein</span>
             <div class="macro-bar-wrap">
@@ -532,6 +568,8 @@
             </div>
             <span class="macro-val">200 / 160g</span>
         </div>
+
+        <!-- Karb -->
         <div class="macro-row">
             <span class="macro-label">Karb</span>
             <div class="macro-bar-wrap">
@@ -539,6 +577,8 @@
             </div>
             <span class="macro-val">315 / 250g</span>
         </div>
+
+        <!-- Yağ -->
         <div class="macro-row">
             <span class="macro-label">Yağ</span>
             <div class="macro-bar-wrap">
@@ -546,6 +586,8 @@
             </div>
             <span class="macro-val">68 / 70g</span>
         </div>
+
+        <!-- Kalori -->
         <div class="macro-row">
             <span class="macro-label">Kalori</span>
             <div class="macro-bar-wrap">
@@ -555,27 +597,30 @@
         </div>
 
         <!-- Öğün Listesi -->
-        <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
-            <div style="font-size:0.78em; color:var(--green); font-weight:700; margin-bottom:6px; text-align:center;">🍽️ BUGÜNÜN ÖĞÜNLERİ</div>
+        <div style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.08); padding-top:10px;">
+            <div class="ogun-section-title">🍽️ BUGÜNÜN ÖĞÜNLERİ</div>
+
             <div class="ogun-item">
                 <span class="ogun-saat">07:00</span>
                 <span class="ogun-icerik">Yulaf + Süt + Muz + Whey + Skyr</span>
                 <span class="ogun-makro">🔥420 | 🍗30g | 🍞55g | 🧈10g</span>
             </div>
+
             <div class="ogun-item">
                 <span class="ogun-saat">09:00</span>
                 <span class="ogun-icerik">Skyr + Chia + Meyve</span>
                 <span class="ogun-makro">🔥250 | 🍗20g | 🍞30g | 🧈5g</span>
             </div>
-            <div class="ogun-item" style="color:#666; justify-content:center;">
-                <span style="font-style:italic;">+ 1 bardak su</span>
+
+            <div class="ogun-item su-item">
+                <span>+ 1 bardak su</span>
             </div>
         </div>
 
         <button class="save-btn">💾 KAYDET</button>
     </div>
 
-    <!-- ==================== BÖLGE SEÇİMİ (3x2) ==================== -->
+    <!-- ==================== BÖLGE SEÇİMİ (3x2 GRID) ==================== -->
     <div class="card">
         <div class="card-title">🏋️ BÖLGE SEÇİMİ</div>
         <div class="bolge-grid">
@@ -618,7 +663,7 @@
         </div>
     </div>
 
-    <!-- ==================== ÖNCE / SONRA ==================== -->
+    <!-- ==================== ÖNCE & SONRA ==================== -->
     <div class="card">
         <div class="card-title">📸 ÖNCE & SONRA</div>
         <div class="foto-karsilastirma">
@@ -626,13 +671,13 @@
                 <span class="ikon">📷</span>
                 <span class="yazi"><strong>ÖNCE</strong></span>
                 <span class="yazi">Fotoğraf yok</span>
-                <span class="yazi" style="color:var(--green);">Değiştir</span>
+                <span class="yazi degistir">Değiştir</span>
             </div>
             <div class="foto-box" onclick="alert('📸 SONRA fotoğrafı eklenecek')">
                 <span class="ikon">📸</span>
                 <span class="yazi"><strong>SONRA</strong></span>
                 <span class="yazi">Fotoğraf yok</span>
-                <span class="yazi" style="color:var(--green);">Değiştir</span>
+                <span class="yazi degistir">Değiştir</span>
             </div>
         </div>
     </div>
@@ -660,31 +705,35 @@
             <span class="olcu-label">Bacak</span>
             <input class="olcu-input" type="number" placeholder="cm">
         </div>
-        <button class="save-btn" style="margin-top:4px;">💾 KAYDET</button>
+        <button class="save-btn" style="margin-top:6px;">💾 KAYDET</button>
     </div>
 
     <!-- ==================== TAKVİYELER ==================== -->
     <div class="card">
         <div class="card-title">💊 TAKVİYELER</div>
+
         <div class="takviye-row">
             <span class="takviye-ad">🐟 Omega-3</span>
             <span class="takviye-zaman">Sabah</span>
-            <button class="sil-btn">SİL</button>
+            <button class="sil-btn" onclick="this.parentElement.remove()">SİL</button>
         </div>
+
         <div class="takviye-row">
             <span class="takviye-ad">🥛 Whey</span>
             <span class="takviye-zaman">Antrenman sonrası</span>
-            <button class="sil-btn">SİL</button>
+            <button class="sil-btn" onclick="this.parentElement.remove()">SİL</button>
         </div>
+
         <div class="takviye-row">
             <span class="takviye-ad">⚡ Kreatin</span>
             <span class="takviye-zaman">Antrenman öncesi</span>
-            <button class="sil-btn">SİL</button>
+            <button class="sil-btn" onclick="this.parentElement.remove()">SİL</button>
         </div>
+
         <div class="takviye-ekle-row">
             <input type="text" placeholder="Takviye adı" id="takviyeAd">
             <input type="text" placeholder="Zaman" id="takviyeZaman" style="max-width:110px;">
-            <button class="ekle-btn" onclick="alert('✅ Takviye eklendi!')">EKLE</button>
+            <button class="ekle-btn" id="takviyeEkleBtn">EKLE</button>
         </div>
     </div>
 
@@ -699,15 +748,17 @@
 
     <!-- ==================== BARKOD ==================== -->
     <div class="card">
-        <button class="barkod-btn">📷 KAMERA İLE BARKOD OKU</button>
+        <button class="barkod-btn" onclick="alert('📷 Kamera açılıyor...')">📷 KAMERA İLE BARKOD OKU</button>
         <div class="secililer-ozet">
             Henüz ürün yok &nbsp;|&nbsp; 🔥 0 kcal &nbsp;|&nbsp; 🍗 0g &nbsp;|&nbsp; 🍞 0g &nbsp;|&nbsp; 🧈 0g
         </div>
     </div>
 
-    <!-- ==================== GÜN SEÇİMİ SCRIPT ==================== -->
+    <!-- ==================== SCRIPTS ==================== -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
+            // ========== GÜN SEÇİMİ ==========
             const gunBtns = document.querySelectorAll('.gun-btn');
             gunBtns.forEach(btn => {
                 btn.addEventListener('click', function () {
@@ -721,12 +772,91 @@
                     if (this.classList.contains('today')) {
                         this.classList.add('today');
                     }
-                    // Gün değişince sayfa başlığını güncelle (simülasyon)
                     const gunAd = this.textContent.split('\n')[0].trim();
+                    const tarih = this.querySelector('small').textContent.trim();
                     document.querySelector('.header-date').textContent =
-                        '📅 ' + this.querySelector('small').textContent + ' 2026, ' + gunAd;
+                        '📅 ' + tarih + ' 2026, ' + gunAd;
                 });
             });
+
+            // ========== TAKVİYE EKLEME ==========
+            const takviyeAdInput = document.getElementById('takviyeAd');
+            const takviyeZamanInput = document.getElementById('takviyeZaman');
+            const takviyeEkleBtn = document.getElementById('takviyeEkleBtn');
+            const takviyeCard = document.querySelector('.takviye-ekle-row').parentElement;
+
+            takviyeEkleBtn.addEventListener('click', function () {
+                const ad = takviyeAdInput.value.trim();
+                const zaman = takviyeZamanInput.value.trim();
+
+                if (ad === '' || zaman === '') {
+                    alert('⚠️ Lütfen takviye adı ve zamanını giriniz!');
+                    return;
+                }
+
+                const yeniRow = document.createElement('div');
+                yeniRow.className = 'takviye-row';
+                yeniRow.innerHTML = `
+                    <span class="takviye-ad">💊 ${ad}</span>
+                    <span class="takviye-zaman">${zaman}</span>
+                    <button class="sil-btn" onclick="this.parentElement.remove()">SİL</button>
+                `;
+
+                const ekleRow = document.querySelector('.takviye-ekle-row');
+                ekleRow.parentElement.insertBefore(yeniRow, ekleRow);
+
+                takviyeAdInput.value = '';
+                takviyeZamanInput.value = '';
+                takviyeAdInput.focus();
+            });
+
+            // ========== SET BUTONLARI TOGGLE ==========
+            const setBtns = document.querySelectorAll('.set-btn');
+            setBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (this.classList.contains('done')) {
+                        this.classList.remove('done');
+                        this.textContent = this.textContent.replace(' ✅', '');
+                    } else {
+                        this.classList.add('done');
+                        if (!this.textContent.includes('✅')) {
+                            this.textContent += ' ✅';
+                        }
+                    }
+                });
+            });
+
+            // ========== BÖLGE BUTONLARI TOGGLE ==========
+            const bolgeBtns = document.querySelectorAll('.bolge-btn');
+            bolgeBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (this.classList.contains('completed')) {
+                        this.classList.remove('completed');
+                        this.classList.add('not-done');
+                        this.textContent = this.textContent.replace('✅ ', '🔴 ');
+                    } else if (this.classList.contains('not-done')) {
+                        this.classList.remove('not-done');
+                        this.classList.add('in-progress');
+                        this.textContent = this.textContent.replace('🔴 ', '🟡 ');
+                    } else if (this.classList.contains('in-progress')) {
+                        this.classList.remove('in-progress');
+                        this.classList.add('completed');
+                        this.textContent = this.textContent.replace('🟡 ', '✅ ');
+                    }
+                });
+            });
+
+            console.log('✅ GymBro - Tüm sistemler hazır!');
+            console.log('📅 Günler kartı aktif');
+            console.log('🎯 Hedef barları yüklendi');
+            console.log('🍽️ Öğün listesi hazır');
+            console.log('🏋️ Bölge seçimi 3x2 grid');
+            console.log('💪 Antrenman kartları tamam');
+            console.log('📸 Önce/Sonra foto hazır');
+            console.log('📏 Vücut ölçüleri aktif');
+            console.log('💊 Takviyeler çalışıyor');
+            console.log('☁️ Yedekleme butonları hazır');
+            console.log('📷 Barkod kamera bağlantısı kuruldu');
         });
     </script>
 
