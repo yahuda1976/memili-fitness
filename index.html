@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fitness Pro - Barkod Onaylı Liste Sistemi</title>
+    <title>Fitness Pro - Liste Düzenleme & Yeşil Kalın Yazılar</title>
     <script type="text/javascript" src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,9 +11,10 @@
         .app-header { background: #000; padding: 16px 20px; text-align: center; border-bottom: 0.5px solid rgba(255,255,255,0.1); }
         .app-header h1 { font-size: 1.8rem; background: linear-gradient(135deg,#007aff,#5856d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; max-width: 550px; margin: 0 auto; }
+        /* Gün kartları - yazılar çok kalın ve yeşil */
         .card { background: #1C1C1E; border-radius: 16px; padding: 16px 8px; text-align: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
         .card:active { transform: scale(0.97); background: #2C2C2E; }
-        .card h3 { font-size: 1.4rem; font-weight: 900; color: #ffffff; margin-bottom: 8px; }
+        .card h3 { font-size: 1.5rem; font-weight: 900; color: #34C759; margin-bottom: 8px; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
         .card.settings-card h3 { color: #007AFF; }
         .progress-bar { width: 100%; height: 4px; background: #2C2C2E; border-radius: 4px; overflow: hidden; margin-top: 10px; }
         .progress-fill { height: 100%; background: #34C759; transition: width 0.3s; }
@@ -90,6 +91,8 @@
         .list-card { background: #2C2C2E; border-radius: 16px; padding: 12px; margin: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .list-card:active { transform: scale(0.98); }
         .delete-list-btn { background: #c0392b; border: none; padding: 6px 12px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; margin-left: 8px; }
+        .delete-item-btn { background: #c0392b; border: none; padding: 4px 8px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-left: 8px; font-size: 0.7rem; }
+        .list-item { background: #1C1C1E; margin: 8px; padding: 10px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
@@ -164,7 +167,7 @@
 </div>
 
 <script>
-// ========== YEMEK LİSTELERİ ==========
+// ========== YEMEK LİSTELERİ (ÜRÜN SİLME DESTEKLİ) ==========
 let mealLists = {};
 let currentListId = null;
 let dailyTargets = { protein: 160, carbs: 250, fat: 70, calories: 2500 };
@@ -190,6 +193,23 @@ function deleteMealList(listId) {
         showToast("Liste silindi");
     }
 }
+function deleteItemFromList(listId, itemIndex) {
+    let list = mealLists[listId];
+    if (!list) return;
+    let removed = list.items.splice(itemIndex, 1)[0];
+    if (removed) {
+        list.totals.protein -= removed.protein;
+        list.totals.carbs -= removed.carbs;
+        list.totals.fat -= removed.fat;
+        list.totals.calories -= removed.kcal;
+        saveMealLists();
+        renderMealLists();
+        showToast(`${removed.name} listeden silindi`);
+        // Eğer liste açıksa güncelle
+        document.querySelector(".modal")?.remove();
+        openMealList(listId);
+    }
+}
 function renderMealLists() {
     let container = document.getElementById("mealListsContainer");
     if (!container) return;
@@ -212,7 +232,14 @@ function openMealList(listId) {
     currentListId = listId;
     let list = mealLists[listId];
     let isFull = (list.totals.protein >= dailyTargets.protein && list.totals.carbs >= dailyTargets.carbs && list.totals.fat >= dailyTargets.fat && list.totals.calories >= dailyTargets.calories);
-    let itemsHtml = list.items.map((item, idx) => `<div style="background:#1C1C1E; margin:8px; padding:10px; border-radius:12px;">${item.name} (${item.kcal} kcal, ${item.protein}g protein, ${item.carbs}g karb, ${item.fat}g yağ)</div>`).join('');
+    let itemsHtml = "";
+    for (let i = 0; i < list.items.length; i++) {
+        let item = list.items[i];
+        itemsHtml += `<div class="list-item">
+            <span>${item.name} (${item.kcal} kcal, ${item.protein}g protein, ${item.carbs}g karb, ${item.fat}g yağ)</span>
+            <button class="delete-item-btn" onclick="deleteItemFromList('${listId}', ${i})">🗑️ Sil</button>
+        </div>`;
+    }
     let modal = document.createElement("div");
     modal.className = "modal";
     modal.innerHTML = `
