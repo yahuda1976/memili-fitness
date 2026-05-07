@@ -289,8 +289,6 @@
             color: #34C759;
             font-size: 0.9rem;
         }
-
-        /* 5 BUTON - 2 UST + 3 ALT - HEPSI YUVARLAK BASIK GENIS SARI */
         .ex-buttons-row {
             display: grid;
             gap: 5px;
@@ -320,7 +318,6 @@
             border-color: #FFCC00;
             box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
         }
-
         .move-buttons {
             display: flex;
             flex-direction: column;
@@ -445,8 +442,6 @@
             border: none;
             border-radius: 22px;
         }
-
-        /* TIMER */
         .timer-box {
             position: fixed;
             bottom: 100px;
@@ -493,7 +488,6 @@
             cursor: pointer;
             margin-top: 6px;
         }
-
         .body-stats {
             background: #1C1C1E;
             border-radius: 12px;
@@ -732,7 +726,7 @@
                 <div class="settings-card">
                     <h3>📷 KAMERA İLE BARKOD OKU</h3>
                     <button id="kameraAcBtn" class="settings-btn blue">📷 Kamerayı Aç</button>
-                    <button id="kameraKapatBtn" class="settings-btn red hidden">⏹️ Kapat</button>
+                    <button id="kameraKapatBtn" class="settings-btn red hidden">⏹️ Kamerayı Kapat</button>
                     <video id="barcodeVideo" autoplay playsinline style="display:none;margin-top:8px;"></video>
                     <div id="kameraDurum" style="font-size:11px;color:#FF9500;margin-top:6px;"></div>
                     <div id="urunSonuc" style="margin-top:8px;"></div>
@@ -1355,16 +1349,16 @@
                 sliderDiv.style.display = "none"; } }
 
         // LİSTE
-        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v8"); if (kayit) { listeler = JSON.parse(
+        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v9"); if (kayit) { listeler = JSON.parse(
                 kayit); } else { listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein: 0,
                     karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: {
                     protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l3", ad: "🍽️ Liste 3",
                 urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }]; }
-            aktifListeId = localStorage.getItem("fitness_aktif_liste_v8"); if (!aktifListeId || !listeler.find(l => l.id ===
+            aktifListeId = localStorage.getItem("fitness_aktif_liste_v9"); if (!aktifListeId || !listeler.find(l => l.id ===
                 aktifListeId)) aktifListeId = listeler[0]?.id; }
 
-        function saveListeler() { localStorage.setItem("fitness_listeler_v8", JSON.stringify(listeler)); if (aktifListeId)
-                localStorage.setItem("fitness_aktif_liste_v8", aktifListeId); }
+        function saveListeler() { localStorage.setItem("fitness_listeler_v9", JSON.stringify(listeler)); if (aktifListeId)
+                localStorage.setItem("fitness_aktif_liste_v9", aktifListeId); }
 
         function renderListeler() { let container = document.getElementById("listeContainer"); if (!container) return; if (!
                 listeler.length) { container.innerHTML =
@@ -1433,24 +1427,23 @@
                 renderAktifGosterge();
                 showToast("Liste oluşturuldu"); } });
 
-        // KAMERA BARKOD - ESKI STABIL SISTEM AYNEN GERI GELDI
+        // ========== KAMERA BARKOD - ESKİ STABİL SİSTEM (AYNA MODUSUZ) ==========
         const kameraAcBtn = document.getElementById("kameraAcBtn");
         const kameraKapatBtn = document.getElementById("kameraKapatBtn");
-        const videoEl = document.getElementById("barcodeVideo");
+        const video = document.getElementById("barcodeVideo");
         const kameraDurum = document.getElementById("kameraDurum");
         const urunSonuc = document.getElementById("urunSonuc");
-        let currentScanner = null;
 
         async function kamerayiBaslat() {
             if (!aktifListeId) { kameraDurum.innerHTML = "❌ Önce bir liste seçin!"; return; }
             kameraAcBtn.classList.add("hidden");
             kameraKapatBtn.classList.remove("hidden");
-            videoEl.style.display = "block";
+            video.style.display = "block";
             kameraDurum.innerHTML = "📱 Barkodu göster... otomatik okunacak";
             urunSonuc.innerHTML = "";
             try {
-                currentScanner = new ZXing.BrowserMultiFormatReader();
-                await currentScanner.decodeFromVideoDevice(null, videoEl, async (result, err) => {
+                scanner = new ZXing.BrowserMultiFormatReader();
+                await scanner.decodeFromVideoDevice(null, video, async (result, err) => {
                     if (result) {
                         let barcode = result.getText();
                         kameraDurum.innerHTML = `✅ Barkod: ${barcode} - Ürün aranıyor...`;
@@ -1459,9 +1452,9 @@
                         try {
                             let res = await fetch(
                                 `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
-                            let dataF = await res.json();
-                            if (dataF.status === 1 && dataF.product) {
-                                let p = dataF.product;
+                            let data = await res.json();
+                            if (data.status === 1 && data.product) {
+                                let p = data.product;
                                 let isim = p.product_name || "Ürün adı yok";
                                 let nut = p.nutriments || {};
                                 let kalori = Math.round(nut['energy-kcal'] || nut['energy_value'] || 0);
@@ -1469,19 +1462,32 @@
                                 let karbonhidrat = Math.round(nut.carbohydrates || nut[
                                     'carbohydrates_value'] || 0);
                                 let yag = Math.round(nut.fat || nut['fat_value'] || 0);
-                                urunSonuc.innerHTML = `<div class="urun-card"><strong>📦 ${isim}</strong><br>🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g<div class="button-group"><button id="ekleBtnKamera" class="settings-btn green" style="flex:1;">✅ Listeye Ekle</button><button id="iptalBtnKamera" class="settings-btn red" style="flex:1;">❌ İptal</button></div></div>`;
+                                urunSonuc.innerHTML = `
+                            <div class="urun-card">
+                                <strong>📦 ${isim}</strong><br>
+                                🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g
+                                <div class="button-group">
+                                    <button id="ekleBtnKamera" class="settings-btn green">✅ Listeye Ekle</button>
+                                    <button id="iptalBtnKamera" class="settings-btn red">❌ İptal</button>
+                                </div>
+                            </div>
+                        `;
                                 document.getElementById("ekleBtnKamera")?.addEventListener("click",
                                     () => {
                                         urunEkle(aktifListeId, { isim, kalori, protein,
                                             karbonhidrat, yag });
                                         urunSonuc.innerHTML =
                                             `<div style="color:#34C759;">✅ "${isim}" eklendi!</div>`;
-                                        setTimeout(() => urunSonuc.innerHTML = "", 2000);
+                                        setTimeout(() => { if (urunSonuc.innerHTML.includes(
+                                                'eklendi')) urunSonuc.innerHTML = ''; }, 2000);
                                     });
                                 document.getElementById("iptalBtnKamera")?.addEventListener("click",
-                                    () => { urunSonuc.innerHTML =
-                                        `<div style="color:#FF9500;">❌ İptal edildi</div>`;
-                                        setTimeout(() => urunSonuc.innerHTML = "", 1500); });
+                                    () => {
+                                        urunSonuc.innerHTML =
+                                            `<div style="color:#FF9500;">❌ İptal edildi</div>`;
+                                        setTimeout(() => { if (urunSonuc.innerHTML.includes(
+                                                'İptal')) urunSonuc.innerHTML = ''; }, 1500);
+                                    });
                             } else { urunSonuc.innerHTML =
                             `<div style="color:#FF3B30;">❌ Ürün bulunamadı: ${barcode}</div>`; }
                         } catch (e) { urunSonuc.innerHTML = `<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>`; }
@@ -1492,8 +1498,8 @@
         }
 
         function kamerayiKapat() {
-            if (currentScanner) { try { currentScanner.reset(); } catch (e) {} currentScanner = null; }
-            if (videoEl) { videoEl.style.display = "none"; }
+            if (scanner) { try { scanner.reset(); } catch (e) {} scanner = null; }
+            video.style.display = "none";
             kameraAcBtn.classList.remove("hidden");
             kameraKapatBtn.classList.add("hidden");
             kameraDurum.innerHTML = "";
