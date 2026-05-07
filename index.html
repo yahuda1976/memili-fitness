@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Fitness Pro</title>
-    <script src="https://unpkg.com/@zxing/library@0.19.1/umd/index.min.js">
-    </script>
     <style>
         :root {
             --green: #2ecc51;
@@ -657,12 +655,6 @@
             gap: 8px;
             margin-top: 10px;
         }
-        video {
-            width: 100%;
-            border-radius: 16px;
-            margin-top: 10px;
-            background: #000;
-        }
         .hafta-btn {
             display: block;
             width: calc(100% - 28px);
@@ -723,13 +715,13 @@
                     <button id="yeniListeBtn" class="settings-btn blue">➕ Yeni Liste</button>
                     <div id="aktifGosterge" style="margin-top:8px;padding:6px;background:#2C2C2E;border-radius:20px;text-align:center;font-size:0.8em;"></div>
                 </div>
+                <!-- KAMERA YERİNE MANUEL BARKOD GİRİŞİ -->
                 <div class="settings-card">
-                    <h3>📷 KAMERA İLE BARKOD OKU</h3>
-                    <button id="kameraAcBtn" class="settings-btn blue">📷 Kamerayı Aç</button>
-                    <button id="kameraKapatBtn" class="settings-btn red hidden">⏹️ Kamerayı Kapat</button>
-                    <video id="barcodeVideo" autoplay playsinline style="display:none;margin-top:8px;"></video>
-                    <div id="kameraDurum" style="font-size:11px;color:#FF9500;margin-top:6px;"></div>
-                    <div id="urunSonuc" style="margin-top:8px;"></div>
+                    <h3>📷 BARKOD İLE BESİN EKLE</h3>
+                    <p style="font-size:0.72rem;color:#aaa;margin-bottom:8px;">Barkod numarasını yapıştır, ürünü getir</p>
+                    <input type="text" id="barcodeInput" placeholder="Barkod numarası" class="settings-input">
+                    <button id="fetchBarcodeBtn" class="settings-btn blue">🔍 Ürünü Getir</button>
+                    <div id="barcodeResult" style="margin-top:8px;"></div>
                 </div>
                 <div class="settings-card">
                     <h3>🍽️ SEÇİLİ LİSTEDEKİLER</h3>
@@ -842,7 +834,7 @@
         let bodyMeasurements = { weight: 72, waist: 0, chest: 0, arm: 0, leg: 0 };
         let beforePhoto = null, afterPhoto = null;
         let supplements = [{ name: "Omega-3", time: "Sabah" }, { name: "Whey Protein", time: "Sabah & Antrenman" }, { name: "Kreatin", time: "Antrenman öncesi" }];
-        let listeler = [], aktifListeId = null, scanner = null;
+        let listeler = [], aktifListeId = null;
         let timerInterval = null;
         let currentSound = null;
         let soundStopFlag = false;
@@ -1349,16 +1341,16 @@
                 sliderDiv.style.display = "none"; } }
 
         // LİSTE
-        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v9"); if (kayit) { listeler = JSON.parse(
+        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v10"); if (kayit) { listeler = JSON.parse(
                 kayit); } else { listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein: 0,
                     karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: {
                     protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l3", ad: "🍽️ Liste 3",
                 urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }]; }
-            aktifListeId = localStorage.getItem("fitness_aktif_liste_v9"); if (!aktifListeId || !listeler.find(l => l.id ===
+            aktifListeId = localStorage.getItem("fitness_aktif_liste_v10"); if (!aktifListeId || !listeler.find(l => l.id ===
                 aktifListeId)) aktifListeId = listeler[0]?.id; }
 
-        function saveListeler() { localStorage.setItem("fitness_listeler_v9", JSON.stringify(listeler)); if (aktifListeId)
-                localStorage.setItem("fitness_aktif_liste_v9", aktifListeId); }
+        function saveListeler() { localStorage.setItem("fitness_listeler_v10", JSON.stringify(listeler)); if (aktifListeId)
+                localStorage.setItem("fitness_aktif_liste_v10", aktifListeId); }
 
         function renderListeler() { let container = document.getElementById("listeContainer"); if (!container) return; if (!
                 listeler.length) { container.innerHTML =
@@ -1427,85 +1419,50 @@
                 renderAktifGosterge();
                 showToast("Liste oluşturuldu"); } });
 
-        // ========== KAMERA BARKOD - ESKİ STABİL SİSTEM (AYNA MODUSUZ) ==========
-        const kameraAcBtn = document.getElementById("kameraAcBtn");
-        const kameraKapatBtn = document.getElementById("kameraKapatBtn");
-        const video = document.getElementById("barcodeVideo");
-        const kameraDurum = document.getElementById("kameraDurum");
-        const urunSonuc = document.getElementById("urunSonuc");
-
-        async function kamerayiBaslat() {
-            if (!aktifListeId) { kameraDurum.innerHTML = "❌ Önce bir liste seçin!"; return; }
-            kameraAcBtn.classList.add("hidden");
-            kameraKapatBtn.classList.remove("hidden");
-            video.style.display = "block";
-            kameraDurum.innerHTML = "📱 Barkodu göster... otomatik okunacak";
-            urunSonuc.innerHTML = "";
+        // ========== BARKOD İLE BESİN EKLE (MANUEL GİRİŞ + API) ==========
+        document.getElementById("fetchBarcodeBtn")?.addEventListener("click", async () => {
+            let barcode = document.getElementById("barcodeInput").value.trim();
+            if (!barcode) { showToast("Barkod numarası girin"); return; }
+            if (!aktifListeId) { showToast("Önce bir liste seçin"); return; }
+            let resultDiv = document.getElementById("barcodeResult");
+            resultDiv.innerHTML = '<div style="color:#FF9500;">⏳ Ürün aranıyor...</div>';
             try {
-                scanner = new ZXing.BrowserMultiFormatReader();
-                await scanner.decodeFromVideoDevice(null, video, async (result, err) => {
-                    if (result) {
-                        let barcode = result.getText();
-                        kameraDurum.innerHTML = `✅ Barkod: ${barcode} - Ürün aranıyor...`;
-                        urunSonuc.innerHTML =
-                            '<div style="color:#FF9500;">⏳ OpenFoodFacts aranıyor...</div>';
-                        try {
-                            let res = await fetch(
-                                `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
-                            let data = await res.json();
-                            if (data.status === 1 && data.product) {
-                                let p = data.product;
-                                let isim = p.product_name || "Ürün adı yok";
-                                let nut = p.nutriments || {};
-                                let kalori = Math.round(nut['energy-kcal'] || nut['energy_value'] || 0);
-                                let protein = Math.round(nut.proteins || nut['proteins_value'] || 0);
-                                let karbonhidrat = Math.round(nut.carbohydrates || nut[
-                                    'carbohydrates_value'] || 0);
-                                let yag = Math.round(nut.fat || nut['fat_value'] || 0);
-                                urunSonuc.innerHTML = `
-                            <div class="urun-card">
-                                <strong>📦 ${isim}</strong><br>
-                                🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g
-                                <div class="button-group">
-                                    <button id="ekleBtnKamera" class="settings-btn green">✅ Listeye Ekle</button>
-                                    <button id="iptalBtnKamera" class="settings-btn red">❌ İptal</button>
-                                </div>
+                let res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+                let dataF = await res.json();
+                if (dataF.status === 1 && dataF.product) {
+                    let p = dataF.product;
+                    let isim = p.product_name || "Ürün";
+                    let nut = p.nutriments || {};
+                    let kalori = Math.round(nut['energy-kcal'] || nut['energy_value'] || 0);
+                    let protein = Math.round(nut.proteins || nut['proteins_value'] || 0);
+                    let karbonhidrat = Math.round(nut.carbohydrates || nut['carbohydrates_value'] || 0);
+                    let yag = Math.round(nut.fat || nut['fat_value'] || 0);
+                    resultDiv.innerHTML = `
+                        <div class="urun-card">
+                            <strong>📦 ${isim}</strong><br>
+                            🔥 ${kalori} kcal | 💪 ${protein}g | 🌾 ${karbonhidrat}g | 🥑 ${yag}g
+                            <div class="button-group">
+                                <button id="ekleBtnBarkod" class="settings-btn green">✅ Listeye Ekle</button>
+                                <button id="iptalBtnBarkod" class="settings-btn red">❌ İptal</button>
                             </div>
-                        `;
-                                document.getElementById("ekleBtnKamera")?.addEventListener("click",
-                                    () => {
-                                        urunEkle(aktifListeId, { isim, kalori, protein,
-                                            karbonhidrat, yag });
-                                        urunSonuc.innerHTML =
-                                            `<div style="color:#34C759;">✅ "${isim}" eklendi!</div>`;
-                                        setTimeout(() => { if (urunSonuc.innerHTML.includes(
-                                                'eklendi')) urunSonuc.innerHTML = ''; }, 2000);
-                                    });
-                                document.getElementById("iptalBtnKamera")?.addEventListener("click",
-                                    () => {
-                                        urunSonuc.innerHTML =
-                                            `<div style="color:#FF9500;">❌ İptal edildi</div>`;
-                                        setTimeout(() => { if (urunSonuc.innerHTML.includes(
-                                                'İptal')) urunSonuc.innerHTML = ''; }, 1500);
-                                    });
-                            } else { urunSonuc.innerHTML =
-                            `<div style="color:#FF3B30;">❌ Ürün bulunamadı: ${barcode}</div>`; }
-                        } catch (e) { urunSonuc.innerHTML = `<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>`; }
-                    }
-                });
-            } catch (e) { kameraDurum.innerHTML = "❌ Kamera izni gerekli";
-                kamerayiKapat(); }
-        }
-
-        function kamerayiKapat() {
-            if (scanner) { try { scanner.reset(); } catch (e) {} scanner = null; }
-            video.style.display = "none";
-            kameraAcBtn.classList.remove("hidden");
-            kameraKapatBtn.classList.add("hidden");
-            kameraDurum.innerHTML = "";
-        }
-        kameraAcBtn?.addEventListener("click", kamerayiBaslat);
-        kameraKapatBtn?.addEventListener("click", kamerayiKapat);
+                        </div>`;
+                    document.getElementById("ekleBtnBarkod")?.addEventListener("click", () => {
+                        urunEkle(aktifListeId, { isim, kalori, protein, karbonhidrat, yag });
+                        resultDiv.innerHTML = `<div style="color:#34C759;">✅ "${isim}" eklendi!</div>`;
+                        document.getElementById("barcodeInput").value = "";
+                        setTimeout(() => resultDiv.innerHTML = "", 2000);
+                    });
+                    document.getElementById("iptalBtnBarkod")?.addEventListener("click", () => {
+                        resultDiv.innerHTML = "";
+                        document.getElementById("barcodeInput").value = "";
+                    });
+                } else {
+                    resultDiv.innerHTML = '<div style="color:#FF3B30;">❌ Ürün bulunamadı</div>';
+                }
+            } catch (e) {
+                resultDiv.innerHTML = '<div style="color:#FF3B30;">⚠️ Bağlantı hatası</div>';
+            }
+        });
 
         document.getElementById("hedefKaydetBtn")?.addEventListener("click", () => { dailyTargets = { protein: parseInt(
                     document.getElementById("targetProtein").value) || 160, carbs: parseInt(document.getElementById(
