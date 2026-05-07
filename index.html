@@ -287,6 +287,7 @@
             color: #34C759;
             font-size: 0.9rem;
         }
+        /* 6 BUTON - 3 UST + 3 ALT - HEPSI YUVARLAK BASIK GENIS SARI */
         .ex-buttons-row {
             display: grid;
             gap: 5px;
@@ -294,7 +295,7 @@
             margin-top: 4px;
         }
         .ex-buttons-row.top-row {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
         .ex-buttons-row.bottom-row {
             grid-template-columns: repeat(3, 1fr);
@@ -613,6 +614,42 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.82em;
+            flex-wrap: wrap;
+        }
+        .liste-item .liste-progress {
+            width: 100%;
+            margin-top: 6px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+        .liste-mini-bar {
+            height: 4px;
+            background: #3a3a3c;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .liste-mini-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        .liste-mini-fill.p {
+            background: #34C759;
+        }
+        .liste-mini-fill.k {
+            background: #FF9500;
+        }
+        .liste-mini-fill.f {
+            background: #FF3B30;
+        }
+        .liste-mini-fill.cal {
+            background: #007AFF;
+        }
+        .liste-mini-label {
+            font-size: 0.55em;
+            color: #aaa;
+            text-align: center;
         }
         .takviye-row {
             display: flex;
@@ -715,7 +752,6 @@
                     <button id="yeniListeBtn" class="settings-btn blue">➕ Yeni Liste</button>
                     <div id="aktifGosterge" style="margin-top:8px;padding:6px;background:#2C2C2E;border-radius:20px;text-align:center;font-size:0.8em;"></div>
                 </div>
-                <!-- KAMERA YERİNE MANUEL BARKOD GİRİŞİ -->
                 <div class="settings-card">
                     <h3>📷 BARKOD İLE BESİN EKLE</h3>
                     <p style="font-size:0.72rem;color:#aaa;margin-bottom:8px;">Barkod numarasını yapıştır, ürünü getir</p>
@@ -1081,6 +1117,7 @@
                     <div class="ex-buttons-row top-row">
                         <button onclick="openExerciseVideo('${item.ex}','${item.link||""}')">📹 YouTube</button>
                         <button onclick="playLocalVideo('${item.ex}','${day}',${idx})">▶️ Yerel Video</button>
+                        <button onclick="promptYouTubeLink('${item.ex}','${day}',${idx})">🔗 Link</button>
                     </div>
                     <div class="ex-buttons-row bottom-row">
                         <button onclick="addLocalVideo('${item.ex}','${day}',${idx})">📂 EKLE</button>
@@ -1135,6 +1172,11 @@
         function openExerciseVideo(ex, link) { let url = link || `https://www.youtube.com/results?search_query=${encodeURIComponent(ex+" egzersizi")}`;
             window.open(url, '_blank'); }
 
+        function promptYouTubeLink(ex, day, idx) { let link = prompt(`${ex} için YouTube linki:`, data[day][idx].link || ""); if (
+                link !== null) { data[day][idx].link = link;
+                saveDataToLocal(); if (currentDayOpen === day) renderDayItems(day);
+                showToast("✅ Link kaydedildi!"); } }
+
         function showExerciseNote(ex, day, idx) { let note = data[day][idx].notes || ""; let modal = document.createElement(
                 "div");
             modal.className = "modal";
@@ -1148,7 +1190,6 @@
             document.querySelector(".modal").remove();
             showToast("✅ Not kaydedildi"); }
 
-        // IndexedDB
         function openDB() { return new Promise((res, rej) => { let req = indexedDB.open("FitVideoDB3", 1);
                 req.onerror = rej;
                 req.onsuccess = e => { res(e.target.result); };
@@ -1340,17 +1381,17 @@
                                 100 - val) / 100; if (imgs[1]) imgs[1].style.opacity = val / 100; }); } } else {
                 sliderDiv.style.display = "none"; } }
 
-        // LİSTE
-        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v10"); if (kayit) { listeler = JSON.parse(
+        // LİSTE YÖNETİMİ (PROGRESS BAR EKLENDİ)
+        function initListeler() { let kayit = localStorage.getItem("fitness_listeler_v11"); if (kayit) { listeler = JSON.parse(
                 kayit); } else { listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein: 0,
                     karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: {
                     protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }, { id: "l3", ad: "🍽️ Liste 3",
                 urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }]; }
-            aktifListeId = localStorage.getItem("fitness_aktif_liste_v10"); if (!aktifListeId || !listeler.find(l => l.id ===
+            aktifListeId = localStorage.getItem("fitness_aktif_liste_v11"); if (!aktifListeId || !listeler.find(l => l.id ===
                 aktifListeId)) aktifListeId = listeler[0]?.id; }
 
-        function saveListeler() { localStorage.setItem("fitness_listeler_v10", JSON.stringify(listeler)); if (aktifListeId)
-                localStorage.setItem("fitness_aktif_liste_v10", aktifListeId); }
+        function saveListeler() { localStorage.setItem("fitness_listeler_v11", JSON.stringify(listeler)); if (aktifListeId)
+                localStorage.setItem("fitness_aktif_liste_v11", aktifListeId); }
 
         function renderListeler() { let container = document.getElementById("listeContainer"); if (!container) return; if (!
                 listeler.length) { container.innerHTML =
@@ -1358,15 +1399,34 @@
             container.innerHTML = "";
             listeler.forEach(l => { let div = document.createElement("div");
                 div.className = "liste-item";
-                div.innerHTML =
-                    `<div><strong>${l.ad}</strong><br><small>${l.urunler.length} ürün</small></div><div><button class="secButon" data-id="${l.id}" style="background:${aktifListeId===l.id?'#34C759':'#007AFF'};border:none;padding:5px 10px;border-radius:20px;color:white;font-size:0.75em;">${aktifListeId===l.id?'✅ Seçili':'Seç'}</button><button class="silButon" data-id="${l.id}" style="background:#FF3B30;border:none;padding:5px 8px;border-radius:20px;margin-left:4px;font-size:0.75em;color:white;">Sil</button></div>`;
-                div.querySelector('.secButon').addEventListener("click", function() { aktifListeId = this.dataset.id;
+                let pPct = Math.min(100, Math.round((l.toplam.protein / dailyTargets.protein) * 100));
+                let kPct = Math.min(100, Math.round((l.toplam.karbonhidrat / dailyTargets.carbs) * 100));
+                let fPct = Math.min(100, Math.round((l.toplam.yag / dailyTargets.fat) * 100));
+                let calPct = Math.min(100, Math.round((l.toplam.kalori / dailyTargets.calories) * 100));
+                div.innerHTML = `
+                    <div style="width:100%;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div><strong>${l.ad}</strong><br><small>${l.urunler.length} ürün</small></div>
+                            <div>
+                                <button class="secButon" data-id="${l.id}" style="background:${aktifListeId===l.id?'#34C759':'#007AFF'};border:none;padding:5px 10px;border-radius:20px;color:white;font-size:0.75em;">${aktifListeId===l.id?'✅ Seçili':'Seç'}</button>
+                                <button class="silButon" data-id="${l.id}" style="background:#FF3B30;border:none;padding:5px 8px;border-radius:20px;margin-left:4px;font-size:0.75em;color:white;">Sil</button>
+                            </div>
+                        </div>
+                        <div class="liste-progress">
+                            <div><div class="liste-mini-bar"><div class="liste-mini-fill p" style="width:${pPct}%"></div></div><div class="liste-mini-label">💪 ${l.toplam.protein}/${dailyTargets.protein}</div></div>
+                            <div><div class="liste-mini-bar"><div class="liste-mini-fill k" style="width:${kPct}%"></div></div><div class="liste-mini-label">🌾 ${l.toplam.karbonhidrat}/${dailyTargets.carbs}</div></div>
+                            <div><div class="liste-mini-bar"><div class="liste-mini-fill f" style="width:${fPct}%"></div></div><div class="liste-mini-label">🥑 ${l.toplam.yag}/${dailyTargets.fat}</div></div>
+                            <div><div class="liste-mini-bar"><div class="liste-mini-fill cal" style="width:${calPct}%"></div></div><div class="liste-mini-label">🔥 ${l.toplam.kalori}/${dailyTargets.calories}</div></div>
+                        </div>
+                    </div>`;
+                div.querySelector('.secButon').addEventListener("click", function(e) { e.stopPropagation();
+                    aktifListeId = this.dataset.id;
                     saveListeler();
                     renderListeler();
                     renderAktifGosterge();
                     renderSecilenUrunler(); });
-                div.querySelector('.silButon').addEventListener("click", function() { if (listeler.length === 1) {
-                        showToast("En az 1 liste olmalı"); return; }
+                div.querySelector('.silButon').addEventListener("click", function(e) { e.stopPropagation(); if (
+                        listeler.length === 1) { showToast("En az 1 liste olmalı"); return; }
                     listeler = listeler.filter(ll => ll.id !== this.dataset.id); if (aktifListeId === this
                         .dataset.id) aktifListeId = listeler[0]?.id;
                     saveListeler();
@@ -1389,7 +1449,8 @@
             liste.urunler.push(urun);
             hesaplaToplam(liste);
             saveListeler();
-            renderSecilenUrunler(); return true; }
+            renderSecilenUrunler();
+            renderListeler(); return true; }
 
         function renderSecilenUrunler() { let aktif = listeler.find(l => l.id === aktifListeId); let container = document
                 .getElementById("secilenUrunler"); let toplamDiv = document.getElementById("secilenToplam"); if (!aktif) { if (
@@ -1408,7 +1469,8 @@
                             .splice(idx, 1);
                             hesaplaToplam(aktif);
                             saveListeler();
-                            renderSecilenUrunler(); });
+                            renderSecilenUrunler();
+                            renderListeler(); });
                         container.appendChild(div); }); } } if (toplamDiv) toplamDiv.innerHTML =
                 `📊 Toplam: 🔥 ${aktif.toplam.kalori} kcal | 💪 ${aktif.toplam.protein}g | 🌾 ${aktif.toplam.karbonhidrat}g | 🥑 ${aktif.toplam.yag}g`; }
         document.getElementById("yeniListeBtn")?.addEventListener("click", () => { let ad = prompt("Liste adı:",
@@ -1419,7 +1481,7 @@
                 renderAktifGosterge();
                 showToast("Liste oluşturuldu"); } });
 
-        // ========== BARKOD İLE BESİN EKLE (MANUEL GİRİŞ + API) ==========
+        // BARKOD
         document.getElementById("fetchBarcodeBtn")?.addEventListener("click", async () => {
             let barcode = document.getElementById("barcodeInput").value.trim();
             if (!barcode) { showToast("Barkod numarası girin"); return; }
@@ -1469,7 +1531,8 @@
                     "targetCarbs").value) || 250, fat: parseInt(document.getElementById("targetFat").value) || 70, calories: parseInt(
                     document.getElementById("targetCal").value) || 2500 };
             localStorage.setItem("dailyTargets", JSON.stringify(dailyTargets));
-            showToast("✅ Hedefler kaydedildi"); if (currentDayOpen) renderDayHedefKart(currentDayOpen); });
+            showToast("✅ Hedefler kaydedildi"); if (currentDayOpen) renderDayHedefKart(currentDayOpen);
+            renderListeler(); });
 
         loadDataFromLocal();
         initListeler();
