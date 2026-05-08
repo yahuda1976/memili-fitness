@@ -399,7 +399,61 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .hidden{display:none!important;}
 .input-num{width:100%;padding:12px;font-size:1rem;text-align:center;background:#f2f2f7;color:#1c1c1e;border:1.5px solid rgba(0,0,0,0.08);border-radius:20px;outline:none;}
 .input-num:focus{border-color:#1a73e8;}
-</style>
+
+/* SERİ KARTI */
+.seri-card{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;}
+.seri-box{background:#f5f5f7;border-radius:16px;padding:14px 8px;text-align:center;}
+.seri-val{font-size:1.8rem;font-weight:900;}
+.seri-label{font-size:0.68rem;color:#5a5a60;margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+.seri-box.aktif{background:linear-gradient(135deg,#fff8e8,#fff3d0);border:2px solid rgba(245,166,35,0.4);}
+.seri-box.aktif .seri-val{color:#f5a623;}
+.seri-box.rekor-box{background:linear-gradient(135deg,#f0faf4,#e8f5ec);border:2px solid rgba(52,168,83,0.4);}
+.seri-box.rekor-box .seri-val{color:#34a853;}
+.seri-box.hafta{background:linear-gradient(135deg,#f0f4ff,#e8eefe);border:2px solid rgba(26,115,232,0.3);}
+.seri-box.hafta .seri-val{color:#1a73e8;}
+
+/* SU SAYACI */
+.su-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.su-baslik{font-weight:800;font-size:0.95rem;}
+.su-hedef{font-size:0.75rem;color:#5a5a60;font-weight:600;}
+.su-bardaklar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.su-bardak{width:38px;height:48px;border-radius:8px 8px 12px 12px;border:2px solid #1a73e8;display:flex;align-items:flex-end;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:all 0.2s;background:#fff;}
+.su-bardak.dolu{background:linear-gradient(to top,#64b5f6,#1a73e8);border-color:#1558b0;}
+.su-bardak-icon{font-size:1rem;position:absolute;bottom:3px;}
+.su-progress{background:#f0f0f5;border-radius:10px;height:10px;overflow:hidden;margin-bottom:6px;}
+.su-progress-fill{height:100%;background:linear-gradient(90deg,#1a73e8,#64b5f6);border-radius:10px;transition:width 0.4s;}
+.su-text{font-size:0.82rem;color:#1a73e8;font-weight:700;text-align:center;}
+
+/* REKOR SATIRI */
+.rekor-row{background:#f5f5f7;border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.rekor-row.yeni-rekor{background:linear-gradient(135deg,#fff8e0,#fff3cc);border:1.5px solid rgba(245,166,35,0.5);}
+.rekor-ex{flex:1;}
+.rekor-ex-name{font-weight:700;font-size:0.88rem;color:#1c1c1e;}
+.rekor-ex-date{font-size:0.65rem;color:#5a5a60;margin-top:2px;}
+.rekor-val{font-weight:900;font-size:1rem;color:#e8372a;white-space:nowrap;}
+
+/* HAFTALIK ÖZET */
+.ozet-card{background:#fff;border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.ozet-card-title{font-size:0.85rem;font-weight:800;color:#1a73e8;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.ozet-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:4px;}
+.ozet-stat{background:#f5f5f7;border-radius:14px;padding:12px;text-align:center;}
+.ozet-stat-val{font-size:1.6rem;font-weight:900;color:#e8372a;}
+.ozet-stat-label{font-size:0.65rem;color:#5a5a60;margin-top:3px;font-weight:600;text-transform:uppercase;}
+.ozet-gun-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ozet-gun-name{width:85px;font-weight:700;font-size:0.8rem;color:#1c1c1e;flex-shrink:0;}
+.ozet-gun-bar{flex:1;height:10px;background:#f0f0f5;border-radius:5px;overflow:hidden;}
+.ozet-gun-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#34a853,#1a73e8);transition:width 0.5s;}
+.ozet-gun-pct{width:38px;font-size:0.72rem;font-weight:700;color:#1a73e8;text-align:right;flex-shrink:0;}
+
+/* REKOR KUTLAMA */
+.rekor-kutlama{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);z-index:4000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.rekor-kutlama-content{background:#fff;border-radius:24px;padding:28px 24px;text-align:center;max-width:320px;width:100%;animation:bounceIn 0.5s ease;}
+@keyframes bounceIn{0%{transform:scale(0.3);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.rekor-emoji{font-size:3.5rem;margin-bottom:8px;}
+.rekor-kutlama-baslik{font-size:1.2rem;font-weight:900;color:#f5a623;margin-bottom:8px;}
+.rekor-kutlama-detay{font-size:0.95rem;color:#1c1c1e;font-weight:600;margin-bottom:4px;}
+.rekor-kutlama-once{font-size:0.78rem;color:#5a5a60;margin-bottom:16px;}
+.rekor-kapat-btn{background:#34a853;border:none;padding:12px 28px;border-radius:20px;color:#fff;font-weight:700;cursor:pointer;font-size:0.95rem;}</style>
 </head>
 <body>
 
@@ -425,6 +479,14 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
     <div class="drawer-sub">Menü</div>
   </div>
   <div class="drawer-menu">
+
+    <div class="drawer-cat">📊 İSTATİSTİKLER</div>
+    <div class="drawer-item" onclick="openPage('istatPage');closeDrawer()">
+      <div class="drawer-icon">🏆</div><div class="drawer-label">Kişisel Rekorlar</div><div class="drawer-arrow">›</div>
+    </div>
+    <div class="drawer-item" onclick="openPage('haftalikPage');closeDrawer()">
+      <div class="drawer-icon">📊</div><div class="drawer-label">Haftalık Özet</div><div class="drawer-arrow">›</div>
+    </div>
 
     <div class="drawer-cat">🥗 BESLENME</div>
     <div class="drawer-item" onclick="openPage('yemekPage');closeDrawer()">
@@ -469,7 +531,10 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   <div class="day-page-header">
     <button class="page-back" onclick="closeDayPage()">← Geri</button>
     <div class="day-page-title" id="dayPageTitle"></div>
-    <button class="add-btn" onclick="showAddItem()">+ Ekle</button>
+    <div style="display:flex;gap:6px">
+      <button style="background:#1a73e8;border:none;padding:8px 10px;border-radius:20px;font-weight:700;font-size:0.75rem;color:#fff;cursor:pointer" onclick="showPorsiyonHesap()">⚖️</button>
+      <button class="add-btn" onclick="showAddItem()">+ Ekle</button>
+    </div>
   </div>
   <div id="dayHedefKart" class="hedef-card"></div>
   <div id="dayKasGrid" class="kas-grid"></div>
@@ -666,6 +731,39 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   </div>
 </div>
 
+<!-- İSTATİSTİK SAYFASI -->
+<div class="page" id="istatPage">
+  <div class="page-header">
+    <button class="page-back" onclick="closePage('istatPage')">← Geri</button>
+    <div class="page-title">🏆 Kişisel Rekorlar</div>
+  </div>
+  <div class="page-body">
+    <div class="settings-section">
+      <h3>🔥 Seri Takibi</h3>
+      <div id="seriDisplay"></div>
+    </div>
+    <div class="settings-section">
+      <h3>💧 Su Takibi</h3>
+      <div id="suSayacDisplay"></div>
+    </div>
+    <div class="settings-section">
+      <h3>🏆 En İyi Performanslar</h3>
+      <div id="rekorListesi"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HAFTALIK ÖZET SAYFASI -->
+<div class="page" id="haftalikPage">
+  <div class="page-header">
+    <button class="page-back" onclick="closePage('haftalikPage')">← Geri</button>
+    <div class="page-title">📊 Haftalık Özet</div>
+  </div>
+  <div class="page-body">
+    <div id="haftalikOzetContent"></div>
+  </div>
+</div>
+
 <!-- KAMERA SCANNER -->
 <div id="scannerOverlay" class="scanner-overlay" style="display:none">
   <div class="scanner-hdr">
@@ -723,6 +821,8 @@ let haftaGecmisi=[];
 let timerEndTime=null,audioCtx=null,beepOsc=null,beepGain=null;
 let currentDayOpen=null;
 let scannerStream=null,scannerActive=false,codeReader=null,foundProduct=null;
+let kisiselRekorlar={};  // {exAdi: {weight, reps, date}}
+let seriTakip={streak:0,lastCompletedDate:null,bestStreak:0};
 
 // ===== LOCAL STORAGE =====
 function save(){
@@ -734,6 +834,8 @@ function save(){
   localStorage.setItem("fp_body",JSON.stringify(bodyMeasurements));
   localStorage.setItem("fp_targets",JSON.stringify(dailyTargets));
   localStorage.setItem("fp_supplements",JSON.stringify(supplements));
+  localStorage.setItem("fp_rekorlar",JSON.stringify(kisiselRekorlar));
+  localStorage.setItem("fp_seri",JSON.stringify(seriTakip));
   if(beforePhoto)localStorage.setItem("fp_before",beforePhoto);
   if(afterPhoto)localStorage.setItem("fp_after",afterPhoto);
 }
@@ -753,6 +855,8 @@ function load(){
     let lg=localStorage.getItem("fp_listeler");if(lg)listeler=JSON.parse(lg);
     let al=localStorage.getItem("fp_aktif");if(al)aktifListeId=al;
     let hg=localStorage.getItem("fp_haftagecmisi");if(hg)haftaGecmisi=JSON.parse(hg);
+    let rek=localStorage.getItem("fp_rekorlar");if(rek)kisiselRekorlar=JSON.parse(rek);
+    let ser=localStorage.getItem("fp_seri");if(ser)seriTakip=JSON.parse(ser);
     // inputs
     document.getElementById("targetProtein").value=dailyTargets.protein;
     document.getElementById("targetCarbs").value=dailyTargets.carbs;
@@ -794,6 +898,8 @@ function openPage(id){
   if(id==="fotoPage")updateFotoUI();
   if(id==="yemekYonetimPage")populateDaySelects();
   if(id==="egzersizYonetimPage")populateDaySelects();
+  if(id==="istatPage")renderIstatPage();
+  if(id==="haftalikPage")renderHaftalikOzet();
 }
 function closePage(id){document.getElementById(id).classList.remove("open");}
 
@@ -817,10 +923,9 @@ function getDayTag(day){
 
 function buildHome(){
   let grid=document.getElementById("homeGrid");grid.innerHTML="";
-  // hafta başını hesapla
   let now=new Date();
-  let days=["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
   document.getElementById("weekLabel").textContent=`📅 Bu Hafta — ${now.toLocaleDateString("tr-TR",{day:"numeric",month:"long"})}`;
+  gunlukSeriGuncelle();
 
   Object.keys(data).forEach(day=>{
     let stats=getDayStats(day);
@@ -956,6 +1061,17 @@ function saveSetLog(day,ex,s,w,r){
   setLogs[day][ex][s]={weight:w,reps:r};
   localStorage.setItem("fp_setlogs",JSON.stringify(setLogs));
   let m=muscleMap[ex];if(m){muscleLastTrained[m]=new Date().toISOString();localStorage.setItem("fp_muscle",JSON.stringify(muscleLastTrained));if(currentDayOpen)renderKasGrid(currentDayOpen);}
+  // Rekor kontrolü
+  if(w>0){
+    let eskiRekor=kisiselRekorlar[ex];
+    let volume=w*r; // ağırlık x tekrar
+    if(!eskiRekor||volume>eskiRekor.weight*eskiRekor.reps){
+      let yeniRekor={weight:w,reps:r,date:new Date().toLocaleDateString("tr-TR")};
+      kisiselRekorlar[ex]=yeniRekor;
+      localStorage.setItem("fp_rekorlar",JSON.stringify(kisiselRekorlar));
+      if(eskiRekor)showRekorKutlama(ex,yeniRekor,eskiRekor);
+    }
+  }
 }
 
 function promptWeightReps(day,ex,sn,dw,dr,cb){
@@ -1491,47 +1607,186 @@ function resetWeek(){
   showToast("✅ Hafta kaydedildi ve sıfırlandı!");
 }
 
-// ===== YEDEKLEME =====
-function backupData(){
-  let exp={data,doneState,waterIntake,setLogs,muscleLastTrained,bodyMeasurements,beforePhoto,afterPhoto,supplements,dailyTargets,listeler,aktifListeId,haftaGecmisi};
-  let a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(exp)],{type:"application/json"}));
-  a.download=`fitness_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();showToast("💾 Yedek alındı");
+function showPorsiyonHesap(){
+  let besinler=Object.keys(foodDB).sort();
+  let m=document.createElement("div");m.className="modal";
+  m.innerHTML=`<div class="modal-content">
+    <h3>⚖️ Porsiyon Hesabı</h3>
+    <p style="font-size:0.8rem;color:#5a5a60;margin-bottom:10px">Besin ve gram gir, makroları hesapla</p>
+    <select id="porsiyonBesin" class="settings-input" style="color:#1c1c1e">
+      <option value="">Besin seç...</option>
+      ${besinler.map(b=>`<option value="${b}">${b}</option>`).join("")}
+    </select>
+    <input type="number" id="porsiyonGram" class="input-num" placeholder="Gram (örn: 150)" style="margin:8px 0" min="1">
+    <div id="porsiyonSonuc" style="margin-top:10px"></div>
+    <div class="modal-btns">
+      <button class="modal-btn ok" onclick="hesaplaPorsiyon()">Hesapla</button>
+      <button class="modal-btn cancel" onclick="this.closest('.modal').remove()">Kapat</button>
+    </div>
+  </div>`;
+  document.body.appendChild(m);
 }
 
-function restoreData(){
-  let i=document.createElement("input");i.type="file";i.accept=".json";
-  i.onchange=e=>{
-    let f=e.target.files[0];if(!f)return;
-    let r=new FileReader();
-    r.onload=ev=>{
-      try{
-        let imp=JSON.parse(ev.target.result);
-        if(imp.data)data=imp.data;if(imp.doneState)doneState=imp.doneState;
-        if(imp.waterIntake)waterIntake=imp.waterIntake;if(imp.setLogs)setLogs=imp.setLogs;
-        if(imp.muscleLastTrained)muscleLastTrained=imp.muscleLastTrained;
-        if(imp.bodyMeasurements)bodyMeasurements=imp.bodyMeasurements;
-        if(imp.beforePhoto)beforePhoto=imp.beforePhoto;if(imp.afterPhoto)afterPhoto=imp.afterPhoto;
-        if(imp.supplements)supplements=imp.supplements;if(imp.dailyTargets)dailyTargets=imp.dailyTargets;
-        if(imp.listeler)listeler=imp.listeler;if(imp.aktifListeId)aktifListeId=imp.aktifListeId;
-        if(imp.haftaGecmisi)haftaGecmisi=imp.haftaGecmisi;
-        save();saveListeler();saveGecmis();location.reload();
-      }catch{alert("Hatalı dosya!");}
-    };
-    r.readAsText(f);
-  };
-  i.click();
+function hesaplaPorsiyon(){
+  let besin=document.getElementById("porsiyonBesin").value;
+  let gram=parseFloat(document.getElementById("porsiyonGram").value)||100;
+  if(!besin){showToast("Besin seç");return;}
+  let db=foodDB[besin];
+  let carpan=gram/100;
+  let p=Math.round(db.p*carpan*10)/10;
+  let k=Math.round(db.k*carpan*10)/10;
+  let f=Math.round(db.f*carpan*10)/10;
+  let cal=Math.round(db.cal*carpan);
+  document.getElementById("porsiyonSonuc").innerHTML=`
+    <div style="background:#f5f5f7;border-radius:14px;padding:14px">
+      <div style="font-weight:800;font-size:0.95rem;margin-bottom:10px;color:#1c1c1e">📊 ${gram}g ${besin}</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+        <div style="background:#fff;border-radius:12px;padding:10px;text-align:center">
+          <div style="font-size:1.2rem;font-weight:900;color:#34a853">${p}g</div>
+          <div style="font-size:0.65rem;color:#5a5a60;font-weight:600">PROTEİN</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:10px;text-align:center">
+          <div style="font-size:1.2rem;font-weight:900;color:#ff6b00">${k}g</div>
+          <div style="font-size:0.65rem;color:#5a5a60;font-weight:600">KARB</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:10px;text-align:center">
+          <div style="font-size:1.2rem;font-weight:900;color:#e8372a">${f}g</div>
+          <div style="font-size:0.65rem;color:#5a5a60;font-weight:600">YAĞ</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:10px;text-align:center">
+          <div style="font-size:1.2rem;font-weight:900;color:#1a73e8">${cal}</div>
+          <div style="font-size:0.65rem;color:#5a5a60;font-weight:600">KALORİ</div>
+        </div>
+      </div>
+    </div>`;
 }
 
-// ===== INIT =====
-load();
-if(!listeler.length){
-  listeler=[{id:"l1",ad:"🍽️ Liste 1",urunler:[],toplam:{protein:0,karbonhidrat:0,yag:0,kalori:0}},{id:"l2",ad:"🍽️ Liste 2",urunler:[],toplam:{protein:0,karbonhidrat:0,yag:0,kalori:0}},{id:"l3",ad:"🍽️ Liste 3",urunler:[],toplam:{protein:0,karbonhidrat:0,yag:0,kalori:0}}];
-  aktifListeId=aktifListeId||"l1";saveListeler();
+// YENİ ÖZELLİKLER BAŞLANGICI
+
+// --- KİŞİSEL REKOR KUTLAMA ---
+function showRekorKutlama(ex,yeni,eski){
+  let modal=document.createElement("div");modal.className="rekor-kutlama";
+  let eskiVol=eski.reps+"x"+eski.weight+"kg";
+  let yeniVol=yeni.reps+"x"+yeni.weight+"kg";
+  modal.innerHTML=`<div class="rekor-kutlama-content">
+    <div class="rekor-emoji">🏆</div>
+    <div class="rekor-kutlama-baslik">YENİ KİŞİSEL REKOR!</div>
+    <div class="rekor-kutlama-detay">💪 ${ex}</div>
+    <div class="rekor-kutlama-detay" style="font-size:1.3rem;color:#e8372a;margin:8px 0">${yeniVol}</div>
+    <div class="rekor-kutlama-once">Önceki: ${eskiVol}</div>
+    <button class="rekor-kapat-btn" onclick="this.closest('.rekor-kutlama').remove()">🎉 Harika!</button>
+  </div>`;
+  document.body.appendChild(modal);
+  setTimeout(()=>{if(modal.parentNode)modal.remove();},5000);
 }
-updateFotoUI();
-buildHome();
-</script>
-</body>
-</html>
+
+// --- SERİ TAKİBİ ---
+function gunlukSeriGuncelle(){
+  let bugun=new Date().toLocaleDateString("tr-TR");
+  let tumGunlerTamamlandi=Object.keys(data).some(day=>{
+    let s=getDayStats(day);return s.pct===100;
+  });
+  if(tumGunlerTamamlandi&&seriTakip.lastCompletedDate!==bugun){
+    seriTakip.lastCompletedDate=bugun;
+    seriTakip.streak=(seriTakip.streak||0)+1;
+    if(seriTakip.streak>(seriTakip.bestStreak||0))seriTakip.bestStreak=seriTakip.streak;
+    localStorage.setItem("fp_seri",JSON.stringify(seriTakip));
+  }
+}
+
+// --- SU SAYACI (bugünkü) ---
+function bugunSuSayisi(){
+  let toplam=0;
+  Object.keys(waterIntake).forEach(k=>{if(k.endsWith("_water"))toplam+=waterIntake[k]||0;});
+  return toplam;
+}
+
+// --- İSTATİSTİK SAYFASI ---
+function renderIstatPage(){
+  renderSeriDisplay();
+  renderSuSayac();
+  renderRekorListesi();
+}
+
+function renderSeriDisplay(){
+  let cont=document.getElementById("seriDisplay");if(!cont)return;
+  let streak=seriTakip.streak||0;
+  let best=seriTakip.bestStreak||0;
+  // Bu hafta tamamlanan gün sayısı
+  let tamamlanan=Object.keys(data).filter(d=>getDayStats(d).pct===100).length;
+  cont.innerHTML=`<div class="seri-card">
+    <div class="seri-box aktif">
+      <div class="seri-val">${streak}🔥</div>
+      <div class="seri-label">Mevcut Seri</div>
+    </div>
+    <div class="seri-box rekor-box">
+      <div class="seri-val">${best}⭐</div>
+      <div class="seri-label">En İyi Seri</div>
+    </div>
+    <div class="seri-box hafta">
+      <div class="seri-val">${tamamlanan}/7</div>
+      <div class="seri-label">Bu Hafta</div>
+    </div>
+  </div>
+  ${streak>=3?`<div style="text-align:center;font-size:0.82rem;color:#f5a623;font-weight:700;margin-top:4px">🔥 ${streak} günlük seri devam ediyor!</div>`:""}`;
+}
+
+function renderSuSayac(){
+  let cont=document.getElementById("suSayacDisplay");if(!cont)return;
+  let hedef=12; // günlük hedef bardak
+  let icilen=bugunSuSayisi();
+  let pct=Math.min(100,Math.round(icilen/hedef*100));
+  let bardaklar="";
+  for(let i=0;i<hedef;i++){
+    let dolu=i<icilen;
+    bardaklar+=`<div class="su-bardak ${dolu?"dolu":""}"><span class="su-bardak-icon">${dolu?"💧":"○"}</span></div>`;
+  }
+  cont.innerHTML=`
+    <div class="su-header">
+      <span class="su-baslik">💧 Bugün</span>
+      <span class="su-hedef">${icilen}/${hedef} bardak</span>
+    </div>
+    <div class="su-bardaklar">${bardaklar}</div>
+    <div class="su-progress"><div class="su-progress-fill" style="width:${pct}%"></div></div>
+    <div class="su-text">${icilen>=hedef?"✅ Günlük su hedefine ulaştın! 🎉":`${hedef-icilen} bardak daha!`}</div>`;
+}
+
+function renderRekorListesi(){
+  let cont=document.getElementById("rekorListesi");if(!cont)return;
+  let keys=Object.keys(kisiselRekorlar);
+  if(!keys.length){cont.innerHTML="<div style='color:#5a5a60;font-size:0.85rem;text-align:center;padding:16px'>Henüz rekor yok.<br>Set kaydetmeye başla! 💪</div>";return;}
+  // Volume'e göre sırala
+  let sorted=keys.sort((a,b)=>{
+    let av=kisiselRekorlar[a].weight*kisiselRekorlar[a].reps;
+    let bv=kisiselRekorlar[b].weight*kisiselRekorlar[b].reps;
+    return bv-av;
+  });
+  cont.innerHTML=sorted.map((ex,i)=>{
+    let r=kisiselRekorlar[ex];
+    return`<div class="rekor-row ${i<3?"yeni-rekor":""}">
+      <span style="font-size:1.2rem">${i===0?"🥇":i===1?"🥈":i===2?"🥉":"💪"}</span>
+      <div class="rekor-ex">
+        <div class="rekor-ex-name">${ex}</div>
+        <div class="rekor-ex-date">${r.date}</div>
+      </div>
+      <div class="rekor-val">${r.reps}x${r.weight}kg</div>
+    </div>`;
+  }).join("");
+}
+
+// --- HAFTALIK ÖZET ---
+function renderHaftalikOzet(){
+  let cont=document.getElementById("haftalikOzetContent");if(!cont)return;
+  // Toplam istatistikler
+  let toplamSet=0,toplamSu=0,tamamlananGun=0,toplamEgzersiz=0;
+  Object.keys(data).forEach(day=>{
+    let stats=getDayStats(day);
+    if(stats.pct===100)tamamlananGun++;
+    toplamSu+=(waterIntake[day+"_water"]||0);
+    data[day].forEach(item=>{
+      if(item?.ex){
+        for(let s=1;s<=item.sets;s++){
+          if(doneState[`${day}|set|${item.ex}|${s}`])toplamSet++;
+        }
+        toplamEgzersiz++;
+     
