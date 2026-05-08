@@ -79,13 +79,13 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .huyari{font-size:0.72rem;color:#ff6b00;text-align:center;margin-top:6px;font-weight:600;}
 
 /* KAS GRID */
-/* KAS DURUMU - YATAY BAR */
-.kas-grid{display:flex;flex-direction:column;gap:6px;margin:0 12px 8px;}
-.kas-item{border-radius:var(--rs);padding:10px 14px;font-size:0.82rem;font-weight:700;border:1px solid rgba(0,0,0,0.07);background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-.kas-item-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.kas-item-name{font-weight:800;font-size:0.85rem;color:#1c1c1e;}
-.kas-item-saat{font-size:0.78rem;font-weight:700;}
-.kas-bar-track{height:8px;background:rgba(0,0,0,0.07);border-radius:6px;overflow:hidden;}
+/* KAS DURUMU - KOMPAKT YATAY BAR */
+.kas-grid{display:flex;flex-direction:column;gap:4px;margin:0 12px 8px;}
+.kas-item{border-radius:var(--rs);padding:8px 14px;font-size:0.82rem;font-weight:700;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.kas-item-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.kas-item-name{font-weight:700;font-size:0.82rem;color:#1c1c1e;}
+.kas-item-saat{font-size:0.75rem;font-weight:700;}
+.kas-bar-track{height:7px;background:rgba(0,0,0,0.07);border-radius:6px;overflow:hidden;}
 .kas-bar-fill{height:100%;border-radius:6px;transition:width 0.5s;}
 
 /* ITEM & SET */
@@ -838,7 +838,9 @@ function getDayStats(day) {
 function getDayTag(day) {
   let items=data[day]||[];
   if(items.some(i=>typeof i==="string"&&i.includes("TAM DİNLENME"))) return "😴 Dinlenme";
+  if(items.some(i=>typeof i==="string"&&i.includes("DİNLENME"))) return "😴 Dinlenme";
   if(items.some(i=>typeof i==="string"&&i.includes("AKTİF"))) return "🚶 Aktif Dinlenme";
+  if(items.some(i=>typeof i==="string"&&i.includes("👉"))) return "😴 Dinlenme";
   let m=[]; items.forEach(i=>{if(i&&i.ex&&muscleMap[i.ex]&&!m.includes(muscleMap[i.ex]))m.push(muscleMap[i.ex]);});
   return m.length?m.join(" + "):"Antrenman";
 }
@@ -938,10 +940,9 @@ function renderKas(day) {
     return '<div class="kas-item">'
       +'<div class="kas-item-top">'
       +'<span class="kas-item-name">'+k+'</span>'
-      +'<span class="kas-item-saat" style="color:'+renk+'">'+txt+'</span>'
+      +'<span class="kas-item-saat" style="color:'+renk+'">'+txt+' · '+durum+'</span>'
       +'</div>'
       +'<div class="kas-bar-track"><div class="kas-bar-fill" style="width:'+pct+'%;background:'+barRenk+'"></div></div>'
-      +'<div style="font-size:0.65rem;color:#5a5a60;margin-top:4px">'+durum+'</div>'
       +'</div>';
   }).join("");
 }
