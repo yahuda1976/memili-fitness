@@ -1458,9 +1458,11 @@ function uploadPhoto(type){
 }
 function updateFotoUI(){
   let c=document.getElementById("photoContainer");
+  let onceImg=beforePhoto?'<img src="'+beforePhoto+'" style="max-width:100%;border-radius:10px;">':"<small style='color:var(--text2)'>Fotoğraf yok</small>";
+  let sonraImg=afterPhoto?'<img src="'+afterPhoto+'" style="max-width:100%;border-radius:10px;">':"<small style='color:var(--text2)'>Fotoğraf yok</small>";
   c.innerHTML=`
-    <div class="foto-box"><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}">`:"<small style='color:var(--text2)'>Fotoğraf yok</small>"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div>
-    <div class="foto-box"><strong>📸 SONRA</strong><br>${afterPhoto?'<img src="'+afterPhoto+'">':"<small style='color:var(--text2)'>Fotoğraf yok</small>"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`;
+    <div class="foto-box"><strong>📸 ÖNCE</strong><br>${onceImg}<br><button onclick="uploadPhoto('before')">Değiştir</button></div>
+    <div class="foto-box"><strong>📸 SONRA</strong><br>${sonraImg}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`;
   let sl=document.getElementById("sliderContainer");
   if(beforePhoto&&afterPhoto&&!document.getElementById("fotoSlider")){
     sl.innerHTML=`<input type="range" id="fotoSlider" min="0" max="100" value="50" style="width:100%;accent-color:var(--green)"><div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text2)"><span>← ÖNCE</span><span>SONRA →</span></div>`;
@@ -1785,8 +1787,4 @@ function renderHaftalikOzet(){
   Object.keys(data).forEach(day=>{
     let stats=getDayStats(day);
     if(stats.pct===100)tamamlananGun++;
-    toplamSu+=(waterIntake[day+"_water"]||0);
-    data[day].forEach(item=>{
-      if(item?.ex){
-        for(let s=1;s<=item.sets;s++){
-          if
+    toplamSu
