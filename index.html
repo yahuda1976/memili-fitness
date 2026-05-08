@@ -283,6 +283,14 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
     <h1>🔥 FITNESS PRO</h1>
   </div>
   <div class="home-wrap">
+    <div id="yedekUyari" style="display:none;background:linear-gradient(135deg,#fff8e8,#fff3cc);border:1.5px solid #f5a623;border-radius:16px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="backupData()">
+      <div style="font-size:1.4rem">⚠️</div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:0.88rem;color:#c07800">Bugün yedek almadın!</div>
+        <div style="font-size:0.72rem;color:#8a6000;margin-top:2px">Buraya bas, veri yedeğini al 💾</div>
+      </div>
+      <div style="font-size:0.72rem;font-weight:700;color:#f5a623">AL →</div>
+    </div>
     <div class="week-lbl" id="weekLbl"></div>
     <div class="days-grid" id="homeGrid"></div>
   </div>
@@ -847,10 +855,19 @@ function getDayTag(day) {
   return m.length?m.join(" + "):"Antrenman";
 }
 
+function checkYedekUyari(){
+  let sonYedek=localStorage.getItem("fp_sonYedek");
+  let bugun=new Date().toLocaleDateString("tr-TR");
+  let uyari=document.getElementById("yedekUyari");
+  if(!uyari)return;
+  uyari.style.display=(sonYedek===bugun)?"none":"flex";
+}
+
 function buildHome() {
   let grid=document.getElementById("homeGrid"); grid.innerHTML="";
   let now=new Date();
   document.getElementById("weekLbl").textContent="📅 Bu Hafta — "+now.toLocaleDateString("tr-TR",{day:"numeric",month:"long"});
+  checkYedekUyari();
   updateSeri();
   Object.keys(data).forEach(day=>{
     let s=getDayStats(day), tag=getDayTag(day);
@@ -1490,12 +1507,16 @@ function resetWeek(){
 
 // ===== YEDEKLEME =====
 function backupData(){
-  // Fotoğraflar HARİÇ - küçük yedek
   let exp={data,done,water,setLogs,muscleLast,body,sups,targets,listeler,aktifId,gecmis,rekorlar,seri};
   let a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(exp)],{type:"application/json"}));
   a.download="fitness_veri_"+new Date().toISOString().slice(0,10)+".json";
-  a.click();toast("💾 Veri yedeği alındı!");
+  a.click();
+  // Son yedek tarihini kaydet
+  let bugun=new Date().toLocaleDateString("tr-TR");
+  localStorage.setItem("fp_sonYedek",bugun);
+  checkYedekUyari();
+  toast("💾 Veri yedeği alındı!");
 }
 function backupFull(){
   // Fotoğraflar DAHİL - tam yedek
@@ -1669,11 +1690,4 @@ function renderHaftalik(){
 // ===== INIT =====
 load();
 if(!listeler.length){
-  listeler=[{id:"l1",ad:"🍽️ Liste 1",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}},{id:"l2",ad:"🍽️ Liste 2",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}},{id:"l3",ad:"🍽️ Liste 3",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}}];
-  aktifId=aktifId||"l1";saveLists();
-}
-renderFoto();
-buildHome();
-</script>
-</body>
-</html>
+  listeler=[{id:"l1",ad:"🍽️ Liste 1",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}},{id:"l2",ad:"🍽️ Liste 2",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}},{id:"l3",ad:"🍽️ Liste 3",urun
