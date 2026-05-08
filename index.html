@@ -80,13 +80,13 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 
 /* KAS GRID */
 /* KAS DURUMU - KOMPAKT YATAY BAR */
-.kas-grid{display:flex;flex-direction:column;gap:4px;margin:0 12px 8px;}
-.kas-item{border-radius:var(--rs);padding:8px 14px;font-size:0.82rem;font-weight:700;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-.kas-item-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.kas-item-name{font-weight:700;font-size:0.82rem;color:#1c1c1e;}
-.kas-item-saat{font-size:0.75rem;font-weight:700;}
-.kas-bar-track{height:7px;background:rgba(0,0,0,0.07);border-radius:6px;overflow:hidden;}
-.kas-bar-fill{height:100%;border-radius:6px;transition:width 0.5s;}
+.kas-grid{display:flex;flex-direction:column;gap:3px;margin:0 12px 6px;}
+.kas-item{border-radius:10px;padding:6px 12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.kas-item-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.kas-item-name{font-weight:700;font-size:0.78rem;color:#1c1c1e;}
+.kas-item-saat{font-size:0.68rem;font-weight:700;}
+.kas-bar-track{height:5px;background:rgba(0,0,0,0.07);border-radius:4px;overflow:hidden;}
+.kas-bar-fill{height:100%;border-radius:4px;transition:width 0.5s;}
 
 /* ITEM & SET */
 .item,.set{background:#fff;margin:5px 12px;padding:13px 14px;border-radius:22px;display:flex;align-items:center;gap:10px;font-size:0.9rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.08);transition:all 0.15s;}
@@ -478,9 +478,11 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   <div class="pb">
     <div class="scard">
       <h3>Veri Yedekleme</h3>
-      <p style="font-size:0.8rem;color:#5a5a60;margin-bottom:12px">Tüm verilerini JSON dosyası olarak indir veya geri yükle.</p>
-      <button class="sbtn b" onclick="backupData()" style="margin-bottom:8px">💾 Yedek Al</button>
-      <button class="sbtn g" onclick="restoreData()">📂 Geri Yükle</button>
+      <p style="font-size:0.8rem;color:#5a5a60;margin-bottom:12px">Antrenman, set, yemek, rekor verilerini yedekle. Fotoğraflar hariç — küçük dosya, her zaman çalışır.</p>
+      <button class="sbtn g" onclick="backupData()" style="margin-bottom:8px">💾 Veri Yedeği Al (Önerilen)</button>
+      <button class="sbtn b" onclick="backupFull()" style="margin-bottom:8px">📸 Tam Yedek Al (Fotoğraflar Dahil)</button>
+      <button class="sbtn r" onclick="restoreData()">📂 Yedek Geri Yükle</button>
+      <p style="font-size:0.72rem;color:#5a5a60;margin-top:8px">💡 Eski yedekler de yüklenebilir!</p>
     </div>
   </div>
 </div>
@@ -1488,33 +1490,75 @@ function resetWeek(){
 
 // ===== YEDEKLEME =====
 function backupData(){
+  // Fotoğraflar HARİÇ - küçük yedek
+  let exp={data,done,water,setLogs,muscleLast,body,sups,targets,listeler,aktifId,gecmis,rekorlar,seri};
+  let a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(exp)],{type:"application/json"}));
+  a.download="fitness_veri_"+new Date().toISOString().slice(0,10)+".json";
+  a.click();toast("💾 Veri yedeği alındı!");
+}
+function backupFull(){
+  // Fotoğraflar DAHİL - tam yedek
   let exp={data,done,water,setLogs,muscleLast,body,beforePhoto,afterPhoto,sups,targets,listeler,aktifId,gecmis,rekorlar,seri};
   let a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(exp)],{type:"application/json"}));
-  a.download="fitness_"+new Date().toISOString().slice(0,10)+".json";
-  a.click();toast("💾 Yedek alındı");
+  a.download="fitness_tam_"+new Date().toISOString().slice(0,10)+".json";
+  a.click();toast("📸 Tam yedek alındı!");
 }
 function restoreData(){
-  let i=document.createElement("input");i.type="file";i.accept=".json";
+  let i=document.createElement("input");
+  i.type="file";
+  i.accept=".json,application/json,text/plain";
+  i.style.display="none";
+  document.body.appendChild(i);
   i.onchange=function(e){
-    let f=e.target.files[0];if(!f)return;
+    let f=e.target.files[0];
+    if(!f){document.body.removeChild(i);return;}
+    toast("⏳ Yükleniyor...");
     let r=new FileReader();
     r.onload=function(ev){
       try{
         let imp=JSON.parse(ev.target.result);
-        if(imp.data)data=imp.data;if(imp.done)done=imp.done;if(imp.water)water=imp.water;
-        if(imp.setLogs)setLogs=imp.setLogs;if(imp.muscleLast)muscleLast=imp.muscleLast;
-        if(imp.body)body=imp.body;if(imp.beforePhoto)beforePhoto=imp.beforePhoto;
-        if(imp.afterPhoto)afterPhoto=imp.afterPhoto;if(imp.sups)sups=imp.sups;
-        if(imp.targets)targets=imp.targets;if(imp.listeler)listeler=imp.listeler;
-        if(imp.aktifId)aktifId=imp.aktifId;if(imp.gecmis)gecmis=imp.gecmis;
-        if(imp.rekorlar)rekorlar=imp.rekorlar;if(imp.seri)seri=imp.seri;
-        save();saveLists();saveGecmis();location.reload();
-      }catch(e){alert("Hatalı dosya!");}
+        if(imp.data)data=imp.data;
+        if(imp.done)done=imp.done;
+        if(imp.doneState)done=imp.doneState;
+        if(imp.water)water=imp.water;
+        if(imp.waterIntake)water=imp.waterIntake;
+        if(imp.setLogs)setLogs=imp.setLogs;
+        if(imp.muscleLast)muscleLast=imp.muscleLast;
+        if(imp.muscleLastTrained)muscleLast=imp.muscleLastTrained;
+        if(imp.body)body=imp.body;
+        if(imp.bodyMeasurements)body=imp.bodyMeasurements;
+        if(imp.beforePhoto)beforePhoto=imp.beforePhoto;
+        if(imp.afterPhoto)afterPhoto=imp.afterPhoto;
+        if(imp.sups)sups=imp.sups;
+        if(imp.supplements)sups=imp.supplements;
+        if(imp.targets)targets=imp.targets;
+        if(imp.dailyTargets){targets={protein:imp.dailyTargets.protein||160,carbs:imp.dailyTargets.carbs||250,fat:imp.dailyTargets.fat||70,calories:imp.dailyTargets.calories||2500};}
+        if(imp.listeler)listeler=imp.listeler;
+        if(imp.aktifId)aktifId=imp.aktifId;
+        if(imp.aktifListeId)aktifId=imp.aktifListeId;
+        if(imp.gecmis)gecmis=imp.gecmis;
+        if(imp.haftaGecmisi)gecmis=imp.haftaGecmisi;
+        if(imp.rekorlar)rekorlar=imp.rekorlar;
+        if(imp.seri)seri=imp.seri;
+        save();saveLists();saveGecmis();
+        document.body.removeChild(i);
+        toast("✅ Veriler yüklendi!");
+        setTimeout(function(){location.reload();},800);
+      }catch(err){
+        document.body.removeChild(i);
+        alert("Hata: "+err.message);
+      }
     };
-    r.readAsText(f);
+    r.onerror=function(){
+      document.body.removeChild(i);
+      alert("Dosya okunamadı!");
+    };
+    r.readAsText(f,"UTF-8");
   };
-  i.click();
+  i.oncancel=function(){document.body.removeChild(i);};
+  setTimeout(function(){i.click();},100);
 }
 
 // ===== İSTATİSTİK =====
