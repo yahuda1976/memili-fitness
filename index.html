@@ -1787,4 +1787,94 @@ function renderHaftalikOzet(){
   Object.keys(data).forEach(day=>{
     let stats=getDayStats(day);
     if(stats.pct===100)tamamlananGun++;
-    toplamSu
+                toplamSu += waterIntake[day + "_water"] || 0;
+        });
+        let tamamlananPct = Math.round(tamamlananGun / 7 * 100);
+
+        cont.innerHTML = `
+    <div class="ozet-card">
+      <div class="ozet-card-title">📊 Bu Haftanın Özeti</div>
+      <div class="ozet-stat-grid">
+        <div class="ozet-stat"><div class="ozet-stat-val">${tamamlananGun}/7</div><div class="ozet-stat-label">Tamamlanan Gün</div></div>
+        <div class="ozet-stat"><div class="ozet-stat-val">${toplamSet}</div><div class="ozet-stat-label">Toplam Set</div></div>
+        <div class="ozet-stat"><div class="ozet-stat-val">${toplamSu}</div><div class="ozet-stat-label">Su (bardak)</div></div>
+        <div class="ozet-stat"><div class="ozet-stat-val">%${tamamlananPct}</div><div class="ozet-stat-label">Başarı Oranı</div></div>
+      </div>
+    </div>
+    <div class="ozet-card">
+      <div class="ozet-card-title">📈 Gün Bazında Tamamlanma</div>
+      ${Object.keys(data).map(day => {
+        let s = getDayStats(day);
+        return `<div class="ozet-gun-row">
+          <span class="ozet-gun-name">${day.substring(0, 3)}</span>
+          <div class="ozet-gun-bar"><div class="ozet-gun-fill" style="width:${s.pct}%"></div></div>
+          <span class="ozet-gun-pct">%${s.pct}</span>
+        </div>`;
+      }).join("")}
+    </div>`;
+    }
+
+    // ===== YEDEKLEME =====
+    function backupData() {
+        let exp = { data, doneState, waterIntake, setLogs, muscleLastTrained, bodyMeasurements, beforePhoto, afterPhoto,
+            supplements, dailyTargets, listeler, aktifListeId, haftaGecmisi, kisiselRekorlar, seriTakip };
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(exp)]));
+        a.download = `fitness_${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        showToast("💾 Yedek alındı");
+    }
+
+    function restoreData() {
+        let inp = document.createElement("input");
+        inp.type = "file";
+        inp.accept = ".json";
+        inp.onchange = e => {
+            let f = e.target.files[0];
+            if (!f) return;
+            let r = new FileReader();
+            r.onload = ev => {
+                try {
+                    let imp = JSON.parse(ev.target.result);
+                    if (imp.data) data = imp.data;
+                    if (imp.doneState) doneState = imp.doneState;
+                    if (imp.waterIntake) waterIntake = imp.waterIntake;
+                    if (imp.setLogs) setLogs = imp.setLogs;
+                    if (imp.muscleLastTrained) muscleLastTrained = imp.muscleLastTrained;
+                    if (imp.bodyMeasurements) bodyMeasurements = imp.bodyMeasurements;
+                    if (imp.beforePhoto) beforePhoto = imp.beforePhoto;
+                    if (imp.afterPhoto) afterPhoto = imp.afterPhoto;
+                    if (imp.supplements) supplements = imp.supplements;
+                    if (imp.dailyTargets) dailyTargets = imp.dailyTargets;
+                    if (imp.listeler) listeler = imp.listeler;
+                    if (imp.aktifListeId) aktifListeId = imp.aktifListeId;
+                    if (imp.haftaGecmisi) haftaGecmisi = imp.haftaGecmisi;
+                    if (imp.kisiselRekorlar) kisiselRekorlar = imp.kisiselRekorlar;
+                    if (imp.seriTakip) seriTakip = imp.seriTakip;
+                    save();
+                    saveListeler();
+                    saveGecmis();
+                    location.reload();
+                } catch (err) { alert("Hatalı dosya!"); }
+            };
+            r.readAsText(f);
+        };
+        inp.click();
+    }
+
+    // ===== BAŞLAT =====
+    load();
+    if (!listeler.length) {
+        listeler = [
+            { id: "l1", ad: "🍽️ Liste 1", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } },
+            { id: "l2", ad: "🍽️ Liste 2", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } },
+            { id: "l3", ad: "🍽️ Liste 3", urunler: [], toplam: { protein: 0, karbonhidrat: 0, yag: 0, kalori: 0 } }
+        ];
+        aktifListeId = "l1";
+        saveListeler();
+    }
+    if (!aktifListeId) aktifListeId = listeler[0]?.id;
+    buildHome();
+</script>
+</body>
+</html>
