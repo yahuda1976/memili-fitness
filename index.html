@@ -988,16 +988,17 @@ function renderDayHedef(day){
   let kP=Math.min(100,Math.round(m.k/dailyTargets.carbs*100));
   let fP=Math.min(100,Math.round(m.f/dailyTargets.fat*100));
   let cP=Math.min(100,Math.round(m.cal/dailyTargets.calories*100));
-  let uyari="";
+  let uyari="",uyariHtml="";
   if(m.p>dailyTargets.protein)uyari+=`⚠ Protein fazla (+${Math.round(m.p-dailyTargets.protein)}g) `;
   if(m.k>dailyTargets.carbs)uyari+=`⚠ Karb fazla (+${Math.round(m.k-dailyTargets.carbs)}g) `;
+  uyariHtml=uyari?'<div class="hedef-uyari">'+uyari+'</div>':"";
   cont.innerHTML=`
     <div class="hedef-baslik">📊 GÜNLÜK HEDEFLER</div>
     <div class="hedef-row"><span class="hedef-label">Protein</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill protein" style="width:${pP}%"></div></div><span class="hedef-val">${Math.round(m.p)}/${dailyTargets.protein}g</span></div>
     <div class="hedef-row"><span class="hedef-label">Karb</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill karb" style="width:${kP}%"></div></div><span class="hedef-val">${Math.round(m.k)}/${dailyTargets.carbs}g</span></div>
     <div class="hedef-row"><span class="hedef-label">Yağ</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill yag" style="width:${fP}%"></div></div><span class="hedef-val">${Math.round(m.f)}/${dailyTargets.fat}g</span></div>
     <div class="hedef-row"><span class="hedef-label">Kalori</span><div class="hedef-bar-wrap"><div class="hedef-bar-fill kalori" style="width:${cP}%"></div></div><span class="hedef-val">${Math.round(m.cal)}/${dailyTargets.calories}</span></div>
-    ${uyari?`<div class="hedef-uyari">${uyari}</div>`:""}`;
+    ${uyariHtml}`;
 }
 
 function renderKasGrid(day){
@@ -1459,7 +1460,7 @@ function updateFotoUI(){
   let c=document.getElementById("photoContainer");
   c.innerHTML=`
     <div class="foto-box"><strong>📸 ÖNCE</strong><br>${beforePhoto?`<img src="${beforePhoto}">`:"<small style='color:var(--text2)'>Fotoğraf yok</small>"}<br><button onclick="uploadPhoto('before')">Değiştir</button></div>
-    <div class="foto-box"><strong>📸 SONRA</strong><br>${afterPhoto?`<img src="${afterPhoto}">`:"<small style='color:var(--text2)'>Fotoğraf yok</small>"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`;
+    <div class="foto-box"><strong>📸 SONRA</strong><br>${afterPhoto?'<img src="'+afterPhoto+'">':"<small style='color:var(--text2)'>Fotoğraf yok</small>"}<br><button onclick="uploadPhoto('after')">Değiştir</button></div>`;
   let sl=document.getElementById("sliderContainer");
   if(beforePhoto&&afterPhoto&&!document.getElementById("fotoSlider")){
     sl.innerHTML=`<input type="range" id="fotoSlider" min="0" max="100" value="50" style="width:100%;accent-color:var(--green)"><div style="display:flex;justify-content:space-between;font-size:0.7rem;color:var(--text2)"><span>← ÖNCE</span><span>SONRA →</span></div>`;
@@ -1609,13 +1610,14 @@ function resetWeek(){
 
 function showPorsiyonHesap(){
   let besinler=Object.keys(foodDB).sort();
+  let options=besinler.map(b=>'<option value="'+b+'">'+b+'</option>').join("");
   let m=document.createElement("div");m.className="modal";
   m.innerHTML=`<div class="modal-content">
     <h3>⚖️ Porsiyon Hesabı</h3>
     <p style="font-size:0.8rem;color:#5a5a60;margin-bottom:10px">Besin ve gram gir, makroları hesapla</p>
     <select id="porsiyonBesin" class="settings-input" style="color:#1c1c1e">
       <option value="">Besin seç...</option>
-      ${besinler.map(b=>`<option value="${b}">${b}</option>`).join("")}
+      ${options}
     </select>
     <input type="number" id="porsiyonGram" class="input-num" placeholder="Gram (örn: 150)" style="margin:8px 0" min="1">
     <div id="porsiyonSonuc" style="margin-top:10px"></div>
@@ -1714,6 +1716,7 @@ function renderSeriDisplay(){
   let best=seriTakip.bestStreak||0;
   // Bu hafta tamamlanan gün sayısı
   let tamamlanan=Object.keys(data).filter(d=>getDayStats(d).pct===100).length;
+  let seriMesaj=streak>=3?'<div style="text-align:center;font-size:0.82rem;color:#f5a623;font-weight:700;margin-top:4px">🔥 '+streak+' günlük seri devam ediyor!</div>':"";
   cont.innerHTML=`<div class="seri-card">
     <div class="seri-box aktif">
       <div class="seri-val">${streak}🔥</div>
@@ -1728,7 +1731,7 @@ function renderSeriDisplay(){
       <div class="seri-label">Bu Hafta</div>
     </div>
   </div>
-  ${streak>=3?`<div style="text-align:center;font-size:0.82rem;color:#f5a623;font-weight:700;margin-top:4px">🔥 ${streak} günlük seri devam ediyor!</div>`:""}`;
+  ${seriMesaj}`;
 }
 
 function renderSuSayac(){
@@ -1748,7 +1751,7 @@ function renderSuSayac(){
     </div>
     <div class="su-bardaklar">${bardaklar}</div>
     <div class="su-progress"><div class="su-progress-fill" style="width:${pct}%"></div></div>
-    <div class="su-text">${icilen>=hedef?"✅ Günlük su hedefine ulaştın! 🎉":`${hedef-icilen} bardak daha!`}</div>`;
+    <div class="su-text">${icilen>=hedef?"✅ Günlük su hedefine ulaştın! 🎉":""+( hedef-icilen)+" bardak daha!"}</div>`;
 }
 
 function renderRekorListesi(){
@@ -1786,7 +1789,4 @@ function renderHaftalikOzet(){
     data[day].forEach(item=>{
       if(item?.ex){
         for(let s=1;s<=item.sets;s++){
-          if(doneState[`${day}|set|${item.ex}|${s}`])toplamSet++;
-        }
-        toplamEgzersiz++;
-     
+          if
