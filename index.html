@@ -24,7 +24,7 @@
   --radius-sm: 14px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,'SF Pro Display',sans-serif;font-size:16px;min-height:100vh;max-width:500px;margin:0 auto;padding-bottom:30px;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,'SF Pro Display',sans-serif;font-size:17px;min-height:100vh;max-width:500px;margin:0 auto;padding-bottom:30px;overflow-x:hidden;}
 
 /* HEADER */
 .app-header{
@@ -78,7 +78,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .day-card.partial .day-card-glow{background:linear-gradient(90deg,#ff6b00,#f5a623);}
 .day-card.rest .day-card-glow{background:linear-gradient(90deg,#1a73e8,#9c27b0);}
 .day-card:not(.completed):not(.partial):not(.rest) .day-card-glow{background:#e5e5ea;}
-.day-name{font-size:1.1rem;font-weight:900;letter-spacing:0.3px;margin-bottom:3px;color:#e8372a;}
+.day-name{font-size:1.2rem;font-weight:900;letter-spacing:0.3px;margin-bottom:3px;color:#e8372a;}
 .day-tag{font-size:0.65rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
 .day-prog-bar{height:6px;background:rgba(0,0,0,0.1);border-radius:4px;overflow:hidden;margin-bottom:6px;}
 .day-prog-fill{height:100%;border-radius:4px;transition:width 0.4s;}
@@ -108,7 +108,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .drawer-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px);}
 .drawer-overlay.open{opacity:1;pointer-events:all;}
 .drawer{
-  position:fixed;top:0;left:-290px;bottom:0;width:280px;
+  position:fixed;top:0;left:-310px;bottom:0;width:300px;
   background:#d8d0c8;
   z-index:501;transition:left 0.3s cubic-bezier(0.4,0,0.2,1);
   border-right:1px solid rgba(0,0,0,0.1);
@@ -116,23 +116,31 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 }
 .drawer.open{left:0;}
 .drawer-header{
-  padding:50px 20px 20px;
-  background:linear-gradient(135deg,rgba(232,55,42,0.08),rgba(26,115,232,0.08));
-  border-bottom:1px solid rgba(0,0,0,0.06);
+  padding:52px 20px 18px;
+  background:linear-gradient(135deg,rgba(232,55,42,0.1),rgba(26,115,232,0.1));
+  border-bottom:2px solid rgba(0,0,0,0.08);
 }
-.drawer-title{font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,#e8372a,#1a73e8);-webkit-background-clip:text;background-clip:text;color:transparent;}
-.drawer-sub{font-size:0.72rem;color:var(--text2);margin-top:2px;}
-.drawer-menu{padding:10px 0;}
+.drawer-title{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,#e8372a,#1a73e8);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.drawer-sub{font-size:0.75rem;color:#5a5a60;margin-top:3px;font-weight:600;}
+.drawer-menu{padding:6px 0 20px;}
+.drawer-cat{
+  font-size:0.7rem;font-weight:900;
+  color:#5a5a60;letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:16px 20px 6px;
+}
 .drawer-item{
   display:flex;align-items:center;gap:14px;
-  padding:14px 20px;cursor:pointer;
-  transition:background 0.2s;
-  border-left:3px solid transparent;
+  padding:15px 20px;cursor:pointer;
+  transition:background 0.15s;
+  background:#efe9e0;
+  margin:0 12px 4px;
+  border-radius:14px;
 }
-.drawer-item:active{background:rgba(0,0,0,0.04);}
-.drawer-item.active{background:rgba(52,168,83,0.08);border-left-color:#34a853;}
-.drawer-icon{font-size:1.2rem;width:28px;text-align:center;}
-.drawer-label{font-size:0.9rem;font-weight:600;color:#1c1c1e;}
+.drawer-item:active{background:#d0c8c0;transform:scale(0.98);}
+.drawer-icon{font-size:1.3rem;width:30px;text-align:center;}
+.drawer-label{font-size:1rem;font-weight:800;color:#1c1c1e;flex:1;}
+.drawer-arrow{font-size:1.1rem;color:#b0a898;font-weight:700;}
 .drawer-divider{height:1px;background:rgba(0,0,0,0.06);margin:8px 20px;}
 
 /* SAYFA SİSTEMİ */
@@ -417,22 +425,46 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
   <div class="drawer-header">
-    <div class="drawer-title">FITNESS PRO</div>
+    <div class="drawer-title">🔥 FITNESS PRO</div>
     <div class="drawer-sub">Menü</div>
   </div>
   <div class="drawer-menu">
-    <div class="drawer-item" onclick="openPage('yemekPage');closeDrawer()"><div class="drawer-icon">🍽️</div><div class="drawer-label">Yemek & Listeler</div></div>
-    <div class="drawer-item" onclick="openPage('hedefPage');closeDrawer()"><div class="drawer-icon">🎯</div><div class="drawer-label">Günlük Hedefler</div></div>
-    <div class="drawer-divider"></div>
-    <div class="drawer-item" onclick="openPage('vucutPage');closeDrawer()"><div class="drawer-icon">📏</div><div class="drawer-label">Vücut Ölçüleri</div></div>
-    <div class="drawer-item" onclick="openPage('fotoPage');closeDrawer()"><div class="drawer-icon">📸</div><div class="drawer-label">Fotoğraf Takibi</div></div>
-    <div class="drawer-item" onclick="openPage('supPage');closeDrawer()"><div class="drawer-icon">💊</div><div class="drawer-label">Supplementler</div></div>
-    <div class="drawer-divider"></div>
-    <div class="drawer-item" onclick="openPage('yemekYonetimPage');closeDrawer()"><div class="drawer-icon">🍴</div><div class="drawer-label">Yemek Yönetimi</div></div>
-    <div class="drawer-item" onclick="openPage('egzersizYonetimPage');closeDrawer()"><div class="drawer-icon">💪</div><div class="drawer-label">Egzersiz Yönetimi</div></div>
-    <div class="drawer-divider"></div>
-    <div class="drawer-item" onclick="openPage('gecmisPage');closeDrawer()"><div class="drawer-icon">📅</div><div class="drawer-label">Hafta Geçmişi</div></div>
-    <div class="drawer-item" onclick="openPage('yedekPage');closeDrawer()"><div class="drawer-icon">💾</div><div class="drawer-label">Yedekleme</div></div>
+
+    <div class="drawer-cat">🥗 BESLENME</div>
+    <div class="drawer-item" onclick="openPage('yemekPage');closeDrawer()">
+      <div class="drawer-icon">🍽️</div><div class="drawer-label">Yemek & Listeler</div><div class="drawer-arrow">›</div>
+    </div>
+    <div class="drawer-item" onclick="openPage('hedefPage');closeDrawer()">
+      <div class="drawer-icon">🎯</div><div class="drawer-label">Günlük Hedefler</div><div class="drawer-arrow">›</div>
+    </div>
+    <div class="drawer-item" onclick="openPage('yemekYonetimPage');closeDrawer()">
+      <div class="drawer-icon">🍴</div><div class="drawer-label">Yemek Yönetimi</div><div class="drawer-arrow">›</div>
+    </div>
+
+    <div class="drawer-cat">💪 ANTRENMAN</div>
+    <div class="drawer-item" onclick="openPage('egzersizYonetimPage');closeDrawer()">
+      <div class="drawer-icon">🏋️</div><div class="drawer-label">Egzersiz Yönetimi</div><div class="drawer-arrow">›</div>
+    </div>
+    <div class="drawer-item" onclick="openPage('gecmisPage');closeDrawer()">
+      <div class="drawer-icon">📅</div><div class="drawer-label">Hafta Geçmişi</div><div class="drawer-arrow">›</div>
+    </div>
+
+    <div class="drawer-cat">📊 TAKİP</div>
+    <div class="drawer-item" onclick="openPage('vucutPage');closeDrawer()">
+      <div class="drawer-icon">📏</div><div class="drawer-label">Vücut Ölçüleri</div><div class="drawer-arrow">›</div>
+    </div>
+    <div class="drawer-item" onclick="openPage('fotoPage');closeDrawer()">
+      <div class="drawer-icon">📸</div><div class="drawer-label">Fotoğraf Takibi</div><div class="drawer-arrow">›</div>
+    </div>
+    <div class="drawer-item" onclick="openPage('supPage');closeDrawer()">
+      <div class="drawer-icon">💊</div><div class="drawer-label">Supplementler</div><div class="drawer-arrow">›</div>
+    </div>
+
+    <div class="drawer-cat">⚙️ SİSTEM</div>
+    <div class="drawer-item" onclick="openPage('yedekPage');closeDrawer()">
+      <div class="drawer-icon">💾</div><div class="drawer-label">Yedekleme</div><div class="drawer-arrow">›</div>
+    </div>
+
   </div>
 </div>
 
