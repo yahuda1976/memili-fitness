@@ -6,10 +6,10 @@
 <title>Fitness Pro</title>
 <style>
 :root {
-  --bg: #c8c0b4;
+  --bg: #b8b0a4;
   --card: #ffffff;
-  --card2: #f2f2f7;
-  --card3: #e5e5ea;
+  --card2: #f5f5f7;
+  --card3: #ebebef;
   --green: #34a853;
   --green2: #2d9245;
   --blue: #1a73e8;
@@ -28,7 +28,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 
 /* HEADER */
 .app-header{
-  background:rgba(200,192,180,0.97);
+  background:rgba(184,176,164,0.97);
   padding:14px 16px 10px;
   text-align:center;
   position:sticky;top:0;z-index:100;
@@ -67,7 +67,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   border:none;
   position:relative;overflow:hidden;
   transition:transform 0.15s;
-  box-shadow:0 2px 12px rgba(0,0,0,0.1);
+  box-shadow:0 2px 14px rgba(0,0,0,0.14);
 }
 .day-card:active{transform:scale(0.96);}
 .day-card.completed{background:#ffffff;}
@@ -95,7 +95,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   padding:18px 16px;border-radius:var(--radius);
   color:#1a73e8;font-weight:700;font-size:0.95rem;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:all 0.2s;box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.13);
 }
 .hafta-btn:active{transform:scale(0.97);}
 
@@ -104,7 +104,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .drawer-overlay.open{opacity:1;pointer-events:all;}
 .drawer{
   position:fixed;top:0;left:-255px;bottom:0;width:245px;
-  background:#c8c0b4;
+  background:#b8b0a4;
   z-index:501;transition:left 0.3s cubic-bezier(0.4,0,0.2,1);
   border-right:1px solid rgba(0,0,0,0.12);
   overflow-y:auto;padding-bottom:40px;
@@ -142,14 +142,14 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 /* SAYFA SİSTEMİ */
 .page{
   position:fixed;top:0;left:0;right:0;bottom:0;
-  background:#c8c0b4;z-index:200;
+  background:#b8b0a4;z-index:200;
   transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
   overflow-y:auto;padding-bottom:40px;
   max-width:500px;margin:0 auto;
 }
 .page.open{transform:translateX(0);}
 .page-header{
-  background:rgba(200,192,180,0.97);
+  background:rgba(184,176,164,0.97);
   padding:12px 16px;
   display:flex;align-items:center;gap:12px;
   position:sticky;top:0;z-index:10;
@@ -168,7 +168,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 
 /* GÜN SAYFASI */
 .day-page-header{
-  background:rgba(200,192,180,0.97);
+  background:rgba(184,176,164,0.97);
   padding:10px 14px;
   display:flex;justify-content:space-between;align-items:center;
   position:sticky;top:0;z-index:10;
@@ -224,7 +224,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   border:none;
   font-size:0.92rem;cursor:pointer;
   transition:all 0.15s;
-  box-shadow:0 1px 6px rgba(0,0,0,0.08);
+  box-shadow:0 2px 10px rgba(0,0,0,0.12);
 }
 .set{border-left:4px solid #1a73e8;border-radius:0 22px 22px 0;}
 .item.done{background:#d8eee0;color:#2d7a45;text-decoration:line-through;box-shadow:none;}
@@ -278,7 +278,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .stop-snd-btn{background:rgba(255,23,68,0.2);color:var(--red);border:1px solid rgba(255,23,68,0.3);padding:5px 10px;border-radius:16px;font-weight:700;font-size:0.65em;cursor:pointer;margin-top:6px;width:100%;}
 
 /* AYARLAR SAYFALARI */
-.settings-section{background:#ffffff;border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.settings-section{background:#ffffff;border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,0.12);}
 .settings-section h3{font-size:0.85rem;font-weight:800;color:#34a853;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
 .settings-input{width:100%;padding:11px 16px;border-radius:20px;border:1.5px solid rgba(0,0,0,0.08);background:#f2f2f7;color:#1c1c1e;font-size:0.88em;outline:none;margin-bottom:6px;text-align:center;}
 .settings-input:focus{border-color:#1a73e8;background:#fff;}
