@@ -79,7 +79,6 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .huyari{font-size:0.72rem;color:#ff6b00;text-align:center;margin-top:6px;font-weight:600;}
 
 /* KAS GRID */
-/* KAS DURUMU - KOMPAKT YATAY BAR */
 .kas-grid{display:flex;flex-direction:column;gap:3px;margin:0 12px 6px;}
 .kas-item{border-radius:10px;padding:6px 12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
 .kas-item-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
@@ -96,13 +95,12 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .item.done::after,.set.done::after{content:" ✓";font-weight:800;}
 .ispan{font-weight:600;color:#1c1c1e;flex:1;}
 .set-info{font-size:0.7rem;font-weight:700;color:#ff6b00;background:rgba(255,107,0,0.1);padding:3px 8px;border-radius:12px;}
-.ex-title{background:linear-gradient(135deg,#dce8f8,#e8f0fe);border-radius:var(--rs);padding:12px 14px;margin:10px 12px 3px;border:1.5px solid rgba(26,115,232,0.2);border-left:4px solid #1a73e8;}
-.ex-name{font-weight:800;color:#1a73e8;font-size:0.92rem;margin-bottom:8px;}
-.ex-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:5px;}
+.ex-title{background:linear-gradient(135deg,#dce8f8,#e8f0fe);border-radius:var(--rs);padding:12px 14px;margin:10px 12px 3px;border:1.5px solid rgba(26,115,232,0.2);border-left:4px solid #1a73e8;display:flex;align-items:center;gap:8px;}
+.ex-name{font-weight:800;color:#1a73e8;font-size:0.92rem;flex:1;}
+.mv-small{display:flex;flex-direction:column;gap:2px;}
+.mv-small-btn{background:rgba(0,0,0,0.06);border:none;font-size:0.8rem;cursor:pointer;padding:3px 6px;border-radius:8px;color:#1c1c1e;font-weight:700;}
+.ex-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-left:auto;width:auto;}
 .ex-btn{background:#f5f5f7;border:1px solid rgba(0,0,0,0.08);padding:7px 4px;border-radius:16px;color:#c07800;font-size:0.62rem;font-weight:700;cursor:pointer;}
-.mv{display:flex;flex-direction:column;gap:2px;}
-.mv-btn{background:rgba(0,0,0,0.06);border:none;font-size:0.8rem;cursor:pointer;padding:3px 5px;border-radius:8px;color:#1c1c1e;}
-
 /* MODAL */
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;}
 .mc{background:#fff;border-radius:var(--r);padding:22px;max-width:450px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.15);}
@@ -541,7 +539,6 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 </div>
 
 <script>
-// ===== VERİ =====
 const foodDB = {
   "yulaf":{p:5,k:27,f:2.5,cal:150},"süt":{p:3.4,k:5,f:3.6,cal:61},
   "skyr":{p:11,k:4,f:0.2,cal:64},"muz":{p:1.1,k:23,f:0.3,cal:89},
@@ -770,7 +767,6 @@ let curDay=null;
 let timerEnd=null, timerInt=null, aCtx=null, aOsc=null, aGain=null;
 let scStream=null, scActive=false, scReader=null, scProduct=null;
 
-// ===== STORAGE =====
 function save() {
   try {
     ls("fp_data", data); ls("fp_done", done); ls("fp_water", water);
@@ -802,7 +798,6 @@ function load() {
   let gc=lg("fp_gecmis"); if(gc) gecmis=gc;
   let rk=lg("fp_rekorlar"); if(rk) rekorlar=rk;
   let sr=lg("fp_seri"); if(sr) seri=sr;
-  // Form değerleri
   let el=id=>document.getElementById(id);
   el("tPro").value=targets.protein; el("tKarb").value=targets.carbs;
   el("tYag").value=targets.fat; el("tKal").value=targets.calories;
@@ -810,19 +805,16 @@ function load() {
   el("bCh").value=body.chest||""; el("bAr").value=body.arm||""; el("bLg").value=body.leg||"";
 }
 
-// ===== TOAST =====
 function toast(msg) {
   let t=document.createElement("div"); t.className="toast"; t.textContent=msg;
   document.body.appendChild(t); setTimeout(()=>t.remove(), 1700);
 }
 
-// ===== DRAWER =====
 function openDrawer() { document.getElementById("drawer").classList.add("on"); document.getElementById("drOverlay").classList.add("on"); }
 function closeDrawer() { document.getElementById("drawer").classList.remove("on"); document.getElementById("drOverlay").classList.remove("on"); }
 
-// ===== SAYFALAR =====
 function openPage(id) {
-  closeDrawer(); // Çekmece her zaman kapat
+  closeDrawer();
   document.getElementById(id).classList.add("on");
   if(id==="yemekPage") renderYemek();
   if(id==="supPage") renderSups();
@@ -835,7 +827,6 @@ function openPage(id) {
 }
 function closePage(id) { document.getElementById(id).classList.remove("on"); }
 
-// ===== ANA EKRAN =====
 function getDayStats(day) {
   let total=0, comp=0, items=data[day]; if(!items) return {total,comp,pct:0};
   items.forEach((item,i)=>{
@@ -882,7 +873,6 @@ function buildHome() {
     card.onclick=()=>openDayPage(day);
     grid.appendChild(card);
   });
-  // 8. kart: Hafta Geçmişi
   let hc=document.createElement("div"); hc.className="day-card";
   hc.style.background="#eceaf5";
   hc.innerHTML='<div class="glow" style="background:linear-gradient(90deg,#1a73e8,#9c27b0)"></div>'
@@ -894,7 +884,6 @@ function buildHome() {
   grid.appendChild(hc);
 }
 
-// ===== GÜN SAYFASI =====
 function openDayPage(day) {
   curDay=day;
   document.getElementById("dayTitle").textContent=day;
@@ -935,7 +924,6 @@ function renderKas(day) {
   document.getElementById("dayKas").innerHTML=kaslar.map(function(k){
     let last=muscleLast[k];
     let saat=last?Math.floor((Date.now()-new Date(last))/3600000):null;
-    // Hazır olmak için 48 saat gerekli
     let hedef=48;
     let gec=saat!==null?Math.min(saat,hedef):0;
     let pct=Math.round(gec/hedef*100);
@@ -966,6 +954,28 @@ function renderKas(day) {
   }).join("");
 }
 
+function mvUpEx(day, idx) {
+  if(idx > 0) {
+    let temp = data[day][idx];
+    data[day][idx] = data[day][idx-1];
+    data[day][idx-1] = temp;
+    save();
+    if(curDay === day) renderDayItems(day);
+    buildHome();
+  }
+}
+
+function mvDnEx(day, idx) {
+  if(idx < data[day].length - 1) {
+    let temp = data[day][idx];
+    data[day][idx] = data[day][idx+1];
+    data[day][idx+1] = temp;
+    save();
+    if(curDay === day) renderDayItems(day);
+    buildHome();
+  }
+}
+
 function renderDayItems(day) {
   let cont=document.getElementById("dayItems"); cont.innerHTML="";
   let items=data[day]||[];
@@ -974,9 +984,9 @@ function renderDayItems(day) {
       let div=document.createElement("div"); div.className="item";
       let key=day+"|"+idx;
       if(done[key]) div.classList.add("done");
-      div.innerHTML='<div class="mv"><button class="mv-btn" onclick="mvUp(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="mvDn(\''+day+'\','+idx+')">⬇</button></div><span class="ispan">'+item+'</span>';
+      div.innerHTML='<div class="mv-small"><button class="mv-small-btn" onclick="mvUp(\''+day+'\','+idx+')">⬆</button><button class="mv-small-btn" onclick="mvDn(\''+day+'\','+idx+')">⬇</button></div><span class="ispan">'+item+'</span>';
       div.onclick=function(e){
-        if(e.target.classList.contains("mv-btn")) return;
+        if(e.target.classList.contains("mv-small-btn")) return;
         if(done[key]){delete done[key];div.classList.remove("done");}
         else{done[key]=true;div.classList.add("done");if(item.includes("💧")){water[day+"_w"]=(water[day+"_w"]||0)+1;}}
         save(); renderHedef(day); buildHome();
@@ -984,15 +994,11 @@ function renderDayItems(day) {
       cont.appendChild(div);
     } else if(item&&item.ex) {
       let td=document.createElement("div"); td.className="ex-title";
-      td.innerHTML='<div class="ex-name">💪 '+item.ex+'</div>'
+      td.innerHTML='<div class="mv-small"><button class="mv-small-btn" onclick="mvUpEx(\''+day+'\','+idx+')">⬆</button><button class="mv-small-btn" onclick="mvDnEx(\''+day+'\','+idx+')">⬇</button></div><div class="ex-name">💪 '+item.ex+'</div>'
         +'<div class="ex-btns">'
         +'<button class="ex-btn" onclick="openYT(\''+item.ex+'\',\''+item.link+'\')">📹 YouTube</button>'
         +'<button class="ex-btn" onclick="playVid(\''+item.ex+'\',\''+day+'\')">▶️ Yerel</button>'
         +'<button class="ex-btn" onclick="setLink(\''+item.ex+'\',\''+day+'\','+idx+')">🔗 Link</button>'
-        +'</div><div class="ex-btns">'
-        +'<button class="ex-btn" onclick="addVid(\''+item.ex+'\',\''+day+'\')">📂 Video Ekle</button>'
-        +'<button class="ex-btn" onclick="delVid(\''+item.ex+'\',\''+day+'\')">🗑️ Video Sil</button>'
-        +'<button class="ex-btn" onclick="showNote(\''+item.ex+'\',\''+day+'\','+idx+')">📝 Not</button>'
         +'</div>';
       cont.appendChild(td);
       for(let s=1;s<=item.sets;s++) {
@@ -1005,8 +1011,7 @@ function renderDayItems(day) {
         sd.onclick=(function(sn,ex){
           return function(){
             if(done[setKey]){if(confirm("Seti geri al?")){delete done[setKey];save();renderDayItems(day);buildHome();}return;}
-            let ex2=getLog(day,ex,sn);
-            promptWR(day,ex,sn,ex2&&ex2.weight,ex2&&ex2.reps||8,function(){renderDayItems(day);buildHome();});
+            promptWR(day,ex,sn,log&&log.weight,log&&log.reps||8,function(){renderDayItems(day);buildHome();});
           };
         })(s,item.ex);
         cont.appendChild(sd);
@@ -1014,6 +1019,9 @@ function renderDayItems(day) {
     }
   });
 }
+
+function mvUp(day,i){if(i>0){[data[day][i],data[day][i-1]]=[data[day][i-1],data[day][i]];save();if(curDay===day)renderDayItems(day);buildHome();}}
+function mvDn(day,i){if(i<data[day].length-1){[data[day][i],data[day][i+1]]=[data[day][i+1],data[day][i]];save();if(curDay===day)renderDayItems(day);buildHome();}}
 
 function getLog(day,ex,s) { return setLogs[day]&&setLogs[day][ex]&&setLogs[day][ex][s]||null; }
 
@@ -1024,7 +1032,6 @@ function saveLog(day,ex,s,w,r) {
   ls("fp_logs",setLogs);
   let m=muscleMap[ex];
   if(m){muscleLast[m]=new Date().toISOString();ls("fp_muscle",muscleLast);if(curDay)renderKas(curDay);}
-  // Rekor kontrolü
   if(w>0){
     let old=rekorlar[ex];
     let vol=w*r;
@@ -1057,16 +1064,12 @@ function promptWR(day,ex,sn,dw,dr,cb) {
     toast("✅ Set "+sn+": "+r+"x"+w+"kg");
     let sk=day+"|set|"+ex+"|"+sn;
     if(!done[sk]){done[sk]=true;save();}else save();
-    // Renk HEMEN değişsin - önce renderDayItems, sonra timer
     if(curDay===day)renderDayItems(day);
     buildHome();
     if(cb)cb();
     startTimer(90);
   };
 }
-
-function mvUp(day,i){if(i>0){[data[day][i],data[day][i-1]]=[data[day][i-1],data[day][i]];save();if(curDay===day)renderDayItems(day);buildHome();}}
-function mvDn(day,i){if(i<data[day].length-1){[data[day][i],data[day][i+1]]=[data[day][i+1],data[day][i]];save();if(curDay===day)renderDayItems(day);buildHome();}}
 
 function showAddItem() {
   if(!curDay) return;
@@ -1092,14 +1095,6 @@ function addItemNow() {
 function openYT(ex,link){window.open(link||"https://www.youtube.com/results?search_query="+encodeURIComponent(ex+" egzersizi"),"_blank");}
 function setLink(ex,day,idx){let l=prompt(ex+" YouTube linki:",data[day][idx].link||"");if(l!==null){data[day][idx].link=l;save();if(curDay===day)renderDayItems(day);toast("✅ Link kaydedildi");}}
 
-function showNote(ex,day,idx){
-  let m=document.createElement("div");m.className="modal";
-  m.innerHTML='<div class="mc"><h3>📝 '+ex+'</h3><textarea id="noteT" rows="5" class="sinput" style="border-radius:12px;resize:vertical">'+( data[day][idx].notes||"")+'</textarea><div class="mbtns"><button class="mbtn ok" onclick="saveNote(\''+day+'\','+idx+')">Kaydet</button><button class="mbtn no" onclick="this.closest(\'.modal\').remove()">İptal</button></div></div>';
-  document.body.appendChild(m);
-}
-function saveNote(day,idx){let n=document.getElementById("noteT").value;data[day][idx].notes=n;save();document.querySelector(".modal")&&document.querySelector(".modal").remove();toast("✅ Not kaydedildi");}
-
-// IndexedDB video
 function openDB(){return new Promise((res,rej)=>{let r=indexedDB.open("FitVid",1);r.onerror=rej;r.onsuccess=e=>res(e.target.result);r.onupgradeneeded=e=>e.target.result.createObjectStore("v",{keyPath:"id"});});}
 async function saveVid(id,blob){let db=await openDB();return new Promise((r,rj)=>{db.transaction("v","readwrite").objectStore("v").put({id,video:blob}).onsuccess=r;});}
 async function getVid(id){let db=await openDB();return new Promise(r=>db.transaction("v","readonly").objectStore("v").get(id).onsuccess=e=>r(e.target.result&&e.target.result.video||null));}
@@ -1108,7 +1103,6 @@ async function addVid(ex,day){let i=document.createElement("input");i.type="file
 async function playVid(ex,day){let b=await getVid(day+"_"+ex);if(b){let url=URL.createObjectURL(b);let m=document.createElement("div");m.className="modal";m.innerHTML='<div class="mc"><video controls autoplay src="'+url+'" style="width:100%;border-radius:12px"></video><button class="mbtn no" style="margin-top:10px;display:block" onclick="this.closest(\'.modal\').remove()">Kapat</button></div>';document.body.appendChild(m);}else toast("Kayıtlı video yok");}
 async function delVid(ex,day){if(!await getVid(day+"_"+ex)){toast("Video yok");return;}if(confirm("Sil?")){await delVidDB(day+"_"+ex);toast("✅ Silindi");}}
 
-// ===== TİMER & SES =====
 function stopSound(){if(aOsc){try{aOsc.stop();}catch(e){}}if(aCtx){try{aCtx.close();}catch(e){}}aOsc=null;aGain=null;aCtx=null;}
 function playBeep(){
   stopSound();
@@ -1137,39 +1131,29 @@ function startTimer(sec){
     let rem=Math.round((timerEnd-Date.now())/1000);
     if(rem<=0){
       clearInterval(timerInt);timerInt=null;
-      // Timer kaybotmasın! Renk değiştir, ses çal, ekranda kal
       document.getElementById("timerNum").textContent="✓";
       document.getElementById("timerNum").style.color="#34a853";
       playBeep();toast("🔔 Dinlenme bitti!");
-      // 4 saniye sonra kaybol
       setTimeout(function(){document.getElementById("timerBox").style.display="none";document.getElementById("timerNum").style.color="#f5a623";},4000);
     } else {
       document.getElementById("timerNum").textContent=rem;
-      // Son 10 saniye kırmızı
       document.getElementById("timerNum").style.color=rem<=10?"#e8372a":"#f5a623";
     }
   },250);
 }
 function customTimer(){let s=prompt("Dinlenme süresi (saniye):","90");if(s&&+s>0)startTimer(+s);}
 
-// ===== YEMEK SAYFASI =====
-function renderYemek(){
-  renderListeler();
-  renderAktifListe();
-}
-
+function renderYemek(){renderListeler();renderAktifListe();}
 function renderListeler(){
   let cont=document.getElementById("listelerDiv"); cont.innerHTML="";
   if(!listeler.length){cont.innerHTML='<div style="color:#5a5a60;font-size:0.82rem">Liste yok — Yeni Liste Oluştur butonuna bas</div>';return;}
   listeler.forEach(function(l){
-    if(!l.top) l.top={protein:0,karb:0,yag:0,kal:0}; // güvenlik
+    if(!l.top) l.top={protein:0,karb:0,yag:0,kal:0};
     let div=document.createElement("div"); div.className="lcard"+(aktifId===l.id?" aktif":"");
-    // Makro yüzdeleri - dolma animasyonu
     let pP=Math.min(100,Math.round((l.top.protein||0)/targets.protein*100));
     let kP=Math.min(100,Math.round((l.top.karb||0)/targets.carbs*100));
     let fP=Math.min(100,Math.round((l.top.yag||0)/targets.fat*100));
     let cP=Math.min(100,Math.round((l.top.kal||0)/targets.calories*100));
-    // %80+ sarı, %100+ kırmızı uyarı
     function barCls(pct){return pct>=100?" over":pct>=80?" warn":"";}
     div.innerHTML='<div class="lcard-head">'
       +'<div><div class="lcard-name">'+l.ad+'</div><div class="lcard-cnt">'+l.urunler.length+' ürün</div></div>'
@@ -1180,7 +1164,7 @@ function renderListeler(){
       +'<div class="mbar-row"><span class="mbar-lbl p">Protein</span><div class="mbar-track"><div class="mbar-fill p'+barCls(pP)+'" style="width:'+pP+'%"></div></div><span class="mbar-val">'+(l.top.protein||0)+"/"+targets.protein+"g</span></div>"
       +'<div class="mbar-row"><span class="mbar-lbl k">Karb</span><div class="mbar-track"><div class="mbar-fill k'+barCls(kP)+'" style="width:'+kP+'%"></div></div><span class="mbar-val">'+(l.top.karb||0)+"/"+targets.carbs+"g</span></div>"
       +'<div class="mbar-row"><span class="mbar-lbl f">Yağ</span><div class="mbar-track"><div class="mbar-fill f'+barCls(fP)+'" style="width:'+fP+'%"></div></div><span class="mbar-val">'+(l.top.yag||0)+"/"+targets.fat+"g</span></div>"
-      +'<div class="mbar-row"><span class="mbar-lbl c">Kalori</span><div class="mbar-track"><div class="mbar-fill c'+barCls(cP)+'" style="width:'+cP+'%"></div></div><span class="mbar-val">'+(l.top.kal||0)+"/"+targets.calories+"</span></div>";
+      +'<div class="mbar-row"><span class="mbar-lbl c">Kalori</span><div class="mbar-track"><div class="mbar-fill c'+barCls(cP)+'" style="width:'+cP+'%"></div></div><span class="mbar-val">'+(l.top.kal||0)+"/"+targets.calories+"</span></div>';
     div.querySelector("[data-id]").onclick=function(e){
       e.stopPropagation();aktifId=this.dataset.id;
       saveLists();renderListeler();renderAktifListe();
@@ -1195,13 +1179,9 @@ function renderListeler(){
     cont.appendChild(div);
   });
 }
-
 function yeniListe(){let ad=prompt("Liste adı:","Liste "+(listeler.length+1));if(ad){listeler.push({id:"l"+Date.now(),ad:ad,urunler:[],top:{protein:0,karb:0,yag:0,kal:0}});saveLists();renderListeler();toast("✅ Liste oluşturuldu");}}
-
 function calcTop(l){let t={protein:0,karb:0,yag:0,kal:0};l.urunler.forEach(function(u){t.protein+=u.protein;t.karb+=u.karb;t.yag+=u.yag;t.kal+=u.kal;});l.top=t;}
-
 function addToList(listeId,urun){let l=listeler.find(x=>x.id===listeId);if(!l)return false;l.urunler.push(urun);calcTop(l);saveLists();renderAktifListe();renderListeler();return true;}
-
 function renderAktifListe(){
   let aktif=listeler.find(x=>x.id===aktifId);
   let sec=document.getElementById("aktifListeSec");
@@ -1223,7 +1203,6 @@ function renderAktifListe(){
 }
 
 function toggleManuel(){let a=document.getElementById("manuelArea");a.style.display=a.style.display==="none"?"block":"none";}
-
 async function fetchManuel(){
   let bc=document.getElementById("bcInput").value.trim();
   if(!bc){toast("Barkod girin");return;}
@@ -1249,10 +1228,8 @@ async function fetchManuel(){
     }else r.innerHTML='<div style="color:#e8372a">❌ Ürün bulunamadı</div>';
   }catch(e){r.innerHTML='<div style="color:#e8372a">⚠️ Bağlantı hatası</div>';}
 }
-
 function sporcuBadge(p,cal){if(p>=15&&cal>0&&p/cal*100>=25)return{t:"💪 SPORCU İÇİN İDEAL",c:"iyi"};if(p>=10)return{t:"✅ UYGUN",c:"orta"};return{t:"⚠️ Dikkatli Tüket",c:"kotu"};}
 
-// ===== KAMERA SCANNER =====
 async function startScanner(){
   if(!aktifId){toast("Önce liste seçin");return;}
   let ov=document.getElementById("scOverlay");
@@ -1326,7 +1303,6 @@ function addScanned(){if(!scProduct||!aktifId)return;addToList(aktifId,scProduct
 function scanAgain(){document.getElementById("scFound").style.display="none";scProduct=null;scActive=true;document.getElementById("scStatus").textContent="📡 Taranıyor...";if(scReader){try{scReader.reset();}catch(e){}}startDecode(document.getElementById("scVideo"));}
 function stopScanner(){scActive=false;if(scReader){try{scReader.reset();scReader=null;}catch(e){}}if(scStream){scStream.getTracks().forEach(function(t){t.stop();});scStream=null;}document.getElementById("scVideo").srcObject=null;document.getElementById("scOverlay").style.display="none";document.getElementById("scFound").style.display="none";scProduct=null;}
 
-// ===== PORSIYON HESAP =====
 function showPorsiyon(){
   let besinler=Object.keys(foodDB).sort();
   let opts=besinler.map(function(b){return '<option value="'+b+'">'+b+'</option>';}).join("");
@@ -1356,13 +1332,11 @@ function calcPorsiyon(){
     +'</div></div>';
 }
 
-// ===== HEDEF =====
 function hedefKaydet(){
   targets={protein:parseInt(document.getElementById("tPro").value)||160,carbs:parseInt(document.getElementById("tKarb").value)||250,fat:parseInt(document.getElementById("tYag").value)||70,calories:parseInt(document.getElementById("tKal").value)||2500};
   save();toast("✅ Hedefler kaydedildi");
 }
 
-// ===== SUPPLEMENT =====
 function renderSups(){
   let cont=document.getElementById("supList");cont.innerHTML="";
   sups.forEach(function(s,i){
@@ -1380,13 +1354,11 @@ function addSup(){
   renderSups();toast("✅ Eklendi");
 }
 
-// ===== VÜCUT =====
 function saveBody(){
   body={weight:parseFloat(document.getElementById("bWt").value)||0,waist:parseFloat(document.getElementById("bWa").value)||0,chest:parseFloat(document.getElementById("bCh").value)||0,arm:parseFloat(document.getElementById("bAr").value)||0,leg:parseFloat(document.getElementById("bLg").value)||0};
   save();toast("📏 Kaydedildi");
 }
 
-// ===== FOTOĞRAF =====
 function uploadFoto(type){
   let i=document.createElement("input");i.type="file";i.accept="image/*";
   i.onchange=function(e){let f=e.target.files[0];if(f){let r=new FileReader();r.onload=function(ev){if(type==="before")beforePhoto=ev.target.result;else afterPhoto=ev.target.result;save();renderFoto();};r.readAsDataURL(f);}};
@@ -1405,7 +1377,6 @@ function renderFoto(){
   }else if(!beforePhoto||!afterPhoto){sl.innerHTML="";}
 }
 
-// ===== YÖNETİM =====
 function fillDaySelects(){
   let days=Object.keys(data);
   ["mDay","eDay"].forEach(function(id){
@@ -1440,7 +1411,7 @@ function renderExList(){
   data[day].forEach(function(it,idx){
     if(it&&it.ex){
       let d=document.createElement("div");d.style.cssText="display:flex;align-items:center;gap:6px;padding:8px;margin:4px 0;background:#f5f5f7;border-radius:10px;font-size:0.82rem";
-      d.innerHTML='<span style="flex:1">💪 '+it.ex+' ('+it.sets+'s)</span><button class="mv-btn" onclick="mvUp(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="mvDn(\''+day+'\','+idx+')">⬇</button><button onclick="delEx(\''+day+'\','+idx+')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>';
+      d.innerHTML='<span style="flex:1">💪 '+it.ex+' ('+it.sets+'s)</span><button class="mv-btn" onclick="mvUpEx(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="mvDnEx(\''+day+'\','+idx+')">⬇</button><button onclick="delEx(\''+day+'\','+idx+')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>';
       cont.appendChild(d);
     }
   });
@@ -1454,7 +1425,6 @@ function addEx(){
   renderExList();if(curDay===day)renderDayItems(day);buildHome();
 }
 
-// ===== HAFTA GEÇMİŞİ =====
 function captureSnapshot(){
   let now=new Date();
   let snap={tarih:now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"}),ts:now.toISOString(),gunler:{},ozet:{set:0,su:0,gun:0}};
@@ -1505,21 +1475,18 @@ function resetWeek(){
   toast("✅ Hafta kaydedildi ve sıfırlandı!");
 }
 
-// ===== YEDEKLEME =====
 function backupData(){
   let exp={data,done,water,setLogs,muscleLast,body,sups,targets,listeler,aktifId,gecmis,rekorlar,seri};
   let a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(exp)],{type:"application/json"}));
   a.download="fitness_veri_"+new Date().toISOString().slice(0,10)+".json";
   a.click();
-  // Son yedek tarihini kaydet
   let bugun=new Date().toLocaleDateString("tr-TR");
   localStorage.setItem("fp_sonYedek",bugun);
   checkYedekUyari();
   toast("💾 Veri yedeği alındı!");
 }
 function backupFull(){
-  // Fotoğraflar DAHİL - tam yedek
   let exp={data,done,water,setLogs,muscleLast,body,beforePhoto,afterPhoto,sups,targets,listeler,aktifId,gecmis,rekorlar,seri};
   let a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(exp)],{type:"application/json"}));
@@ -1542,25 +1509,17 @@ function restoreData(){
         let imp=JSON.parse(ev.target.result);
         if(imp.data)data=imp.data;
         if(imp.done)done=imp.done;
-        if(imp.doneState)done=imp.doneState;
         if(imp.water)water=imp.water;
-        if(imp.waterIntake)water=imp.waterIntake;
         if(imp.setLogs)setLogs=imp.setLogs;
         if(imp.muscleLast)muscleLast=imp.muscleLast;
-        if(imp.muscleLastTrained)muscleLast=imp.muscleLastTrained;
         if(imp.body)body=imp.body;
-        if(imp.bodyMeasurements)body=imp.bodyMeasurements;
         if(imp.beforePhoto)beforePhoto=imp.beforePhoto;
         if(imp.afterPhoto)afterPhoto=imp.afterPhoto;
         if(imp.sups)sups=imp.sups;
-        if(imp.supplements)sups=imp.supplements;
         if(imp.targets)targets=imp.targets;
-        if(imp.dailyTargets){targets={protein:imp.dailyTargets.protein||160,carbs:imp.dailyTargets.carbs||250,fat:imp.dailyTargets.fat||70,calories:imp.dailyTargets.calories||2500};}
         if(imp.listeler)listeler=imp.listeler;
         if(imp.aktifId)aktifId=imp.aktifId;
-        if(imp.aktifListeId)aktifId=imp.aktifListeId;
         if(imp.gecmis)gecmis=imp.gecmis;
-        if(imp.haftaGecmisi)gecmis=imp.haftaGecmisi;
         if(imp.rekorlar)rekorlar=imp.rekorlar;
         if(imp.seri)seri=imp.seri;
         save();saveLists();saveGecmis();
@@ -1582,7 +1541,6 @@ function restoreData(){
   setTimeout(function(){i.click();},100);
 }
 
-// ===== İSTATİSTİK =====
 function updateSeri(){
   let bugun=new Date().toLocaleDateString("tr-TR");
   let herGun=Object.keys(data).some(function(d){return getDayStats(d).pct===100;});
@@ -1648,7 +1606,6 @@ function showRekorModal(ex,yeni,eski){
   setTimeout(function(){if(m.parentNode)m.remove();},5000);
 }
 
-// ===== HAFTALIK ÖZET =====
 function renderHaftalik(){
   let cont=document.getElementById("haftalikDiv");if(!cont)return;
   let topSet=0,topSu=0,tamGun=0,topEx=0,maxKg=0,maxEx="";
@@ -1687,7 +1644,6 @@ function renderHaftalik(){
     +'</div></div>';
 }
 
-// ===== INIT =====
 load();
 if(!listeler.length){
       listeler = [
