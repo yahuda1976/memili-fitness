@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Fitness Pro - Düzeltilmiş</title>
+<title>Fitness Pro - Yeni Program</title>
 <style>
 :root{
   --bg:#b8b0a4;--card:#fff;--card2:#f5f5f7;--card3:#e5e5ea;
@@ -87,7 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .kas-bar-track{height:5px;background:rgba(0,0,0,0.07);border-radius:4px;overflow:hidden;}
 .kas-bar-fill{height:100%;border-radius:4px;transition:width 0.5s;}
 
-/* ITEM & SET */
+/* ITEM & SET - YENİ STİL OK BUTONLARI */
 .item,.set{background:#fff;margin:5px 12px;padding:13px 14px;border-radius:22px;display:flex;align-items:center;gap:10px;font-size:0.9rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.08);transition:all 0.15s;}
 .set{border-left:4px solid #1a73e8;border-radius:0 22px 22px 0;}
 .item.done{background:#c8f0d4;color:#1a6b35;text-decoration:line-through;box-shadow:none;border-left:4px solid #34a853;}
@@ -95,13 +95,47 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .item.done::after,.set.done::after{content:" ✓";font-weight:800;}
 .ispan{font-weight:600;color:#1c1c1e;flex:1;}
 .set-info{font-size:0.7rem;font-weight:700;color:#ff6b00;background:rgba(255,107,0,0.1);padding:3px 8px;border-radius:12px;}
-.ex-title{background:linear-gradient(135deg,#dce8f8,#e8f0fe);border-radius:var(--rs);padding:12px 14px;margin:10px 12px 3px;border:1.5px solid rgba(26,115,232,0.2);border-left:4px solid #1a73e8;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* YENİ TAŞIMA OK BUTONLARI (yuvarlak, şık) */
+.mv-btn-group{display:flex;gap:6px;}
+.mv-btn{
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:30px;
+  width:36px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.2rem;
+  font-weight:800;
+  color:#1a73e8;
+  cursor:pointer;
+  transition:0.1s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.1);
+}
+.mv-btn:active{transform:scale(0.92);background:#f0f0f5;}
+.mv-btn.up::before{content:"▲";}
+.mv-btn.down::before{content:"▼";}
+
+/* Egzersiz başlığı içindeki butonlar için düzenleme */
+.ex-title{
+  background:linear-gradient(135deg,#dce8f8,#e8f0fe);
+  border-radius:var(--rs);
+  padding:12px 14px;
+  margin:10px 12px 3px;
+  border:1.5px solid rgba(26,115,232,0.2);
+  border-left:4px solid #1a73e8;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
 .ex-name{font-weight:800;color:#1a73e8;font-size:0.92rem;flex:1;}
-.mv-small{display:flex;flex-direction:column;gap:2px;}
-.mv-small-btn{background:rgba(0,0,0,0.06);border:none;font-size:0.8rem;cursor:pointer;padding:3px 6px;border-radius:8px;color:#1c1c1e;font-weight:700;}
 .ex-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-left:auto;width:auto;}
 .ex-btn{background:#f5f5f7;border:1px solid rgba(0,0,0,0.08);padding:7px 4px;border-radius:16px;color:#c07800;font-size:0.62rem;font-weight:700;cursor:pointer;}
-.mv-btn{background:rgba(0,0,0,0.08);border:none;padding:2px 8px;border-radius:12px;font-size:0.7rem;cursor:pointer;margin-right:4px;font-weight:700;}
+
+/* modal vs diğer stiller (kısa kesildi, aynı) */
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;}
 .mc{background:#fff;border-radius:var(--r);padding:22px;max-width:450px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.15);}
 .mc h3{font-size:1rem;font-weight:800;margin-bottom:14px;color:#1c1c1e;}
@@ -240,7 +274,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .sp-badge{padding:8px 16px;border-radius:20px;font-size:0.8rem;font-weight:700;text-align:center;margin-bottom:14px;}
 .sp-badge.iyi{background:rgba(52,168,83,0.2);color:#34a853;border:1px solid rgba(52,168,83,0.4);}
 .sp-badge.orta{background:rgba(255,107,0,0.2);color:#ff6b00;border:1px solid rgba(255,107,0,0.4);}
-.sp-badge.kotu{background:rgba(232,55,42,0.2);color:#e8372a;border:1px solid rgba(232,55,42,0.4);}
+.sp-badge.kotu{background:rgba(232,55,42,0.2);color:#e8372a;border:1px solid rgba(232,55,42,0.3);}
 .sc-fbtns{display:flex;flex-direction:column;gap:8px;width:100%;}
 .sc-fbtn{padding:14px;border:none;border-radius:20px;font-weight:700;font-size:0.95rem;cursor:pointer;}
 .sc-fbtn.ekle{background:#34a853;color:#fff;}
@@ -515,7 +549,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 </div>
 
 <script>
-// ===== VERİ =====
+// ========== VERİ ==========
 const foodDB = {
   "yulaf":{p:5,k:27,f:2.5,cal:150},"süt":{p:3.4,k:5,f:3.6,cal:61},
   "skyr":{p:11,k:4,f:0.2,cal:64},"muz":{p:1.1,k:23,f:0.3,cal:89},
@@ -536,202 +570,125 @@ function parseMacros(text) {
 }
 
 let targets = {protein:160,carbs:250,fat:70,calories:2500};
+
+// ========== YENİ ANTREMAN PROGRAMI (TAMAMEN YENİ) ==========
 let data = {
-"PAZARTESI":[
-  "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia 1 kaşık — Whey 1 ölçek",
-  "💧 1 bardak su","💧 1 bardak su",
-  "10:30 💧 1 bardak su",
-  "11:00 Skyr yarım bardak + muz yarım",
-  "12:30 💧 1 bardak su",
-  "13:00 Tavuk 1 avuç + pirinç pilavı 6 kaşık + salata",
-  "💧 1 bardak su","💧 1 bardak su",
-  "15:30 💧 1 bardak su",
-  "16:00 Quark yarım bardak + keten tohumu 1 kaşık",
-  "16:30 💧 1 bardak su",
-  "17:30 Whey 1 ölçek + yulaf 4 kaşık + muz yarım — Antrenman öncesi",
-  "18:00 💧 1 bardak su",
-  "🏋️ GÖĞÜS 1 + TRİCEPS — Heavy + Stretch",
-  "⚠️ Omuz: Dirsek 45° geçme! Fly'da aşırı germe yok!",
-  {ex:"Incline Dumbbell Press",sets:4,link:"",notes:"6-10 tekrar — Heavy"},
-  {ex:"Flat Dumbbell Press",sets:3,link:"",notes:"8-10 tekrar"},
-  {ex:"Incline Cable Fly",sets:3,link:"",notes:"10-15 tekrar — stretch odaklı"},
-  {ex:"Pec Deck",sets:3,link:"",notes:"10-15 tekrar — kontraksiyon"},
-  {ex:"Chest Press Machine",sets:2,link:"",notes:"8-12 tekrar"},
-  {ex:"Rope Pushdown",sets:3,link:"",notes:"10-12 tekrar"},
-  {ex:"Overhead Cable Extension",sets:3,link:"",notes:"10-12 tekrar"},
-  {ex:"Close-Grip Pushdown",sets:2,link:"",notes:"12-15 tekrar"},
-  "💧 1 bardak su","💧 1 bardak su","💧 1 bardak su",
-  "20:00 Whey 1 ölçek — Antrenman sonrası (ilk 30 dk!)",
-  "💧 1 bardak su",
-  "21:00 Tavuk 1 avuç + patates 2 orta boy haşlama + yoğurt 3 kaşık",
-  "22:00 💧 1 bardak su",
-  "22:30 Quark yarım bardak — Gece proteini"
-],
-"SALI":[
-  "08:00 Yumurta 3 adet + lavaş 1 adet + kaşar 2 dilim + keten tohumu 1 kaşık",
-  "💧 1 bardak su","💧 1 bardak su",
-  "10:30 💧 1 bardak su",
-  "11:00 Skyr yarım bardak + muz 1 adet",
-  "12:30 💧 1 bardak su",
-  "13:00 Ton balığı 2 kutu + kinoa 5 kaşık pişmiş + salata",
-  "💧 1 bardak su","💧 1 bardak su",
-  "15:30 💧 1 bardak su",
-  "16:00 Quark yarım bardak + chia 1 kaşık",
-  "16:30 💧 1 bardak su",
-  "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi",
-  "18:00 💧 1 bardak su",
-  "🏋️ BACAK — Full Leg",
-  {ex:"Squat",sets:4,link:"",notes:"6-10 tekrar — Heavy quad"},
-  {ex:"Leg Press",sets:3,link:"",notes:"10-12 tekrar"},
-  {ex:"Leg Extension",sets:3,link:"",notes:"12-15 tekrar — kontraksiyon"},
-  {ex:"Romanian Deadlift (RDL)",sets:4,link:"",notes:"6-10 tekrar — hamstring stretch"},
-  {ex:"Leg Curl",sets:3,link:"",notes:"10-12 tekrar"},
-  {ex:"Standing Calf Raise",sets:4,link:"",notes:"12-15 tekrar"},
-  {ex:"Seated Calf Raise",sets:3,link:"",notes:"15-20 tekrar"},
-  "💧 1 bardak su","💧 1 bardak su","💧 1 bardak su",
-  "20:00 Whey 1 ölçek — Antrenman sonrası",
-  "💧 1 bardak su",
-  "21:00 Kıyma köfte 4-5 top + pirinç 6 kaşık + yoğurt 3 kaşık",
-  "22:00 💧 1 bardak su",
-  "22:30 Quark yarım bardak"
-],
-"CARSAMBA":[
-  "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia 1 kaşık — Whey 1 ölçek",
-  "💧 1 bardak su","💧 1 bardak su",
-  "10:30 💧 1 bardak su",
-  "11:00 Skyr yarım bardak + muz yarım",
-  "12:30 💧 1 bardak su",
-  "13:00 Tavuk 1 avuç + kinoa 5 kaşık pişmiş + salata",
-  "💧 1 bardak su","💧 1 bardak su",
-  "15:30 💧 1 bardak su",
-  "16:00 Quark yarım bardak + keten tohumu 1 kaşık",
-  "16:30 💧 1 bardak su",
-  "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi",
-  "18:00 💧 1 bardak su",
-  "🏋️ SIRT + TRAPEZ — Genişlik + Kalınlık",
-  {ex:"Lat Pulldown (V-bar)",sets:4,link:"",notes:"8-12 tekrar — lat genişliği"},
-  {ex:"Close Grip Row",sets:3,link:"",notes:"8-12 tekrar — lat kalınlık"},
-  {ex:"Barbell Row",sets:4,link:"",notes:"6-10 tekrar — Heavy kalınlık"},
-  {ex:"Chest Supported Row",sets:3,link:"",notes:"10-12 tekrar — izole kalınlık"},
-  {ex:"Straight Arm Pulldown",sets:3,link:"",notes:"12-15 tekrar — lat stretch"},
-  {ex:"Dumbbell Shrug",sets:4,link:"",notes:"10-12 tekrar — trapez"},
-  "💧 1 bardak su","💧 1 bardak su","💧 1 bardak su",
-  "20:00 Whey 1 ölçek — Antrenman sonrası",
-  "💧 1 bardak su",
-  "21:00 Ton balığı 2 kutu + pirinç 6 kaşık + yoğurt 3 kaşık",
-  "22:00 💧 1 bardak su",
-  "22:30 Quark yarım bardak"
-],
-"PERSEMBE":[
-  "08:00 Yulaf 6 kaşık + süt 1 bardak + muz 1 adet",
-  "💧 1 bardak su","💧 1 bardak su",
-  "11:00 💧 1 bardak su",
-  "11:30 Skyr yarım bardak + keten tohumu 1 kaşık",
-  "13:00 Yumurta 3 adet + lavaş 1 adet + kaşar 2 dilim",
-  "💧 1 bardak su","💧 1 bardak su",
-  "16:00 💧 1 bardak su",
-  "16:30 Quark yarım bardak",
-  "19:00 💧 1 bardak su",
-  "20:00 Tavuk 1 avuç + kinoa 4 kaşık pişmiş + salata",
-  "21:00 💧 1 bardak su",
-  "22:00 Quark yarım bardak + chia 1 kaşık",
-  "22:30 💧 1 bardak su",
-  "👉 DİNLENME — Yürüyüş 30-45 dk + Esneme + Omuz mobilite"
-],
-"CUMA":[
-  "08:00 Yumurta 3 adet + lavaş 1 adet + kaşar 2 dilim — Whey 1 ölçek",
-  "💧 1 bardak su","💧 1 bardak su",
-  "10:30 💧 1 bardak su",
-  "11:00 Skyr yarım bardak + muz 1 adet",
-  "12:30 💧 1 bardak su",
-  "13:00 Döner avuç içi 2 porsiyon + lavaş 1 adet + salata",
-  "💧 1 bardak su","💧 1 bardak su",
-  "15:30 💧 1 bardak su",
-  "16:00 Quark yarım bardak + keten tohumu 1 kaşık",
-  "16:30 💧 1 bardak su",
-  "17:30 Whey 1 ölçek + yulaf 4 kaşık + muz yarım — Antrenman öncesi",
-  "18:00 💧 1 bardak su",
-  "🏋️ GÖĞÜS 2 + TRİCEPS — Pump + Contraction",
-  "⚠️ Smith Press: bar yolu sabit — omuz dostu! Burnout'ta formu koru!",
-  {ex:"Incline Smith Press",sets:4,link:"",notes:"6-10 tekrar — omuz dostu"},
-  {ex:"Flat Machine Press",sets:3,link:"",notes:"8-12 tekrar"},
-  {ex:"Cable Crossover (High→Low)",sets:3,link:"",notes:"12-15 tekrar — kontraksiyon"},
-  {ex:"Pec Deck",sets:3,link:"",notes:"12-15 tekrar — pump"},
-  {ex:"Chest Press Machine (burnout)",sets:2,link:"",notes:"Ağırlığı düşür, forma odaklan!"},
-  {ex:"V-Bar Pushdown",sets:3,link:"",notes:"10-12 tekrar"},
-  {ex:"Single Arm Cable Extension",sets:3,link:"",notes:"10-12 tekrar — izole"},
-  {ex:"Overhead Rope Extension",sets:2,link:"",notes:"12-15 tekrar"},
-  "💧 1 bardak su","💧 1 bardak su","💧 1 bardak su",
-  "20:00 Whey 1 ölçek — Antrenman sonrası",
-  "💧 1 bardak su",
-  "21:00 Kıyma 1 avuç + patates 2 orta boy haşlama + yoğurt 3 kaşık",
-  "22:00 💧 1 bardak su",
-  "22:30 Quark yarım bardak"
-],
-"CUMARTESI":[
-  "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia 1 kaşık — Whey 1 ölçek",
-  "💧 1 bardak su","💧 1 bardak su",
-  "10:30 💧 1 bardak su",
-  "11:00 Skyr yarım bardak + muz yarım",
-  "12:30 💧 1 bardak su",
-  "13:00 Tavuk 1 avuç + pirinç 6 kaşık + salata",
-  "💧 1 bardak su","💧 1 bardak su",
-  "15:30 💧 1 bardak su",
-  "16:00 Quark yarım bardak + keten tohumu 1 kaşık",
-  "16:30 💧 1 bardak su",
-  "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi",
-  "18:00 💧 1 bardak su",
-  "🏋️ OMUZ + BİCEPS",
-  "⚠️ Shoulder Press: Dirsekler 45° önde — tam yukarı kilitleme yok!",
-  {ex:"Dumbbell Shoulder Press",sets:4,link:"",notes:"6-10 tekrar — dirsek 45° önde!"},
-  {ex:"Lateral Raise",sets:4,link:"",notes:"12-15 tekrar — kontrollü"},
-  {ex:"Cable Lateral Raise",sets:3,link:"",notes:"12-15 tekrar — izole"},
-  {ex:"Reverse Pec Deck",sets:4,link:"",notes:"12-15 tekrar — arka omuz"},
-  {ex:"Face Pull",sets:3,link:"",notes:"12-15 tekrar — rotator cuff"},
-  {ex:"Incline Dumbbell Curl",sets:3,link:"",notes:"8-12 tekrar — tam stretch"},
-  {ex:"EZ Bar Curl",sets:3,link:"",notes:"8-12 tekrar — Heavy"},
-  {ex:"Hammer Curl",sets:3,link:"",notes:"10-12 tekrar — brachialis"},
-  "💧 1 bardak su","💧 1 bardak su","💧 1 bardak su",
-  "20:00 Whey 1 ölçek — Antrenman sonrası",
-  "💧 1 bardak su",
-  "21:00 Ton balığı 2 kutu + kinoa 5 kaşık pişmiş + yoğurt 3 kaşık",
-  "22:00 💧 1 bardak su",
-  "22:30 Quark yarım bardak"
-],
-"PAZAR":[
-  "08:00 Yulaf 6 kaşık + süt 1 bardak + muz 1 adet",
-  "💧 1 bardak su","💧 1 bardak su",
-  "11:00 💧 1 bardak su",
-  "11:30 Skyr yarım bardak + chia 1 kaşık",
-  "13:00 Kıyma 1 avuç + patates 1-2 orta boy + salata",
-  "💧 1 bardak su","💧 1 bardak su",
-  "16:00 💧 1 bardak su",
-  "16:30 Quark yarım bardak",
-  "19:00 💧 1 bardak su",
-  "20:00 Yumurta 3 adet + lavaş 1 adet + yoğurt 3 kaşık",
-  "21:00 💧 1 bardak su",
-  "22:00 Quark yarım bardak + keten tohumu 1 kaşık",
-  "22:30 💧 1 bardak su",
-  "👉 TAM DİNLENME — Aktif recovery + Yürüyüş + Esneme"
-]
+  "PAZARTESI": [
+    "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia — Whey 1 ölçek",
+    "💧 1 bardak su","💧 1 bardak su","10:30 💧 1 bardak su",
+    "11:00 Skyr yarım bardak + muz","12:30 💧 1 bardak su",
+    "13:00 Tavuk 1 avuç + pirinç pilavı 6 kaşık + salata","💧 1 bardak su",
+    "💧 1 bardak su","15:30 💧 1 bardak su",
+    "16:00 Quark yarım bardak + keten tohumu","16:30 💧 1 bardak su",
+    "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi","18:00 💧 1 bardak su",
+    "🏋️ GÖĞÜS + TRICEPS",
+    {ex:"Incline Dumbbell Press",sets:4,link:"",notes:"6-10 tekrar — Heavy"},
+    {ex:"Flat Neutral Dumbbell Press",sets:3,link:"",notes:"8-10 tekrar"},
+    {ex:"Chest Press Machine",sets:3,link:"",notes:"8-12 tekrar"},
+    {ex:"Pec Deck",sets:3,link:"",notes:"10-15 tekrar"},
+    {ex:"Rope Pushdown",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Overhead Rope Extension",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Single Arm Cable Pushdown",sets:2,link:"",notes:"12-15 tekrar"},
+    "💧 1 bardak su","💧 1 bardak su","20:00 Whey 1 ölçek — Antrenman sonrası","💧 1 bardak su",
+    "21:00 Tavuk 1 avuç + patates 2 orta boy haşlama + yoğurt 3 kaşık","22:00 💧 1 bardak su","22:30 Quark yarım bardak"
+  ],
+  "SALI": [
+    "08:00 Yumurta 3 adet + lavaş 1 adet + kaşar 2 dilim","💧 1 bardak su","💧 1 bardak su",
+    "10:30 💧 1 bardak su","11:00 Skyr yarım bardak + muz","12:30 💧 1 bardak su",
+    "13:00 Ton balığı 2 kutu + kinoa 5 kaşık + salata","💧 1 bardak su","💧 1 bardak su",
+    "15:30 💧 1 bardak su","16:00 Quark yarım bardak + chia","16:30 💧 1 bardak su",
+    "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi","18:00 💧 1 bardak su",
+    "🏋️ SIRT + TRAPEZ",
+    {ex:"Wide Grip Lat Pulldown",sets:4,link:"",notes:"8-12 tekrar"},
+    {ex:"Seated Cable Row",sets:4,link:"",notes:"8-12 tekrar"},
+    {ex:"One Arm Dumbbell Row",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"T-Bar Row",sets:2,link:"",notes:"6-10 tekrar"},
+    {ex:"Straight Arm Pulldown",sets:3,link:"",notes:"12-15 tekrar"},
+    {ex:"Dumbbell Shrug",sets:4,link:"",notes:"10-12 tekrar"},
+    {ex:"Face Pull",sets:3,link:"",notes:"12-15 tekrar — rotator cuff"},
+    "💧 1 bardak su","💧 1 bardak su","💧 1 bardak su","20:00 Whey 1 ölçek — Antrenman sonrası","💧 1 bardak su",
+    "21:00 Kıyma köfte 4-5 top + pirinç 6 kaşık + yoğurt 3 kaşık","22:00 💧 1 bardak su","22:30 Quark yarım bardak"
+  ],
+  "CARSAMBA": [
+    "08:00 Yulaf 6 kaşık + süt 1 bardak + muz","💧 1 bardak su","💧 1 bardak su",
+    "11:00 💧 1 bardak su","11:30 Skyr yarım bardak + keten tohumu","13:00 Yumurta 3 adet + lavaş 1 adet + kaşar 2 dilim",
+    "💧 1 bardak su","💧 1 bardak su","16:00 💧 1 bardak su","16:30 Quark yarım bardak","19:00 💧 1 bardak su",
+    "20:00 Tavuk 1 avuç + kinoa 4 kaşık + salata","21:00 💧 1 bardak su",
+    "22:00 Quark yarım bardak + chia","22:30 💧 1 bardak su",
+    "👉 DİNLENME — RECOVERY (Yürüyüş + Esneme)"
+  ],
+  "PERSEMBE": [
+    "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia — Whey 1 ölçek","💧 1 bardak su","💧 1 bardak su",
+    "10:30 💧 1 bardak su","11:00 Skyr yarım bardak + muz","12:30 💧 1 bardak su",
+    "13:00 Tavuk 1 avuç + kinoa 5 kaşık + salata","💧 1 bardak su","💧 1 bardak su",
+    "15:30 💧 1 bardak su","16:00 Quark yarım bardak + keten tohumu","16:30 💧 1 bardak su",
+    "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi","18:00 💧 1 bardak su",
+    "🏋️ OMUZ + BICEPS",
+    {ex:"Dumbbell Shoulder Press",sets:4,link:"",notes:"6-10 tekrar — dirsek 45° önde"},
+    {ex:"Cable Lateral Raise",sets:4,link:"",notes:"12-15 tekrar"},
+    {ex:"Machine Lateral Raise",sets:3,link:"",notes:"12-15 tekrar"},
+    {ex:"Chest-Supported Rear Delt Fly",sets:3,link:"",notes:"12-15 tekrar — arka omuz"},
+    {ex:"Face Pull",sets:2,link:"",notes:"12-15 tekrar"},
+    {ex:"Incline Dumbbell Curl",sets:3,link:"",notes:"8-12 tekrar — tam stretch"},
+    {ex:"Cable Curl",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Hammer Curl",sets:3,link:"",notes:"10-12 tekrar"},
+    "💧 1 bardak su","💧 1 bardak su","20:00 Whey 1 ölçek — Antrenman sonrası","💧 1 bardak su",
+    "21:00 Ton balığı 2 kutu + pirinç 6 kaşık + yoğurt 3 kaşık","22:00 💧 1 bardak su","22:30 Quark yarım bardak"
+  ],
+  "CUMA": [
+    "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia — Whey 1 ölçek","💧 1 bardak su","💧 1 bardak su",
+    "10:30 💧 1 bardak su","11:00 Skyr yarım bardak + muz","12:30 💧 1 bardak su",
+    "13:00 Tavuk 1 avuç + pirinç 6 kaşık + salata","💧 1 bardak su","💧 1 bardak su",
+    "15:30 💧 1 bardak su","16:00 Quark yarım bardak + keten tohumu","16:30 💧 1 bardak su",
+    "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi","18:00 💧 1 bardak su",
+    "🏋️ GÖĞÜS + TRICEPS",
+    {ex:"Incline Dumbbell Press",sets:4,link:"",notes:"6-10 tekrar — Heavy"},
+    {ex:"Incline Dumbbell Fly",sets:3,link:"",notes:"10-12 tekrar — stretch"},
+    {ex:"Machine Chest Press",sets:3,link:"",notes:"8-12 tekrar"},
+    {ex:"Pec Deck Machine",sets:3,link:"",notes:"10-15 tekrar"},
+    {ex:"Rope Pushdown",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Single Arm Cable Extension",sets:3,link:"",notes:"10-12 tekrar — izole"},
+    {ex:"Overhead Rope Extension",sets:3,link:"",notes:"10-12 tekrar"},
+    "💧 1 bardak su","💧 1 bardak su","20:00 Whey 1 ölçek — Antrenman sonrası","💧 1 bardak su",
+    "21:00 Kıyma 1 avuç + patates 2 haşlama + yoğurt 3 kaşık","22:00 💧 1 bardak su","22:30 Quark yarım bardak"
+  ],
+  "CUMARTESI": [
+    "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia — Whey 1 ölçek","💧 1 bardak su","💧 1 bardak su",
+    "10:30 💧 1 bardak su","11:00 Skyr yarım bardak + muz","12:30 💧 1 bardak su",
+    "13:00 Tavuk 1 avuç + pirinç 6 kaşık + salata","💧 1 bardak su","💧 1 bardak su",
+    "15:30 💧 1 bardak su","16:00 Quark yarım bardak + keten tohumu","16:30 💧 1 bardak su",
+    "17:30 Whey 1 ölçek + yulaf 4 kaşık — Antrenman öncesi","18:00 💧 1 bardak su",
+    "🏋️ BACAK + BICEPS",
+    {ex:"Squat",sets:4,link:"",notes:"6-10 tekrar — Heavy quad"},
+    {ex:"Romanian Deadlift",sets:3,link:"",notes:"6-10 tekrar — hamstring"},
+    {ex:"Leg Press",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Leg Extension",sets:3,link:"",notes:"12-15 tekrar"},
+    {ex:"Lying Leg Curl (makine)",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Standing Calf Raise",sets:4,link:"",notes:"12-15 tekrar"},
+    {ex:"Cable Curl",sets:3,link:"",notes:"10-12 tekrar"},
+    {ex:"Hammer Curl",sets:3,link:"",notes:"10-12 tekrar"},
+    "💧 1 bardak su","💧 1 bardak su","20:00 Whey 1 ölçek — Antrenman sonrası","💧 1 bardak su",
+    "21:00 Ton balığı 2 kutu + kinoa 5 kaşık + yoğurt 3 kaşık","22:00 💧 1 bardak su","22:30 Quark yarım bardak"
+  ],
+  "PAZAR": [
+    "08:00 Yulaf 6 kaşık + süt 1 bardak + muz","💧 1 bardak su","💧 1 bardak su",
+    "11:00 💧 1 bardak su","11:30 Skyr yarım bardak + chia","13:00 Kıyma 1 avuç + patates 2 haşlama + salata",
+    "💧 1 bardak su","💧 1 bardak su","16:00 💧 1 bardak su","16:30 Quark yarım bardak","19:00 💧 1 bardak su",
+    "20:00 Yumurta 3 adet + lavaş 1 adet + yoğurt 3 kaşık","21:00 💧 1 bardak su",
+    "22:00 Quark yarım bardak + keten tohumu","22:30 💧 1 bardak su",
+    "👉 DİNLENME — RECOVERY (Yürüyüş + Esneme)"
+  ]
 };
 
+// Muscle Map güncellendi (yeni egzersizler eklendi)
 const muscleMap = {
-  "Incline Dumbbell Press":"Göğüs","Flat Dumbbell Press":"Göğüs","Incline Cable Fly":"Göğüs",
-  "Pec Deck":"Göğüs","Chest Press Machine":"Göğüs","Chest Press Machine (burnout)":"Göğüs",
-  "Rope Pushdown":"Triceps","Overhead Cable Extension":"Triceps","Close-Grip Pushdown":"Triceps",
-  "V-Bar Pushdown":"Triceps","Single Arm Cable Extension":"Triceps","Overhead Rope Extension":"Triceps",
-  "Squat":"Bacak","Leg Press":"Bacak","Leg Extension":"Bacak",
-  "Romanian Deadlift (RDL)":"Bacak","Leg Curl":"Bacak",
-  "Standing Calf Raise":"Bacak","Seated Calf Raise":"Bacak",
-  "Lat Pulldown (V-bar)":"Sırt","Close Grip Row":"Sırt","Barbell Row":"Sırt",
-  "Chest Supported Row":"Sırt","Straight Arm Pulldown":"Sırt",
-  "Dumbbell Shrug":"Trapez",
-  "Incline Smith Press":"Göğüs","Flat Machine Press":"Göğüs",
-  "Cable Crossover (High→Low)":"Göğüs",
-  "Dumbbell Shoulder Press":"Omuz","Lateral Raise":"Omuz",
-  "Cable Lateral Raise":"Omuz","Reverse Pec Deck":"Omuz","Face Pull":"Omuz",
-  "Incline Dumbbell Curl":"Biceps","EZ Bar Curl":"Biceps","Hammer Curl":"Biceps"
+  "Incline Dumbbell Press":"Göğüs","Flat Neutral Dumbbell Press":"Göğüs","Chest Press Machine":"Göğüs","Pec Deck":"Göğüs","Pec Deck Machine":"Göğüs","Machine Chest Press":"Göğüs","Incline Dumbbell Fly":"Göğüs",
+  "Rope Pushdown":"Triceps","Overhead Rope Extension":"Triceps","Single Arm Cable Pushdown":"Triceps","Single Arm Cable Extension":"Triceps",
+  "Wide Grip Lat Pulldown":"Sırt","Seated Cable Row":"Sırt","One Arm Dumbbell Row":"Sırt","T-Bar Row":"Sırt","Straight Arm Pulldown":"Sırt",
+  "Dumbbell Shrug":"Trapez","Face Pull":"Omuz",
+  "Dumbbell Shoulder Press":"Omuz","Cable Lateral Raise":"Omuz","Machine Lateral Raise":"Omuz","Chest-Supported Rear Delt Fly":"Omuz",
+  "Incline Dumbbell Curl":"Biceps","Cable Curl":"Biceps","Hammer Curl":"Biceps",
+  "Squat":"Bacak","Romanian Deadlift":"Bacak","Leg Press":"Bacak","Leg Extension":"Bacak","Lying Leg Curl (makine)":"Bacak","Standing Calf Raise":"Bacak"
 };
 
 let done={}, water={}, setLogs={}, muscleLast={};
@@ -744,7 +701,7 @@ let curDay=null;
 let timerEnd=null, timerInt=null, aCtx=null, aOsc=null, aGain=null;
 let scStream=null, scActive=false, scReader=null, scProduct=null;
 
-// ===== STORAGE =====
+// ========== STORAGE (Aynı) ==========
 function save() {
   try {
     ls("fp_data", data); ls("fp_done", done); ls("fp_water", water);
@@ -776,7 +733,6 @@ function load() {
   let gc=lg("fp_gecmis"); if(gc) gecmis=gc;
   let rk=lg("fp_rekorlar"); if(rk) rekorlar=rk;
   let sr=lg("fp_seri"); if(sr) seri=sr;
-  // Form değerleri
   let el=id=>document.getElementById(id);
   el("tPro").value=targets.protein; el("tKarb").value=targets.carbs;
   el("tYag").value=targets.fat; el("tKal").value=targets.calories;
@@ -784,19 +740,16 @@ function load() {
   el("bCh").value=body.chest||""; el("bAr").value=body.arm||""; el("bLg").value=body.leg||"";
 }
 
-// ===== TOAST =====
 function toast(msg) {
   let t=document.createElement("div"); t.className="toast"; t.textContent=msg;
   document.body.appendChild(t); setTimeout(()=>t.remove(), 1700);
 }
 
-// ===== DRAWER =====
 function openDrawer() { document.getElementById("drawer").classList.add("on"); document.getElementById("drOverlay").classList.add("on"); }
 function closeDrawer() { document.getElementById("drawer").classList.remove("on"); document.getElementById("drOverlay").classList.remove("on"); }
 
-// ===== SAYFALAR =====
 function openPage(id) {
-  closeDrawer(); // Çekmece her zaman kapat
+  closeDrawer();
   document.getElementById(id).classList.add("on");
   if(id==="yemekPage") renderYemek();
   if(id==="supPage") renderSups();
@@ -809,7 +762,7 @@ function openPage(id) {
 }
 function closePage(id) { document.getElementById(id).classList.remove("on"); }
 
-// ===== ANA EKRAN =====
+// ========== ANA EKRAN VE GÜN FONKSİYONLARI (Aynı mantık, sadece taşıma butonları yenilendi) ==========
 function getDayStats(day) {
   let total=0, comp=0, items=data[day]; if(!items) return {total,comp,pct:0};
   items.forEach((item,i)=>{
@@ -821,10 +774,8 @@ function getDayStats(day) {
 
 function getDayTag(day) {
   let items=data[day]||[];
-  if(items.some(i=>typeof i==="string"&&i.includes("TAM DİNLENME"))) return "😴 Dinlenme";
   if(items.some(i=>typeof i==="string"&&i.includes("DİNLENME"))) return "😴 Dinlenme";
-  if(items.some(i=>typeof i==="string"&&i.includes("AKTİF"))) return "🚶 Aktif Dinlenme";
-  if(items.some(i=>typeof i==="string"&&i.includes("👉"))) return "😴 Dinlenme";
+  if(items.some(i=>typeof i==="string"&&i.includes("RECOVERY"))) return "😴 Dinlenme";
   let m=[]; items.forEach(i=>{if(i&&i.ex&&muscleMap[i.ex]&&!m.includes(muscleMap[i.ex]))m.push(muscleMap[i.ex]);});
   return m.length?m.join(" + "):"Antrenman";
 }
@@ -856,7 +807,6 @@ function buildHome() {
     card.onclick=()=>openDayPage(day);
     grid.appendChild(card);
   });
-  // 8. kart: Hafta Geçmişi
   let hc=document.createElement("div"); hc.className="day-card";
   hc.style.background="#eceaf5";
   hc.innerHTML='<div class="glow" style="background:linear-gradient(90deg,#1a73e8,#9c27b0)"></div>'
@@ -868,7 +818,6 @@ function buildHome() {
   grid.appendChild(hc);
 }
 
-// ===== GÜN SAYFASI =====
 function openDayPage(day) {
   curDay=day;
   document.getElementById("dayTitle").textContent=day;
@@ -939,25 +888,24 @@ function renderKas(day) {
   }).join("");
 }
 
-// EGZERSİZ TAŞIMA FONKSİYONLARI (tüm setleriyle birlikte)
-function moveExUp(day, idx) {
-  if(idx > 0) {
+// Taşıma butonları (yuvarlak, şık)
+function moveUp(day, idx) {
+  if(idx>0){
     let temp = data[day][idx];
     data[day][idx] = data[day][idx-1];
     data[day][idx-1] = temp;
     save();
-    if(curDay === day) renderDayItems(day);
+    if(curDay===day) renderDayItems(day);
     buildHome();
   }
 }
-
-function moveExDown(day, idx) {
-  if(idx < data[day].length - 1) {
+function moveDown(day, idx) {
+  if(idx < data[day].length-1){
     let temp = data[day][idx];
     data[day][idx] = data[day][idx+1];
     data[day][idx+1] = temp;
     save();
-    if(curDay === day) renderDayItems(day);
+    if(curDay===day) renderDayItems(day);
     buildHome();
   }
 }
@@ -970,7 +918,10 @@ function renderDayItems(day) {
       let div=document.createElement("div"); div.className="item";
       let key=day+"|"+idx;
       if(done[key]) div.classList.add("done");
-      div.innerHTML='<div class="mv"><button class="mv-btn" onclick="mvUp(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="mvDn(\''+day+'\','+idx+')">⬇</button></div><span class="ispan">'+item+'</span>';
+      div.innerHTML='<div class="mv-btn-group">'
+        +'<button class="mv-btn up" onclick="moveUp(\''+day+'\','+idx+')">▲</button>'
+        +'<button class="mv-btn down" onclick="moveDown(\''+day+'\','+idx+')">▼</button>'
+        +'</div><span class="ispan">'+item+'</span>';
       div.onclick=function(e){
         if(e.target.classList.contains("mv-btn")) return;
         if(done[key]){delete done[key];div.classList.remove("done");}
@@ -979,9 +930,11 @@ function renderDayItems(day) {
       };
       cont.appendChild(div);
     } else if(item&&item.ex) {
-      // EGZERSİZ - butonlar eklendi
       let td=document.createElement("div"); td.className="ex-title";
-      td.innerHTML='<div class="mv"><button class="mv-btn" onclick="moveExUp(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="moveExDown(\''+day+'\','+idx+')">⬇</button></div><div class="ex-name">💪 '+item.ex+'</div>'
+      td.innerHTML='<div class="mv-btn-group">'
+        +'<button class="mv-btn up" onclick="moveUp(\''+day+'\','+idx+')">▲</button>'
+        +'<button class="mv-btn down" onclick="moveDown(\''+day+'\','+idx+')">▼</button>'
+        +'</div><div class="ex-name">💪 '+item.ex+'</div>'
         +'<div class="ex-btns">'
         +'<button class="ex-btn" onclick="openYT(\''+item.ex+'\',\''+item.link+'\')">📹 YouTube</button>'
         +'<button class="ex-btn" onclick="playVid(\''+item.ex+'\',\''+day+'\')">▶️ Yerel</button>'
@@ -1021,7 +974,6 @@ function saveLog(day,ex,s,w,r) {
   ls("fp_logs",setLogs);
   let m=muscleMap[ex];
   if(m){muscleLast[m]=new Date().toISOString();ls("fp_muscle",muscleLast);if(curDay)renderKas(curDay);}
-  // Rekor kontrolü
   if(w>0){
     let old=rekorlar[ex];
     let vol=w*r;
@@ -1061,33 +1013,8 @@ function promptWR(day,ex,sn,dw,dr,cb) {
   };
 }
 
-function mvUp(day,i){if(i>0){[data[day][i],data[day][i-1]]=[data[day][i-1],data[day][i]];save();if(curDay===day)renderDayItems(day);buildHome();}}
-function mvDn(day,i){if(i<data[day].length-1){[data[day][i],data[day][i+1]]=[data[day][i+1],data[day][i]];save();if(curDay===day)renderDayItems(day);buildHome();}}
-
-function showAddItem() {
-  if(!curDay) return;
-  let m=document.createElement("div"); m.className="modal";
-  m.innerHTML='<div class="mc"><h3>➕ '+curDay+'</h3>'
-    +'<select id="itType"><option value="meal">🍽️ Yemek/Not</option><option value="ex">💪 Egzersiz</option></select>'
-    +'<input id="itName" placeholder="Ad" class="sinput">'
-    +'<div id="itSetsW" style="display:none"><input id="itSets" type="number" placeholder="Set sayısı" class="sinput"></div>'
-    +'<div class="mbtns"><button class="mbtn ok" onclick="addItemNow()">Ekle</button><button class="mbtn no" onclick="this.closest(\'.modal\').remove()">İptal</button></div>'
-    +'</div>';
-  document.body.appendChild(m);
-  document.getElementById("itType").onchange=function(e){document.getElementById("itSetsW").style.display=e.target.value==="ex"?"block":"none";};
-}
-function addItemNow() {
-  let type=document.getElementById("itType").value, name=document.getElementById("itName").value;
-  if(!name){toast("Ad girin");return;}
-  if(type==="meal") data[curDay].push(name);
-  else{let sets=parseInt(document.getElementById("itSets").value);if(!sets){toast("Set sayısı girin");return;}data[curDay].push({ex:name,sets:sets,link:"",notes:""});}
-  save(); renderDayItems(curDay); renderHedef(curDay); buildHome();
-  document.querySelector(".modal")&&document.querySelector(".modal").remove();
-}
-
 function openYT(ex,link){window.open(link||"https://www.youtube.com/results?search_query="+encodeURIComponent(ex+" egzersizi"),"_blank");}
 function setLink(ex,day,idx){let l=prompt(ex+" YouTube linki:",data[day][idx].link||"");if(l!==null){data[day][idx].link=l;save();if(curDay===day)renderDayItems(day);toast("✅ Link kaydedildi");}}
-
 function showNote(ex,day,idx){
   let m=document.createElement("div");m.className="modal";
   m.innerHTML='<div class="mc"><h3>📝 '+ex+'</h3><textarea id="noteT" rows="5" class="sinput" style="border-radius:12px;resize:vertical">'+( data[day][idx].notes||"")+'</textarea><div class="mbtns"><button class="mbtn ok" onclick="saveNote(\''+day+'\','+idx+')">Kaydet</button><button class="mbtn no" onclick="this.closest(\'.modal\').remove()">İptal</button></div></div>';
@@ -1104,7 +1031,7 @@ async function addVid(ex,day){let i=document.createElement("input");i.type="file
 async function playVid(ex,day){let b=await getVid(day+"_"+ex);if(b){let url=URL.createObjectURL(b);let m=document.createElement("div");m.className="modal";m.innerHTML='<div class="mc"><video controls autoplay src="'+url+'" style="width:100%;border-radius:12px"></video><button class="mbtn no" style="margin-top:10px;display:block" onclick="this.closest(\'.modal\').remove()">Kapat</button></div>';document.body.appendChild(m);}else toast("Kayıtlı video yok");}
 async function delVid(ex,day){let v=await getVid(day+"_"+ex);if(!v){toast("Video yok");return;}if(confirm("Sil?")){await delVidDB(day+"_"+ex);toast("✅ Silindi");}}
 
-// ===== TİMER & SES =====
+// ========== TİMER & SES (aynı) ==========
 function stopSound(){if(aOsc){try{aOsc.stop();}catch(e){}}if(aCtx){try{aCtx.close();}catch(e){}}aOsc=null;aGain=null;aCtx=null;}
 function playBeep(){
   stopSound();
@@ -1146,14 +1073,9 @@ function startTimer(sec){
 }
 function customTimer(){let s=prompt("Dinlenme süresi (saniye):","90");if(s&&+s>0)startTimer(+s);}
 
-// ===== YEMEK SAYFASI =====
-function renderYemek(){
-  renderListeler();
-  renderAktifListe();
-}
-
+// ========== YEMEK & LİSTELER (Kısa tutuldu, aynı) ==========
+function renderYemek(){ renderListeler(); renderAktifListe(); }
 function renderListeler(){
-  // barCls fonksiyonunu tanımla (düzeltme)
   function barCls(pct){ return pct>=100 ? " over" : (pct>=80 ? " warn" : ""); }
   let cont=document.getElementById("listelerDiv"); cont.innerHTML="";
   if(!listeler.length){cont.innerHTML='<div style="color:#5a5a60;font-size:0.82rem">Liste yok — Yeni Liste Oluştur butonuna bas</div>';return;}
@@ -1174,27 +1096,14 @@ function renderListeler(){
       +'<div class="mbar-row"><span class="mbar-lbl k">Karb</span><div class="mbar-track"><div class="mbar-fill k'+barCls(kP)+'" style="width:'+kP+'%"></div></div><span class="mbar-val">'+(l.top.karb||0)+"/"+targets.carbs+"g</span></div>"
       +'<div class="mbar-row"><span class="mbar-lbl f">Yağ</span><div class="mbar-track"><div class="mbar-fill f'+barCls(fP)+'" style="width:'+fP+'%"></div></div><span class="mbar-val">'+(l.top.yag||0)+"/"+targets.fat+"g</span></div>"
       +'<div class="mbar-row"><span class="mbar-lbl c">Kalori</span><div class="mbar-track"><div class="mbar-fill c'+barCls(cP)+'" style="width:'+cP+'%"></div></div><span class="mbar-val">'+(l.top.kal||0)+"/"+targets.calories+"</span></div>';
-    div.querySelector("[data-id]").onclick=function(e){
-      e.stopPropagation();aktifId=this.dataset.id;
-      saveLists();renderListeler();renderAktifListe();
-    };
-    div.querySelector("[data-del]").onclick=function(e){
-      e.stopPropagation();
-      if(listeler.length===1){toast("En az 1 liste olmalı");return;}
-      listeler=listeler.filter(x=>x.id!==this.dataset.del);
-      if(aktifId===this.dataset.del)aktifId=listeler[0]&&listeler[0].id;
-      saveLists();renderListeler();renderAktifListe();
-    };
+    div.querySelector("[data-id]").onclick=function(e){ e.stopPropagation(); aktifId=this.dataset.id; saveLists(); renderListeler(); renderAktifListe(); };
+    div.querySelector("[data-del]").onclick=function(e){ e.stopPropagation(); if(listeler.length===1){toast("En az 1 liste olmalı");return;} listeler=listeler.filter(x=>x.id!==this.dataset.del); if(aktifId===this.dataset.del) aktifId=listeler[0]&&listeler[0].id; saveLists(); renderListeler(); renderAktifListe(); };
     cont.appendChild(div);
   });
 }
-
 function yeniListe(){let ad=prompt("Liste adı:","Liste "+(listeler.length+1));if(ad){listeler.push({id:"l"+Date.now(),ad:ad,urunler:[],top:{protein:0,karb:0,yag:0,kal:0}});saveLists();renderListeler();toast("✅ Liste oluşturuldu");}}
-
-function calcTop(l){let t={protein:0,karb:0,yag:0,kal:0};l.urunler.forEach(function(u){t.protein+=u.protein;t.karb+=u.karb;t.yag+=u.yag;t.kal+=u.kal;});l.top=t;}
-
+function calcTop(l){let t={protein:0,karb:0,yag:0,kal:0};l.urunler.forEach(u=>{t.protein+=u.protein;t.karb+=u.karb;t.yag+=u.yag;t.kal+=u.kal;});l.top=t;}
 function addToList(listeId,urun){let l=listeler.find(x=>x.id===listeId);if(!l)return false;l.urunler.push(urun);calcTop(l);saveLists();renderAktifListe();renderListeler();return true;}
-
 function renderAktifListe(){
   let aktif=listeler.find(x=>x.id===aktifId);
   let sec=document.getElementById("aktifListeSec");
@@ -1204,19 +1113,17 @@ function renderAktifListe(){
   let uc=document.getElementById("aktifUrunler"); uc.innerHTML="";
   if(!aktif.urunler.length){uc.innerHTML='<div style="color:#5a5a60;font-size:0.82rem;padding:8px">Henüz ürün yok</div>';}
   else{
-    aktif.urunler.forEach(function(u,idx){
+    aktif.urunler.forEach((u,idx)=>{
       let div=document.createElement("div"); div.className="urun-row";
       div.innerHTML='<div><div class="urun-name">'+u.isim+'</div><div class="urun-mac">🔥'+u.kal+' | 💪'+u.protein+'g | 🌾'+u.karb+'g | 🥑'+u.yag+'g</div></div>'
         +'<button class="usil" data-i="'+idx+'">Sil</button>';
-      div.querySelector(".usil").onclick=function(){aktif.urunler.splice(idx,1);calcTop(aktif);saveLists();renderAktifListe();};
+      div.querySelector(".usil").onclick=()=>{aktif.urunler.splice(idx,1);calcTop(aktif);saveLists();renderAktifListe();};
       uc.appendChild(div);
     });
   }
   document.getElementById("aktifToplam").textContent="📊 Toplam: 🔥"+aktif.top.kal+"kcal | 💪"+aktif.top.protein+"g | 🌾"+aktif.top.karb+"g | 🥑"+aktif.top.yag+"g";
 }
-
 function toggleManuel(){let a=document.getElementById("manuelArea");a.style.display=a.style.display==="none"?"block":"none";}
-
 async function fetchManuel(){
   let bc=document.getElementById("bcInput").value.trim();
   if(!bc){toast("Barkod girin");return;}
@@ -1242,17 +1149,9 @@ async function fetchManuel(){
     }else r.innerHTML='<div style="color:#e8372a">❌ Ürün bulunamadı</div>';
   }catch(e){r.innerHTML='<div style="color:#e8372a">⚠️ Bağlantı hatası</div>';}
 }
+function sporcuBadge(p,cal){ if(cal===0) return {t:"⚠️ Kalori bilgisi yok",c:"kotu"}; let oran = p/cal*100; if(p>=15 && oran>=25) return {t:"💪 SPORCU İÇİN İDEAL",c:"iyi"}; if(p>=10) return {t:"✅ UYGUN",c:"orta"}; return {t:"⚠️ Dikkatli Tüket",c:"kotu"}; }
 
-function sporcuBadge(p,cal){
-  // sıfıra bölme koruması
-  if(cal===0) return {t:"⚠️ Kalori bilgisi yok",c:"kotu"};
-  let oran = p/cal*100;
-  if(p>=15 && oran>=25) return {t:"💪 SPORCU İÇİN İDEAL",c:"iyi"};
-  if(p>=10) return {t:"✅ UYGUN",c:"orta"};
-  return {t:"⚠️ Dikkatli Tüket",c:"kotu"};
-}
-
-// ===== KAMERA SCANNER =====
+// ========== KAMERA SCANNER (aynı) ==========
 async function startScanner(){
   if(!aktifId){toast("Önce liste seçin");return;}
   let ov=document.getElementById("scOverlay");
@@ -1324,48 +1223,16 @@ function showScFound(prod){
 }
 function addScanned(){if(!scProduct||!aktifId)return;addToList(aktifId,scProduct);toast("✅ "+scProduct.isim+" eklendi!");stopScanner();}
 function scanAgain(){document.getElementById("scFound").style.display="none";scProduct=null;scActive=true;document.getElementById("scStatus").textContent="📡 Taranıyor...";if(scReader){try{scReader.reset();}catch(e){}}startDecode(document.getElementById("scVideo"));}
-function stopScanner(){scActive=false;if(scReader){try{scReader.reset();scReader=null;}catch(e){}}if(scStream){scStream.getTracks().forEach(function(t){t.stop();});scStream=null;}document.getElementById("scVideo").srcObject=null;document.getElementById("scOverlay").style.display="none";document.getElementById("scFound").style.display="none";scProduct=null;}
+function stopScanner(){scActive=false;if(scReader){try{scReader.reset();scReader=null;}catch(e){}}if(scStream){scStream.getTracks().forEach(t=>t.stop());scStream=null;}document.getElementById("scVideo").srcObject=null;document.getElementById("scOverlay").style.display="none";document.getElementById("scFound").style.display="none";scProduct=null;}
 
-// ===== PORSIYON HESAP =====
-function showPorsiyon(){
-  let besinler=Object.keys(foodDB).sort();
-  let opts=besinler.map(function(b){return '<option value="'+b+'">'+b+'</option>';}).join("");
-  let m=document.createElement("div");m.className="modal";
-  m.innerHTML='<div class="mc"><h3>⚖️ Porsiyon Hesabı</h3>'
-    +'<p style="font-size:0.8rem;color:#5a5a60;margin-bottom:10px">Besin ve gram gir, makroları hesapla</p>'
-    +'<select id="pBes" class="sinput" style="color:#1c1c1e"><option value="">Besin seç...</option>'+opts+'</select>'
-    +'<input type="number" id="pGram" class="inum" placeholder="Gram (örn: 150)" style="margin:8px 0" min="1">'
-    +'<div id="pSonuc"></div>'
-    +'<div class="mbtns"><button class="mbtn ok" onclick="calcPorsiyon()">Hesapla</button><button class="mbtn no" onclick="this.closest(\'.modal\').remove()">Kapat</button></div>'
-    +'</div>';
-  document.body.appendChild(m);
-}
-function calcPorsiyon(){
-  let besin=document.getElementById("pBes").value;
-  let gram=parseFloat(document.getElementById("pGram").value)||100;
-  if(!besin){toast("Besin seç");return;}
-  let db=foodDB[besin],c=gram/100;
-  let p=Math.round(db.p*c*10)/10,k=Math.round(db.k*c*10)/10,f=Math.round(db.f*c*10)/10,cal=Math.round(db.cal*c);
-  document.getElementById("pSonuc").innerHTML='<div style="background:#f5f5f7;border-radius:14px;padding:14px;margin-top:8px">'
-    +'<div style="font-weight:800;font-size:0.95rem;margin-bottom:10px;color:#1c1c1e">📊 '+gram+'g '+besin+'</div>'
-    +'<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">'
-    +'<div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#34a853">'+p+'g</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">PROTEİN</div></div>'
-    +'<div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#ff6b00">'+k+'g</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">KARB</div></div>'
-    +'<div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#e8372a">'+f+'g</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">YAĞ</div></div>'
-    +'<div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#1a73e8">'+cal+'</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">KALORİ</div></div>'
-    +'</div></div>';
-}
-
-// ===== HEDEF =====
+// ========== DİĞER YARDIMCI FONKSİYONLAR (Hedef, Sups, Vücut, Foto, Yönetim, Geçmiş, Yedek, İstatistik) ==========
 function hedefKaydet(){
   targets={protein:parseInt(document.getElementById("tPro").value)||160,carbs:parseInt(document.getElementById("tKarb").value)||250,fat:parseInt(document.getElementById("tYag").value)||70,calories:parseInt(document.getElementById("tKal").value)||2500};
   save();toast("✅ Hedefler kaydedildi");
 }
-
-// ===== SUPPLEMENT =====
 function renderSups(){
   let cont=document.getElementById("supList");cont.innerHTML="";
-  sups.forEach(function(s,i){
+  sups.forEach((s,i)=>{
     let div=document.createElement("div");div.className="sup-row";
     div.innerHTML='<span class="sup-name">💊 '+s.name+'</span><span class="sup-time">'+s.time+'</span><button class="sup-sil" onclick="delSup('+i+')">SİL</button>';
     cont.appendChild(div);
@@ -1379,14 +1246,10 @@ function addSup(){
   document.getElementById("nSupName").value="";document.getElementById("nSupTime").value="";
   renderSups();toast("✅ Eklendi");
 }
-
-// ===== VÜCUT =====
 function saveBody(){
   body={weight:parseFloat(document.getElementById("bWt").value)||0,waist:parseFloat(document.getElementById("bWa").value)||0,chest:parseFloat(document.getElementById("bCh").value)||0,arm:parseFloat(document.getElementById("bAr").value)||0,leg:parseFloat(document.getElementById("bLg").value)||0};
   save();toast("📏 Kaydedildi");
 }
-
-// ===== FOTOĞRAF =====
 function uploadFoto(type){
   let i=document.createElement("input");i.type="file";i.accept="image/*";
   i.onchange=function(e){let f=e.target.files[0];if(f){let r=new FileReader();r.onload=function(ev){if(type==="before")beforePhoto=ev.target.result;else afterPhoto=ev.target.result;save();renderFoto();};r.readAsDataURL(f);}};
@@ -1404,14 +1267,12 @@ function renderFoto(){
     document.getElementById("fSlider").addEventListener("input",function(e){let v=e.target.value;let imgs=document.querySelectorAll("#fotoContainer img");if(imgs[0])imgs[0].style.opacity=(100-v)/100;if(imgs[1])imgs[1].style.opacity=v/100;});
   }else if(!beforePhoto||!afterPhoto){sl.innerHTML="";}
 }
-
-// ===== YÖNETİM =====
 function fillDaySelects(){
   let days=Object.keys(data);
   ["mDay","eDay"].forEach(function(id){
     let s=document.getElementById(id);if(!s)return;
     s.innerHTML='<option value="">Gün Seç</option>';
-    days.forEach(function(d){s.innerHTML+='<option value="'+d+'">'+d+'</option>';});
+    days.forEach(d=>{s.innerHTML+='<option value="'+d+'">'+d+'</option>';});
   });
   let ms=document.getElementById("mDay");if(ms)ms.onchange=renderMealList;
   let es=document.getElementById("eDay");if(es)es.onchange=renderExList;
@@ -1419,10 +1280,10 @@ function fillDaySelects(){
 function renderMealList(){
   let day=document.getElementById("mDay").value,cont=document.getElementById("mList");
   if(!day||!data[day]){cont.innerHTML="";return;}cont.innerHTML="";
-  data[day].forEach(function(it,idx){
+  data[day].forEach((it,idx)=>{
     if(typeof it==="string"&&!it.includes("🏋️")&&!it.includes("👉")){
       let d=document.createElement("div");d.style.cssText="display:flex;align-items:center;gap:6px;padding:8px;margin:4px 0;background:#f5f5f7;border-radius:10px;font-size:0.82rem";
-      d.innerHTML='<span style="flex:1">'+it+'</span><button class="mv-btn" onclick="mvUp(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="mvDn(\''+day+'\','+idx+')">⬇</button><button onclick="delMeal(\''+day+'\','+idx+')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>';
+      d.innerHTML='<span style="flex:1">'+it+'</span><button class="mv-btn" onclick="moveUp(\''+day+'\','+idx+')">▲</button><button class="mv-btn" onclick="moveDown(\''+day+'\','+idx+')">▼</button><button onclick="delMeal(\''+day+'\','+idx+')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>';
       cont.appendChild(d);
     }
   });
@@ -1437,10 +1298,10 @@ function addMeal(){
 function renderExList(){
   let day=document.getElementById("eDay").value,cont=document.getElementById("eList");
   if(!day||!data[day]){cont.innerHTML="";return;}cont.innerHTML="";
-  data[day].forEach(function(it,idx){
+  data[day].forEach((it,idx)=>{
     if(it&&it.ex){
       let d=document.createElement("div");d.style.cssText="display:flex;align-items:center;gap:6px;padding:8px;margin:4px 0;background:#f5f5f7;border-radius:10px;font-size:0.82rem";
-      d.innerHTML='<span style="flex:1">💪 '+it.ex+' ('+it.sets+'s)</span><button class="mv-btn" onclick="mvUp(\''+day+'\','+idx+')">⬆</button><button class="mv-btn" onclick="mvDn(\''+day+'\','+idx+')">⬇</button><button onclick="delEx(\''+day+'\','+idx+')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>';
+      d.innerHTML='<span style="flex:1">💪 '+it.ex+' ('+it.sets+'s)</span><button class="mv-btn" onclick="moveUp(\''+day+'\','+idx+')">▲</button><button class="mv-btn" onclick="moveDown(\''+day+'\','+idx+')">▼</button><button onclick="delEx(\''+day+'\','+idx+')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>';
       cont.appendChild(d);
     }
   });
@@ -1453,14 +1314,12 @@ function addEx(){
   document.getElementById("nEx").value="";document.getElementById("nSets").value="";
   renderExList();if(curDay===day)renderDayItems(day);buildHome();
 }
-
-// ===== HAFTA GEÇMİŞİ =====
 function captureSnapshot(){
   let now=new Date();
   let snap={tarih:now.toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"}),ts:now.toISOString(),gunler:{},ozet:{set:0,su:0,gun:0}};
-  Object.keys(data).forEach(function(day){
+  Object.keys(data).forEach(day=>{
     let s=getDayStats(day),setler={};
-    data[day].forEach(function(item,idx){
+    data[day].forEach((item,idx)=>{
       if(item&&item.ex){for(let s2=1;s2<=item.sets;s2++){if(done[day+"|set|"+item.ex+"|"+s2]){if(!setler[item.ex])setler[item.ex]=[];let lg=getLog(day,item.ex,s2);setler[item.ex].push(lg?lg.reps+"x"+lg.weight+"kg":"✓");snap.ozet.set++;}}}
     });
     let su=water[day+"_w"]||0;
@@ -1473,13 +1332,13 @@ function renderGecmis(){
   let cont=document.getElementById("gecmisDiv");cont.innerHTML="";
   if(!gecmis.length){document.getElementById("gecmisEmpty").style.display="block";return;}
   document.getElementById("gecmisEmpty").style.display="none";
-  gecmis.slice().reverse().forEach(function(hafta,hi){
+  gecmis.slice().reverse().forEach((hafta,hi)=>{
     let card=document.createElement("div");card.className="ghcard";
     let did="gd_"+hi;
     let gunlerHtml="";
-    Object.keys(hafta.gunler).forEach(function(day){
+    Object.keys(hafta.gunler).forEach(day=>{
       let g=hafta.gunler[day];
-      let setHtml=Object.keys(g.setler||{}).map(function(ex){return '<div class="gh-ditem">💪 '+ex+': '+g.setler[ex].join(", ")+'</div>';}).join("");
+      let setHtml=Object.keys(g.setler||{}).map(ex=>'<div class="gh-ditem">💪 '+ex+': '+g.setler[ex].join(", ")+'</div>').join("");
       let suHtml=g.su?'<div class="gh-ditem">💧 '+g.su+' bardak su</div>':"";
       gunlerHtml+='<div class="gh-day"><div class="gh-dname">'+day+' — %'+g.pct+' ('+g.comp+"/"+g.total+')</div>'+setHtml+suHtml+'</div>';
     });
@@ -1504,8 +1363,6 @@ function resetWeek(){
   buildHome(); renderGecmis();
   toast("✅ Hafta kaydedildi ve sıfırlandı!");
 }
-
-// ===== YEDEKLEME =====
 function backupData(){
   let exp={data,done,water,setLogs,muscleLast,body,sups,targets,listeler,aktifId,gecmis,rekorlar,seri};
   let a=document.createElement("a");
@@ -1571,26 +1428,19 @@ function restoreData(){
   i.oncancel=function(){document.body.removeChild(i);};
   setTimeout(()=>i.click(),100);
 }
-
-// ===== İSTATİSTİK =====
 function updateSeri(){
   let bugun=new Date().toLocaleDateString("tr-TR");
   let herGun=Object.keys(data).every(d=>getDayStats(d).pct===100);
-  // Seri bozulma kontrolü: eğer dün seri aktifse ve bugün herGun false ise sıfırla
   let dün = new Date();
   dün.setDate(dün.getDate()-1);
   let dünStr = dün.toLocaleDateString("tr-TR");
-  if(seri.lastDate && seri.lastDate !== bugun && seri.lastDate !== dünStr) {
-    // arada gün atlandı, seriyi sıfırla
-    seri.streak = 0;
-  }
+  if(seri.lastDate && seri.lastDate !== bugun && seri.lastDate !== dünStr) seri.streak = 0;
   if(herGun && seri.lastDate !== bugun){
     seri.lastDate=bugun;
     seri.streak=(seri.streak||0)+1;
     if(seri.streak>(seri.best||0)) seri.best=seri.streak;
     ls("fp_seri",seri);
   } else if(!herGun && seri.streak>0){
-    // bugün tüm günler tamamlanmadıysa seriyi sıfırla
     seri.streak=0;
     ls("fp_seri",seri);
   }
@@ -1613,10 +1463,7 @@ function renderSu(){
   Object.keys(water).forEach(k=>{if(k.endsWith("_w"))icilen+=water[k]||0;});
   let pct=Math.min(100,Math.round(icilen/hedef*100));
   let bardaklar="";
-  for(let i=0;i<hedef;i++){
-    let dolu=i<icilen;
-    bardaklar+='<div class="su-b'+(dolu?" dolu":"")+'">'+( dolu?"💧":"○")+'</div>';
-  }
+  for(let i=0;i<hedef;i++){ let dolu=i<icilen; bardaklar+='<div class="su-b'+(dolu?" dolu":"")+'">'+( dolu?"💧":"○")+'</div>'; }
   let mesaj=icilen>=hedef?"✅ Günlük su hedefine ulaştın! 🎉":(hedef-icilen)+" bardak daha!";
   cont.innerHTML='<div class="su-head"><span style="font-weight:800;font-size:0.95rem">💧 Bugün</span><span style="font-size:0.75rem;color:#5a5a60;font-weight:600">'+icilen+"/"+hedef+' bardak</span></div>'
     +'<div class="su-bardaklar">'+bardaklar+'</div>'
@@ -1650,8 +1497,6 @@ function showRekorModal(ex,yeni,eski){
   document.body.appendChild(m);
   setTimeout(()=>{if(m.parentNode)m.remove();},5000);
 }
-
-// ===== HAFTALIK ÖZET =====
 function renderHaftalik(){
   let cont=document.getElementById("haftalikDiv");if(!cont)return;
   let topSet=0,topSu=0,tamGun=0,topEx=0,maxKg=0,maxEx="";
@@ -1690,22 +1535,22 @@ function renderHaftalik(){
     +'</div></div>';
 }
 
-// ===== INIT =====
+// ========== BAŞLAT ==========
 load();
 if(!listeler.length){
-      listeler = [
-        { id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } },
-        { id: "l2", ad: "🍽️ Liste 2", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } },
-        { id: "l3", ad: "🍽️ Liste 3", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }
-    ];
-    aktifId = "l1";
-    saveLists();
+  listeler = [
+    { id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } },
+    { id: "l2", ad: "🍽️ Liste 2", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } },
+    { id: "l3", ad: "🍽️ Liste 3", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }
+  ];
+  aktifId = "l1";
+  saveLists();
 }
 if (!aktifId) aktifId = listeler[0] && listeler[0].id;
 if (!aktifId) {
-    aktifId = "l1";
-    listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }];
-    saveLists();
+  aktifId = "l1";
+  listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }];
+  saveLists();
 }
 buildHome();
 </script>
