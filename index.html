@@ -551,7 +551,7 @@ function parseMacros(text) {
 
 let targets = {protein:160,carbs:250,fat:70,calories:2500};
 
-// ========== YENİ ANTREMAN PROGRAMI (BAŞTAN SONA GÜNCELLENDİ) ==========
+// ========== YENİ ANTREMAN PROGRAMI (BAŞTAN SONA) ==========
 let data = {
   "PAZARTESI": [
     "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia — Whey 1 ölçek",
@@ -660,7 +660,7 @@ let data = {
   ]
 };
 
-// Muscle Map (yeni egzersizler eklendi)
+// Muscle Map (tüm yeni egzersizler için)
 const muscleMap = {
   "Incline Dumbbell Press":"Göğüs","Flat Neutral Dumbbell Press":"Göğüs","Chest Press Machine":"Göğüs","Pec Deck":"Göğüs","Pec Deck Machine":"Göğüs","Machine Chest Press":"Göğüs","Incline Dumbbell Fly":"Göğüs",
   "Rope Pushdown":"Triceps","Overhead Rope Extension":"Triceps","Single Arm Cable Pushdown":"Triceps","Single Arm Cable Extension":"Triceps",
@@ -684,40 +684,52 @@ let scStream=null, scActive=false, scReader=null, scProduct=null;
 // ========== STORAGE ==========
 function save() {
   try {
-    ls("fp_data", data); ls("fp_done", done); ls("fp_water", water);
-    ls("fp_logs", setLogs); ls("fp_muscle", muscleLast); ls("fp_body", body);
-    ls("fp_targets", targets); ls("fp_sups", sups);
-    ls("fp_rekorlar", rekorlar); ls("fp_seri", seri);
+    localStorage.setItem("fp_data", JSON.stringify(data));
+    localStorage.setItem("fp_done", JSON.stringify(done));
+    localStorage.setItem("fp_water", JSON.stringify(water));
+    localStorage.setItem("fp_logs", JSON.stringify(setLogs));
+    localStorage.setItem("fp_muscle", JSON.stringify(muscleLast));
+    localStorage.setItem("fp_body", JSON.stringify(body));
+    localStorage.setItem("fp_targets", JSON.stringify(targets));
+    localStorage.setItem("fp_sups", JSON.stringify(sups));
+    localStorage.setItem("fp_rekorlar", JSON.stringify(rekorlar));
+    localStorage.setItem("fp_seri", JSON.stringify(seri));
     if(beforePhoto) localStorage.setItem("fp_before", beforePhoto);
     if(afterPhoto) localStorage.setItem("fp_after", afterPhoto);
-  } catch(e) {}
+  } catch(e) { console.warn(e); }
 }
-function ls(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-function lg(k) { try { let v=localStorage.getItem(k); return v?JSON.parse(v):null; } catch(e){return null;} }
-function saveLists() { ls("fp_lists", listeler); if(aktifId) localStorage.setItem("fp_aktif", aktifId); }
-function saveGecmis() { ls("fp_gecmis", gecmis); }
+function saveLists() { localStorage.setItem("fp_lists", JSON.stringify(listeler)); if(aktifId) localStorage.setItem("fp_aktif", aktifId); }
+function saveGecmis() { localStorage.setItem("fp_gecmis", JSON.stringify(gecmis)); }
 
 function load() {
-  let d=lg("fp_data"); if(d) data=d;
-  let dn=lg("fp_done"); if(dn) done=dn;
-  let w=lg("fp_water"); if(w) water=w;
-  let sl=lg("fp_logs"); if(sl) setLogs=sl;
-  let ml=lg("fp_muscle"); if(ml) muscleLast=ml;
-  let bm=lg("fp_body"); if(bm) body=bm;
-  let t=lg("fp_targets"); if(t) targets=t;
-  let sp=lg("fp_sups"); if(sp) sups=sp;
-  let bf=localStorage.getItem("fp_before"); if(bf) beforePhoto=bf;
-  let af=localStorage.getItem("fp_after"); if(af) afterPhoto=af;
-  let ll=lg("fp_lists"); if(ll) listeler=ll;
-  let al=localStorage.getItem("fp_aktif"); if(al) aktifId=al;
-  let gc=lg("fp_gecmis"); if(gc) gecmis=gc;
-  let rk=lg("fp_rekorlar"); if(rk) rekorlar=rk;
-  let sr=lg("fp_seri"); if(sr) seri=sr;
-  let el=id=>document.getElementById(id);
-  if(el("tPro")) el("tPro").value=targets.protein; if(el("tKarb")) el("tKarb").value=targets.carbs;
-  if(el("tYag")) el("tYag").value=targets.fat; if(el("tKal")) el("tKal").value=targets.calories;
-  if(el("bWt")) el("bWt").value=body.weight||""; if(el("bWa")) el("bWa").value=body.waist||"";
-  if(el("bCh")) el("bCh").value=body.chest||""; if(el("bAr")) el("bAr").value=body.arm||""; if(el("bLg")) el("bLg").value=body.leg||"";
+  try {
+    let d = localStorage.getItem("fp_data"); if(d) data = JSON.parse(d);
+    let dn = localStorage.getItem("fp_done"); if(dn) done = JSON.parse(dn);
+    let w = localStorage.getItem("fp_water"); if(w) water = JSON.parse(w);
+    let sl = localStorage.getItem("fp_logs"); if(sl) setLogs = JSON.parse(sl);
+    let ml = localStorage.getItem("fp_muscle"); if(ml) muscleLast = JSON.parse(ml);
+    let bm = localStorage.getItem("fp_body"); if(bm) body = JSON.parse(bm);
+    let t = localStorage.getItem("fp_targets"); if(t) targets = JSON.parse(t);
+    let sp = localStorage.getItem("fp_sups"); if(sp) sups = JSON.parse(sp);
+    let bf = localStorage.getItem("fp_before"); if(bf) beforePhoto = bf;
+    let af = localStorage.getItem("fp_after"); if(af) afterPhoto = af;
+    let ll = localStorage.getItem("fp_lists"); if(ll) listeler = JSON.parse(ll);
+    let al = localStorage.getItem("fp_aktif"); if(al) aktifId = al;
+    let gc = localStorage.getItem("fp_gecmis"); if(gc) gecmis = JSON.parse(gc);
+    let rk = localStorage.getItem("fp_rekorlar"); if(rk) rekorlar = JSON.parse(rk);
+    let sr = localStorage.getItem("fp_seri"); if(sr) seri = JSON.parse(sr);
+  } catch(e) { console.warn(e); }
+  
+  // Form elemanlarını doldur
+  let tPro = document.getElementById("tPro"); if(tPro) tPro.value = targets.protein;
+  let tKarb = document.getElementById("tKarb"); if(tKarb) tKarb.value = targets.carbs;
+  let tYag = document.getElementById("tYag"); if(tYag) tYag.value = targets.fat;
+  let tKal = document.getElementById("tKal"); if(tKal) tKal.value = targets.calories;
+  let bWt = document.getElementById("bWt"); if(bWt) bWt.value = body.weight || "";
+  let bWa = document.getElementById("bWa"); if(bWa) bWa.value = body.waist || "";
+  let bCh = document.getElementById("bCh"); if(bCh) bCh.value = body.chest || "";
+  let bAr = document.getElementById("bAr"); if(bAr) bAr.value = body.arm || "";
+  let bLg = document.getElementById("bLg"); if(bLg) bLg.value = body.leg || "";
 }
 
 function toast(msg) {
@@ -871,7 +883,7 @@ function renderKas(day) {
   }).join("");
 }
 
-// ========== TAŞIMA FONKSİYONLARI (YUVARLAK BUTONLAR) ==========
+// ========== TAŞIMA FONKSİYONLARI ==========
 function moveItemUp(day, idx) {
   if(idx>0){
     let temp = data[day][idx];
@@ -955,16 +967,16 @@ function saveLog(day,ex,s,w,r) {
   if(!setLogs[day]) setLogs[day]={};
   if(!setLogs[day][ex]) setLogs[day][ex]={};
   setLogs[day][ex][s]={weight:w,reps:r};
-  ls("fp_logs",setLogs);
+  save();
   let m=muscleMap[ex];
-  if(m){muscleLast[m]=new Date().toISOString();ls("fp_muscle",muscleLast);if(curDay)renderKas(curDay);}
+  if(m){muscleLast[m]=new Date().toISOString();save();if(curDay)renderKas(curDay);}
   if(w>0){
     let old=rekorlar[ex];
     let vol=w*r;
     if(!old||vol>old.weight*old.reps){
       let nw={weight:w,reps:r,date:new Date().toLocaleDateString("tr-TR")};
       rekorlar[ex]=nw;
-      ls("fp_rekorlar",rekorlar);
+      save();
       if(old) showRekorModal(ex,nw,old);
     }
   }
@@ -1208,7 +1220,7 @@ function addScanned(){if(!scProduct||!aktifId)return;addToList(aktifId,scProduct
 function scanAgain(){let foundDiv=document.getElementById("scFound"); if(foundDiv) foundDiv.style.display="none";scProduct=null;scActive=true;let statusSpan=document.getElementById("scStatus"); if(statusSpan) statusSpan.textContent="📡 Taranıyor...";if(scReader){try{scReader.reset();}catch(e){}}startDecode(document.getElementById("scVideo"));}
 function stopScanner(){scActive=false;if(scReader){try{scReader.reset();scReader=null;}catch(e){}}if(scStream){scStream.getTracks().forEach(t=>t.stop());scStream=null;}let vid=document.getElementById("scVideo");if(vid)vid.srcObject=null;let ov=document.getElementById("scOverlay");if(ov)ov.style.display="none";let foundDiv=document.getElementById("scFound");if(foundDiv)foundDiv.style.display="none";scProduct=null;}
 
-// ========== DİĞER FONKSİYONLAR (Hedef, Sups, Vücut, Foto, Yönetim, Geçmiş, Yedek, İstatistik) ==========
+// ========== DİĞER FONKSİYONLAR ==========
 function hedefKaydet(){
   targets={protein:parseInt(document.getElementById("tPro")?.value)||160,carbs:parseInt(document.getElementById("tKarb")?.value)||250,fat:parseInt(document.getElementById("tYag")?.value)||70,calories:parseInt(document.getElementById("tKal")?.value)||2500};
   save();toast("✅ Hedefler kaydedildi");
@@ -1426,10 +1438,10 @@ function updateSeri(){
     seri.lastDate=bugun;
     seri.streak=(seri.streak||0)+1;
     if(seri.streak>(seri.best||0)) seri.best=seri.streak;
-    ls("fp_seri",seri);
+    save();
   } else if(!herGun && seri.streak>0){
     seri.streak=0;
-    ls("fp_seri",seri);
+    save();
   }
 }
 function renderIstat(){renderSeri();renderSu();renderRekorlar();}
