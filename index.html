@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Fitness Pro - Yeni Program</title>
+<title>Fitness Pro</title>
 <style>
-  /* ----- KOPYALA BUTONU ----- */
+  /* ----- KOPYALA BUTONU (sadece eklendi, diğer stiller aynı) ----- */
   .copy-btn-container {
     position: fixed;
     top: 10px;
@@ -26,7 +26,7 @@
   }
   .copy-btn:active { transform: scale(0.96); background: #0d5bbf; }
   
-  /* ORİJİNAL STİLLER (tıpkı ilk çalışan kodun) */
+  /* ORİJİNAL STİLLER (aynı) */
   :root{
     --bg:#b8b0a4;--card:#fff;--card2:#f5f5f7;--card3:#e5e5ea;
     --green:#34a853;--blue:#1a73e8;--yellow:#f5a623;--orange:#ff6b00;
@@ -109,6 +109,8 @@
   .ex-name{font-weight:800;color:#1a73e8;font-size:0.92rem;flex:1;}
   .ex-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-left:auto;width:auto;}
   .ex-btn{background:#f5f5f7;border:1px solid rgba(0,0,0,0.08);padding:7px 4px;border-radius:16px;color:#c07800;font-size:0.62rem;font-weight:700;cursor:pointer;}
+  
+  /* YENİ YUVARLAK TAŞIMA BUTONLARI (sadece bu kısım eklendi) */
   .mv-btn-group{display:flex;gap:6px;}
   .mv-btn{
     background:#fff;
@@ -127,6 +129,7 @@
     box-shadow:0 1px 3px rgba(0,0,0,0.1);
   }
   .mv-btn:active{transform:scale(0.92);background:#f0f0f5;}
+  
   .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;}
   .mc{background:#fff;border-radius:var(--r);padding:22px;max-width:450px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.15);}
   .mc h3{font-size:1rem;font-weight:800;margin-bottom:14px;color:#1c1c1e;}
@@ -576,8 +579,8 @@
   }
 
   let targets = {protein:160,carbs:250,fat:70,calories:2500};
-
-  // *** YENİ ANTREMAN PROGRAMI (BAŞTAN SONA GÜNCELLENDİ) ***
+  
+  // *** YENİ ANTREMAN PROGRAMI (SADECE BURASI DEĞİŞTİ) ***
   let data = {
     "PAZARTESI":[
       "08:00 Yulaf 8 kaşık + süt 1 bardak + muz + chia — Whey 1 ölçek",
@@ -686,7 +689,7 @@
     ]
   };
 
-  // MUSCLE MAP (yeni egzersizler için)
+  // Muscle Map (yeni egzersizler için)
   const muscleMap = {
     "Incline Dumbbell Press":"Göğüs","Flat Neutral Dumbbell Press":"Göğüs","Chest Press Machine":"Göğüs","Pec Deck":"Göğüs","Pec Deck Machine":"Göğüs","Machine Chest Press":"Göğüs","Incline Dumbbell Fly":"Göğüs",
     "Rope Pushdown":"Triceps","Overhead Rope Extension":"Triceps","Single Arm Cable Pushdown":"Triceps","Single Arm Cable Extension":"Triceps",
@@ -728,7 +731,9 @@
 
   function load() {
     try {
-      let d = localStorage.getItem("fp_data"); if(d) data = JSON.parse(d);
+      let d = localStorage.getItem("fp_data"); 
+      // NOT: data'yı yüklemeyi KALDIRIYORUM ki yeni program sabit kalsın
+      // if(d) data = JSON.parse(d);   // BU SATIRI KALDIRDIM
       let dn = localStorage.getItem("fp_done"); if(dn) done = JSON.parse(dn);
       let w = localStorage.getItem("fp_water"); if(w) water = JSON.parse(w);
       let sl = localStorage.getItem("fp_logs"); if(sl) setLogs = JSON.parse(sl);
@@ -745,7 +750,6 @@
       let sr = localStorage.getItem("fp_seri"); if(sr) seri = JSON.parse(sr);
     } catch(e) { console.warn(e); }
     
-    // Form elemanlarını doldur
     let el=id=>document.getElementById(id);
     if(el("tPro")) el("tPro").value=targets.protein;
     if(el("tKarb")) el("tKarb").value=targets.carbs;
@@ -876,6 +880,7 @@
     }).join("");
   }
 
+  // YENİ TAŞIMA FONKSİYONLARI (yuvarlak butonlar için)
   function moveItemUp(day, idx) {
     if(idx>0){ let temp = data[day][idx]; data[day][idx] = data[day][idx-1]; data[day][idx-1] = temp; save(); if(curDay===day) renderDayItems(day); buildHome(); }
   }
@@ -1010,7 +1015,7 @@
   }
   function customTimer(){ let s=prompt("Dinlenme süresi (saniye):","90"); if(s&&+s>0) startTimer(+s); }
 
-  // YEMEK LİSTELERİ (KISA)
+  // YEMEK LİSTELERİ (aynen korundu)
   function renderYemek(){ renderListeler(); renderAktifListe(); }
   function renderListeler(){
     function barCls(pct){ return pct>=100?" over":pct>=80?" warn":""; }
@@ -1072,7 +1077,6 @@
   }
   function sporcuBadge(p,cal){ if(cal===0) return {t:"⚠️ Kalori bilgisi yok",c:"kotu"}; let oran = p/cal*100; if(p>=15 && oran>=25) return {t:"💪 SPORCU İÇİN İDEAL",c:"iyi"}; if(p>=10) return {t:"✅ UYGUN",c:"orta"}; return {t:"⚠️ Dikkatli Tüket",c:"kotu"}; }
 
-  // KAMERA SCANNER (KISA)
   async function startScanner(){
     if(!aktifId){ toast("Önce liste seçin"); return; }
     let ov=document.getElementById("scOverlay"); if(!ov) return;
