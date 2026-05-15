@@ -789,45 +789,8 @@ window.addItemNow = function() {
   save(); renderDayItems(curDay); renderHedef(curDay); buildHome();
   document.querySelector(".modal")&&document.querySelector(".modal").remove();
 }
-window.openYT = function(ex, link) {
-  let url = link;
-  if (!url || url === "") {
-    url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(ex + " egzersizi");
-  } else {
-    let videoId = "";
-    if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split("?")[0];
-    } else if (url.includes("youtube.com/watch")) {
-      let u = new URL(url);
-      videoId = u.searchParams.get("v");
-    }
-    if (videoId) {
-      url = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-    }
-  }
-  
-  // Modal oluştur
-  let m = document.createElement("div");
-  m.style.cssText = "position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:9999;";
-  
-  // Kapat butonu
-  let closeBtn = document.createElement("button");
-  closeBtn.textContent = "✕ Kapat";
-  closeBtn.style.cssText = "position:absolute;top:16px;right:16px;z-index:10;background:rgba(232,55,42,0.9);border:none;color:#fff;padding:10px 18px;border-radius:20px;font-weight:700;font-size:0.9rem;cursor:pointer;";
-  closeBtn.onclick = function() { m.remove(); };
-  
-  // Video iframe
-  let iframe = document.createElement("iframe");
-  iframe.src = url;
-  iframe.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;border:none;";
-  iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-  iframe.allowFullscreen = true;
-  
-  m.appendChild(closeBtn);
-  m.appendChild(iframe);
-  document.body.appendChild(m);
-}
 
+window.openYT = function(ex,link){window.open(link||"https://www.youtube.com/results?search_query="+encodeURIComponent(ex+" egzersizi"),"_blank");}
 window.setLink = function(ex,day,idx){let l=prompt(ex+" YouTube linki:",data[day][idx].link||"");if(l!==null){data[day][idx].link=l;save();if(curDay===day)renderDayItems(day);toast("✅ Link kaydedildi");}}
 window.showNote = function(ex,day,idx){
   let m=document.createElement("div");m.className="modal";
