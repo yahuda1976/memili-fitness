@@ -263,7 +263,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .sc-fbtn.kapat{background:rgba(232,55,42,0.2);color:#e8372a;border:1px solid rgba(232,55,42,0.3);}
 .hidden{display:none!important;}
 
-/* Yeni özellik stilleri */
+/* YENİ STİLLER */
 .chrono-bar{display:flex;align-items:center;gap:8px;margin:8px 12px;background:#fff;padding:10px 14px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
 .chrono-bar button{background:#1a73e8;border:none;color:#fff;padding:8px 16px;border-radius:16px;font-weight:700;font-size:0.8rem;cursor:pointer;}
 .chrono-bar .chrono-time{font-family:monospace;font-size:1.2rem;font-weight:700;color:#1c1c1e;margin-left:auto;}
@@ -272,7 +272,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .set-badge.ss{background:#e3f2fd;color:#1565c0;}
 .set-badge.ds{background:#f3e5f5;color:#7b1fa2;}
 
-.reminder-btn{position:fixed;top:100px;right:16px;z-index:1500;background:#fff;border:2px solid #f5a623;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);}
+.reminder-btn{position:fixed;top:10px;right:16px;z-index:1500;background:#fff;border:2px solid #f5a623;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);}
 
 .chart-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);z-index:3100;display:flex;align-items:center;justify-content:center;padding:20px;}
 .chart-mc{background:#fff;border-radius:var(--r);padding:22px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.15);}
@@ -334,23 +334,44 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   <button class="tsnd" onclick="stopSound()">🔇 Sesi Durdur</button>
 </div>
 
-<div class="page" id="yemekPage"><!-- içerik aynı --></div>
-<div class="page" id="hedefPage"><!-- içerik aynı --></div>
-<div class="page" id="vucutPage"><!-- içerik aynı --></div>
-<div class="page" id="fotoPage"><!-- içerik aynı --></div>
-<div class="page" id="supPage"><!-- içerik aynı --></div>
-<div class="page" id="yemekYonPage"><!-- içerik aynı --></div>
-<div class="page" id="egzYonPage"><!-- içerik aynı --></div>
-<div class="page" id="gecmisPage"><!-- içerik aynı --></div>
-<div class="page" id="yedekPage"><!-- içerik aynı --></div>
-<div class="page" id="istatPage"><!-- içerik aynı --></div>
-<div class="page" id="haftalikPage"><!-- içerik aynı --></div>
-<div id="scOverlay" class="sc-overlay" style="display:none"><!-- içerik aynı --></div>
+<div class="page" id="yemekPage"><div class="ph"><button class="pbk" onclick="closePage('yemekPage')">← Geri</button><div class="ptit">🍽️ Yemek & Listeler</div></div><div class="pb"><div class="scard"><h3>📷 Barkod ile Besin Ekle</h3><button class="sbtn g" onclick="startScanner()" style="margin-bottom:8px">📸 KAMERAYLA BARKOD OKU</button><button class="sbtn b" onclick="toggleManuel()" style="margin-bottom:8px">⌨️ Manuel Barkod Gir</button><div id="manuelArea" style="display:none"><input type="text" id="bcInput" placeholder="Barkod numarası" class="sinput" inputmode="numeric"><button class="sbtn b" onclick="fetchManuel()">🔍 Getir</button></div><div id="bcResult"></div></div><div class="scard"><h3>📋 Yemek Listelerim</h3><div id="listelerDiv"></div><button class="sbtn b" onclick="yeniListe()">➕ Yeni Liste Oluştur</button></div><div class="scard" id="aktifListeSec" style="display:none"><h3 id="aktifListeBas">Seçili Liste</h3><div id="listeMacroBar"></div><div id="aktifUrunler"></div><div id="aktifToplam" style="font-size:0.75rem;color:#5a5a60;margin-top:8px"></div></div></div></div>
+
+<div class="page" id="hedefPage"><div class="ph"><button class="pbk" onclick="closePage('hedefPage')">← Geri</button><div class="ptit">🎯 Günlük Hedefler</div></div><div class="pb"><div class="scard"><h3>Makro Hedefleri</h3><label style="color:#34a853;font-size:0.78rem;font-weight:700">Protein (g)</label><input type="number" id="tPro" value="160" class="sinput"><label style="color:#ff6b00;font-size:0.78rem;font-weight:700">Karbonhidrat (g)</label><input type="number" id="tKarb" value="250" class="sinput"><label style="color:#e8372a;font-size:0.78rem;font-weight:700">Yağ (g)</label><input type="number" id="tYag" value="70" class="sinput"><label style="color:#1a73e8;font-size:0.78rem;font-weight:700">Kalori</label><input type="number" id="tKal" value="2500" class="sinput"><button class="sbtn g" onclick="hedefKaydet()">💾 Kaydet</button></div></div></div>
+
+<div class="page" id="vucutPage"><div class="ph"><button class="pbk" onclick="closePage('vucutPage')">← Geri</button><div class="ptit">📏 Vücut Ölçüleri</div></div><div class="pb"><div class="scard"><h3>Ölçümler</h3><div class="mrow"><label>Kilo (kg)</label><input type="number" id="bWt" step="0.1" placeholder="kg" class="sinput" style="margin:0"></div><div class="mrow"><label>Bel (cm)</label><input type="number" id="bWa" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><div class="mrow"><label>Göğüs (cm)</label><input type="number" id="bCh" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><div class="mrow"><label>Kol (cm)</label><input type="number" id="bAr" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><div class="mrow"><label>Bacak (cm)</label><input type="number" id="bLg" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><button class="sbtn g" onclick="saveBody()">💾 Kaydet</button></div></div></div>
+
+<div class="page" id="fotoPage"><div class="ph"><button class="pbk" onclick="closePage('fotoPage')">← Geri</button><div class="ptit">📸 Fotoğraf Takibi</div></div><div class="pb"><div class="scard"><h3>Önce & Sonra</h3><div class="foto-up-row"><button class="foto-up-btn" onclick="uploadFoto('before')">📷 ÖNCE</button><button class="foto-up-btn" onclick="uploadFoto('after')">📷 SONRA</button></div><div class="foto-grid" id="fotoContainer"></div><div id="fotoSliderDiv" style="margin-top:10px"></div></div></div></div>
+
+<div class="page" id="supPage"><div class="ph"><button class="pbk" onclick="closePage('supPage')">← Geri</button><div class="ptit">💊 Supplementler</div></div><div class="pb"><div class="scard"><h3>Takviyelerin</h3><div id="supList"></div><input type="text" id="nSupName" placeholder="Takviye adı" class="sinput"><input type="text" id="nSupTime" placeholder="Zaman (örn: Sabah)" class="sinput"><button class="sbtn g" onclick="addSup()">+ Ekle</button></div></div></div>
+
+<div class="page" id="yemekYonPage"><div class="ph"><button class="pbk" onclick="closePage('yemekYonPage')">← Geri</button><div class="ptit">🍴 Yemek Yönetimi</div></div><div class="pb"><div class="scard"><h3>Gün Seç</h3><select id="mDay" class="sinput" style="color:#1c1c1e"><option value="">Gün Seç</option></select><div id="mList" style="max-height:250px;overflow-y:auto;margin:8px 0"></div><input type="text" id="nMeal" placeholder="Yeni yemek" class="sinput"><button class="sbtn g" onclick="addMeal()">+ Ekle</button></div></div></div>
+
+<div class="page" id="egzYonPage"><div class="ph"><button class="pbk" onclick="closePage('egzYonPage')">← Geri</button><div class="ptit">💪 Egzersiz Yönetimi</div></div><div class="pb"><div class="scard"><h3>Gün Seç</h3><select id="eDay" class="sinput" style="color:#1c1c1e"><option value="">Gün Seç</option></select><div id="eList" style="max-height:250px;overflow-y:auto;margin:8px 0"></div><input type="text" id="nEx" placeholder="Hareket adı" class="sinput"><input type="number" id="nSets" placeholder="Set sayısı" class="sinput"><button class="sbtn g" onclick="addEx()">+ Ekle</button></div></div></div>
+
+<div class="page" id="gecmisPage"><div class="ph"><button class="pbk" onclick="closePage('gecmisPage')">← Geri</button><div class="ptit">📅 Hafta Geçmişi</div></div><div class="pb"><div id="gecmisDiv"></div><div id="gecmisEmpty" style="text-align:center;color:#5a5a60;padding:40px 20px;display:none"><div style="font-size:2rem;margin-bottom:10px">📭</div><div style="font-weight:700">Henüz kayıtlı hafta yok</div><div style="font-size:0.8rem;margin-top:6px">Haftayı sıfırlarken otomatik kaydedilir</div></div><button class="sbtn r" onclick="resetWeek()" style="margin-top:10px">🔄 Bu Haftayı Sıfırla & Kaydet</button></div></div>
+
+<div class="page" id="yedekPage"><div class="ph"><button class="pbk" onclick="closePage('yedekPage')">← Geri</button><div class="ptit">💾 Yedekleme</div></div><div class="pb"><div class="scard"><h3>Veri Yedekleme</h3><p style="font-size:0.8rem;color:#5a5a60;margin-bottom:12px">Antrenman, set, yemek, rekor verilerini yedekle. Fotoğraflar hariç — küçük dosya, her zaman çalışır.</p><button class="sbtn g" onclick="backupData()" style="margin-bottom:8px">💾 Veri Yedeği Al (Önerilen)</button><button class="sbtn b" onclick="backupFull()" style="margin-bottom:8px">📸 Tam Yedek Al (Fotoğraflar Dahil)</button><button class="sbtn r" onclick="restoreData()">📂 Yedek Geri Yükle</button><p style="font-size:0.72rem;color:#5a5a60;margin-top:8px">💡 Eski yedekler de yüklenebilir!</p></div></div></div>
+
+<div class="page" id="istatPage"><div class="ph"><button class="pbk" onclick="closePage('istatPage')">← Geri</button><div class="ptit">🏆 Kişisel Rekorlar</div></div><div class="pb"><div class="scard"><h3>🔥 Seri Takibi</h3><div id="seriDiv"></div></div><div class="scard"><h3>💧 Su Takibi</h3><div id="suDiv"></div></div><div class="scard"><h3>🏆 En İyi Performanslar</h3><div id="rekorDiv"></div></div></div></div>
+
+<div class="page" id="haftalikPage"><div class="ph"><button class="pbk" onclick="closePage('haftalikPage')">← Geri</button><div class="ptit">📊 Haftalık Özet</div></div><div class="pb"><div id="haftalikDiv"></div></div></div>
+
+<div id="scOverlay" class="sc-overlay" style="display:none">
+  <div class="sc-hdr"><span style="color:#fff;font-weight:700;font-size:1rem">📷 Barkod Tara</span><button class="sc-close" onclick="stopScanner()">✕ Kapat</button></div>
+  <video id="scVideo" autoplay playsinline muted></video>
+  <div class="sc-frame"><div class="sc-line"></div></div>
+  <div class="sc-hint">Barkodu çerçeve içine getir</div>
+  <div class="sc-status" id="scStatus">📡 Taranıyor...</div>
+  <div id="scFound" class="sc-found" style="display:none">
+    <div style="font-size:2.5rem;margin-bottom:10px">✅</div><div class="sc-ftit">Ürün Bulundu!</div><div class="sc-fname" id="scFName"></div><div id="scBadge" class="sp-badge"></div>
+    <div class="mac-grid"><div class="mac-box kal"><div class="mval" id="scKal">-</div><div class="mlbl">🔥 KALORİ</div></div><div class="mac-box pro"><div class="mval" id="scPro">-</div><div class="mlbl">💪 PROTEİN</div></div><div class="mac-box kar"><div class="mval" id="scKar">-</div><div class="mlbl">🌾 KARB</div></div><div class="mac-box yag"><div class="mval" id="scYag">-</div><div class="mlbl">🥑 YAĞ</div></div></div>
+    <div class="sc-fbtns"><button class="sc-fbtn ekle" onclick="addScanned()">✅ Listeye Ekle</button><button class="sc-fbtn tekrar" onclick="scanAgain()">🔄 Tekrar Tara</button><button class="sc-fbtn kapat" onclick="stopScanner()">✕ Kapat</button></div>
+  </div>
+</div>
 
 <div id="reminderBtn" class="reminder-btn" onclick="toggleReminder()" style="display:none">🔔</div>
 
 <script>
-// TÜM KOD EKSİKSİZ VE GLOBAL FONKSİYONLARLA
 document.addEventListener('DOMContentLoaded', function() {
 
 const foodDB = {
@@ -562,6 +583,7 @@ function buildHome() {
 
 function openDayPage(day) {
   curDay=day;
+  loadChronoForDay(day);
   document.getElementById("dayTitle").textContent=day;
   document.getElementById("dayPage").classList.add("on");
   renderHedef(day); renderKas(day); renderDayItems(day);
@@ -605,13 +627,11 @@ function renderKas(day) {
 
 function isHeader(text){return /^[🔴🔷🟢🟣🔥🔵]/.test(text);}
 
-// YENİ: KRONOMETRE
-function renderChronoBar() {
-  let cont = document.getElementById("dayItems");
-  let bar = document.createElement("div"); bar.className = "chrono-bar"; bar.id = "chronoBar";
-  bar.innerHTML = '<button id="chronoToggle" onclick="toggleChrono()">▶️ Başlat</button><span class="chrono-time" id="chronoDisplay">00:00:00</span>';
-  cont.prepend(bar);
-  updateChronoDisplay();
+// KRONOMETRE
+function saveChronoForDay(day) { localStorage.setItem("fp_chrono_"+day, chronoElapsed); }
+function loadChronoForDay(day) {
+  let saved = localStorage.getItem("fp_chrono_"+day);
+  chronoElapsed = saved ? parseInt(saved) : 0;
 }
 window.toggleChrono = function() {
   if (!chronoRunning) {
@@ -636,15 +656,11 @@ function updateChronoDisplay() {
   let h = Math.floor(total / 3600000), m = Math.floor((total % 3600000) / 60000), s = Math.floor((total % 60000) / 1000);
   display.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }
-function saveChronoForDay(day) {
-  localStorage.setItem("fp_chrono_" + day, chronoElapsed);
-}
-function loadChronoForDay(day) {
-  let saved = localStorage.getItem("fp_chrono_" + day);
-  chronoElapsed = saved ? parseInt(saved) : 0;
+function getChronoBarHTML() {
+  return `<div class="chrono-bar" id="chronoBar"><button id="chronoToggle" onclick="toggleChrono()">▶️ Başlat</button><span class="chrono-time" id="chronoDisplay">00:00:00</span></div>`;
 }
 
-// YENİ: PROGRESSIVE OVERLOAD
+// PROGRESSIVE OVERLOAD
 function checkProgressiveOverload(ex, day) {
   let bestEver = { weight: 0, reps: 0, vol: 0 };
   for (let d in setLogs) {
@@ -671,7 +687,7 @@ function checkProgressiveOverload(ex, day) {
   }
 }
 
-// YENİ: SET TİPİ
+// SET TİPİ
 window.toggleSetType = function(day, ex, s) {
   let key = day + "|set|" + ex + "|" + s;
   if (!setTypes[key]) setTypes[key] = "ss";
@@ -681,7 +697,7 @@ window.toggleSetType = function(day, ex, s) {
   save();
 }
 
-// YENİ: BİLDİRİM
+// BİLDİRİM
 window.toggleReminder = function() {
   if (!reminderActive) {
     if (Notification.permission === "granted") { reminderActive = true; scheduleReminder(); toast("🔔 Hatırlatıcı aktif! Her gün 09:00'da bildirim alacaksın."); }
@@ -703,7 +719,7 @@ function scheduleReminder() {
   }, timeout);
 }
 
-// YENİ: AĞIRLIK GRAFİĞİ
+// AĞIRLIK GRAFİĞİ
 window.showWeightChart = function(ex) {
   let logs = [];
   for (let day in setLogs) {
@@ -725,12 +741,26 @@ window.showWeightChart = function(ex) {
   modal.onclick = function(e) { if (e.target === modal) modal.remove(); }
 }
 
-// RENDER ITEMS (GÜNCELLENMİŞ)
+// RENDER ITEMS (GÜNCELLENMİŞ, KRONOMETRE DOĞRU YERDE)
 function renderDayItems(day) {
   let cont = document.getElementById("dayItems"); cont.innerHTML = "";
-  renderChronoBar();
   let items = data[day] || [];
+
+  // Kronometre için doğru pozisyonu bul
+  let chronoIndex = -1;
+  for (let i = 0; i < items.length; i++) {
+    if (typeof items[i] === "string" && isHeader(items[i])) { chronoIndex = i; break; }
+    if (items[i] && items[i].ex) { chronoIndex = i; break; }
+  }
+
   items.forEach((item, idx) => {
+    if (idx === chronoIndex) {
+      let chronoDiv = document.createElement("div");
+      chronoDiv.innerHTML = getChronoBarHTML();
+      cont.appendChild(chronoDiv.firstElementChild);
+      updateChronoDisplay();
+    }
+
     if (typeof item === "string") {
       let isH = isHeader(item);
       let div = document.createElement("div"); div.className = "item" + (isH ? " header-item" : "");
@@ -856,61 +886,259 @@ function startTimer(sec){
 }
 window.customTimer = function(){let s=prompt("Dinlenme süresi (saniye):","90");if(s&&+s>0)startTimer(+s);}
 
-// Yemek sayfası vs. (aynı)...
-function renderYemek(){}
-window.yeniListe = function(){}
-window.fetchManuel = async function(){}
-window.toggleManuel = function(){}
-window.startScanner = async function(){}
-window.addScanned = function(){}
-window.scanAgain = function(){}
-window.stopScanner = function(){}
-window.showPorsiyon = function(){}
-window.calcPorsiyon = function(){}
-window.hedefKaydet = function(){}
-function renderSups(){}
-window.delSup = function(i){}
-window.addSup = function(){}
-window.saveBody = function(){}
-window.uploadFoto = function(type){}
-function renderFoto(){}
-function fillDaySelects(){}
-function renderMealList(){}
-window.delMeal = function(day,idx){}
-window.addMeal = function(){}
-function renderExList(){}
-window.delEx = function(day,idx){}
-window.addEx = function(){}
-function captureSnapshot(){}
-function renderGecmis(){}
-window.toggleDetail = function(id){}
-window.resetWeek = function(){}
-window.backupData = function(){}
-window.backupFull = function(){}
-window.restoreData = function(){}
-function updateSeri(){}
-function renderIstat(){}
-function renderSeri(){}
-function renderSu(){}
-function renderRekorlar(){}
-function showRekorModal(ex,yeni,eski){}
-function renderHaftalik(){}
+// YEMEK SAYFASI FONKSİYONLARI
+function renderYemek() {
+  renderListeler();
+  renderAktifListe();
+}
+function renderListeler() {
+  let cont = document.getElementById("listelerDiv"); if(!cont) return; cont.innerHTML = "";
+  if(!listeler.length) { cont.innerHTML = '<div style="color:#5a5a60;font-size:0.82rem">Liste yok — Yeni Liste Oluştur butonuna bas</div>'; return; }
+  listeler.forEach(function(l) {
+    if(!l.top) l.top = {protein:0,karb:0,yag:0,kal:0};
+    let div = document.createElement("div"); div.className = "lcard" + (aktifId===l.id?" aktif":"");
+    let pP=Math.min(100,Math.round((l.top.protein||0)/targets.protein*100)), kP=Math.min(100,Math.round((l.top.karb||0)/targets.carbs*100)), fP=Math.min(100,Math.round((l.top.yag||0)/targets.fat*100)), cP=Math.min(100,Math.round((l.top.kal||0)/targets.calories*100));
+    function barCls(pct){return pct>=100?" over":pct>=80?" warn":"";}
+    div.innerHTML = '<div class="lcard-head"><div><div class="lcard-name">'+l.ad+'</div><div class="lcard-cnt">'+l.urunler.length+' ürün</div></div><div class="lbtns"><button class="lbtn" style="background:'+(aktifId===l.id?"#34a853":"#1a73e8")+';color:#fff" data-id="'+l.id+'">'+(aktifId===l.id?"✅ Seçili":"Seç")+'</button><button class="lbtn" style="background:#fff0f0;color:#e8372a;border:1px solid rgba(232,55,42,0.2)" data-del="'+l.id+'">Sil</button></div></div>'+
+      '<div class="mbar-row"><span class="mbar-lbl p">Protein</span><div class="mbar-track"><div class="mbar-fill p'+barCls(pP)+'" style="width:'+pP+'%"></div></div><span class="mbar-val">'+(l.top.protein||0)+"/"+targets.protein+"g</span></div>"+
+      '<div class="mbar-row"><span class="mbar-lbl k">Karb</span><div class="mbar-track"><div class="mbar-fill k'+barCls(kP)+'" style="width:'+kP+'%"></div></div><span class="mbar-val">'+(l.top.karb||0)+"/"+targets.carbs+"g</span></div>"+
+      '<div class="mbar-row"><span class="mbar-lbl f">Yağ</span><div class="mbar-track"><div class="mbar-fill f'+barCls(fP)+'" style="width:'+fP+'%"></div></div><span class="mbar-val">'+(l.top.yag||0)+"/"+targets.fat+"g</span></div>"+
+      '<div class="mbar-row"><span class="mbar-lbl c">Kalori</span><div class="mbar-track"><div class="mbar-fill c'+barCls(cP)+'" style="width:'+cP+'%"></div></div><span class="mbar-val">'+(l.top.kal||0)+"/"+targets.calories+"</span></div>";
+    div.querySelector("[data-id]").onclick=function(e){e.stopPropagation();aktifId=this.dataset.id;saveLists();renderListeler();renderAktifListe();};
+    div.querySelector("[data-del]").onclick=function(e){e.stopPropagation();if(listeler.length===1){toast("En az 1 liste olmalı");return;}listeler=listeler.filter(x=>x.id!==this.dataset.del);if(aktifId===this.dataset.del)aktifId=listeler[0]&&listeler[0].id;saveLists();renderListeler();renderAktifListe();};
+    cont.appendChild(div);
+  });
+}
+window.yeniListe = function() { let ad = prompt("Liste adı:","Liste "+(listeler.length+1)); if(ad) { listeler.push({id:"l"+Date.now(),ad:ad,urunler:[],top:{protein:0,karb:0,yag:0,kal:0}}); saveLists(); renderListeler(); toast("✅ Liste oluşturuldu"); } }
+function calcTop(l) { let t = {protein:0,karb:0,yag:0,kal:0}; l.urunler.forEach(function(u) { t.protein += u.protein; t.karb += u.karb; t.yag += u.yag; t.kal += u.kal; }); l.top = t; }
+function addToList(listeId, urun) { let l = listeler.find(x => x.id === listeId); if(!l) return false; l.urunler.push(urun); calcTop(l); saveLists(); renderAktifListe(); renderListeler(); return true; }
+function renderAktifListe() {
+  let aktif = listeler.find(x => x.id === aktifId);
+  let sec = document.getElementById("aktifListeSec");
+  if(!aktif) { sec.style.display = "none"; return; }
+  sec.style.display = "block";
+  document.getElementById("aktifListeBas").textContent = "📋 " + aktif.ad;
+  let uc = document.getElementById("aktifUrunler"); uc.innerHTML = "";
+  if(!aktif.urunler.length) { uc.innerHTML = '<div style="color:#5a5a60;font-size:0.82rem;padding:8px">Henüz ürün yok</div>'; }
+  else {
+    aktif.urunler.forEach(function(u, idx) {
+      let div = document.createElement("div"); div.className = "urun-row";
+      div.innerHTML = '<div><div class="urun-name">'+u.isim+'</div><div class="urun-mac">🔥'+u.kal+' | 💪'+u.protein+'g | 🌾'+u.karb+'g | 🥑'+u.yag+'g</div></div><button class="usil" data-i="'+idx+'">Sil</button>';
+      div.querySelector(".usil").onclick = function() { aktif.urunler.splice(idx, 1); calcTop(aktif); saveLists(); renderAktifListe(); };
+      uc.appendChild(div);
+    });
+  }
+  document.getElementById("aktifToplam").textContent = "📊 Toplam: 🔥" + aktif.top.kal + "kcal | 💪" + aktif.top.protein + "g | 🌾" + aktif.top.karb + "g | 🥑" + aktif.top.yag + "g";
+}
+window.toggleManuel = function() { let a = document.getElementById("manuelArea"); a.style.display = a.style.display === "none" ? "block" : "none"; }
+window.fetchManuel = async function() {
+  let bc = document.getElementById("bcInput").value.trim();
+  if(!bc) { toast("Barkod girin"); return; }
+  if(!aktifId) { toast("Önce liste seçin"); return; }
+  let r = document.getElementById("bcResult"); r.innerHTML = '<div style="color:#ff6b00">⏳ Aranıyor...</div>';
+  try {
+    let res = await fetch("https://world.openfoodfacts.org/api/v0/product/" + bc + ".json");
+    let d = await res.json();
+    if(d.status === 1 && d.product) {
+      let p = d.product, n = p.nutriments || {};
+      let prod = { isim: p.product_name || "Ürün", kal: Math.round(n["energy-kcal"] || 0), protein: Math.round((n.proteins || 0) * 10) / 10, karb: Math.round((n.carbohydrates || 0) * 10) / 10, yag: Math.round((n.fat || 0) * 10) / 10 };
+      let badge = sporcuBadge(prod.protein, prod.kal);
+      r.innerHTML = '<div style="background:#f5f5f7;border-radius:14px;padding:14px;margin-top:8px"><strong>📦 '+prod.isim+'</strong><div class="sp-badge '+badge.c+'" style="margin:8px 0">'+badge.t+'</div><div style="font-size:0.8rem;color:#5a5a60">🔥'+prod.kal+' | 💪'+prod.protein+'g | 🌾'+prod.karb+'g | 🥑'+prod.yag+'g</div><div style="display:flex;gap:8px;margin-top:10px"><button class="sbtn g" style="margin:0" id="bcEkle">✅ Ekle</button><button class="sbtn r" style="margin:0" id="bcIptal">❌ İptal</button></div></div>';
+      document.getElementById("bcEkle").onclick = function() { addToList(aktifId, prod); toast("✅ " + prod.isim + " eklendi!"); r.innerHTML = ""; document.getElementById("bcInput").value = ""; };
+      document.getElementById("bcIptal").onclick = function() { r.innerHTML = ""; document.getElementById("bcInput").value = ""; };
+    } else { r.innerHTML = '<div style="color:#e8372a">❌ Ürün bulunamadı</div>'; }
+  } catch(e) { r.innerHTML = '<div style="color:#e8372a">⚠️ Bağlantı hatası</div>'; }
+}
+function sporcuBadge(p, cal) { if(p >= 15 && cal > 0 && p / cal * 100 >= 25) return { t: "💪 SPORCU İÇİN İDEAL", c: "iyi" }; if(p >= 10) return { t: "✅ UYGUN", c: "orta" }; return { t: "⚠️ Dikkatli Tüket", c: "kotu" }; }
+
+window.startScanner = async function() {
+  if(!aktifId) { toast("Önce liste seçin"); return; }
+  let ov = document.getElementById("scOverlay"); document.getElementById("scFound").style.display = "none"; ov.style.display = "flex"; document.getElementById("scStatus").textContent = "📡 Kamera başlatılıyor...";
+  try { scStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }); let v = document.getElementById("scVideo"); v.srcObject = scStream; await v.play(); scActive = true; document.getElementById("scStatus").textContent = "📡 Taranıyor..."; startDecode(v); } catch(err) { ov.style.display = "none"; if(err.name === "NotAllowedError") toast("❌ Kamera izni verilmedi"); else toast("❌ Kamera açılamadı"); }
+}
+function startDecode(video) {
+  if("BarcodeDetector" in window) {
+    let det = new BarcodeDetector({ formats: ["ean_13","ean_8","code_128","upc_a","upc_e","qr_code","code_39"] }); let cv = document.createElement("canvas"), ctx = cv.getContext("2d");
+    function scan() { if(!scActive) return; if(video.readyState === video.HAVE_ENOUGH_DATA) { cv.width = video.videoWidth; cv.height = video.videoHeight; ctx.drawImage(video, 0, 0); det.detect(cv).then(function(bs) { if(bs.length && scActive) { scActive = false; fetchBarcode(bs[0].rawValue); } else if(scActive) requestAnimationFrame(scan); }).catch(function() { if(scActive) requestAnimationFrame(scan); }); } else if(scActive) requestAnimationFrame(scan); }
+    scan();
+  } else {
+    document.getElementById("scStatus").textContent = "📦 Kütüphane yükleniyor..."; let s = document.createElement("script"); s.src = "https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js";
+    s.onload = function() { try { scReader = new ZXing.BrowserMultiFormatReader(); scReader.decodeFromVideoElement(video, function(res) { if(res && scActive) { scActive = false; if(scReader) scReader.reset(); fetchBarcode(res.getText()); } }); document.getElementById("scStatus").textContent = "📡 Taranıyor..."; } catch(e) { document.getElementById("scStatus").textContent = "⚠️ Tarayıcı yüklenemedi"; } };
+    document.head.appendChild(s);
+  }
+}
+async function fetchBarcode(bc) {
+  document.getElementById("scStatus").textContent = "🔍 " + bc + " aranıyor...";
+  try {
+    let res = await fetch("https://world.openfoodfacts.org/api/v0/product/" + bc + ".json"); let d = await res.json();
+    if(d.status === 1 && d.product) {
+      let p = d.product, n = p.nutriments || {}; scProduct = { isim: p.product_name || p.generic_name || "Bilinmeyen Ürün", kal: Math.round(n["energy-kcal"] || n["energy-kcal_100g"] || 0), protein: Math.round((n.proteins || n["proteins_100g"] || 0) * 10) / 10, karb: Math.round((n.carbohydrates || n["carbohydrates_100g"] || 0) * 10) / 10, yag: Math.round((n.fat || n["fat_100g"] || 0) * 10) / 10 };
+      showScFound(scProduct);
+    } else {
+      document.getElementById("scStatus").textContent = "❌ Ürün bulunamadı";
+      setTimeout(function() { if(document.getElementById("scOverlay").style.display !== "none") { scActive = true; document.getElementById("scStatus").textContent = "📡 Taranıyor..."; startDecode(document.getElementById("scVideo")); } }, 2000);
+    }
+  } catch(e) { document.getElementById("scStatus").textContent = "⚠️ Bağlantı hatası"; setTimeout(function() { scActive = true; }, 2000); }
+}
+function showScFound(prod) {
+  document.getElementById("scFName").textContent = prod.isim; document.getElementById("scKal").textContent = prod.kal; document.getElementById("scPro").textContent = prod.protein + "g"; document.getElementById("scKar").textContent = prod.karb + "g"; document.getElementById("scYag").textContent = prod.yag + "g";
+  let b = sporcuBadge(prod.protein, prod.kal); let be = document.getElementById("scBadge"); be.textContent = b.t; be.className = "sp-badge " + b.c;
+  document.getElementById("scFound").style.display = "flex";
+}
+window.addScanned = function() { if(!scProduct || !aktifId) return; addToList(aktifId, scProduct); toast("✅ " + scProduct.isim + " eklendi!"); stopScanner(); }
+window.scanAgain = function() { document.getElementById("scFound").style.display = "none"; scProduct = null; scActive = true; document.getElementById("scStatus").textContent = "📡 Taranıyor..."; if(scReader) { try { scReader.reset(); } catch(e) {} } startDecode(document.getElementById("scVideo")); }
+window.stopScanner = function() { scActive = false; if(scReader) { try { scReader.reset(); scReader = null; } catch(e) {} } if(scStream) { scStream.getTracks().forEach(function(t) { t.stop(); }); scStream = null; } document.getElementById("scVideo").srcObject = null; document.getElementById("scOverlay").style.display = "none"; document.getElementById("scFound").style.display = "none"; scProduct = null; }
+
+window.showPorsiyon = function() {
+  let besinler = Object.keys(foodDB).sort(); let opts = besinler.map(function(b) { return '<option value="'+b+'">'+b+'</option>'; }).join("");
+  let m = document.createElement("div"); m.className = "modal";
+  m.innerHTML = '<div class="mc"><h3>⚖️ Porsiyon Hesabı</h3><p style="font-size:0.8rem;color:#5a5a60;margin-bottom:10px">Besin ve gram gir, makroları hesapla</p><select id="pBes" class="sinput" style="color:#1c1c1e"><option value="">Besin seç...</option>'+opts+'</select><input type="number" id="pGram" class="inum" placeholder="Gram (örn: 150)" style="margin:8px 0" min="1"><div id="pSonuc"></div><div class="mbtns"><button class="mbtn ok" onclick="calcPorsiyon()">Hesapla</button><button class="mbtn no" onclick="this.closest(\'.modal\').remove()">Kapat</button></div></div>';
+  document.body.appendChild(m);
+}
+window.calcPorsiyon = function() {
+  let besin = document.getElementById("pBes").value; let gram = parseFloat(document.getElementById("pGram").value) || 100;
+  if(!besin) { toast("Besin seç"); return; }
+  let db = foodDB[besin], c = gram / 100;
+  let p = Math.round(db.p * c * 10) / 10, k = Math.round(db.k * c * 10) / 10, f = Math.round(db.f * c * 10) / 10, cal = Math.round(db.cal * c);
+  document.getElementById("pSonuc").innerHTML = '<div style="background:#f5f5f7;border-radius:14px;padding:14px;margin-top:8px"><div style="font-weight:800;font-size:0.95rem;margin-bottom:10px;color:#1c1c1e">📊 '+gram+'g '+besin+'</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px"><div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#34a853">'+p+'g</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">PROTEİN</div></div><div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#ff6b00">'+k+'g</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">KARB</div></div><div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#e8372a">'+f+'g</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">YAĞ</div></div><div style="background:#fff;border-radius:12px;padding:10px;text-align:center"><div style="font-size:1.2rem;font-weight:900;color:#1a73e8">'+cal+'</div><div style="font-size:0.65rem;color:#5a5a60;font-weight:600">KALORİ</div></div></div></div>';
+}
+
+window.hedefKaydet = function() { targets = { protein: parseInt(document.getElementById("tPro").value) || 160, carbs: parseInt(document.getElementById("tKarb").value) || 250, fat: parseInt(document.getElementById("tYag").value) || 70, calories: parseInt(document.getElementById("tKal").value) || 2500 }; save(); toast("✅ Hedefler kaydedildi"); }
+
+function renderSups() { let cont = document.getElementById("supList"); if(!cont) return; cont.innerHTML = ""; sups.forEach(function(s, i) { let div = document.createElement("div"); div.className = "sup-row"; div.innerHTML = '<span class="sup-name">💊 ' + s.name + '</span><span class="sup-time">' + s.time + '</span><button class="sup-sil" onclick="delSup(' + i + ')">SİL</button>'; cont.appendChild(div); }); }
+window.delSup = function(i) { if(confirm("Sil?")) { sups.splice(i, 1); save(); renderSups(); } }
+window.addSup = function() { let n = document.getElementById("nSupName").value.trim(), t = document.getElementById("nSupTime").value.trim(); if(!n || !t) { toast("Eksik bilgi"); return; } sups.push({ name: n, time: t }); save(); document.getElementById("nSupName").value = ""; document.getElementById("nSupTime").value = ""; renderSups(); toast("✅ Eklendi"); }
+
+window.saveBody = function() { body = { weight: parseFloat(document.getElementById("bWt").value) || 0, waist: parseFloat(document.getElementById("bWa").value) || 0, chest: parseFloat(document.getElementById("bCh").value) || 0, arm: parseFloat(document.getElementById("bAr").value) || 0, leg: parseFloat(document.getElementById("bLg").value) || 0 }; save(); toast("📏 Kaydedildi"); }
+
+window.uploadFoto = function(type) { let i = document.createElement("input"); i.type = "file"; i.accept = "image/*"; i.onchange = function(e) { let f = e.target.files[0]; if(f) { let r = new FileReader(); r.onload = function(ev) { if(type === "before") beforePhoto = ev.target.result; else afterPhoto = ev.target.result; save(); renderFoto(); }; r.readAsDataURL(f); } }; i.click(); }
+function renderFoto() {
+  let bImg = beforePhoto ? '<img src="' + beforePhoto + '">' : "<small style='color:#5a5a60'>Fotoğraf yok</small>";
+  let aImg = afterPhoto ? '<img src="' + afterPhoto + '">' : "<small style='color:#5a5a60'>Fotoğraf yok</small>";
+  document.getElementById("fotoContainer").innerHTML = '<div class="foto-box"><strong>📸 ÖNCE</strong><br>' + bImg + '<br><button onclick="uploadFoto(\'before\')">Değiştir</button></div><div class="foto-box"><strong>📸 SONRA</strong><br>' + aImg + '<br><button onclick="uploadFoto(\'after\')">Değiştir</button></div>';
+  let sl = document.getElementById("fotoSliderDiv");
+  if(beforePhoto && afterPhoto && !document.getElementById("fSlider")) { sl.innerHTML = '<input type="range" id="fSlider" min="0" max="100" value="50" style="width:100%;accent-color:#34a853"><div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#5a5a60"><span>← ÖNCE</span><span>SONRA →</span></div>'; document.getElementById("fSlider").addEventListener("input", function(e) { let v = e.target.value; let imgs = document.querySelectorAll("#fotoContainer img"); if(imgs[0]) imgs[0].style.opacity = (100 - v) / 100; if(imgs[1]) imgs[1].style.opacity = v / 100; }); } else if(!beforePhoto || !afterPhoto) { sl.innerHTML = ""; }
+}
+
+function fillDaySelects() {
+  let days = Object.keys(data);
+  ["mDay","eDay"].forEach(function(id) { let s = document.getElementById(id); if(!s) return; s.innerHTML = '<option value="">Gün Seç</option>'; days.forEach(function(d) { s.innerHTML += '<option value="' + d + '">' + d + '</option>'; }); });
+  let ms = document.getElementById("mDay"); if(ms) ms.onchange = renderMealList;
+  let es = document.getElementById("eDay"); if(es) es.onchange = renderExList;
+}
+function renderMealList() { let day = document.getElementById("mDay").value, cont = document.getElementById("mList"); if(!day || !data[day]) { cont.innerHTML = ""; return; } cont.innerHTML = ""; data[day].forEach(function(it, idx) { if(typeof it === "string" && !it.includes("🏋️") && !it.includes("👉")) { let d = document.createElement("div"); d.style.cssText = "display:flex;align-items:center;gap:6px;padding:8px;margin:4px 0;background:#f5f5f7;border-radius:10px;font-size:0.82rem"; d.innerHTML = '<span style="flex:1">' + it + '</span><button class="mv-btn" onclick="mvUp(\'' + day + '\',' + idx + ')">▲</button><button class="mv-btn" onclick="mvDn(\'' + day + '\',' + idx + ')">▼</button><button onclick="delMeal(\'' + day + '\',' + idx + ')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>'; cont.appendChild(d); } }); }
+window.delMeal = function(day, idx) { if(confirm("Sil?")) { data[day].splice(idx, 1); save(); renderMealList(); if(curDay === day) { renderDayItems(day); renderHedef(day); } buildHome(); } }
+window.addMeal = function() { let day = document.getElementById("mDay").value, name = document.getElementById("nMeal").value; if(!day || !name) { toast("Gün ve yemek girin"); return; } data[day].push(name); save(); document.getElementById("nMeal").value = ""; renderMealList(); if(curDay === day) { renderDayItems(day); renderHedef(day); } buildHome(); }
+function renderExList() { let day = document.getElementById("eDay").value, cont = document.getElementById("eList"); if(!day || !data[day]) { cont.innerHTML = ""; return; } cont.innerHTML = ""; data[day].forEach(function(it, idx) { if(it && it.ex) { let d = document.createElement("div"); d.style.cssText = "display:flex;align-items:center;gap:6px;padding:8px;margin:4px 0;background:#f5f5f7;border-radius:10px;font-size:0.82rem"; d.innerHTML = '<span style="flex:1">💪 ' + it.ex + ' (' + it.sets + 's)</span><button class="mv-btn" onclick="mvUp(\'' + day + '\',' + idx + ')">▲</button><button class="mv-btn" onclick="mvDn(\'' + day + '\',' + idx + ')">▼</button><button onclick="delEx(\'' + day + '\',' + idx + ')" style="background:#fff0f0;border:none;padding:3px 8px;border-radius:8px;color:#e8372a;font-size:0.72rem">Sil</button>'; cont.appendChild(d); } }); }
+window.delEx = function(day, idx) { if(confirm("Sil?")) { data[day].splice(idx, 1); save(); renderExList(); if(curDay === day) renderDayItems(day); buildHome(); } }
+window.addEx = function() { let day = document.getElementById("eDay").value, name = document.getElementById("nEx").value, sets = parseInt(document.getElementById("nSets").value); if(!day || !name || !sets) { toast("Eksik bilgi"); return; } data[day].push({ ex: name, sets: sets, link: "", notes: "" }); save(); document.getElementById("nEx").value = ""; document.getElementById("nSets").value = ""; renderExList(); if(curDay === day) renderDayItems(day); buildHome(); }
+
+function captureSnapshot() {
+  let now = new Date(); let snap = { tarih: now.toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" }), ts: now.toISOString(), gunler: {}, ozet: { set: 0, su: 0, gun: 0 } };
+  Object.keys(data).forEach(function(day) {
+    let s = getDayStats(day), setler = {};
+    data[day].forEach(function(item, idx) {
+      if(item && item.ex) {
+        for(let s2 = 1; s2 <= item.sets; s2++) {
+          if(done[day + "|set|" + item.ex + "|" + s2]) {
+            if(!setler[item.ex]) setler[item.ex] = [];
+            let lg = getLog(day, item.ex, s2); setler[item.ex].push(lg ? lg.reps + "x" + lg.weight + "kg" : "✓");
+            snap.ozet.set++;
+          }
+        }
+      }
+    });
+    let su = water[day + "_w"] || 0;
+    snap.gunler[day] = { pct: s.pct, comp: s.comp, total: s.total, setler: setler, su: su };
+    snap.ozet.su += su; if(s.pct === 100) snap.ozet.gun++;
+  });
+  return snap;
+}
+function renderGecmis() {
+  let cont = document.getElementById("gecmisDiv"); cont.innerHTML = "";
+  if(!gecmis.length) { document.getElementById("gecmisEmpty").style.display = "block"; return; }
+  document.getElementById("gecmisEmpty").style.display = "none";
+  gecmis.slice().reverse().forEach(function(hafta, hi) {
+    let card = document.createElement("div"); card.className = "ghcard"; let did = "gd_" + hi;
+    let gunlerHtml = ""; Object.keys(hafta.gunler).forEach(function(day) { let g = hafta.gunler[day]; let setHtml = Object.keys(g.setler || {}).map(function(ex) { return '<div class="gh-ditem">💪 ' + ex + ': ' + g.setler[ex].join(", ") + '</div>'; }).join(""); let suHtml = g.su ? '<div class="gh-ditem">💧 ' + g.su + ' bardak su</div>' : ""; gunlerHtml += '<div class="gh-day"><div class="gh-dname">' + day + ' — %' + g.pct + ' (' + g.comp + "/" + g.total + ')</div>' + setHtml + suHtml + '</div>'; });
+    card.innerHTML = '<div class="gh-date">📅 ' + hafta.tarih + '</div><div class="gh-stats"><div class="gh-stat"><div class="gh-val">' + hafta.ozet.gun + '/7</div><div class="gh-lbl">Tamamlanan</div></div><div class="gh-stat"><div class="gh-val">' + hafta.ozet.set + '</div><div class="gh-lbl">Toplam Set</div></div><div class="gh-stat"><div class="gh-val">' + hafta.ozet.su + '</div><div class="gh-lbl">Su (bardak)</div></div></div><div class="gh-toggle" onclick="toggleDetail(\'' + did + '\')">▼ Detayları Göster</div><div id="' + did + '" class="gh-detail">' + gunlerHtml + '</div>';
+    cont.appendChild(card);
+  });
+}
+window.toggleDetail = function(id) { let el = document.getElementById(id); if(el) el.classList.toggle("on"); }
+window.resetWeek = function() { if(!confirm("Bu haftayı sıfırla ve geçmişe kaydet?")) return; let snap = captureSnapshot(); gecmis.push(snap); if(gecmis.length > 20) gecmis.shift(); saveGecmis(); done = {}; water = {}; save(); if(curDay) { renderDayItems(curDay); renderHedef(curDay); renderKas(curDay); } buildHome(); renderGecmis(); toast("✅ Hafta kaydedildi ve sıfırlandı!"); }
+
+window.backupData = function() {
+  let exp = { data, done, water, setLogs, muscleLast, body, sups, targets, listeler, aktifId, gecmis, rekorlar, seri, setTypes };
+  let a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(exp)], { type: "application/json" })); a.download = "fitness_veri_" + new Date().toISOString().slice(0, 10) + ".json"; a.click();
+  localStorage.setItem("fp_sonYedek", new Date().toLocaleDateString("tr-TR")); checkYedekUyari(); toast("💾 Veri yedeği alındı!");
+}
+window.backupFull = function() {
+  let exp = { data, done, water, setLogs, muscleLast, body, beforePhoto, afterPhoto, sups, targets, listeler, aktifId, gecmis, rekorlar, seri, setTypes };
+  let a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(exp)], { type: "application/json" })); a.download = "fitness_tam_" + new Date().toISOString().slice(0, 10) + ".json"; a.click(); toast("📸 Tam yedek alındı!");
+}
+window.restoreData = function() {
+  let i = document.createElement("input"); i.type = "file"; i.accept = ".json,application/json,text/plain"; i.style.display = "none"; document.body.appendChild(i);
+  i.onchange = function(e) { let f = e.target.files[0]; if(!f) { document.body.removeChild(i); return; } toast("⏳ Yükleniyor..."); let r = new FileReader();
+    r.onload = function(ev) { try { let imp = JSON.parse(ev.target.result); if(imp.data) data = imp.data; if(imp.done) done = imp.done; if(imp.water) water = imp.water; if(imp.setLogs) setLogs = imp.setLogs; if(imp.muscleLast) muscleLast = imp.muscleLast; if(imp.body) body = imp.body; if(imp.beforePhoto) beforePhoto = imp.beforePhoto; if(imp.afterPhoto) afterPhoto = imp.afterPhoto; if(imp.sups) sups = imp.sups; if(imp.targets) targets = imp.targets; if(imp.listeler) listeler = imp.listeler; if(imp.aktifId) aktifId = imp.aktifId; if(imp.gecmis) gecmis = imp.gecmis; if(imp.rekorlar) rekorlar = imp.rekorlar; if(imp.seri) seri = imp.seri; if(imp.setTypes) setTypes = imp.setTypes; save(); saveLists(); saveGecmis(); document.body.removeChild(i); toast("✅ Veriler yüklendi!"); setTimeout(function() { location.reload(); }, 800); } catch(err) { document.body.removeChild(i); alert("Hata: " + err.message); } };
+    r.onerror = function() { document.body.removeChild(i); alert("Dosya okunamadı!"); }; r.readAsText(f, "UTF-8"); };
+  i.oncancel = function() { document.body.removeChild(i); }; setTimeout(function() { i.click(); }, 100);
+}
+
+function updateSeri() {
+  let bugun = new Date().toLocaleDateString("tr-TR");
+  let herGun = Object.keys(data).some(function(d) { return getDayStats(d).pct === 100; });
+  if(herGun && seri.lastDate !== bugun) { seri.lastDate = bugun; seri.streak = (seri.streak || 0) + 1; if(seri.streak > (seri.best || 0)) seri.best = seri.streak; ls("fp_seri", seri); }
+}
+function renderIstat() { renderSeri(); renderSu(); renderRekorlar(); }
+function renderSeri() {
+  let cont = document.getElementById("seriDiv"); if(!cont) return;
+  let streak = seri.streak || 0, best = seri.best || 0;
+  let tam = Object.keys(data).filter(function(d) { return getDayStats(d).pct === 100; }).length;
+  cont.innerHTML = '<div class="seri-grid"><div class="seri-box a"><div class="seri-val">' + streak + '🔥</div><div class="seri-lbl">Mevcut Seri</div></div><div class="seri-box b"><div class="seri-val">' + best + '⭐</div><div class="seri-lbl">En İyi Seri</div></div><div class="seri-box c"><div class="seri-val">' + tam + '/7</div><div class="seri-lbl">Bu Hafta</div></div></div>';
+}
+function renderSu() {
+  let cont = document.getElementById("suDiv"); if(!cont) return;
+  let hedef = 12, icilen = 0; Object.keys(water).forEach(function(k) { if(k.endsWith("_w")) icilen += water[k] || 0; });
+  let pct = Math.min(100, Math.round(icilen / hedef * 100));
+  let bardaklar = ""; for(let i = 0; i < hedef; i++) { bardaklar += '<div class="su-b' + (i < icilen ? " dolu" : "") + '">' + (i < icilen ? "💧" : "○") + '</div>'; }
+  cont.innerHTML = '<div class="su-head"><span style="font-weight:800;font-size:0.95rem">💧 Bugün</span><span style="font-size:0.75rem;color:#5a5a60;font-weight:600">' + icilen + "/" + hedef + ' bardak</span></div><div class="su-bardaklar">' + bardaklar + '</div><div class="su-bar"><div class="su-fill" style="width:' + pct + '%"></div></div><div style="font-size:0.82rem;color:#1a73e8;font-weight:700;text-align:center">' + (icilen >= hedef ? "✅ Günlük su hedefine ulaştın! 🎉" : (hedef - icilen) + " bardak daha!") + '</div>';
+}
+function renderRekorlar() {
+  let cont = document.getElementById("rekorDiv"); if(!cont) return;
+  let keys = Object.keys(rekorlar);
+  if(!keys.length) { cont.innerHTML = '<div style="color:#5a5a60;font-size:0.85rem;text-align:center;padding:16px">Henüz rekor yok.<br>Set kaydetmeye başla! 💪</div>'; return; }
+  let sorted = keys.sort(function(a, b) { return (rekorlar[b].weight * rekorlar[b].reps) - (rekorlar[a].weight * rekorlar[a].reps); });
+  cont.innerHTML = sorted.map(function(ex, i) { let rk = rekorlar[ex]; let medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "💪"; return '<div class="rk-row' + (i < 3 ? " top" : "") + '"><span style="font-size:1.2rem">' + medal + '</span><div class="rk-ex"><div class="rk-exn">' + ex + '</div><div class="rk-exd">' + rk.date + '</div></div><div class="rk-val">' + rk.reps + "x" + rk.weight + 'kg</div></div>'; }).join("");
+}
+function showRekorModal(ex, yeni, eski) {
+  let m = document.createElement("div"); m.className = "rk-modal";
+  m.innerHTML = '<div class="rk-mc"><div class="rk-emoji">🏆</div><div class="rk-tit">YENİ KİŞİSEL REKOR!</div><div class="rk-det">💪 ' + ex + '</div><div class="rk-det" style="font-size:1.3rem;color:#e8372a;margin:8px 0">' + yeni.reps + "x" + yeni.weight + 'kg</div><div class="rk-old">Önceki: ' + eski.reps + "x" + eski.weight + 'kg</div><button class="rk-close" onclick="this.closest(\'.rk-modal\').remove()">🎉 Harika!</button></div>';
+  document.body.appendChild(m); setTimeout(function() { if(m.parentNode) m.remove(); }, 5000);
+}
+function renderHaftalik() {
+  let cont = document.getElementById("haftalikDiv"); if(!cont) return;
+  let topSet = 0, topSu = 0, tamGun = 0, topEx = 0, maxKg = 0, maxEx = "";
+  Object.keys(data).forEach(function(day) {
+    let s = getDayStats(day); if(s.pct === 100) tamGun++; topSu += (water[day + "_w"] || 0);
+    data[day].forEach(function(item) { if(item && item.ex) { topEx++; for(let s2 = 1; s2 <= item.sets; s2++) { if(done[day + "|set|" + item.ex + "|" + s2]) topSet++; } } });
+  });
+  Object.keys(setLogs).forEach(function(day) { Object.keys(setLogs[day] || {}).forEach(function(ex) { Object.values(setLogs[day][ex] || {}).forEach(function(lg) { if(lg.weight > maxKg) { maxKg = lg.weight; maxEx = ex; } }); }); });
+  let maxHtml = maxEx ? '<div style="text-align:center;margin-top:12px;font-size:0.82rem;color:#5a5a60">💪 En ağır: <strong style="color:#e8372a">' + maxEx + ' — ' + maxKg + 'kg</strong></div>' : "";
+  let gunHtml = Object.keys(data).map(function(day) { let s = getDayStats(day); return '<div class="oz-gun"><div class="oz-gname">' + day + '</div><div class="oz-gbar"><div class="oz-gfill" style="width:' + s.pct + '%"></div></div><div class="oz-gpct">' + s.pct + '%</div></div>'; }).join("");
+  let streak = seri.streak || 0; let seriEmoji = streak >= 7 ? "🔥🔥🔥" : streak >= 3 ? "🔥🔥" : "🔥"; let motiv = tamGun === 7 ? "🎉 Mükemmel hafta!" : tamGun >= 5 ? "💪 Harika gidiyorsun!" : tamGun >= 3 ? "👍 İyi iş, devam et!" : "💡 Hadi biraz daha!";
+  cont.innerHTML = '<div class="oz-card"><div class="oz-title">📊 Bu Hafta Özeti</div><div class="oz-grid"><div class="oz-stat"><div class="oz-val">' + tamGun + '/7</div><div class="oz-lbl">Tamamlanan Gün</div></div><div class="oz-stat"><div class="oz-val">' + topSet + '</div><div class="oz-lbl">Toplam Set</div></div><div class="oz-stat"><div class="oz-val">' + topSu + '</div><div class="oz-lbl">Su (bardak)</div></div><div class="oz-stat"><div class="oz-val">' + topEx + '</div><div class="oz-lbl">Egzersiz Çeşidi</div></div></div>' + maxHtml + '</div><div class="oz-card"><div class="oz-title">📅 Günlük İlerleme</div>' + gunHtml + '</div><div class="oz-card"><div class="oz-title">🏆 Seri & Motivasyon</div><div style="text-align:center;padding:8px"><div style="font-size:2.5rem;margin-bottom:8px">' + seriEmoji + '</div><div style="font-size:1.1rem;font-weight:800;color:#f5a623">' + streak + ' Günlük Seri</div><div style="font-size:0.8rem;color:#5a5a60;margin-top:4px">En iyi: ' + (seri.best || 0) + ' gün</div><div style="margin-top:12px;font-size:0.85rem;color:#1c1c1e;font-weight:600">' + motiv + '</div></div></div>';
+}
 
 // INIT
 load();
-if(!listeler.length){listeler=[{id:"l1",ad:"🍽️ Liste 1",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}},{id:"l2",ad:"🍽️ Liste 2",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}},{id:"l3",ad:"🍽️ Liste 3",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}}];aktifId="l1";saveLists();}
-if(!aktifId)aktifId=listeler[0]&&listeler[0].id;
-if(!aktifId){aktifId="l1";listeler=[{id:"l1",ad:"🍽️ Liste 1",urunler:[],top:{protein:0,karb:0,yag:0,kal:0}}];saveLists();}
+if(!listeler.length) { listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }, { id: "l2", ad: "🍽️ Liste 2", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }, { id: "l3", ad: "🍽️ Liste 3", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }]; aktifId = "l1"; saveLists(); }
+if(!aktifId) aktifId = listeler[0] && listeler[0].id;
+if(!aktifId) { aktifId = "l1"; listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }]; saveLists(); }
 buildHome();
 
 document.getElementById("reminderBtn").style.display = "block";
-if (Notification.permission === "granted") {
-  reminderActive = true;
-  document.getElementById("reminderBtn").textContent = "🔔";
-  scheduleReminder();
-} else {
-  document.getElementById("reminderBtn").textContent = "🔕";
-}
+if (Notification.permission === "granted") { reminderActive = true; document.getElementById("reminderBtn").textContent = "🔔"; scheduleReminder(); } else { document.getElementById("reminderBtn").textContent = "🔕"; }
 
 });
 </script>
