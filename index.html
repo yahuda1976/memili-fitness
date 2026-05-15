@@ -99,8 +99,8 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .header-item .ispan{font-size:1rem;font-weight:900;color:#e8372a;letter-spacing:0.5px;}
 
 .ex-block{background:#fff;border-radius:18px;margin:4px 12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.06);border:1.5px solid rgba(26,115,232,0.15);flex:1;}
-.ex-header{background:linear-gradient(135deg,#dce8f8,#e8f0fe);padding:14px 14px 10px;border-bottom:1px solid rgba(26,115,232,0.1);}
-.ex-name{font-weight:800;color:#1a73e8;font-size:0.95rem;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.ex-header{background:linear-gradient(135deg,#fff8e1,#ffecb3);padding:14px 14px 10px;border-bottom:1px solid rgba(230,180,20,0.2);}
+.ex-name{font-weight:800;color:#e65100;font-size:0.95rem;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .ex-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
 .ex-btn{background:#f5f5f7;border:1px solid rgba(0,0,0,0.08);padding:7px 4px;border-radius:14px;color:#c07800;font-size:0.62rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
 .ex-btn:active{background:#e8e8ec;transform:scale(0.96);}
@@ -268,12 +268,6 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .chrono-bar button{background:#1a73e8;border:none;color:#fff;padding:8px 16px;border-radius:16px;font-weight:700;font-size:0.8rem;cursor:pointer;}
 .chrono-bar .chrono-time{font-family:monospace;font-size:1.2rem;font-weight:700;color:#1c1c1e;margin-left:auto;}
 
-.set-badge{font-size:0.65rem;font-weight:800;padding:2px 8px;border-radius:10px;margin-left:4px;background:#eee;color:#666;cursor:pointer;transition:all 0.2s;}
-.set-badge.ss{background:#e3f2fd;color:#1565c0;}
-.set-badge.ds{background:#f3e5f5;color:#7b1fa2;}
-
-.reminder-btn{position:fixed;top:10px;right:16px;z-index:1500;background:#fff;border:2px solid #f5a623;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.15);}
-
 .chart-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);z-index:3100;display:flex;align-items:center;justify-content:center;padding:20px;}
 .chart-mc{background:#fff;border-radius:var(--r);padding:22px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.15);}
 .chart-mc h3{font-size:1rem;font-weight:800;margin-bottom:14px;color:#1c1c1e;}
@@ -334,26 +328,17 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
   <button class="tsnd" onclick="stopSound()">🔇 Sesi Durdur</button>
 </div>
 
+<!-- TÜM SAYFALAR EKSİKSİZ BURADA -->
 <div class="page" id="yemekPage"><div class="ph"><button class="pbk" onclick="closePage('yemekPage')">← Geri</button><div class="ptit">🍽️ Yemek & Listeler</div></div><div class="pb"><div class="scard"><h3>📷 Barkod ile Besin Ekle</h3><button class="sbtn g" onclick="startScanner()" style="margin-bottom:8px">📸 KAMERAYLA BARKOD OKU</button><button class="sbtn b" onclick="toggleManuel()" style="margin-bottom:8px">⌨️ Manuel Barkod Gir</button><div id="manuelArea" style="display:none"><input type="text" id="bcInput" placeholder="Barkod numarası" class="sinput" inputmode="numeric"><button class="sbtn b" onclick="fetchManuel()">🔍 Getir</button></div><div id="bcResult"></div></div><div class="scard"><h3>📋 Yemek Listelerim</h3><div id="listelerDiv"></div><button class="sbtn b" onclick="yeniListe()">➕ Yeni Liste Oluştur</button></div><div class="scard" id="aktifListeSec" style="display:none"><h3 id="aktifListeBas">Seçili Liste</h3><div id="listeMacroBar"></div><div id="aktifUrunler"></div><div id="aktifToplam" style="font-size:0.75rem;color:#5a5a60;margin-top:8px"></div></div></div></div>
-
 <div class="page" id="hedefPage"><div class="ph"><button class="pbk" onclick="closePage('hedefPage')">← Geri</button><div class="ptit">🎯 Günlük Hedefler</div></div><div class="pb"><div class="scard"><h3>Makro Hedefleri</h3><label style="color:#34a853;font-size:0.78rem;font-weight:700">Protein (g)</label><input type="number" id="tPro" value="160" class="sinput"><label style="color:#ff6b00;font-size:0.78rem;font-weight:700">Karbonhidrat (g)</label><input type="number" id="tKarb" value="250" class="sinput"><label style="color:#e8372a;font-size:0.78rem;font-weight:700">Yağ (g)</label><input type="number" id="tYag" value="70" class="sinput"><label style="color:#1a73e8;font-size:0.78rem;font-weight:700">Kalori</label><input type="number" id="tKal" value="2500" class="sinput"><button class="sbtn g" onclick="hedefKaydet()">💾 Kaydet</button></div></div></div>
-
 <div class="page" id="vucutPage"><div class="ph"><button class="pbk" onclick="closePage('vucutPage')">← Geri</button><div class="ptit">📏 Vücut Ölçüleri</div></div><div class="pb"><div class="scard"><h3>Ölçümler</h3><div class="mrow"><label>Kilo (kg)</label><input type="number" id="bWt" step="0.1" placeholder="kg" class="sinput" style="margin:0"></div><div class="mrow"><label>Bel (cm)</label><input type="number" id="bWa" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><div class="mrow"><label>Göğüs (cm)</label><input type="number" id="bCh" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><div class="mrow"><label>Kol (cm)</label><input type="number" id="bAr" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><div class="mrow"><label>Bacak (cm)</label><input type="number" id="bLg" step="0.5" placeholder="cm" class="sinput" style="margin:0"></div><button class="sbtn g" onclick="saveBody()">💾 Kaydet</button></div></div></div>
-
 <div class="page" id="fotoPage"><div class="ph"><button class="pbk" onclick="closePage('fotoPage')">← Geri</button><div class="ptit">📸 Fotoğraf Takibi</div></div><div class="pb"><div class="scard"><h3>Önce & Sonra</h3><div class="foto-up-row"><button class="foto-up-btn" onclick="uploadFoto('before')">📷 ÖNCE</button><button class="foto-up-btn" onclick="uploadFoto('after')">📷 SONRA</button></div><div class="foto-grid" id="fotoContainer"></div><div id="fotoSliderDiv" style="margin-top:10px"></div></div></div></div>
-
 <div class="page" id="supPage"><div class="ph"><button class="pbk" onclick="closePage('supPage')">← Geri</button><div class="ptit">💊 Supplementler</div></div><div class="pb"><div class="scard"><h3>Takviyelerin</h3><div id="supList"></div><input type="text" id="nSupName" placeholder="Takviye adı" class="sinput"><input type="text" id="nSupTime" placeholder="Zaman (örn: Sabah)" class="sinput"><button class="sbtn g" onclick="addSup()">+ Ekle</button></div></div></div>
-
 <div class="page" id="yemekYonPage"><div class="ph"><button class="pbk" onclick="closePage('yemekYonPage')">← Geri</button><div class="ptit">🍴 Yemek Yönetimi</div></div><div class="pb"><div class="scard"><h3>Gün Seç</h3><select id="mDay" class="sinput" style="color:#1c1c1e"><option value="">Gün Seç</option></select><div id="mList" style="max-height:250px;overflow-y:auto;margin:8px 0"></div><input type="text" id="nMeal" placeholder="Yeni yemek" class="sinput"><button class="sbtn g" onclick="addMeal()">+ Ekle</button></div></div></div>
-
 <div class="page" id="egzYonPage"><div class="ph"><button class="pbk" onclick="closePage('egzYonPage')">← Geri</button><div class="ptit">💪 Egzersiz Yönetimi</div></div><div class="pb"><div class="scard"><h3>Gün Seç</h3><select id="eDay" class="sinput" style="color:#1c1c1e"><option value="">Gün Seç</option></select><div id="eList" style="max-height:250px;overflow-y:auto;margin:8px 0"></div><input type="text" id="nEx" placeholder="Hareket adı" class="sinput"><input type="number" id="nSets" placeholder="Set sayısı" class="sinput"><button class="sbtn g" onclick="addEx()">+ Ekle</button></div></div></div>
-
 <div class="page" id="gecmisPage"><div class="ph"><button class="pbk" onclick="closePage('gecmisPage')">← Geri</button><div class="ptit">📅 Hafta Geçmişi</div></div><div class="pb"><div id="gecmisDiv"></div><div id="gecmisEmpty" style="text-align:center;color:#5a5a60;padding:40px 20px;display:none"><div style="font-size:2rem;margin-bottom:10px">📭</div><div style="font-weight:700">Henüz kayıtlı hafta yok</div><div style="font-size:0.8rem;margin-top:6px">Haftayı sıfırlarken otomatik kaydedilir</div></div><button class="sbtn r" onclick="resetWeek()" style="margin-top:10px">🔄 Bu Haftayı Sıfırla & Kaydet</button></div></div>
-
 <div class="page" id="yedekPage"><div class="ph"><button class="pbk" onclick="closePage('yedekPage')">← Geri</button><div class="ptit">💾 Yedekleme</div></div><div class="pb"><div class="scard"><h3>Veri Yedekleme</h3><p style="font-size:0.8rem;color:#5a5a60;margin-bottom:12px">Antrenman, set, yemek, rekor verilerini yedekle. Fotoğraflar hariç — küçük dosya, her zaman çalışır.</p><button class="sbtn g" onclick="backupData()" style="margin-bottom:8px">💾 Veri Yedeği Al (Önerilen)</button><button class="sbtn b" onclick="backupFull()" style="margin-bottom:8px">📸 Tam Yedek Al (Fotoğraflar Dahil)</button><button class="sbtn r" onclick="restoreData()">📂 Yedek Geri Yükle</button><p style="font-size:0.72rem;color:#5a5a60;margin-top:8px">💡 Eski yedekler de yüklenebilir!</p></div></div></div>
-
 <div class="page" id="istatPage"><div class="ph"><button class="pbk" onclick="closePage('istatPage')">← Geri</button><div class="ptit">🏆 Kişisel Rekorlar</div></div><div class="pb"><div class="scard"><h3>🔥 Seri Takibi</h3><div id="seriDiv"></div></div><div class="scard"><h3>💧 Su Takibi</h3><div id="suDiv"></div></div><div class="scard"><h3>🏆 En İyi Performanslar</h3><div id="rekorDiv"></div></div></div></div>
-
 <div class="page" id="haftalikPage"><div class="ph"><button class="pbk" onclick="closePage('haftalikPage')">← Geri</button><div class="ptit">📊 Haftalık Özet</div></div><div class="pb"><div id="haftalikDiv"></div></div></div>
 
 <div id="scOverlay" class="sc-overlay" style="display:none">
@@ -368,8 +353,6 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
     <div class="sc-fbtns"><button class="sc-fbtn ekle" onclick="addScanned()">✅ Listeye Ekle</button><button class="sc-fbtn tekrar" onclick="scanAgain()">🔄 Tekrar Tara</button><button class="sc-fbtn kapat" onclick="stopScanner()">✕ Kapat</button></div>
   </div>
 </div>
-
-<div id="reminderBtn" class="reminder-btn" onclick="toggleReminder()" style="display:none">🔔</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -467,8 +450,6 @@ let scStream=null, scActive=false, scReader=null, scProduct=null;
 
 // YENİ
 let chronoRunning = false, chronoStart = null, chronoElapsed = 0, chronoInterval = null;
-let setTypes = {};
-let reminderActive = false;
 
 function save() {
   try {
@@ -476,7 +457,6 @@ function save() {
     ls("fp_logs", setLogs); ls("fp_muscle", muscleLast); ls("fp_body", body);
     ls("fp_targets", targets); ls("fp_sups", sups);
     ls("fp_rekorlar", rekorlar); ls("fp_seri", seri);
-    ls("fp_setTypes", setTypes);
     if(beforePhoto) localStorage.setItem("fp_before", beforePhoto);
     if(afterPhoto) localStorage.setItem("fp_after", afterPhoto);
   } catch(e) {}
@@ -502,7 +482,6 @@ function load() {
   let gc=lg("fp_gecmis"); if(gc) gecmis=gc;
   let rk=lg("fp_rekorlar"); if(rk) rekorlar=rk;
   let sr=lg("fp_seri"); if(sr) seri=sr;
-  let st=lg("fp_setTypes"); if(st) setTypes=st;
   let el=id=>document.getElementById(id);
   if(el("tPro")) el("tPro").value=targets.protein;
   if(el("tKarb")) el("tKarb").value=targets.carbs;
@@ -687,38 +666,6 @@ function checkProgressiveOverload(ex, day) {
   }
 }
 
-// SET TİPİ
-window.toggleSetType = function(day, ex, s) {
-  let key = day + "|set|" + ex + "|" + s;
-  if (!setTypes[key]) setTypes[key] = "ss";
-  else if (setTypes[key] === "ss") setTypes[key] = "ds";
-  else delete setTypes[key];
-  if (curDay === day) renderDayItems(day);
-  save();
-}
-
-// BİLDİRİM
-window.toggleReminder = function() {
-  if (!reminderActive) {
-    if (Notification.permission === "granted") { reminderActive = true; scheduleReminder(); toast("🔔 Hatırlatıcı aktif! Her gün 09:00'da bildirim alacaksın."); }
-    else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(perm => { if (perm === "granted") { reminderActive = true; scheduleReminder(); toast("🔔 Hatırlatıcı aktif!"); } });
-    }
-  } else { reminderActive = false; toast("🔕 Hatırlatıcı kapatıldı."); }
-  document.getElementById("reminderBtn").textContent = reminderActive ? "🔔" : "🔕";
-}
-function scheduleReminder() {
-  let now = new Date(); let target = new Date(now); target.setHours(9, 0, 0, 0);
-  if (target < now) target.setDate(target.getDate() + 1);
-  let timeout = target - now;
-  setTimeout(() => {
-    if (reminderActive && Notification.permission === "granted") {
-      new Notification("Fitness Pro", { body: "Bugün antrenman günü! 💪", icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" });
-      scheduleReminder();
-    }
-  }, timeout);
-}
-
 // AĞIRLIK GRAFİĞİ
 window.showWeightChart = function(ex) {
   let logs = [];
@@ -741,12 +688,12 @@ window.showWeightChart = function(ex) {
   modal.onclick = function(e) { if (e.target === modal) modal.remove(); }
 }
 
-// RENDER ITEMS (GÜNCELLENMİŞ, KRONOMETRE DOĞRU YERDE)
+// RENDER ITEMS (GÜNCELLENMİŞ)
 function renderDayItems(day) {
   let cont = document.getElementById("dayItems"); cont.innerHTML = "";
   let items = data[day] || [];
 
-  // Kronometre için doğru pozisyonu bul
+  // Kronometre için pozisyon bul
   let chronoIndex = -1;
   for (let i = 0; i < items.length; i++) {
     if (typeof items[i] === "string" && isHeader(items[i])) { chronoIndex = i; break; }
@@ -779,23 +726,21 @@ function renderDayItems(day) {
       let block = document.createElement("div"); block.className = "ex-block";
       block.innerHTML = `<div class="ex-header"><div class="ex-name">💪 ${item.ex} <button class="ex-btn" onclick="event.stopPropagation();showWeightChart('${item.ex}')" style="font-size:0.7rem;padding:2px 6px;">📊</button></div>
         <div class="ex-btns">
-          <button class="ex-btn" onclick="openYT('${item.ex}','${item.link||""}')">📹 YT</button>
-          <button class="ex-btn" onclick="playVid('${item.ex}','${day}')">▶️</button>
-          <button class="ex-btn" onclick="setLink('${item.ex}','${day}',${idx})">🔗</button>
-          <button class="ex-btn" onclick="addVid('${item.ex}','${day}')">📂</button>
-          <button class="ex-btn" onclick="delVid('${item.ex}','${day}')">🗑️</button>
-          <button class="ex-btn" onclick="showNote('${item.ex}','${day}',${idx})">📝</button>
+          <button class="ex-btn" onclick="openYT('${item.ex}','${item.link||""}')">📹 YouTube</button>
+          <button class="ex-btn" onclick="playVid('${item.ex}','${day}')">▶️ Yerel</button>
+          <button class="ex-btn" onclick="setLink('${item.ex}','${day}',${idx})">🔗 Link</button>
+          <button class="ex-btn" onclick="addVid('${item.ex}','${day}')">📂 Video Ekle</button>
+          <button class="ex-btn" onclick="delVid('${item.ex}','${day}')">🗑️ Video Sil</button>
+          <button class="ex-btn" onclick="showNote('${item.ex}','${day}',${idx})">📝 Not</button>
         </div></div>`;
       row.appendChild(block); cont.appendChild(row);
       for (let s = 1; s <= item.sets; s++) {
         let sd = document.createElement("div"); sd.className = "set"; let setKey = day + "|set|" + item.ex + "|" + s;
         let log = getLog(day, item.ex, s); let info = log ? log.reps + "x" + log.weight + "kg" : "Ağırlık gir";
-        let typeBadge = setTypes[setKey] ? `<span class="set-badge ${setTypes[setKey]}" onclick="event.stopPropagation();toggleSetType('${day}','${item.ex}',${s})">${setTypes[setKey].toUpperCase()}</span>` : `<span class="set-badge" onclick="event.stopPropagation();toggleSetType('${day}','${item.ex}',${s})">+</span>`;
-        sd.innerHTML = `<span class="ispan">Set ${s}</span> ${typeBadge} <span class="set-info">${info}</span>`;
+        sd.innerHTML = `<span class="ispan">Set ${s}</span> <span class="set-info">${info}</span>`;
         if (done[setKey]) sd.classList.add("done");
         sd.onclick = (function(sn, ex) {
           return function(e) {
-            if (e.target.classList.contains("set-badge")) return;
             if (done[setKey]) { if (confirm("Seti geri al?")) { delete done[setKey]; save(); renderDayItems(day); buildHome(); } return; }
             let ex2 = getLog(day, ex, sn);
             promptWR(day, ex, sn, ex2 && ex2.weight, ex2 && ex2.reps || 8, function() { renderDayItems(day); buildHome(); checkProgressiveOverload(ex, day); });
@@ -887,10 +832,7 @@ function startTimer(sec){
 window.customTimer = function(){let s=prompt("Dinlenme süresi (saniye):","90");if(s&&+s>0)startTimer(+s);}
 
 // YEMEK SAYFASI FONKSİYONLARI
-function renderYemek() {
-  renderListeler();
-  renderAktifListe();
-}
+function renderYemek() { renderListeler(); renderAktifListe(); }
 function renderListeler() {
   let cont = document.getElementById("listelerDiv"); if(!cont) return; cont.innerHTML = "";
   if(!listeler.length) { cont.innerHTML = '<div style="color:#5a5a60;font-size:0.82rem">Liste yok — Yeni Liste Oluştur butonuna bas</div>'; return; }
@@ -1069,18 +1011,18 @@ window.toggleDetail = function(id) { let el = document.getElementById(id); if(el
 window.resetWeek = function() { if(!confirm("Bu haftayı sıfırla ve geçmişe kaydet?")) return; let snap = captureSnapshot(); gecmis.push(snap); if(gecmis.length > 20) gecmis.shift(); saveGecmis(); done = {}; water = {}; save(); if(curDay) { renderDayItems(curDay); renderHedef(curDay); renderKas(curDay); } buildHome(); renderGecmis(); toast("✅ Hafta kaydedildi ve sıfırlandı!"); }
 
 window.backupData = function() {
-  let exp = { data, done, water, setLogs, muscleLast, body, sups, targets, listeler, aktifId, gecmis, rekorlar, seri, setTypes };
+  let exp = { data, done, water, setLogs, muscleLast, body, sups, targets, listeler, aktifId, gecmis, rekorlar, seri };
   let a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(exp)], { type: "application/json" })); a.download = "fitness_veri_" + new Date().toISOString().slice(0, 10) + ".json"; a.click();
   localStorage.setItem("fp_sonYedek", new Date().toLocaleDateString("tr-TR")); checkYedekUyari(); toast("💾 Veri yedeği alındı!");
 }
 window.backupFull = function() {
-  let exp = { data, done, water, setLogs, muscleLast, body, beforePhoto, afterPhoto, sups, targets, listeler, aktifId, gecmis, rekorlar, seri, setTypes };
+  let exp = { data, done, water, setLogs, muscleLast, body, beforePhoto, afterPhoto, sups, targets, listeler, aktifId, gecmis, rekorlar, seri };
   let a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(exp)], { type: "application/json" })); a.download = "fitness_tam_" + new Date().toISOString().slice(0, 10) + ".json"; a.click(); toast("📸 Tam yedek alındı!");
 }
 window.restoreData = function() {
   let i = document.createElement("input"); i.type = "file"; i.accept = ".json,application/json,text/plain"; i.style.display = "none"; document.body.appendChild(i);
   i.onchange = function(e) { let f = e.target.files[0]; if(!f) { document.body.removeChild(i); return; } toast("⏳ Yükleniyor..."); let r = new FileReader();
-    r.onload = function(ev) { try { let imp = JSON.parse(ev.target.result); if(imp.data) data = imp.data; if(imp.done) done = imp.done; if(imp.water) water = imp.water; if(imp.setLogs) setLogs = imp.setLogs; if(imp.muscleLast) muscleLast = imp.muscleLast; if(imp.body) body = imp.body; if(imp.beforePhoto) beforePhoto = imp.beforePhoto; if(imp.afterPhoto) afterPhoto = imp.afterPhoto; if(imp.sups) sups = imp.sups; if(imp.targets) targets = imp.targets; if(imp.listeler) listeler = imp.listeler; if(imp.aktifId) aktifId = imp.aktifId; if(imp.gecmis) gecmis = imp.gecmis; if(imp.rekorlar) rekorlar = imp.rekorlar; if(imp.seri) seri = imp.seri; if(imp.setTypes) setTypes = imp.setTypes; save(); saveLists(); saveGecmis(); document.body.removeChild(i); toast("✅ Veriler yüklendi!"); setTimeout(function() { location.reload(); }, 800); } catch(err) { document.body.removeChild(i); alert("Hata: " + err.message); } };
+    r.onload = function(ev) { try { let imp = JSON.parse(ev.target.result); if(imp.data) data = imp.data; if(imp.done) done = imp.done; if(imp.water) water = imp.water; if(imp.setLogs) setLogs = imp.setLogs; if(imp.muscleLast) muscleLast = imp.muscleLast; if(imp.body) body = imp.body; if(imp.beforePhoto) beforePhoto = imp.beforePhoto; if(imp.afterPhoto) afterPhoto = imp.afterPhoto; if(imp.sups) sups = imp.sups; if(imp.targets) targets = imp.targets; if(imp.listeler) listeler = imp.listeler; if(imp.aktifId) aktifId = imp.aktifId; if(imp.gecmis) gecmis = imp.gecmis; if(imp.rekorlar) rekorlar = imp.rekorlar; if(imp.seri) seri = imp.seri; save(); saveLists(); saveGecmis(); document.body.removeChild(i); toast("✅ Veriler yüklendi!"); setTimeout(function() { location.reload(); }, 800); } catch(err) { document.body.removeChild(i); alert("Hata: " + err.message); } };
     r.onerror = function() { document.body.removeChild(i); alert("Dosya okunamadı!"); }; r.readAsText(f, "UTF-8"); };
   i.oncancel = function() { document.body.removeChild(i); }; setTimeout(function() { i.click(); }, 100);
 }
@@ -1136,9 +1078,6 @@ if(!listeler.length) { listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [
 if(!aktifId) aktifId = listeler[0] && listeler[0].id;
 if(!aktifId) { aktifId = "l1"; listeler = [{ id: "l1", ad: "🍽️ Liste 1", urunler: [], top: { protein: 0, karb: 0, yag: 0, kal: 0 } }]; saveLists(); }
 buildHome();
-
-document.getElementById("reminderBtn").style.display = "block";
-if (Notification.permission === "granted") { reminderActive = true; document.getElementById("reminderBtn").textContent = "🔔"; scheduleReminder(); } else { document.getElementById("reminderBtn").textContent = "🔕"; }
 
 });
 </script>
